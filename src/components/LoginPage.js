@@ -1,17 +1,8 @@
 import React from "react";
 import {Button, Card, Divider, Grid, Header, Icon, Image, Segment} from "semantic-ui-react"
-import NavigationBar from "./NavigationBar";
-import PageHeader from "./PageHeader";
-import synapses from "../images/synapses.jpg";
-import {Link} from "react-router-dom";
-
 function LoginPage(props) {
     return (
         <div className="App">
-            <Segment className="header">
-                <PageHeader/>
-            </Segment>
-            <NavigationBar/>
             <Segment className="body">
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
