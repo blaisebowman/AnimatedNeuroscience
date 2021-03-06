@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {Grid, Segment, Dropdown, Icon} from 'semantic-ui-react';
 import '../navbar.css';
 
-
+//convert to function
 class NavigationBar extends Component {
     constructor(props) {
         super(props);
