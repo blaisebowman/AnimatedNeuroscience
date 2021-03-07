@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
-import App2 from "../neuronComponents/Animations/exploring_one.tsx";
-
+import Hypothalamus from "./Animations/hypothalamus";
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 
 import '../glias.css';
@@ -10,6 +9,14 @@ import '../glias.css';
 function HypothalamusPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
     const history = useHistory();
+    const [height, setHeight] = useState(null);
+    const [width, setWidth] = useState(null);
+    const adobeContainer = useCallback(x => {
+        if (x !== null){
+            setHeight(x.getBoundingClientRect.height);
+            setWidth(x.getBoundingClientRect.width);
+        }
+    }, []);
 
     function handleSelector() {
         if (selectorIsVisible === true) {
@@ -29,8 +36,8 @@ function HypothalamusPage(props) {
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
                                     <GridColumn width={12}>
-                                        <Segment className="adobeSeg">
-                                            Hypothalamus PLACEHOLDER
+                                        <Segment className="adobeSeg" style={{width: width, height: height}}>
+                                            <Hypothalamus/>
                                         </Segment>
                                     </GridColumn>
                                     <Grid.Column width={4} className="gridParent">
@@ -38,10 +45,10 @@ function HypothalamusPage(props) {
                                             <div onMouseEnter={handleSelector}
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={3} className="dropdownContainer"
-                                                      verticalAlign='center'>
+                                                      verticalAlign='middle'>
                                                     <Dropdown placeholder='Select A Lesson' fluid
                                                               open={selectorIsVisible}>
-                                                        <Dropdown.Menu className="menu" fluid>
+                                                        <Dropdown.Menu className="menu">
                                                             <Dropdown.Item>
                                                                 <Link to={{
                                                                     pathname: "/nervoussystem-autonomic",

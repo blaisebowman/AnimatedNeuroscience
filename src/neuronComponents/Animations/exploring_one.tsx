@@ -4,11 +4,10 @@ import { useState } from "react";
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate";
 
 const App2 = () => {
-    const [paused, setPaused] = useState(false);
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
     console.log(animationObject);
     return (
-        <div>
+        <div style={{maxHeight: '65vh', maxWidth: '60vw', margin:'auto'}}>
             <AnimateCC
                 getAnimationObject={getAnimationObject}
                 animationName="exploring"

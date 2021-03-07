@@ -19,7 +19,6 @@ function ActionPotentialsPage(props) {
         }
     }, []);
 
-
     function handleSelector() {
         if(selectorIsVisible === true){
             setSelectorIsVisible(false);
@@ -48,9 +47,9 @@ function ActionPotentialsPage(props) {
                                             <div onMouseEnter={handleSelector}
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={3} className="dropdownContainer"
-                                                      verticalAlign='center'>
+                                                      verticalAlign='middle'>
                                                     <Dropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
-                                                        <Dropdown.Menu className="menu" fluid>
+                                                        <Dropdown.Menu className="menu">
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/nervoussystem-autonomic", state: {selectorIsVisible: false}}} className='navText'>ANS</Link>
                                                             </Dropdown.Item><Dropdown.Item>

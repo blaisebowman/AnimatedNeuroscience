@@ -7,7 +7,7 @@ const Astrocyte = () => {
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
     console.log(animationObject);
     return (
-        <div>
+        <div style={{maxHeight: '65vh', maxWidth: '60vw', margin:'auto'}}>
             <AnimateCC
                 getAnimationObject={getAnimationObject}
                 animationName="glias"
