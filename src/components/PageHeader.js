@@ -28,7 +28,7 @@ function PageHeader(props) {
                     {
                         <Grid columns={3} rows={1} className='modGrid'>
                             <Grid.Column>
-                                <Button fluid color='blue' onClick={()=> openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')} className='headerButton'><Icon name='github' fl/>Repository</Button>
+                                <Button fluid color='blue' onClick={()=> openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')} className='headerButton'><Icon name='github'/>Repository</Button>
                             </Grid.Column>
                             <Grid.Column className='buttonColumn'>
                                 <Button fluid color='orange' className='headerButton'>
