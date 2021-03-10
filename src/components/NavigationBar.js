@@ -176,9 +176,11 @@ class NavigationBar extends Component {
                             position: 'absolute'
                         }}/>
                         <Grid.Column className="topRow">
-                            <div ref={this.tab0} onClick={this.tabClick("introductionTab")}>
-                                <Link to="/introduction" style={{color: "white"}}>Introduction <Icon
-                                    name='home'/></Link>
+                            <div ref={this.tab0}>
+                                <Link to="/introduction" style={{color: "white", width: '100%'}} onClick={this.tabClick("introductionTab")}>
+                                    Introduction
+                                    <Icon name='home'/>
+                                </Link>
                             </div>
                         </Grid.Column>
                         <Grid.Column className="topRow">
