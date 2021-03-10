@@ -110,6 +110,7 @@ class NavigationBar extends Component {
         console.log("000000");
     }
     resizePage = () => {
+        console.log("Window resizing.");
         switch (this.state.currentTab) {
             case "introductionTab":
                 this.setState({tabWidth: this.tab0.current.offsetParent.offsetWidth});
@@ -171,7 +172,7 @@ class NavigationBar extends Component {
                     <Grid.Row verticalAlign='middle' className="navRow">
                         <div className='animate' style={{
                             left: this.state.fromLeft + "px",
-                            height: this.state.tabHeight + "px !important",
+                            height: this.state.tabHeight + "px",
                             width: this.state.tabWidth + "px",
                             position: 'absolute'
                         }}/>
