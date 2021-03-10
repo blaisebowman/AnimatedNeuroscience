@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Card, Divider, Grid, Header, Icon, Image, Segment, Form, Input} from "semantic-ui-react"
+import {Button, Card, Divider, Grid, Header, Icon, Image, Segment, Form, Input, Message, List} from "semantic-ui-react"
 import {Link} from "react-router-dom";
 
 function RegisterPage(props) {
@@ -10,6 +10,7 @@ function RegisterPage(props) {
     const [errorStateEmail, setErrorStateEmail] = useState("");
     const [errorStatePassword, setErrorStatePassword] = useState("");
     const [errorStatePasswordVerify, setErrorStatePasswordVerify] = useState("");
+    const [errorStateCheck, setErrorStateCheck] = useState("");
     const [first, setFirst] = useState("");
     const [last, setLast] = useState("");
     const [password, setPassword] = useState("");
@@ -18,6 +19,7 @@ function RegisterPage(props) {
     const nameRegex = /^(?!-)(?!.*-$)[a-zA-Z-]+$/;
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+
     function checkBadCharacters (first, last, password, passwordVerify, email){
         if(!(nameRegex.test(first))){
             setErrorStateFirst("Please enter a valid first name.");
@@ -28,30 +30,58 @@ function RegisterPage(props) {
         if(!(emailRegex.test(email))){
             setErrorStateEmail("Please enter a valid email address.");
         }
+        if(!(passwordRegex.test(password))){
+            setErrorStatePassword("Please enter a valid password.");
+        }
+        if(!(passwordRegex.test(passwordVerify))){
+            setErrorStatePasswordVerify("Please enter a valid password.");
+        }
+        if(password !== passwordVerify){
+            setErrorStatePassword("Passwords do not match.");
+            setErrorStatePasswordVerify("Passwords do not match.");
+        }
+        if(errorStateCheck === ""){
+            setErrorStateCheck("Please agree to the terms and conditions.");
+        }
+
     }
 
-    function handleSubmit (first, last, email){
-        checkBadCharacters(first, last, email);
-        if(errorStateFirst === "" && errorStateLast === "" && errorStateEmail === "" && errorStatePassword === "" && errorStatePasswordVerify === ""){
-            console.log("Successful submission");
-        }
-        //use switch statement
-        //Case 1: FirstName=GOOD, LastName=GOOD, Email=GOOD
-        //Case 2: Same email is already in use, show pop-up message, then re-direct to login
-        //Case 3: FirstName=BAD, LastName=GOOD, Email=GOOD
-        //Case 4: FirstName=BAD, LastName=BAD, Email=GOOD
-        //Case 5: FirstName=BAD, LastName=BAD, Email=BAD
-        //Case 6: FirstName=BAD, LastName=GOOD, Email=GOOD
-        //Case 7: FirstName=BAD, LastName=GOOD, Email=BAD
-        //Case 8: FirstName=GOOD, LastName=BAD, Email=GOOD
-        //Case 9: FirstName=GOOD, LastName=BAD, Email=BAD
-        //Case 10: FirstName=GOOD, LastName=GOOD, Email=BAD
-        //if first is invalid, or empty, display relevant error
+    function handleChangeFirst(){
+        setErrorStateFirst("");
+    }
+    function handleChangeLast(){
+        setErrorStateLast("");
+    }
+    function handleChangePassword(){
+        setErrorStatePassword("");
+    }
+    function handleChangePasswordVerify(){
+        setErrorStatePasswordVerify("");
+    }
+    function handleChangeEmail(){
+        setErrorStateEmail("");
+    }
+    function handleChangeCheck(){
+        setErrorStateCheck("");
+    }
 
+    function handleSubmit (first, last, password, passwordVerify, email){
+        checkBadCharacters(first, last, email);
+        if(errorStateFirst === "" && errorStateLast === "" && errorStateEmail === "" && errorStatePassword === "" && errorStatePasswordVerify === "" && errorStateCheck === false){
+            console.log("Successful submission");
+            setFirst(first);
+            setLast(last);
+            setPassword(password);
+            setPasswordVerify(passwordVerify);
+            setEmail(email);
+        }
+        else {
+            //console.log("Unsuccessful submission");
+        }
+        //if first is invalid, or empty, display relevant error
         //consider for the time being, providing a one-time four digit pin to the user and have that as the password.
         //if forgot pin, sends an email with a newly random 4-digit pin.
         //go this way for now.
-
     }
     return (
         <div className="App">
@@ -70,33 +100,55 @@ function RegisterPage(props) {
                                                 Monitor your progress and hit your learning goals!
                                             </Card.Description>
                                             <Card.Content extra>
-                                                <Form>
+                                                <Form onSubmit={handleSubmit}>
                                                     <Form.Group widths='equal'>
                                                         <Form.Field
-                                                            id='form-input-control-first-name'
                                                             control={Input}
                                                             label='First Name'
                                                             placeholder='John'
+                                                            error = {errorStateFirst !== "" ? errorStateFirst : false}
+                                                            onChange = {handleChangeFirst}
                                                         />
                                                         <Form.Field
-                                                            id='form-input-control-last-name'
                                                             control={Input}
                                                             label='Last Name'
                                                             placeholder='Doe'
+                                                            error = {errorStateLast !== "" ? errorStateLast : false}
+                                                            onChange = {handleChangeLast}
                                                         />
                                                     </Form.Group>
+                                                    <Divider />
+                                                    <List bulleted size='mini'>
+                                                        <List.Item>8 or more characters</List.Item>
+                                                        <List.Item>At least one number</List.Item>
+                                                        <List.Item>At least one lower-case letter</List.Item>
+                                                        <List.Item>At least one upper-case letter</List.Item>
+                                                    </List>
+                                                        <Form.Field
+                                                            control={Input}
+                                                            label='Password'
+                                                            placeholder='John'
+                                                            error = {errorStatePassword !== "" ? errorStatePassword : false}
+                                                            onChange = {handleChangePassword}
+                                                        />
+                                                        <Form.Field
+                                                            control={Input}
+                                                            label='Verify Password'
+                                                            placeholder='Doe'
+                                                            error = {errorStatePasswordVerify !== "" ? errorStatePasswordVerify : false}
+                                                            onChange = {handleChangePasswordVerify}
+                                                        />
                                                     <Form.Field
-                                                        id='form-input-control-error-email'
                                                         control={Input}
                                                         label='Email'
                                                         placeholder='allygator@fakeemail.com'
-                                                        error={{content: 'Enter a valid email address',
-                                                                pointing: 'below',
-                                                        }}
+                                                        error = {errorStateEmail !== "" ? errorStateEmail : false}
+                                                        onChange={handleChangeEmail}
                                                     />
-                                                    <Form.Field>
-
-                                                    </Form.Field>
+                                                    <Form.Checkbox label='I agree to the Terms and Conditions of An Animated Discovery of Neuroscience' onChange = {handleChangeCheck}
+                                                                   error = {errorStateCheck !== "" ? errorStateCheck : false}
+                                                                   onClick = {handleChangeCheck}
+                                                    />
                                                     <Form.Button content='Submit' />
                                                 </Form>
                                             </Card.Content>
