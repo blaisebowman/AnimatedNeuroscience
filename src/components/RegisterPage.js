@@ -100,7 +100,8 @@ function RegisterPage(props) {
                         <Grid.Column width={16} className='noPadding'>
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
-                                    <Grid.Column width={6} className={'firstCol'}>
+                                    <Grid.Column width={4}/>
+                                    <Grid.Column width={8} className={'firstCol'}>
                                         <Card fluid>
                                             <Card.Content>
                                                 <Card.Description>Create an Account</Card.Description>
@@ -129,7 +130,7 @@ function RegisterPage(props) {
                                                         <Form.Field
                                                             control={Input}
                                                             label='Password'
-                                                            placeholder='John'
+                                                            placeholder=''
                                                             error = {errorStatePassword !== "" ? errorStatePassword : false}
                                                             onChange = {handleChangePassword}
                                                         />
@@ -137,7 +138,7 @@ function RegisterPage(props) {
                                                         <Form.Field
                                                             control={Input}
                                                             label='Confirm Password'
-                                                            placeholder='Doe'
+                                                            placeholder=''
                                                             error = {errorStatePasswordConfirm.length !== 0 ? errorStatePasswordConfirm : false}
                                                             onChange = {handleChangePasswordConfirm}
                                                         />
@@ -152,16 +153,12 @@ function RegisterPage(props) {
                                                                    error = {(errorStateCheck.length !== 0 && errorStateCheck !== "checked") ? errorStateCheck : false}
                                                                    onClick = {handleChangeCheck}
                                                     />
-                                                    <Form.Button content='Submit' />
+                                                    <Form.Button content='Submit' color='blue' />
                                                 </Form>
                                             </Card.Content>
                                         </Card>
                                     </Grid.Column>
-                                    <Grid.Column width={6} className={'firstCol'}>
-                                        <Card fluid>
-                                           Benefits
-                                        </Card>
-                                    </Grid.Column>
+                                    <Grid.Column width={4}/>
                                 </Grid>
                             </Segment>
                         </Grid.Column>
