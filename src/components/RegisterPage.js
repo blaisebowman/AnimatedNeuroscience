@@ -9,18 +9,18 @@ function RegisterPage(props) {
     const [errorStateLast, setErrorStateLast] = useState("");
     const [errorStateEmail, setErrorStateEmail] = useState("");
     const [errorStatePassword, setErrorStatePassword] = useState("");
-    const [errorStatePasswordVerify, setErrorStatePasswordVerify] = useState("");
+    const [errorStatePasswordConfirm, setErrorStatePasswordConfirm] = useState("");
     const [errorStateCheck, setErrorStateCheck] = useState("");
     const [first, setFirst] = useState("");
     const [last, setLast] = useState("");
     const [password, setPassword] = useState("");
-    const [passwordVerify, setPasswordVerify] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
     const [email, setEmail] = useState("");
     const nameRegex = /^(?!-)(?!.*-$)[a-zA-Z-]+$/;
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
 
-    function checkBadCharacters (first, last, password, passwordVerify, email){
+    function checkBadCharacters (first, last, password, passwordConfirm, email){
         if(!(nameRegex.test(first))){
             setErrorStateFirst("Please enter a valid first name.");
         }
@@ -33,17 +33,19 @@ function RegisterPage(props) {
         if(!(passwordRegex.test(password))){
             setErrorStatePassword("Please enter a valid password.");
         }
-        if(!(passwordRegex.test(passwordVerify))){
-            setErrorStatePasswordVerify("Please enter a valid password.");
+        else if(password.length > 20){
+            setErrorStatePassword("Passwords must be between 8-20 characters.")
         }
-        if(password !== passwordVerify){
+        if(!(passwordRegex.test(passwordConfirm)) ){
+            setErrorStatePasswordConfirm("Please enter a valid password.");
+        }
+        if(password !== passwordConfirm){
             setErrorStatePassword("Passwords do not match.");
-            setErrorStatePasswordVerify("Passwords do not match.");
+            setErrorStatePasswordConfirm("Passwords do not match.");
         }
-        if(errorStateCheck === ""){
+        if (errorStateCheck !== "checked"){
             setErrorStateCheck("Please agree to the terms and conditions.");
         }
-
     }
 
     function handleChangeFirst(){
@@ -55,28 +57,35 @@ function RegisterPage(props) {
     function handleChangePassword(){
         setErrorStatePassword("");
     }
-    function handleChangePasswordVerify(){
-        setErrorStatePasswordVerify("");
+    function handleChangePasswordConfirm(){
+        setErrorStatePasswordConfirm("");
     }
     function handleChangeEmail(){
         setErrorStateEmail("");
     }
     function handleChangeCheck(){
-        setErrorStateCheck("");
+        if(errorStateCheck !== "checked"){
+            setErrorStateCheck("checked");
+        }
+        else {
+            setErrorStateCheck("");
+        }
     }
 
-    function handleSubmit (first, last, password, passwordVerify, email){
+    function handleSubmit (first, last, password, passwordConfirm, email){
+        console.log(errorStateCheck);
         checkBadCharacters(first, last, email);
-        if(errorStateFirst === "" && errorStateLast === "" && errorStateEmail === "" && errorStatePassword === "" && errorStatePasswordVerify === "" && errorStateCheck === false){
+        if(errorStateFirst.length === 0 && errorStateLast.length === 0 && errorStateEmail.length === 0 && errorStatePassword.length === 0 && errorStatePasswordConfirm.length === 0 && errorStateCheck === "checked"){
+            //CHECK IF EMAIL IS ALREADY WITHIN THE DATA-BASE, then prompt login page or forgot password.
             console.log("Successful submission");
             setFirst(first);
             setLast(last);
             setPassword(password);
-            setPasswordVerify(passwordVerify);
+            setPasswordConfirm(passwordConfirm);
             setEmail(email);
         }
         else {
-            //console.log("Unsuccessful submission");
+            console.log("Unsuccessful submission");
         }
         //if first is invalid, or empty, display relevant error
         //consider for the time being, providing a one-time four digit pin to the user and have that as the password.
@@ -117,13 +126,6 @@ function RegisterPage(props) {
                                                             onChange = {handleChangeLast}
                                                         />
                                                     </Form.Group>
-                                                    <Divider />
-                                                    <List bulleted size='mini'>
-                                                        <List.Item>8 or more characters</List.Item>
-                                                        <List.Item>At least one number</List.Item>
-                                                        <List.Item>At least one lower-case letter</List.Item>
-                                                        <List.Item>At least one upper-case letter</List.Item>
-                                                    </List>
                                                         <Form.Field
                                                             control={Input}
                                                             label='Password'
@@ -131,12 +133,13 @@ function RegisterPage(props) {
                                                             error = {errorStatePassword !== "" ? errorStatePassword : false}
                                                             onChange = {handleChangePassword}
                                                         />
+                                                        <Message size='mini' attached='bottom'>Password must be between 8-20 characters and contain at least one number, one upper-case letter, and one lower-case letter. </Message>
                                                         <Form.Field
                                                             control={Input}
-                                                            label='Verify Password'
+                                                            label='Confirm Password'
                                                             placeholder='Doe'
-                                                            error = {errorStatePasswordVerify !== "" ? errorStatePasswordVerify : false}
-                                                            onChange = {handleChangePasswordVerify}
+                                                            error = {errorStatePasswordConfirm.length !== 0 ? errorStatePasswordConfirm : false}
+                                                            onChange = {handleChangePasswordConfirm}
                                                         />
                                                     <Form.Field
                                                         control={Input}
@@ -145,8 +148,8 @@ function RegisterPage(props) {
                                                         error = {errorStateEmail !== "" ? errorStateEmail : false}
                                                         onChange={handleChangeEmail}
                                                     />
-                                                    <Form.Checkbox label='I agree to the Terms and Conditions of An Animated Discovery of Neuroscience' onChange = {handleChangeCheck}
-                                                                   error = {errorStateCheck !== "" ? errorStateCheck : false}
+                                                    <Form.Checkbox label='I agree to the Terms and Conditions of An Animated Discovery of Neuroscience.' onChange = {handleChangeCheck}
+                                                                   error = {(errorStateCheck.length !== 0 && errorStateCheck !== "checked") ? errorStateCheck : false}
                                                                    onClick = {handleChangeCheck}
                                                     />
                                                     <Form.Button content='Submit' />
