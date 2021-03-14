@@ -1,16 +1,23 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
-import App2 from "../neuronComponents/Animations/exploring_one.tsx";
-
+import OlfactorySystem from "./Animations/olfactory_system";
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 
 import '../glias.css';
+import Oligodendroglia from "../gliasComponents/Animations/oligodendroglia";
 
 
 function TheOlfactorySystemPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
     const history = useHistory();
-
+    const [height, setHeight] = useState(null);
+    const [width, setWidth] = useState(null);
+    const adobeContainer = useCallback(x => {
+        if (x !== null){
+            setHeight(x.getBoundingClientRect.height);
+            setWidth(x.getBoundingClientRect.width);
+        }
+    }, []);
     function handleSelector() {
         if(selectorIsVisible === true){
             setSelectorIsVisible(false);
@@ -30,8 +37,8 @@ function TheOlfactorySystemPage(props) {
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
                                     <GridColumn width={12}>
-                                        <Segment className="adobeSeg">
-                                            OLFACTORY PLACEHOLDER
+                                        <Segment className="adobeSeg" style={{width: width, height: height}}>
+                                            <OlfactorySystem/>
                                         </Segment>
                                     </GridColumn>
                                     <Grid.Column width={4} className="gridParent">
