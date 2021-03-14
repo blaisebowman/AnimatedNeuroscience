@@ -4,7 +4,6 @@ import OlfactorySystem from "./Animations/olfactory_system";
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 
 import '../glias.css';
-import Oligodendroglia from "../gliasComponents/Animations/oligodendroglia";
 
 
 function TheOlfactorySystemPage(props) {
@@ -46,9 +45,9 @@ function TheOlfactorySystemPage(props) {
                                             <div onMouseEnter={handleSelector}
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
-                                                      verticalAlign='center'>
+                                                      verticalAlign='middle'>
                                                     <Dropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
-                                                        <Dropdown.Menu className="menu" fluid>
+                                                        <Dropdown.Menu className="menu">
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/sensorysystems-visual", state: {selectorIsVisible: false}}} className='navText'>Visual System</Link>
                                                             </Dropdown.Item><Dropdown.Item>

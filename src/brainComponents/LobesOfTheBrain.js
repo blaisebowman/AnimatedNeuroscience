@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
-import App2 from "../neuronComponents/Animations/exploring_one.tsx";
+import BrainLobes from "./Animations/brain_lobes";
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 
@@ -10,6 +10,14 @@ import '../glias.css';
 function LobesOfTheBrainPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
     const history = useHistory();
+    const [height, setHeight] = useState(null);
+    const [width, setWidth] = useState(null);
+    const adobeContainer = useCallback(x => {
+        if (x !== null){
+            setHeight(x.getBoundingClientRect.height);
+            setWidth(x.getBoundingClientRect.width);
+        }
+    }, []);
 
     function handleSelector() {
         if(selectorIsVisible === true){
@@ -30,8 +38,8 @@ function LobesOfTheBrainPage(props) {
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
                                     <GridColumn width={12}>
-                                        <Segment className="adobeSeg">
-                                            LOBES PLACEHOLDER
+                                        <Segment className="adobeSeg" style={{width: width, height: height}}>
+                                            <BrainLobes/>
                                         </Segment>
                                     </GridColumn>
                                     <Grid.Column width={4} className="gridParent">
@@ -39,9 +47,9 @@ function LobesOfTheBrainPage(props) {
                                             <div onMouseEnter={handleSelector}
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
-                                                      verticalAlign='center'>
+                                                      verticalAlign='middle'>
                                                     <Dropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
-                                                        <Dropdown.Menu className="menu" fluid>
+                                                        <Dropdown.Menu className="menu">
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/thebrain-neuraltube", state: {selectorIsVisible: false}}} className='navText'>Neural Tube</Link>
                                                             </Dropdown.Item><Dropdown.Item>
