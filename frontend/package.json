@@ -12,6 +12,7 @@
     "createjs": "^1.0.1",
     "createjs-module": "^0.8.3",
     "mocha": "^8.2.1",
+    "mongoose": "^5.12.1",
     "morgan": "^1.10.0",
     "node": "^15.8.0",
     "python": "^0.0.4",
