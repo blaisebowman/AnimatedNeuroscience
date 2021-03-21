@@ -1,7 +1,7 @@
 import './App.css';
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Switch, Route, withRouter, Redirect} from "react-router-dom";
-/*import EntryPage from "./components/Entry";*/ //import only if using the entry page, which you are not, as of now
+/*import EntryPage from "./components/Entry";*/ //import only if using the entry page, which you are not, as of now, just remove it
 import Introduction from "./components/Introduction";
 import Neurons from "./components/Neurons";
 import ExploringPage from "./neuronComponents/Exploring";
