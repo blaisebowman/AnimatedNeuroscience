@@ -1,4 +1,4 @@
-const express = require('server/config/express'),
+const express = require('express'),
     bodyParser = require('body-parser'),
     path = require('path'),
     morgan = require('morgan');
@@ -28,11 +28,11 @@ module.exports.init = function() {
 
     // If web app is in production, serves build folder
     if(process.env.NODE_ENV === 'production'){
-        app.use(express.static(path.join(__dirname, '../../client/build')));
+        app.use(express.static(path.join(__dirname, '../../frontend/build')));
 
         // Routes all other requests to react application
         app.get('*', function(req, res) {
-            res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+            res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
         });
     }
 
