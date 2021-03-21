@@ -5,8 +5,10 @@ email -> the email associated with the member
 password -> member's password
 creation_date -> date of member account creation
 login_dates -> keep track of login sessions
-account_change -> keep track of instances member modifies account info (ex. change password, change username, change email)
-animation_data -> keep track of which animations members has completed
+account_change -> keep track of instances a member modifies account info (ex. change password, change username, change email)
+animation_data -> keep track of which animation status for a member
+.....completed_animations -> keep track of completed animations
+.....suggested_animations -> track suggested animations to user, remove from suggestion when user visits that URL
  */
 const mongoose = require('mongoose'), Schema = mongoose.schema;
 
@@ -25,6 +27,33 @@ const memberSchema = new Schema({
             protein: {type: Boolean},
             cellular: {type: Boolean},
         },
+        glias: {
+            astrocyte: {type: Boolean},
+            oligodendroglia: {type: Boolean},
+            chemical: {type: Boolean},
+            cns: {type: Boolean}
+        },
+        brain:{
+            neural: {type: Boolean},
+            early: {type: Boolean},
+            lobes: {type: Boolean},
+            structure: {type: Boolean}
+        },
+        sensory: {
+            visual: {type: Boolean},
+            auditory: {type: Boolean},
+            olfactory: {type: Boolean},
+            pain: {type: Boolean}
+        },
+        cerebellum: {
+            micro: {type: Boolean},
+            pathways: {type: Boolean}
+        },
+        nervous: {
+            ans: {type: Boolean},
+            action: {type: Boolean},
+            hypothalamus: {type: Boolean}
+        }
     }
 });
 
