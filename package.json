@@ -4,9 +4,15 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/server.js",
-    "server": "nodemon server/server.js"
+    "server": "nodemon server/server.js",
+    "test": "mocha server/tests",
+    "install-all": "concurrently \"npm install\" \"npm run install-frontend\"",
+    "install-frontend": "cd frontend && npm install",
+    "frontend": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run frontend\"",
+    "build": "cd frontend && npm run build",
+    "heroku-postbuild": "npm run install-frontend && npm run build"
   },
   "keywords": [],
   "author": "",
