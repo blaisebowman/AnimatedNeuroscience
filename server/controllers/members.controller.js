@@ -1,5 +1,5 @@
 const mongoose = require ('mongoose'),
-    Member = require('../models/member.model'),
+    Member = require('../models/member.model.js'),
     util  = require('util'),
     bcrypt = require('bcryptjs'),
     jwt = require('jsonwebtoken'),
@@ -8,6 +8,13 @@ const mongoose = require ('mongoose'),
     email = require('./email.controller');
 
 //List all the information of a member in the database (GET)
+
+exports.test = (req, res) => {
+    console.log("Testing GET");
+    res.status(200);
+    res.json("TESTING...TESTING...123S");
+    console.log("Test GET request posted successfully.");
+}
 
 exports.list = (req, res) => {
     Member.find({}, (error, member) => {
@@ -24,7 +31,7 @@ exports.list = (req, res) => {
 //List a member's information (GET)
 exports.read = (req, res) => {
     res.status(200);
-    res.json(req.member);
+    res.json(req);
 };
 
 //List a member's animation completion progress (GET)

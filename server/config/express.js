@@ -9,7 +9,7 @@ const express = require('express'),
 module.exports.init = function() {
     mongoose.set('useCreateIndex', true);
     mongoose.Promise = global.Promise;
-    mongoose.connect(process.env.MONGODB_URI || require('./config').db.uri, {
+    mongoose.connect((require('./config.js').db.uri) || process.env.MONGODB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }).then(
@@ -22,6 +22,9 @@ module.exports.init = function() {
             console.log("Initial connection error: " + error);
         }
     );
+    mongoose.connection.on('error', error => {
+        console.log(error);
+    });
 
     const app = express();
 
@@ -33,6 +36,7 @@ module.exports.init = function() {
         );
         next();
     });
+
     const cors = require('cors');
     app.use(cors());
     //Enable request logging for development debugging

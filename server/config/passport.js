@@ -4,19 +4,19 @@ const JwtStrategy = require('passport-jwt').Strategy,
 
 const options = {};
 options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-options.secretOrKey = require ('./config').secretOrKey;
+options.secretOrKey = require ("./config").secretOrKey;
 
 module.exports = passport => {
   passport.use(
       new JwtStrategy(options, (jwt_payload, done) => {
-          Member.findById(jwt_payload.id).then(member => {
+          Member.findById(jwt_payload.id)
+              .then(member => {
               if(member){
                   return done(null, member);
               }
-              else {
                   return done(null, false);
-              }
           }).catch(error => console.log("Error within passport " + error));
     })
   );
 };
+
