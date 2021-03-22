@@ -2,6 +2,7 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{createjs}" />
+    <file url="PROJECT" libraries="{@types/bcryptjs, @types/express, @types/jwt-express, @types/mongodb, @types/mongodb-uri, @types/mongoose, @types/morgan, @types/passport}" />
     <includedPredefinedLibrary name="Node.js Core" />
   </component>
 </project>

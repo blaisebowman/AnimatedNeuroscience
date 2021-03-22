@@ -10,7 +10,8 @@ animation_data -> keep track of which animation status for a member
 .....completed_animations -> keep track of completed animations
 .....suggested_animations -> track suggested animations to user, remove from suggestion when user visits that URL
  */
-const mongoose = require('mongoose'), Schema = mongoose.schema;
+const mongoose = require('mongoose'),
+    Schema = mongoose.Schema;
 
 const memberSchema = new Schema({
     role: {type: String, default: 'guest'},
@@ -59,12 +60,13 @@ const memberSchema = new Schema({
 
 memberSchema.pre('save', function(next){
     const timeDate = new Date();
-    this.login_dates += timeDate; //Aadd
-    if(created_date === null){
-        this.creationDate = timeDate;
+    this.login_dates += timeDate; //Add
+    if(this.creation_date === null){
+        this.creation_date = timeDate;
     }
     next();
 });
 
 const Member = mongoose.model('Member', memberSchema);
+
 module.exports = Member;
