@@ -55,7 +55,6 @@ function Neurons(props) {
                                             <Card.Content textAlign='left'>
                                                 Neurons are electrically excitable cells that are communicate with other neurons and cells. Neurons communicate with other neurons and cells through synaptic transmission.
                                                 The neuron is comprised of the axon, the dendrites, and the soma. The axon is the projection from the soma that resembles a cable, and it enables neurons to communicate. The dendrites are tree branch-esque projections from the axon that enable neurons to receive information. The soma refers to the the cell body of a neuron, which provides structure and contains the organelles of the neuron.
-
                                             </Card.Content>
                                             <Card.Content textAlign='left'>
                                                 <Card.Description textAlign='center'>Types of Neurons</Card.Description>
