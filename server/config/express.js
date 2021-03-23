@@ -5,11 +5,11 @@ const express = require('express'),
     morgan = require('morgan'),
     passport = require('passport'),
     memberRoutes = require('../routes/member.routes');
-
+require('dotenv').config();
 module.exports.init = function() {
     mongoose.set('useCreateIndex', true);
     mongoose.Promise = global.Promise;
-    mongoose.connect(process.env.MONGODB_URI, {
+    mongoose.connect(process.env.MONGODB_URI || require('./config.js').db.uri, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }).then(
@@ -19,7 +19,7 @@ module.exports.init = function() {
         },
         error => {
             //handle initial connection error
-            console.log("Initial connection error: " + error);
+            console.log("Initial connection error: " + error + '\n\t' + process.env.require('../../env').MONGODB_URI);
         }
     );
     mongoose.connection.on('error', error => {

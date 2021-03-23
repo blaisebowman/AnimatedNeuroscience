@@ -1,5 +1,5 @@
 const mongoose = require ('mongoose'),
-    Member = require('../models/member.model.js'),
+    Member = require('../models/member.model'),
     util  = require('util'),
     bcrypt = require('bcryptjs'),
     jwt = require('jsonwebtoken'),
@@ -131,7 +131,7 @@ exports.login = (req, res) => {
     else {
         const memberEmail = req.body.member_email;
         const memberPassword = req.body.member_password;
-        Member.findOne({member_email: memberEmail}, (error, member) => {
+        Member.findOne({member_email: req.body.member_email},(error, member) => {
             if(error){
                 return res.status(400).send(error);
             }
@@ -142,7 +142,10 @@ exports.login = (req, res) => {
                 }
                 else {
                     console.log("Validating member password.");
-                    bcrypt.compare(memberPassword, member.member_password).then(passwordValidate => {
+                    bcrypt.compare(memberPassword, member).then(passwordValidate => {
+                        //memberPassword -> user entry
+                        //member hash -> from DB
+                        //member.hash??
                       if(passwordValidate){
                           const id = member.id;
                           //email.send(id, memberEmail);

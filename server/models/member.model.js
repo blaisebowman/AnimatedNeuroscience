@@ -14,8 +14,10 @@ const mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 const memberSchema = new Schema({
+    member_first: {type: String, default: 'first'},
+    member_last: {type: String, default: 'last'},
     member_role: {type: String, default: 'guest'},
-    member_email: {type: String, default: 'guest'},
+    member_email: {type: String, default: 'guest', lowercase: true},
     member_password: {type: String, default: 'guest'},
     creation_date: Date,
     login_dates: Date,

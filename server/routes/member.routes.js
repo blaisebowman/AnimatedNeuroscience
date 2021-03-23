@@ -19,8 +19,8 @@ router.route('/')
 /*router.route('/:memberId/animations')
     .get(members.getAnimationProgress);*/
 
-/*router.route('/register')
-    .post(members.register);*/
+router.route('/register')
+    .post(members.register);
 
 /*router.route('/login')
     .post(members.login);*/
