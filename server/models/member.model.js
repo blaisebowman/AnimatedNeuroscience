@@ -14,9 +14,9 @@ const mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 const memberSchema = new Schema({
-    role: {type: String, default: 'guest'},
-    email: {type: String, default: 'guest'},
-    password: {type: String, default: 'guest'},
+    member_role: {type: String, default: 'guest'},
+    member_email: {type: String, default: 'guest'},
+    member_password: {type: String, default: 'guest'},
     creation_date: Date,
     login_dates: Date,
     account_change: Date,
