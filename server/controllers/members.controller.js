@@ -58,6 +58,14 @@ exports.getAnimationProgress = (req, res) => {
 };
 
 exports.register = (req, res) => {
+    /*
+    To test in Postman: http://localhost:8080/api/register
+    {
+    "member_role: "member",
+    "member_email": "xxxxxxx",
+    "member_password": "yyyyyy"
+    }
+     */
     const {registrationError, registrationValid} = validateRegister(req.body);
     if(!registrationValid){
         return res.status(400).json(registrationError);
@@ -99,8 +107,8 @@ exports.register = (req, res) => {
                             }
                         });
                     });
-                }
-                else if(member !== null){
+                } else {
+                    //member !== null
                     return res.status(400).json({userExists: "Email is already registered to another user."});
                 }
             }
@@ -109,7 +117,46 @@ exports.register = (req, res) => {
 }
 
 exports.login = (req, res) => {
+    /*
+    To test in Postman: http://localhost:8080/api/login
+    {
+    "member_email": "xxxxxxx",
+    "member_password": "yyyyyy"
+    }
+     */
     const {loginError, loginValid} = validateLogin(req.body);
+    if (!loginValid){
+        return res.status(400).json(loginError);
+    }
+    else {
+        const memberEmail = req.body.member_email;
+        const memberPassword = req.body.member_password;
+        Member.findOne({member_email: memberEmail}, (error, member) => {
+            if(error){
+                return res.status(400).send(error);
+            }
+            else {
+                if(member === null){
+                    res.status(400);
+                    return res.json({loginInformationError: "There was logging in: double-check your email and password."});
+                }
+                else {
+                    console.log("Validating member password.");
+                    bcrypt.compare(memberPassword, member.member_password).then(passwordValidate => {
+                      if(passwordValidate){
+                          const id = member.id;
+                          //email.send(id, memberEmail);
+                          return res.json(id);
+                      }
+                      else {
+                          res.status(400);
+                          return res.json({loginInformationError: "There was logging in: double-check your email and password."});
+                        }
+                    });
+                }
+            }
+        });
+    }
 }
 
 
