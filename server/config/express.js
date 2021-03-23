@@ -19,7 +19,9 @@ module.exports.init = function() {
         },
         error => {
             //handle initial connection error
-            console.log("Initial connection error: " + error + '\n\t' + process.env.require('../../env').MONGODB_URI);
+            console.log("Initial connection error: " + error + '\n\t' + process.env.MONGODB_URI);
+            console.log(process.env.MONGODB_URI);
+            console.log(require('./config.js'));
         }
     );
     mongoose.connection.on('error', error => {
