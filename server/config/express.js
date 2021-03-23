@@ -9,7 +9,7 @@ const express = require('express'),
 module.exports.init = function() {
     mongoose.set('useCreateIndex', true);
     mongoose.Promise = global.Promise;
-    mongoose.connect((('./config.js').db.uri) || process.env.MONGODB_URI, {
+    mongoose.connect(process.env.MONGODB_URI || require('./config.js').db.uri, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }).then(
