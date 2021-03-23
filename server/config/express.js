@@ -5,7 +5,7 @@ const express = require('express'),
     morgan = require('morgan'),
     passport = require('passport'),
     memberRoutes = require('../routes/member.routes');
-require('dotenv').config();
+//require('dotenv').config();
 module.exports.init = function() {
     mongoose.set('useCreateIndex', true);
     mongoose.Promise = global.Promise;
@@ -21,7 +21,7 @@ module.exports.init = function() {
             //handle initial connection error
             console.log("Initial connection error: " + error + '\n\t' + process.env.MONGODB_URI);
             console.log(process.env.MONGODB_URI);
-            console.log(require('./config.js'));
+
         }
     );
     mongoose.connection.on('error', error => {

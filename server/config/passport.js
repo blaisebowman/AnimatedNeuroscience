@@ -3,7 +3,7 @@ const JwtStrategy = require('passport-jwt').Strategy,
     Member = require('../models/member.model');
 const options = {};
 options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-options.secretOrKey = require('dotenv').config() || process.env.SECRET_OR_KEY;
+options.secretOrKey = require('dotenv').config({silent: process.env.NODE_ENV === 'production'}) || process.env.SECRET_OR_KEY;
 
 module.exports = passport => {
   passport.use(
