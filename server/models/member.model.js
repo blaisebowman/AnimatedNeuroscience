@@ -19,6 +19,7 @@ const memberSchema = new Schema({
     member_role: {type: String, default: 'guest'},
     member_email: {type: String, default: 'guest', lowercase: true},
     member_password: {type: String, default: 'guest'},
+    member_password_confirm: {type: String, default: 'guest'},
     creation_date: Date,
     login_dates: Date,
     account_change: Date,

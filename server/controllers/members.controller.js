@@ -59,7 +59,7 @@ exports.getAnimationProgress = (req, res) => {
 
 exports.register = (req, res) => {
     /*
-    To test in Postman: http://localhost:8080/api/register
+    To test in Postman: http://localhost:8080/api/members/register
     {
     "member_role: "member",
     "member_email": "xxxxxxx",
@@ -68,6 +68,7 @@ exports.register = (req, res) => {
      */
     const {registrationError, registrationValid} = validateRegister(req.body);
     if(!registrationValid){
+        console.log(registrationError);
         return res.status(400).json(registrationError);
     }
     else {

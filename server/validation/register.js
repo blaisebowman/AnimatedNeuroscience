@@ -1,7 +1,11 @@
-const isEmpty = require('is-empty');
+const validator = require('validator'),
+    isEmpty = require('is-empty');
 
 module.exports = function validateRegister(arguments){
     let registerErrors = {}; //initialize register errors object
+    let nameRegex = /^(?!-)(?!.*-$)[a-zA-Z-]+$/;
+    let emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
     //*First name
     arguments.member_first = !isEmpty(arguments.member_first) ? arguments.member_first : "";
     //*Last name
@@ -13,41 +17,40 @@ module.exports = function validateRegister(arguments){
     //*Password confirmation entry
     arguments.member_password_confirm = !isEmpty(arguments.member_password_confirm) ? arguments.member_password_confirm : "";
 
-    if(validator.isEmpty(arguments.member_first)){
+    if(isEmpty(arguments.member_first)){
         registerErrors.first = "Error: please enter your first name";
     }
-    else if (!(/^(?!-)(?!.*-$)[a-zA-Z-]+$/.test(arguments.member_first))){
+    else if (!(nameRegex.test(arguments.member_first))){
         registerErrors.first = "Error: please enter a valid first name";
     }
 
-    else if(validator.isEmpty(arguments.member_last)){
+    if(isEmpty(arguments.member_last)){
         registerErrors.last = "Error: please enter your last name";
     }
 
-    else if (!(/^(?!-)(?!.*-$)[a-zA-Z-]+$/.test(arguments.member_last))){
+    else if (!(nameRegex.test(arguments.member_last))){
         registerErrors.first = "Error: please enter a valid last name";
     }
 
-    if(validator.isEmpty(arguments.member_email)){
+    if(isEmpty(arguments.member_email)){
         registerErrors.email = "Error: email address field is empty.";
     }
-    else if (!(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(arguments.member_email))){
+    else if (!(emailRegex.test(arguments.member_email))){
         registerErrors.email = "Error: email address is in an invalid format.";
     }
-    if(validator.isEmpty(arguments.member_password)){
+    if(isEmpty(arguments.member_password)){
         registerErrors.password = "Error: password field is empty.";
     }
-    else if(validator.isEmpty(arguments.member_password_confirm)){
+    else if(isEmpty(arguments.member_password_confirm)){
         registerErrors.password = "Error: password confirmation field is empty.";
     }
-    else if(!((/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(arguments.member_password_confirm)))){
+    else if(!((passwordRegex.test(arguments.member_password_confirm)))){
+    //^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$
         registerErrors.password = "Error: password must match the given format.";
     }
-    else if(validator.isEmpty(arguments.member_password_confirm)){
-        registerErrors.password = "Error: password confirmation field is empty.";
-    }
+    console.log(registerErrors);
     return {
         registerErrors,
-        isValid: isEmpty(registerErrors)
+        registrationValid: isEmpty(registerErrors)
     };
 };
