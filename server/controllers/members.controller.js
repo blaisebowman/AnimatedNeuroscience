@@ -44,7 +44,7 @@ res.json("Testing Filter Members");
 //List a member's information (GET)
 exports.read = (req, res) => {
     res.status(200);
-    res.json(req);
+    res.json(req.body);
 };
 
 //Update a member's login credentials (PUT)
@@ -210,7 +210,7 @@ exports.register = (req, res) => {
                                     .then((member)=> {
                                         const id = member.id;
                                         //email.send(id, memberEmail);
-                                        return res.json(id);
+                                        //return res.status(200).send(json);/return res.json(id);
                                     })
                                     .catch((error) => {
                                        console.log(error);

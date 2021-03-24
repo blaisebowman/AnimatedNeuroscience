@@ -18,12 +18,12 @@ function RegisterPage(props) {
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [email, setEmail] = useState("");
-    const nameRegex = /^(?!-)(?!.*-$)[a-zA-Z-]+$/;
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    const nameRegex = /^(?!-)(?!.*-$)[a-zA-Z-]/;
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/
     //const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
 
-    function checkBadCharacters (first, last, password, passwordConfirm, email){
+    function checkBadCharacters (first, last, password, passwordConfirmation, email){
         if(!(nameRegex.test(first))){
             setErrorStateFirst("Please enter a valid first name.");
         }
@@ -51,22 +51,27 @@ function RegisterPage(props) {
         }
     }
 
-    function handleChangeFirst(){
+    function handleChangeFirst(e, {name, value}){
         setErrorStateFirst("");
+        setFirst(value);
     }
-    function handleChangeLast(){
+    function handleChangeLast(e, {name, value}){
         setErrorStateLast("");
+        setLast(value);
     }
-    function handleChangePassword(){
+    function handleChangePassword(e, {name, value}){
         setErrorStatePassword("");
+        setPassword(value);
     }
-    function handleChangePasswordConfirm(){
+    function handleChangePasswordConfirm(e, {name, value}){
         setErrorStatePasswordConfirm("");
+        setPasswordConfirm(value);
     }
-    function handleChangeEmail(){
+    function handleChangeEmail(e, {name, value}){
         setErrorStateEmail("");
+        setEmail(value);
     }
-    function handleChangeCheck(){
+    function handleChangeCheck(e, {name, value}){
         if(errorStateCheck !== "checked"){
             setErrorStateCheck("checked");
         }
@@ -75,23 +80,32 @@ function RegisterPage(props) {
         }
     }
 
-    async function handleSubmit (first, last, password, passwordConfirm, email){
+   async function handleSubmit (){
+        console.log(first + " " + last + " " + password + " " + email);
         console.log(errorStateCheck);
-        checkBadCharacters(first, last, email);
+        console.log(errorStateFirst);
+        console.log(errorStateLast);
+        console.log(errorStatePassword);
+        console.log(errorStatePasswordConfirm);
+        console.log(errorStateEmail);
+        checkBadCharacters(first, last, password, passwordConfirm, email);
         if(errorStateFirst.length === 0 && errorStateLast.length === 0 && errorStateEmail.length === 0 && errorStatePassword.length === 0 && errorStatePasswordConfirm.length === 0 && errorStateCheck === "checked"){
             //CHECK IF EMAIL IS ALREADY WITHIN THE DATA-BASE, then prompt login page or forgot password.
             console.log("Successful submission");
+            console.log(first + " " + last + " " + password + " " + email);
             setFirst(first);
             setLast(last);
             setPassword(password);
             setPasswordConfirm(passwordConfirm);
             setEmail(email);
-
-           /* await axios.post('/api/members/register', {
+            console.log(first + " " + last + " " + password + " " + email);
+            let port = process.env.PORT || 'http://localhost:8080/api/members/register'
+            await axios.post(port, {
                 member_first: first,
                 member_last: last,
                 member_email: email,
-               member_password: password
+               member_password: password,
+                member_password_confirm: passwordConfirm,
             }, {headers: {'Content-Type': 'application/json'}})
                 .then(function(response) {
                     console.log(response.data);
@@ -100,11 +114,10 @@ function RegisterPage(props) {
                     sessionStorage.setItem('memberLoggedIn', "true");
                 }).catch(function(error) {
                     console.log(JSON.stringify(error));
-                    /!*if(error.reponse){
-                    }*!/
                     console.log(error.response);
+                    console.log(error.response.headers);
+                    console.log(error.response.status);
                 });
-*/
 
             /*setFirst('');
             setLast('');
@@ -141,6 +154,8 @@ function RegisterPage(props) {
                                                             control={Input}
                                                             label='First Name'
                                                             placeholder='John'
+                                                            name='first'
+                                                            value = {first}
                                                             error = {errorStateFirst !== "" ? errorStateFirst : false}
                                                             onChange = {handleChangeFirst}
                                                         />
@@ -148,6 +163,8 @@ function RegisterPage(props) {
                                                             control={Input}
                                                             label='Last Name'
                                                             placeholder='Doe'
+                                                            name='last'
+                                                            value = {last}
                                                             error = {errorStateLast !== "" ? errorStateLast : false}
                                                             onChange = {handleChangeLast}
                                                         />
@@ -156,6 +173,8 @@ function RegisterPage(props) {
                                                             control={Input}
                                                             label='Password'
                                                             placeholder=''
+                                                            name = 'password'
+                                                            value = {password}
                                                             error = {errorStatePassword !== "" ? errorStatePassword : false}
                                                             onChange = {handleChangePassword}
                                                         />
@@ -164,6 +183,8 @@ function RegisterPage(props) {
                                                             control={Input}
                                                             label='Confirm Password'
                                                             placeholder=''
+                                                            name = 'passwordConfirm'
+                                                            value = {passwordConfirm}
                                                             error = {errorStatePasswordConfirm.length !== 0 ? errorStatePasswordConfirm : false}
                                                             onChange = {handleChangePasswordConfirm}
                                                         />
@@ -171,6 +192,8 @@ function RegisterPage(props) {
                                                         control={Input}
                                                         label='Email'
                                                         placeholder='allygator@fakeemail.com'
+                                                        name='email'
+                                                        value = {email}
                                                         error = {errorStateEmail !== "" ? errorStateEmail : false}
                                                         onChange={handleChangeEmail}
                                                     />

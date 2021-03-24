@@ -3,8 +3,8 @@ const members = require('../controllers/members.controller.js'),
     router = express.Router();
 
 router.param('memberId', members.findMemberById);
-
-/*router.route('/')
+let memberId = members.findMemberById;
+;/*router.route('/')
     .get(members.test);*/
 
 router.route('/')
