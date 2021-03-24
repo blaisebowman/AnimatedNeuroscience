@@ -89,9 +89,6 @@ function RegisterPage(props) {
             console.log("Unsuccessful submission");
         }
         //if first is invalid, or empty, display relevant error
-        //consider for the time being, providing a one-time four digit pin to the user and have that as the password.
-        //if forgot pin, sends an email with a newly random 4-digit pin.
-        //go this way for now.
     }
     return (
         <div className="App">
@@ -156,6 +153,8 @@ function RegisterPage(props) {
                                                     />
                                                     <Form.Button content='Submit' color='blue' />
                                                 </Form>
+                                            <Divider/>
+                                                <Link to = "/login">Already a Member? Click here to login.</Link>
                                             </Card.Content>
                                         </Card>
                                     </Grid.Column>
