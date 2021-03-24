@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
+import {useHistory} from "react-router";
 import {
     Grid,
     GridColumn,
@@ -14,9 +15,14 @@ import cise from '../images/cise.jpg';
 
 
 function Introduction() {
+    let id = ""; //get id from backend -> upon a valid login or registration, user is directed to this page.
+    /*if(sessionStorage.getItem("memberLoggedIn")){
+        id = sessionStorage.getItem("id");
+        history.push(event.target.value + id);
+    }*/
+
     return (
         <div className="App">
-
             <Segment className="body">
                 <div className="modGrid">
                     <Grid className="introduction" style={{maxWidth: '100vw', maxHeight: '100vh'}}>

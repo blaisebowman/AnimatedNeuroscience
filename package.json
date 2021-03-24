@@ -38,6 +38,7 @@
     "validator": "^13.5.2"
   },
   "devDependencies": {
+    "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "mongodb": "^3.6.5"
   }

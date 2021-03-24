@@ -1,8 +1,10 @@
 import React, {useState} from "react";
 import {Button, Card, Divider, Grid, Header, Icon, Image, Segment, Form, Input, Message, List} from "semantic-ui-react"
 import {Link} from "react-router-dom";
+import axios from 'axios';
 
 function RegisterPage(props) {
+    const [redirect, setRedirect] = useState(false);
     const [height, setHeight] = useState(null);
     const [width, setWidth] = useState(null);
     const [errorStateFirst, setErrorStateFirst] = useState("");
@@ -73,7 +75,7 @@ function RegisterPage(props) {
         }
     }
 
-    function handleSubmit (first, last, password, passwordConfirm, email){
+    async function handleSubmit (first, last, password, passwordConfirm, email){
         console.log(errorStateCheck);
         checkBadCharacters(first, last, email);
         if(errorStateFirst.length === 0 && errorStateLast.length === 0 && errorStateEmail.length === 0 && errorStatePassword.length === 0 && errorStatePasswordConfirm.length === 0 && errorStateCheck === "checked"){
@@ -84,6 +86,31 @@ function RegisterPage(props) {
             setPassword(password);
             setPasswordConfirm(passwordConfirm);
             setEmail(email);
+
+           /* await axios.post('/api/members/register', {
+                member_first: first,
+                member_last: last,
+                member_email: email,
+               member_password: password
+            }, {headers: {'Content-Type': 'application/json'}})
+                .then(function(response) {
+                    console.log(response.data);
+                    setRedirect(true);
+                    sessionStorage.setItem('id', response.data);
+                    sessionStorage.setItem('memberLoggedIn', "true");
+                }).catch(function(error) {
+                    console.log(JSON.stringify(error));
+                    /!*if(error.reponse){
+                    }*!/
+                    console.log(error.response);
+                });
+*/
+
+            /*setFirst('');
+            setLast('');
+            setPassword('');
+            setPasswordConfirm('');
+            setEmail('');*/
         }
         else {
             console.log("Unsuccessful submission");

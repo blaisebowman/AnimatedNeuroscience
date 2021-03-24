@@ -179,7 +179,8 @@ exports.register = (req, res) => {
     const {registrationError, registrationValid} = validateRegister(req.body);
     if(!registrationValid){
         console.log(registrationError);
-        return res.status(400).json(registrationError);
+        //return res.status(400).json(registrationError);
+        return res.status(400).json({formattingError: registrationError});
     }
     else {
         const memberEmail = req.body.member_email;

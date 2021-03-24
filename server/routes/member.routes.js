@@ -4,11 +4,11 @@ const members = require('../controllers/members.controller.js'),
 
 router.param('memberId', members.findMemberById);
 
-router.route('/')
-    .get(members.test);
+/*router.route('/')
+    .get(members.test);*/
 
 router.route('/')
-/*    .get(members.list);*/
+    .get(members.list);
 
 /*router.route('/search')
     .get(members.filterMembers);*/
