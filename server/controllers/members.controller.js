@@ -194,9 +194,11 @@ exports.register = (req, res) => {
                 if(member === null){
                     console.log("Registering a new member");
                     const newMember = new Member({
+                        member_first: req.body.member_first,
+                        member_last: req.body.member_last,
+                        member_role: "member",
                         member_email: req.body.member_email,
-                        member_password: req.body.member_password,
-                        member_role: "member"
+                        member_password: req.body.member_password
                     });
                     bcrypt.genSalt(10, (error, salt) => {
                         bcrypt.hash(newMember.member_password, salt, (error, hash) => {
