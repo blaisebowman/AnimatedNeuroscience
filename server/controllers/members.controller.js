@@ -212,7 +212,7 @@ exports.register = (req, res) => {
                                     .then((member)=> {
                                         const id = member.id;
                                         //email.send(id, memberEmail);
-                                        //return res.status(200).send(json);/return res.json(id);
+                                        return res.status(200).json(id);
                                     })
                                     .catch((error) => {
                                        console.log(error);

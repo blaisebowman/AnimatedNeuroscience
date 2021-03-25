@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Button, Card, Divider, Grid, Header, Icon, Image, Segment, Form, Input, Message, List} from "semantic-ui-react"
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import axios from 'axios';
 
 function RegisterPage(props) {
@@ -112,112 +112,118 @@ function RegisterPage(props) {
                     setRedirect(true);
                     sessionStorage.setItem('id', response.data);
                     sessionStorage.setItem('memberLoggedIn', "true");
+                    /*setFirst('');
+                    setLast('');
+                    setPassword('');
+                    setPasswordConfirm('');
+                    setEmail('');*/
                 }).catch(function(error) {
                     console.log(JSON.stringify(error));
                     console.log(error.response);
                     console.log(error.response.headers);
                     console.log(error.response.status);
                 });
-
-            /*setFirst('');
-            setLast('');
-            setPassword('');
-            setPasswordConfirm('');
-            setEmail('');*/
         }
         else {
             console.log("Unsuccessful submission");
         }
         //if first is invalid, or empty, display relevant error
     }
-    return (
-        <div className="App">
-            <Segment className="body">
-                <div className="modGrid">
-                    <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
-                        <Grid.Column width={16} className='noPadding'>
-                            <Segment className="imgSeg">
-                                <Grid columns={3}>
-                                    <Grid.Column width={4}/>
-                                    <Grid.Column width={8} className={'firstCol'}>
-                                        <Card fluid>
-                                            <Card.Content>
-                                                <Card.Description>Create an Account</Card.Description>
-                                            </Card.Content>
-                                            <Card.Description>
-                                                Monitor your progress and hit your learning goals!
-                                            </Card.Description>
-                                            <Card.Content extra>
-                                                <Form onSubmit={handleSubmit}>
-                                                    <Form.Group widths='equal'>
-                                                        <Form.Field
-                                                            control={Input}
-                                                            label='First Name'
-                                                            placeholder='John'
-                                                            name='first'
-                                                            value = {first}
-                                                            error = {errorStateFirst !== "" ? errorStateFirst : false}
-                                                            onChange = {handleChangeFirst}
-                                                        />
-                                                        <Form.Field
-                                                            control={Input}
-                                                            label='Last Name'
-                                                            placeholder='Doe'
-                                                            name='last'
-                                                            value = {last}
-                                                            error = {errorStateLast !== "" ? errorStateLast : false}
-                                                            onChange = {handleChangeLast}
-                                                        />
-                                                    </Form.Group>
+        return (
+            <div className="App">
+                <Segment className="body">
+                    <div className="modGrid">
+                        <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
+                            <Grid.Column width={16} className='noPadding'>
+                                <Segment className="imgSeg">
+                                    <Grid columns={3}>
+                                        <Grid.Column width={4}/>
+                                        <Grid.Column width={8} className={'firstCol'}>
+                                            <Card fluid>
+                                                <Card.Content>
+                                                    <Card.Description>Create an Account</Card.Description>
+                                                </Card.Content>
+                                                <Card.Description>
+                                                    Monitor your progress and hit your learning goals!
+                                                </Card.Description>
+                                                <Card.Content extra>
+                                                    <Form onSubmit={handleSubmit}>
+                                                        <Form.Group widths='equal'>
+                                                            <Form.Field
+                                                                control={Input}
+                                                                label='First Name'
+                                                                placeholder='John'
+                                                                name='first'
+                                                                value={first}
+                                                                error={errorStateFirst !== "" ? errorStateFirst : false}
+                                                                onChange={handleChangeFirst}
+                                                            />
+                                                            <Form.Field
+                                                                control={Input}
+                                                                label='Last Name'
+                                                                placeholder='Doe'
+                                                                name='last'
+                                                                value={last}
+                                                                error={errorStateLast !== "" ? errorStateLast : false}
+                                                                onChange={handleChangeLast}
+                                                            />
+                                                        </Form.Group>
                                                         <Form.Field
                                                             control={Input}
                                                             label='Password'
                                                             placeholder=''
-                                                            name = 'password'
-                                                            value = {password}
-                                                            error = {errorStatePassword !== "" ? errorStatePassword : false}
-                                                            onChange = {handleChangePassword}
+                                                            name='password'
+                                                            value={password}
+                                                            error={errorStatePassword !== "" ? errorStatePassword : false}
+                                                            onChange={handleChangePassword}
                                                         />
-                                                        <Message size='mini' attached='bottom'>Password must be between 8-20 characters and contain at least one number, one upper-case letter, and one lower-case letter. </Message>
+                                                        <Message size='mini' attached='bottom'>Password must be between
+                                                            8-20 characters and contain at least one number, one
+                                                            upper-case letter, and one lower-case letter. </Message>
                                                         <Form.Field
                                                             control={Input}
                                                             label='Confirm Password'
                                                             placeholder=''
-                                                            name = 'passwordConfirm'
-                                                            value = {passwordConfirm}
-                                                            error = {errorStatePasswordConfirm.length !== 0 ? errorStatePasswordConfirm : false}
-                                                            onChange = {handleChangePasswordConfirm}
+                                                            name='passwordConfirm'
+                                                            value={passwordConfirm}
+                                                            error={errorStatePasswordConfirm.length !== 0 ? errorStatePasswordConfirm : false}
+                                                            onChange={handleChangePasswordConfirm}
                                                         />
-                                                    <Form.Field
-                                                        control={Input}
-                                                        label='Email'
-                                                        placeholder='allygator@fakeemail.com'
-                                                        name='email'
-                                                        value = {email}
-                                                        error = {errorStateEmail !== "" ? errorStateEmail : false}
-                                                        onChange={handleChangeEmail}
-                                                    />
-                                                    <Form.Checkbox label='I agree to the Terms and Conditions of An Animated Discovery of Neuroscience.' onChange = {handleChangeCheck}
-                                                                   error = {(errorStateCheck.length !== 0 && errorStateCheck !== "checked") ? errorStateCheck : false}
-                                                                   onClick = {handleChangeCheck}
-                                                    />
-                                                    <Form.Button content='Submit' color='blue' />
-                                                </Form>
-                                            <Divider/>
-                                                <Link to = "/login">Already a Member? Click here to login.</Link>
-                                            </Card.Content>
-                                        </Card>
-                                    </Grid.Column>
-                                    <Grid.Column width={4}/>
-                                </Grid>
-                            </Segment>
-                        </Grid.Column>
-                    </Grid>
-                </div>
-            </Segment>
-        </div>
+                                                        <Form.Field
+                                                            control={Input}
+                                                            label='Email'
+                                                            placeholder='allygator@fakeemail.com'
+                                                            name='email'
+                                                            value={email}
+                                                            error={errorStateEmail !== "" ? errorStateEmail : false}
+                                                            onChange={handleChangeEmail}
+                                                        />
+                                                        <Form.Checkbox
+                                                            label='I agree to the Terms and Conditions of An Animated Discovery of Neuroscience.'
+                                                            onChange={handleChangeCheck}
+                                                            error={(errorStateCheck.length !== 0 && errorStateCheck !== "checked") ? errorStateCheck : false}
+                                                            onClick={handleChangeCheck}
+                                                        />
+                                                        <Form.Button content='Submit' color='blue'/>
+                                                    </Form>
+                                                    <Divider/>
+                                                    <Link to="/login">Already a Member? Click here to login.</Link>
+                                                    {redirect &&
+                                                    <Redirect to={'/introduction'}/>
+                                                    }
+                                                </Card.Content>
+                                            </Card>
+                                        </Grid.Column>
+                                        <Grid.Column width={4}/>
+                                    </Grid>
+                                </Segment>
+                            </Grid.Column>
+                        </Grid>
+                    </div>
+                </Segment>
+            </div>
 
-    );
+        );
 }
 
 export default RegisterPage;
