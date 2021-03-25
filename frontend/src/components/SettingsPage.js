@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
+import {Link, Redirect, useHistory} from "react-router-dom";
 import {
     Grid,
     Segment,
@@ -22,20 +22,15 @@ import '../modal.css';
 function SettingsPage(props) {
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
-    const [progress, setProgress] = useState(false);
-    const [updatePassword, setUpdatePassword] = useState(false);
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [passwordConfirmError, setPasswordConfirmError] = useState("");
-    const [updateEmail, setUpdateEmail] = useState(false);
     const [currentEmail, setCurrentEmail] = useState("");
     const [email, setEmail] = useState("");
     const [emailConfirm, setEmailConfirm] = useState("");
     const [emailError, setEmailError] = useState("");
     const [emailConfirmError, setEmailConfirmError] = useState("");
-    const [deleteAccount, setDeleteAccount] = useState(false);
-    const [deleteAccountConfirm, setDeleteAccountConfirm] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [redirectingToHome, setRedirectingToHome] = useState(false);
     const [currentTab, setCurrentTab] = useState("progress");
@@ -83,15 +78,23 @@ function SettingsPage(props) {
     }
 
     function handleProgress(){
+        //upon a valid login or registration, user is directed to this page
         //load progress on default, as it takes up a bunch of whitespace.
         //shows member progress
         setCurrentTab("progress");
         changeTabs();
+        let id = ""; //get id from backend.
+        if(sessionStorage.getItem("memberLoggedIn")){
+            id = sessionStorage.getItem("id");
+        }
+        setCompletedAnimations([]); //replace with the backend's data on a user
+        //get a member's animation completion from the backend, convert into a list
+
     }
     function handlePassword(){
+        //allows member to update password
         setCurrentTab("password");
         changeTabs();
-        //allows member to update password
     }
 
     function handleChangePassword(e, {name, value}){
@@ -150,21 +153,16 @@ function SettingsPage(props) {
     function handleDelete(){
         setCurrentTab("delete");
         changeTabs();
-        //allows member to delete account
-        //make sure to remove ID from session storage, then redirect to home page.
     }
+
     function cancelDeletion(){
         setModalVisible(false);
     }
-    function processDeletion(){
 
-    }
-    function handleAnimations(){
-        let id = ""; //get id from backend -> upon a valid login or registration, user is directed to this page.
-        if(sessionStorage.getItem("memberLoggedIn")){
-            id = sessionStorage.getItem("id");
-        }
-        //get a member's animation completion from the backend, convert into a list
+    function processDeletion(){
+        //remove user associated with current ID from the database, and remove from session storage, redirect to home page.
+        setRedirectingToHome(true);
+
     }
 
     return (
@@ -191,7 +189,6 @@ function SettingsPage(props) {
                                         <Menu.Item name= 'progress' onClick = {handleProgress}>
                                             <Icon name= 'trophy'/>
                                             View My Progress
-
                                         </Menu.Item>
                                         <Menu.Item name = 'update' onClick = {handleEmail}>
                                             <Icon name= 'mail'/>
@@ -333,6 +330,9 @@ function SettingsPage(props) {
                                                     Remaining Animations
                                                 </Card.Content>
                                             </Card>*/
+                                            }
+                                            {redirectingToHome &&
+                                            <Redirect to={'/introduction'}/>
                                             }
                                         </Grid.Column>
                                     </Grid.Row>
