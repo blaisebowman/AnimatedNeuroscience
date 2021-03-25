@@ -1,11 +1,27 @@
 import React, {useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
-import {Grid, Image, Segment, Button, Card, Icon, Divider, List, Menu, Message, Modal} from "semantic-ui-react"
+import {
+    Grid,
+    Segment,
+    Button,
+    Card,
+    Icon,
+    Divider,
+    List,
+    Menu,
+    Message,
+    Modal,
+    Form,
+    Input
+} from "semantic-ui-react"
 
 import '../neurons.css';
 import '../glias.css';
 import '../modal.css';
+
 function SettingsPage(props) {
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
     const [progress, setProgress] = useState(false);
     const [updatePassword, setUpdatePassword] = useState(false);
     const [password, setPassword] = useState("");
@@ -13,33 +29,127 @@ function SettingsPage(props) {
     const [passwordError, setPasswordError] = useState("");
     const [passwordConfirmError, setPasswordConfirmError] = useState("");
     const [updateEmail, setUpdateEmail] = useState(false);
+    const [currentEmail, setCurrentEmail] = useState("");
     const [email, setEmail] = useState("");
     const [emailConfirm, setEmailConfirm] = useState("");
     const [emailError, setEmailError] = useState("");
     const [emailConfirmError, setEmailConfirmError] = useState("");
     const [deleteAccount, setDeleteAccount] = useState(false);
     const [deleteAccountConfirm, setDeleteAccountConfirm] = useState(false);
-    const [checkbox, setCheckbox] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [redirectingToHome, setRedirectingToHome] = useState(false);
     const [currentTab, setCurrentTab] = useState("progress");
     const [completedAnimations, setCompletedAnimations] = useState([]);
 
+    function changeTabs(){
+        //ensure errors and values are set to default values on changes in the menu selection
+        setPassword("");
+        setPasswordConfirm("");
+        setPassword("");
+        setPasswordError("");
+        setPasswordConfirmError("");
+        setEmail("");
+        setEmailConfirm("");
+        setEmailError("");
+        setEmailConfirmError("");
+    }
+
+    function checkBadCharacters (value1, value2, type){
+        //ensure emails and passwords match regex
+        if(type === "email"){
+            if(!(emailRegex.test(value1))){
+                setEmailError("Please enter a valid email address.");
+            }
+            if(!(emailRegex.test(value2))){
+                setEmailConfirmError("Please enter a valid email address.");
+            }
+            else if(value1 !== value2){
+                setEmailError("Emails do not match.");
+                setEmailConfirmError("Emails do not match.");
+            }
+        }
+        else {
+            if(!(passwordRegex.test(value1))){
+                setPasswordError("Please enter a valid password.");
+            }
+            if(!(passwordRegex.test(value2))){
+                setPasswordConfirmError("Please enter a valid password.");
+            }
+            else if(value1 !== value2){
+                setPasswordError("Passwords do not match.");
+                setPasswordConfirmError("Passwords do not match.");
+            }
+        }
+    }
+
     function handleProgress(){
         //load progress on default, as it takes up a bunch of whitespace.
         //shows member progress
         setCurrentTab("progress");
+        changeTabs();
     }
     function handlePassword(){
         setCurrentTab("password");
+        changeTabs();
         //allows member to update password
     }
-    function handleEmail(){
-        setCurrentTab("email");
-        //allows member to update email
+
+    function handleChangePassword(e, {name, value}){
+        //keep track of value of password as user types
+        setPasswordError("");
+        setPassword(value);
     }
+    function handleChangePasswordConfirm(e, {name, value}){
+        //keep track of value of password confirm as user types
+        setPasswordConfirmError("");
+        setPasswordConfirm(value);
+    }
+
+    function handlePasswordSubmit() {
+        //called on submit on the update password menu option
+        checkBadCharacters(password, passwordConfirm, "password");
+        if(passwordError.length === 0 && passwordConfirmError.length === 0){
+            console.log("Password Updated");
+        }
+        else {
+            console.log("Password NOT updated.");
+        }
+    }
+
+    function handleEmail(){
+        //switch to email tab
+        setCurrentTab("email");
+        changeTabs();
+        //GET EMAIL FROM BACKEND -> TO-DO
+        let storedEmail = "examplemail19@gmail.com"
+        setCurrentEmail("Your current email is: " + storedEmail);
+    }
+
+    function handleChangeEmail(e, {name, value}){
+        //keep track of email as user types
+        setEmailError("");
+        setEmail(value);
+    }
+    function handleChangeEmailConfirm(e, {name, value}){
+        //keep track of email confirmation as user types
+        setEmailConfirmError("");
+        setEmailConfirm(value);
+    }
+
+    function handleEmailSubmit() {
+        //called on submit in email update menu option
+        checkBadCharacters(email, emailConfirm, "email");
+        if(emailError.length === 0 && emailConfirmError.length === 0){
+            console.log("Email Updated");
+        }
+        else {
+            console.log("Email NOT updated.");
+        }
+    }
+
     function handleDelete(){
         setCurrentTab("delete");
+        changeTabs();
         //allows member to delete account
         //make sure to remove ID from session storage, then redirect to home page.
     }
@@ -56,7 +166,6 @@ function SettingsPage(props) {
         }
         //get a member's animation completion from the backend, convert into a list
     }
-
 
     return (
         <div className="App">
@@ -79,16 +188,21 @@ function SettingsPage(props) {
                                         <Menu.Item name ='msg'>
                                             Account Settings
                                         </Menu.Item>
-                                        <Menu.Item name = 'progress' onClick = {handleProgress}>
-                                           View My Progress
+                                        <Menu.Item name= 'progress' onClick = {handleProgress}>
+                                            <Icon name= 'trophy'/>
+                                            View My Progress
+
                                         </Menu.Item>
                                         <Menu.Item name = 'update' onClick = {handleEmail}>
+                                            <Icon name= 'mail'/>
                                             Update My Email
                                         </Menu.Item>
                                         <Menu.Item name = 'update' onClick = {handlePassword}>
+                                            <Icon name= 'lock'/>
                                             Update My Password
                                         </Menu.Item>
                                         <Menu.Item name = 'delete' onClick = {handleDelete}>
+                                            <Icon name= 'user delete'/>
                                             Delete My Account
                                         </Menu.Item>
                                     </Menu>
@@ -109,20 +223,74 @@ function SettingsPage(props) {
                                             }
                                             {currentTab === "email" &&
                                             <Card fluid>
-                                                <Card.Content>
+                                                <Card.Header className='myCardHeader'>
                                                    Update my Email
+                                                </Card.Header>
+                                                <Card.Content>
+                                                <Form onSubmit={handleEmailSubmit}>
+                                                    <Message content={currentEmail}/>
+                                                    <Form.Group widths='equal'>
+                                                        <Form.Field
+                                                            control={Input}
+                                                            label='Email'
+                                                            placeholder=''
+                                                            name='email'
+                                                            value={email}
+                                                            error={emailError !== "" ? emailError : false}
+                                                            onChange={handleChangeEmail}
+                                                        />
+                                                        <Form.Field
+                                                            control={Input}
+                                                            label='Confirm Email'
+                                                            placeholder=''
+                                                            name='emailConfirm'
+                                                            value={emailConfirm}
+                                                            error={emailConfirmError !== "" ? emailConfirmError : false}
+                                                            onChange={handleChangeEmailConfirm}
+                                                        />
+                                                    </Form.Group>
+                                                    <Form.Button content='Submit' color='blue'/>
+                                                </Form>
                                                 </Card.Content>
-
                                             </Card>
                                             }
                                             {currentTab === "password" &&
                                             <Card fluid>
                                                 <Card.Content>
                                                     Update my Password
+                                                    <Form onSubmit={handlePasswordSubmit}>
+                                                        <Message content='Password must be between
+                                                            8-20 characters and contain at least one number, one
+                                                            upper-case letter, and one lower-case letter. '/>
+                                                        <Form.Group widths='equal'>
+                                                            <Form.Field
+                                                                control={Input}
+                                                                label='Password'
+                                                                placeholder=''
+                                                                name='password'
+                                                                value={password}
+                                                                error={passwordError !== "" ? passwordError : false}
+                                                                onChange={handleChangePassword}
+                                                            />
+                                                            <Form.Field
+                                                                control={Input}
+                                                                label='Confirm Email'
+                                                                placeholder=''
+                                                                name='passwordConfirm'
+                                                                value={passwordConfirm}
+                                                                error={passwordConfirmError !== "" ? passwordConfirmError : false}
+                                                                onChange={handleChangePasswordConfirm}
+                                                            />
+                                                        </Form.Group>
+                                                        <Form.Button content='Submit' color='blue'/>
+                                                    </Form>
                                                 </Card.Content>
                                             </Card>
                                             }
                                             {currentTab === "delete" &&
+                                                <Card fluid>
+                                                    <Card.Content>
+                                                        <Message content='Are you sure you want to delete your account? You will lose all of your progress.'/>
                                                 <Modal
                                                     onClose={()=> setModalVisible(false)}
                                                     onOpen={()=> setModalVisible(true)}
@@ -147,6 +315,8 @@ function SettingsPage(props) {
                                                         />
                                                     </Modal.Actions>
                                                 </Modal>
+                                                    </Card.Content>
+                                                </Card>
                                             /*<Card fluid>
                                                 <Card fluid color='red'>
                                                     <Message> WARNING: if you delete your account, you will lose all progress.</Message>
@@ -157,11 +327,12 @@ function SettingsPage(props) {
                                                 <Card.Content color='red'>
                                                     WARNING: if you delete your account, you will lose all progress.
                                                 </Card.Content>
+
+
                                                 <Card.Content>
                                                     Remaining Animations
                                                 </Card.Content>
                                             </Card>*/
-
                                             }
                                         </Grid.Column>
                                     </Grid.Row>
