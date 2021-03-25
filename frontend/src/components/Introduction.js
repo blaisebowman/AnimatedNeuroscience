@@ -1,25 +1,17 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useHistory} from "react-router";
-import {
-    Grid,
-    GridColumn,
-    Segment,
-    Image,
-    Divider,
-    List,
-    Icon,
-    Card,
-} from "semantic-ui-react";
+import {Grid, GridColumn, Segment, Image, Divider, List, Icon, Card,} from "semantic-ui-react";
 import '../introduction.css';
 import cise from '../images/cise.jpg';
 
 
 function Introduction() {
     let id = ""; //get id from backend -> upon a valid login or registration, user is directed to this page.
-    /*if(sessionStorage.getItem("memberLoggedIn")){
+    if(sessionStorage.getItem("memberLoggedIn")){
         id = sessionStorage.getItem("id");
-        history.push(event.target.value + id);
-    }*/
+        /*history.push(event.target.value + id);*/
+    }
+
 
     return (
         <div className="App">
@@ -109,10 +101,8 @@ function Introduction() {
                                     </Grid.Column>
                                 </Grid>
                             </Segment>
-
-                            {/*<h1>NO</h1>*/}
                         </Grid.Column>
-                        <GridColumn className='noPadding'></GridColumn>
+                        <GridColumn className='noPadding'/>
                     </Grid>
                 </div>
             </Segment>

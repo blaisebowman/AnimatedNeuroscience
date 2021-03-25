@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {Image, Grid, Header, Button, Card, Divider, Dropdown, Icon, Segment, Container} from 'semantic-ui-react';
+import {Image, Grid, Header, Button, Card, Divider, Dropdown, Icon} from 'semantic-ui-react';
 import hometitle2 from '../images/hometitle2.jpg';
 import icon from '../images/WebHeader.jpg';
 import '../header.css';
@@ -14,43 +14,59 @@ function PageHeader(props) {
             newTabOpened.opener = null;
         }
     }
+
+    let id = ""; //get id from backend -> upon a valid login or registration, user is directed to this page.
+    if(sessionStorage.getItem("memberLoggedIn")){
+        id = sessionStorage.getItem("id");
+        /*history.push(event.target.value + id);*/
+    }
+
+
     return (
         <Header as='h2' className='modGrid' style={{maxHeight: '100vh'}}>
             <Grid columns={3} rows={2} className='modGrid' stretched style={{maxWidth: '100vw'}}>
-                <Grid.Column className='modGrid'>
-                   {/* <Container className="headerContainer">
-                    </Container>*/}
-                </Grid.Column>
+                <Grid.Column className='modGrid'/>
                 <Grid.Column className='noPadding' style={{maxWidth: '100vh'}}>
                     <Image src={hometitle2} fluid/>
                 </Grid.Column>
                 <Grid.Column className='modGrid' floated='right' textAlign='right'>
-                    {
-                        <Grid columns={3} rows={1} className='modGrid'>
-                            <Grid.Column>
-                                <Button fluid color='blue' onClick={()=> openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')} className='headerButton'><Icon name='github'/>Repository</Button>
-                            </Grid.Column>
-                            <Grid.Column className='buttonColumn'>
-                                <Button fluid color='orange' className='headerButton'>
-                                    <Link to={{pathname: "/register"}} className='headerButton'>Sign Up</Link>
-                                </Button>
-                            </Grid.Column>
-                            <Grid.Column className='buttonColumn'>
-                                <Button fluid color='orange' className='headerButton'>
-                                    <Link to={{pathname: "/login"}} className='headerButton'>Login</Link>
-                                </Button>
-                            </Grid.Column>
-                        </Grid>
-                        /*Add Register/Sign-Up Buttons to the Header
-                        * Make a single login-page / register page
-                        * Update the header, based on the state of the user (if user show account settings options, etc.)
-                        *
-                        * */
+                    {id === "" &&
+                    <Grid columns={3} rows={1} className='modGrid'>
+                        <Grid.Column>
+                            <Button fluid color='blue'
+                                    onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}
+                                    className='headerButton'><Icon name='github'/>Repository</Button>
+                        </Grid.Column>
+                        <Grid.Column className='buttonColumn'>
+                            <Button fluid color='orange' className='headerButton'>
+                                <Link to={{pathname: "/register"}} className='headerButton'>Sign Up</Link>
+                            </Button>
+                        </Grid.Column>
+                        <Grid.Column className='buttonColumn'>
+                            <Button fluid color='orange' className='headerButton'>
+                                <Link to={{pathname: "/login"}} className='headerButton'>Login</Link>
+                            </Button>
+                        </Grid.Column>
+                    </Grid>
+                    }
+                    {id !== "" &&
+                    <Grid columns={3} rows={1} className='modGrid'>
+                        <Grid.Column/>
+                        <Grid.Column>
+                            <Button fluid color='blue'
+                                    onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}
+                                    className='headerButton'><Icon name='github'/>Repository</Button>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Button fluid color='orange' className='headerButton'>
+                                <Link to={{pathname: "/settings"}} className='headerButton'>My Account <Icon name = 'user'/></Link>
+                            </Button>
+                        </Grid.Column>
+                    </Grid>
                     }
                 </Grid.Column>
             </Grid>
         </Header>
-
     );
 }
 

@@ -33,6 +33,7 @@ import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 import PageHeader from "./components/PageHeader";
 import NavigationBar from "./components/NavigationBar";
+import SettingsPage from "./components/SettingsPage";
 
 class App extends Component {
   render () {
@@ -76,6 +77,7 @@ class App extends Component {
                 <Route exact path='/nervoussystem-hypothalamus' component={withRouter(HypothalamusPage)}/>
                 <Route exact path='/register' component={withRouter(RegisterPage)}/>
                 <Route exact path='/login' component={withRouter(LoginPage)}/>
+                <Route exact path='/settings' component={withRouter(SettingsPage)}/>
             </Switch>
         </Router>
     );

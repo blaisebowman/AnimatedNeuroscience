@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
-import PageHeader from "./PageHeader";
-import NavigationBar from "./NavigationBar";
 import {Grid, Image, Segment, Button,  Card, Icon, Divider, List} from "semantic-ui-react"
 import cerebellum from "../images/cerebellum.jpg";
 
