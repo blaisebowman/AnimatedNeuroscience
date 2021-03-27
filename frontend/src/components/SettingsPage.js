@@ -18,6 +18,7 @@ import {
 import '../neurons.css';
 import '../glias.css';
 import '../modal.css';
+import axios from "axios";
 
 function SettingsPage(props) {
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/
@@ -139,11 +140,26 @@ function SettingsPage(props) {
         setEmailConfirm(value);
     }
 
-    function handleEmailSubmit() {
+    async function handleEmailSubmit() {
         //called on submit in email update menu option
         checkBadCharacters(email, emailConfirm, "email");
         if(emailError.length === 0 && emailConfirmError.length === 0){
-            console.log("Email Updated");
+            /*console.log("Email Updated");
+            let port = process.env.PORT || 'http://localhost:8080/api/members/update'
+            await axios.post(port, {
+                member_email: email,
+                type: "email",
+            }, {headers: {'Content-Type': 'application/json'}})
+                .then(function(response) {
+                    console.log(response.data);
+                    //setRedirect(true);
+                    sessionStorage.setItem('reload', "true");
+                    //setEmail('');
+                }).catch(function(error) {
+                    console.log(error.response);
+                    console.log(error.response.headers);
+                    console.log(error.response.status);
+                });*/
         }
         else {
             console.log("Email NOT updated.");
@@ -162,7 +178,8 @@ function SettingsPage(props) {
     function processDeletion(){
         //remove user associated with current ID from the database, and remove from session storage, redirect to home page.
         setRedirectingToHome(true);
-
+        sessionStorage.removeItem("id");
+        sessionStorage.removeItem("memberLoggedIn");
     }
 
     return (

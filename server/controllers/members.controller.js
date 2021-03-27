@@ -57,10 +57,9 @@ exports.update = (req, res) => {
     }
     else {
         //member_first, member_last, member_email can all stay the same, if needed ....(for now).
-        const member_first = req.body.member_first;
-        const member_last = req.body.member_last;
         const member_email = req.body.member_email;
-        const member_password = req.body.member_password;
+        const member_password = req.body.member_password || "";
+        const type = req.body.type;
         Member.findOne({member_email: req.body.member_email},(error, member) => {
             if(error){
                 return res.status(400).send(error); // no member found in the database
