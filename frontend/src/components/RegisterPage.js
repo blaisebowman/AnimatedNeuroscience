@@ -112,6 +112,7 @@ function RegisterPage(props) {
                     setRedirect(true);
                     sessionStorage.setItem('id', response.data);
                     sessionStorage.setItem('memberLoggedIn', "true");
+                    sessionStorage.setItem('reload', "true");
                     /*setFirst('');
                     setLast('');
                     setPassword('');

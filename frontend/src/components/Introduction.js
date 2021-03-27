@@ -5,12 +5,24 @@ import '../introduction.css';
 import cise from '../images/cise.jpg';
 
 
-function Introduction() {
+
+function Introduction(props) {
+    useEffect(()=>{
+        console.log("done")
+        if(sessionStorage.getItem("reload") === "true"){
+            console.log("redirecting (reloading) from either register or login");
+            sessionStorage.setItem('reload', "false");
+            window.location.reload();
+        }
+    });
+
     let id = ""; //get id from backend -> upon a valid login or registration, user is directed to this page.
     if(sessionStorage.getItem("memberLoggedIn")){
         id = sessionStorage.getItem("id");
+        console.log(id);
         /*history.push(event.target.value + id);*/
     }
+
 
 
     return (

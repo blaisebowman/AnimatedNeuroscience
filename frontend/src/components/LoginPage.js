@@ -112,9 +112,11 @@ function LoginPage(props) {
             }, {headers: {'Content-Type': 'application/json'}})
                 .then(function(response) {
                     console.log(response.data);
-                    //setRedirect(true);
+                    setRedirect(true);
                     sessionStorage.setItem('id', response.data);
                     sessionStorage.setItem('memberLoggedIn', "true");
+                    sessionStorage.setItem('reload', "true");
+
                     /*setFirst('');
                     setLast('');
                     setPassword('');
@@ -193,7 +195,7 @@ function LoginPage(props) {
                                                         onClick={checkCapsLock}
                                                         onKeyDown={checkCapsLock}
                                                     />
-                                                    <Button icon='eye' onClick={toggleMask}/>
+                                                    {/*<Button icon='eye' onClick={toggleMask}/>*/}
                                                     {capsLockPassword &&
                                                     <Message content='Warning: Caps Lock is enabled.' color='yellow'/>
                                                     }
@@ -206,7 +208,7 @@ function LoginPage(props) {
                                                     <Form.Button content='Submit' color='blue' />
                                                 </Form>
                                                 {redirect &&
-                                                <Redirect to={'/introduction'}/>
+                                                <Redirect to={{pathname: '/introduction'}}/>
                                                 }
                                             </Card.Content>
                                         </Card>

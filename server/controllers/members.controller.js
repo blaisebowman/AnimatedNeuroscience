@@ -210,9 +210,9 @@ exports.register = (req, res) => {
                                 newMember.member_password = hash;
                                 newMember.save()
                                     .then((member)=> {
-                                        const id = member.id;
+                                        const id = member._id;
                                         //email.send(id, memberEmail);
-                                        return res.status(200).json(id);
+                                        return res.json(id);
                                     })
                                     .catch((error) => {
                                        console.log(error);
