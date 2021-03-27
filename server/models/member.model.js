@@ -21,8 +21,8 @@ const memberSchema = new Schema({
     member_password: {type: String, default: 'guest'},
     member_password_confirm: {type: String, default: 'guest'},
     creation_date: Date,
-    login_dates: Date,
-    account_change: Date,
+    login_dates: [{type: Date}],
+    account_change: [{type: Date}],
     animation_data: {
         completed_animations: {type: Array},
         suggested_animations: {type: Array},

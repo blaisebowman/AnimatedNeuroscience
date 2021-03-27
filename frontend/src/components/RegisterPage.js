@@ -118,7 +118,6 @@ function RegisterPage(props) {
                     setPasswordConfirm('');
                     setEmail('');*/
                 }).catch(function(error) {
-                    console.log(JSON.stringify(error));
                     console.log(error.response);
                     console.log(error.response.headers);
                     console.log(error.response.status);

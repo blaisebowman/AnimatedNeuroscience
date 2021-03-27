@@ -253,7 +253,7 @@ exports.login = (req, res) => {
             else {
                 if(member === null){
                     res.status(400);
-                    return res.json({loginInformationError: "There was logging in: double-check your email and password."});
+                    return res.json({loginEmailError: "We can't find an account associated with that email. Please double-check your email address."});
                 }
                 else {
                     //memberPassword -> plain text password
@@ -264,13 +264,24 @@ exports.login = (req, res) => {
                     console.log("Validating member password.");
                     bcrypt.compare(memberPassword, member.member_password).then(passwordValidate => {
                       if(passwordValidate){
-                          const id = member.id;
-                          //email.send(id, memberEmail);
-                          return res.json(id);
+                          console.log("Member Login Dates: " + member.login_dates);
+                          member.login_dates.push(new Date().toISOString());//keep track of date and time member logs in
+                          member.save((error => {
+                              if(error){
+                                  console.log(error);
+                                  res.status(400).send(error);
+                              }
+                              else {
+                                  const id = member.id;
+                                  //email.send(id, memberEmail);
+                                  return res.json(id);
+                              }
+                          }));
+
                       }
                       else {
                           res.status(400);
-                          return res.json({loginInformationError: "There was logging in: double-check your email and password."});
+                          return res.json({loginPasswordError: "Your password is incorrect. Please double-check your password."});
                         }
                     });
                 }
