@@ -43,9 +43,48 @@ res.json("Testing Filter Members");
 
 //List a member's information (GET)
 exports.read = (req, res) => {
-    res.status(200);
-    res.json(req.body);
-};
+    console.log(req.parameters);
+    console.log(req.body);
+    const _id = req.body._id;
+    const parameterNeeded = req.body.parameter;
+    console.log(parameterNeeded);
+    console.log(_id);
+    Member.findOne({_id: _id},(error, member) => {
+        if (error) {
+            return res.status(400).send(error);
+        } else {
+                switch (parameterNeeded){
+                    case "":
+                        return res.status(200).json(member);
+                    case "email":
+                        return res.status(200).json(member.member_email);
+                    case "firstName":
+                        return res.status(200).json(member.first_name);
+                    case "lastName":
+                        return res.status(200).json(member.last_name);
+                    case "role":
+                        return res.status(200).json(member.member_role);
+                    case "loginDates":
+                        return res.status(200).json(member.member_email);
+                    case "accountChange":
+                        return res.status(200).json(member.accountChange);
+                    case "emailChange":
+                        return res.status(200).json(member.emailChange);
+                    case "passwordChange":
+                        return res.status(200).json(member.passwordChange);
+                    case "animationData":
+                        return res.status(200).json(member.animation_data);
+                    case "completedAnimations":
+                        return res.status(200).json(member.completed_animations);
+                    case "suggestedAnimations":
+                        return res.status(200).json(member.suggested_animations);
+                    case "id":
+                        return res.status(200).json(member._id);
+                    default:
+                        return res.status(400).json({error: "Unexpected error."});
+                }
+        }});
+}
 
 //Update a member's login credentials (PUT)
 exports.update = (req, res) => {

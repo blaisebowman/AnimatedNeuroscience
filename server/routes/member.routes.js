@@ -12,6 +12,9 @@ router.route('/')
 /*router.route('/search')
     .get(members.filterMembers);*/
 
+router.route('/:memberId/read')
+    .post(members.read);
+
 router.route('/:memberId')
     .get(members.read)
     .post(members.update);

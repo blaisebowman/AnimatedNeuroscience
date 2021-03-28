@@ -37,7 +37,7 @@ function SettingsPage(props) {
     const [currentTab, setCurrentTab] = useState("progress");
     const [completedAnimations, setCompletedAnimations] = useState([]);
 
-    function changeTabs(){
+    function changeTabs() {
         //ensure errors and values are set to default values on changes in the menu selection
         setPassword("");
         setPasswordConfirm("");
@@ -50,60 +50,59 @@ function SettingsPage(props) {
         setEmailConfirmError("");
     }
 
-    function checkBadCharacters (value1, value2, type){
+    function checkBadCharacters(value1, value2, type) {
         //ensure emails and passwords match regex
-        if(type === "email"){
-            if(!(emailRegex.test(value1))){
+        if (type === "email") {
+            if (!(emailRegex.test(value1))) {
                 setEmailError("Please enter a valid email address.");
             }
-            if(!(emailRegex.test(value2))){
+            if (!(emailRegex.test(value2))) {
                 setEmailConfirmError("Please enter a valid email address.");
-            }
-            else if(value1 !== value2){
+            } else if (value1 !== value2) {
                 setEmailError("Emails do not match.");
                 setEmailConfirmError("Emails do not match.");
             }
-        }
-        else {
-            if(!(passwordRegex.test(value1))){
+        } else {
+            if (!(passwordRegex.test(value1))) {
                 setPasswordError("Please enter a valid password.");
             }
-            if(!(passwordRegex.test(value2))){
+            if (!(passwordRegex.test(value2))) {
                 setPasswordConfirmError("Please enter a valid password.");
-            }
-            else if(value1 !== value2){
+            } else if (value1 !== value2) {
                 setPasswordError("Passwords do not match.");
                 setPasswordConfirmError("Passwords do not match.");
             }
         }
     }
 
-    function handleProgress(){
+    function handleProgress() {
         //upon a valid login or registration, user is directed to this page
         //load progress on default, as it takes up a bunch of whitespace.
         //shows member progress
         setCurrentTab("progress");
         changeTabs();
         let id = ""; //get id from backend.
-        if(sessionStorage.getItem("memberLoggedIn")){
+        if (sessionStorage.getItem("memberLoggedIn")) {
             id = sessionStorage.getItem("id");
         }
         setCompletedAnimations([]); //replace with the backend's data on a user
         //get a member's animation completion from the backend, convert into a list
 
     }
-    function handlePassword(){
+
+    function handlePassword() {
         //allows member to update password
         setCurrentTab("password");
         changeTabs();
     }
 
-    function handleChangePassword(e, {name, value}){
+    function handleChangePassword(e, {name, value}) {
         //keep track of value of password as user types
         setPasswordError("");
         setPassword(value);
     }
-    function handleChangePasswordConfirm(e, {name, value}){
+
+    function handleChangePasswordConfirm(e, {name, value}) {
         //keep track of value of password confirm as user types
         setPasswordConfirmError("");
         setPasswordConfirm(value);
@@ -112,29 +111,47 @@ function SettingsPage(props) {
     function handlePasswordSubmit() {
         //called on submit on the update password menu option
         checkBadCharacters(password, passwordConfirm, "password");
-        if(passwordError.length === 0 && passwordConfirmError.length === 0){
+        if (passwordError.length === 0 && passwordConfirmError.length === 0) {
             console.log("Password Updated");
-        }
-        else {
+        } else {
             console.log("Password NOT updated.");
         }
     }
 
-    function handleEmail(){
+    async function handleEmail() {
         //switch to email tab
         setCurrentTab("email");
         changeTabs();
         //GET EMAIL FROM BACKEND -> TO-DO
         let storedEmail = "examplemail19@gmail.com"
+        let id = sessionStorage.getItem("id");
+        console.log(id);
+        let port = process.env.PORT || ('http://localhost:8080/api/members/' + id + '/read');
+        await axios.post(port, {
+                _id: id,
+                parameter: "email"
+            }, {headers: {'Content-Type': 'application/json'}})
+            .then(function (response) {
+                console.log(response.data);
+                sessionStorage.setItem('reload', "true");
+                //setEmail('');
+                storedEmail = response.data;
+            }).catch(function (error) {
+                console.log(error);
+                console.log(error.response);
+                console.log(error.response.headers);
+                console.log(error.response.status);
+            });
         setCurrentEmail("Your current email is: " + storedEmail);
     }
 
-    function handleChangeEmail(e, {name, value}){
+    function handleChangeEmail(e, {name, value}) {
         //keep track of email as user types
         setEmailError("");
         setEmail(value);
     }
-    function handleChangeEmailConfirm(e, {name, value}){
+
+    function handleChangeEmailConfirm(e, {name, value}) {
         //keep track of email confirmation as user types
         setEmailConfirmError("");
         setEmailConfirm(value);
@@ -143,7 +160,7 @@ function SettingsPage(props) {
     async function handleEmailSubmit() {
         //called on submit in email update menu option
         checkBadCharacters(email, emailConfirm, "email");
-        if(emailError.length === 0 && emailConfirmError.length === 0){
+        if (emailError.length === 0 && emailConfirmError.length === 0) {
             /*console.log("Email Updated");
             let port = process.env.PORT || 'http://localhost:8080/api/members/update'
             await axios.post(port, {
@@ -160,22 +177,21 @@ function SettingsPage(props) {
                     console.log(error.response.headers);
                     console.log(error.response.status);
                 });*/
-        }
-        else {
+        } else {
             console.log("Email NOT updated.");
         }
     }
 
-    function handleDelete(){
+    function handleDelete() {
         setCurrentTab("delete");
         changeTabs();
     }
 
-    function cancelDeletion(){
+    function cancelDeletion() {
         setModalVisible(false);
     }
 
-    function processDeletion(){
+    function processDeletion() {
         //remove user associated with current ID from the database, and remove from session storage, redirect to home page.
         setRedirectingToHome(true);
         sessionStorage.removeItem("id");
@@ -189,37 +205,37 @@ function SettingsPage(props) {
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
                             <Segment className="imgSeg">
-                                <Grid rows ={3}>
+                                <Grid rows={3}>
                                     <Grid.Row>
-                                    <Grid.Column width={16}>
-                                        <Card fluid>
-                                            <Card.Description>Welcome!</Card.Description>
-                                        </Card>
-                                    </Grid.Column>
+                                        <Grid.Column width={16}>
+                                            <Card fluid>
+                                                <Card.Description>Welcome!</Card.Description>
+                                            </Card>
+                                        </Grid.Column>
                                     </Grid.Row>
                                     <Grid.Row columns={3}>
                                         <Grid.Column width={3}>
-                                    <Menu vertical fluid>
-                                        <Menu.Item name ='msg'>
-                                            Account Settings
-                                        </Menu.Item>
-                                        <Menu.Item name= 'progress' onClick = {handleProgress}>
-                                            <Icon name= 'trophy'/>
-                                            View My Progress
-                                        </Menu.Item>
-                                        <Menu.Item name = 'update' onClick = {handleEmail}>
-                                            <Icon name= 'mail'/>
-                                            Update My Email
-                                        </Menu.Item>
-                                        <Menu.Item name = 'update' onClick = {handlePassword}>
-                                            <Icon name= 'lock'/>
-                                            Update My Password
-                                        </Menu.Item>
-                                        <Menu.Item name = 'delete' onClick = {handleDelete}>
-                                            <Icon name= 'user delete'/>
-                                            Delete My Account
-                                        </Menu.Item>
-                                    </Menu>
+                                            <Menu vertical fluid>
+                                                <Menu.Item name='msg'>
+                                                    Account Settings
+                                                </Menu.Item>
+                                                <Menu.Item name='progress' onClick={handleProgress}>
+                                                    <Icon name='trophy'/>
+                                                    View My Progress
+                                                </Menu.Item>
+                                                <Menu.Item name='update' onClick={handleEmail}>
+                                                    <Icon name='mail'/>
+                                                    Update My Email
+                                                </Menu.Item>
+                                                <Menu.Item name='update' onClick={handlePassword}>
+                                                    <Icon name='lock'/>
+                                                    Update My Password
+                                                </Menu.Item>
+                                                <Menu.Item name='delete' onClick={handleDelete}>
+                                                    <Icon name='user delete'/>
+                                                    Delete My Account
+                                                </Menu.Item>
+                                            </Menu>
                                         </Grid.Column>
                                         <Grid.Column width={13}>
                                             {currentTab === "progress" &&
@@ -238,33 +254,33 @@ function SettingsPage(props) {
                                             {currentTab === "email" &&
                                             <Card fluid>
                                                 <Card.Header className='myCardHeader'>
-                                                   Update my Email
+                                                    Update my Email
                                                 </Card.Header>
                                                 <Card.Content>
-                                                <Form onSubmit={handleEmailSubmit}>
-                                                    <Message content={currentEmail}/>
-                                                    <Form.Group widths='equal'>
-                                                        <Form.Field
-                                                            control={Input}
-                                                            label='Email'
-                                                            placeholder=''
-                                                            name='email'
-                                                            value={email}
-                                                            error={emailError !== "" ? emailError : false}
-                                                            onChange={handleChangeEmail}
-                                                        />
-                                                        <Form.Field
-                                                            control={Input}
-                                                            label='Confirm Email'
-                                                            placeholder=''
-                                                            name='emailConfirm'
-                                                            value={emailConfirm}
-                                                            error={emailConfirmError !== "" ? emailConfirmError : false}
-                                                            onChange={handleChangeEmailConfirm}
-                                                        />
-                                                    </Form.Group>
-                                                    <Form.Button content='Submit' color='blue'/>
-                                                </Form>
+                                                    <Form onSubmit={handleEmailSubmit}>
+                                                        <Message content={currentEmail}/>
+                                                        <Form.Group widths='equal'>
+                                                            <Form.Field
+                                                                control={Input}
+                                                                label='Email'
+                                                                placeholder=''
+                                                                name='email'
+                                                                value={email}
+                                                                error={emailError !== "" ? emailError : false}
+                                                                onChange={handleChangeEmail}
+                                                            />
+                                                            <Form.Field
+                                                                control={Input}
+                                                                label='Confirm Email'
+                                                                placeholder=''
+                                                                name='emailConfirm'
+                                                                value={emailConfirm}
+                                                                error={emailConfirmError !== "" ? emailConfirmError : false}
+                                                                onChange={handleChangeEmailConfirm}
+                                                            />
+                                                        </Form.Group>
+                                                        <Form.Button content='Submit' color='blue'/>
+                                                    </Form>
                                                 </Card.Content>
                                             </Card>
                                             }
@@ -302,51 +318,54 @@ function SettingsPage(props) {
                                             </Card>
                                             }
                                             {currentTab === "delete" &&
-                                                <Card fluid>
-                                                    <Card.Content>
-                                                        <Message content='Are you sure you want to delete your account? You will lose all of your progress.'/>
-                                                <Modal
-                                                    onClose={()=> setModalVisible(false)}
-                                                    onOpen={()=> setModalVisible(true)}
-                                                    open={modalVisible}
-                                                    trigger={<Button>Delete My Account</Button>}
-                                                >
-                                                    <Modal.Header styles={{textAlign: "middle"}} className='myModalHeader'>Are you sure you want to delete your account?</Modal.Header>
-                                                    <Modal.Actions className='myModalActions'>
-                                                        <Button
+                                            <Card fluid>
+                                                <Card.Content>
+                                                    <Message
+                                                        content='Are you sure you want to delete your account? You will lose all of your progress.'/>
+                                                    <Modal
+                                                        onClose={() => setModalVisible(false)}
+                                                        onOpen={() => setModalVisible(true)}
+                                                        open={modalVisible}
+                                                        trigger={<Button>Delete My Account</Button>}
+                                                    >
+                                                        <Modal.Header styles={{textAlign: "middle"}}
+                                                                      className='myModalHeader'>Are you sure you want to
+                                                            delete your account?</Modal.Header>
+                                                        <Modal.Actions className='myModalActions'>
+                                                            <Button
                                                                 content='No, I want to keep my account.'
                                                                 labelPosition='right'
                                                                 icon='cancel'
                                                                 onClick={cancelDeletion}
                                                                 negative
-                                                        />
-                                                        <Button
-                                                            content='Yes, delete my account.'
-                                                            labelPosition='right'
-                                                            icon='checkmark'
-                                                            onClick={processDeletion}
-                                                            positive
-                                                        />
-                                                    </Modal.Actions>
-                                                </Modal>
+                                                            />
+                                                            <Button
+                                                                content='Yes, delete my account.'
+                                                                labelPosition='right'
+                                                                icon='checkmark'
+                                                                onClick={processDeletion}
+                                                                positive
+                                                            />
+                                                        </Modal.Actions>
+                                                    </Modal>
+                                                </Card.Content>
+                                            </Card>
+                                                /*<Card fluid>
+                                                    <Card fluid color='red'>
+                                                        <Message> WARNING: if you delete your account, you will lose all progress.</Message>
+                                                    </Card>
+                                                    <Card.Content>
+                                                        Delete my Account
                                                     </Card.Content>
-                                                </Card>
-                                            /*<Card fluid>
-                                                <Card fluid color='red'>
-                                                    <Message> WARNING: if you delete your account, you will lose all progress.</Message>
-                                                </Card>
-                                                <Card.Content>
-                                                    Delete my Account
-                                                </Card.Content>
-                                                <Card.Content color='red'>
-                                                    WARNING: if you delete your account, you will lose all progress.
-                                                </Card.Content>
+                                                    <Card.Content color='red'>
+                                                        WARNING: if you delete your account, you will lose all progress.
+                                                    </Card.Content>
 
 
-                                                <Card.Content>
-                                                    Remaining Animations
-                                                </Card.Content>
-                                            </Card>*/
+                                                    <Card.Content>
+                                                        Remaining Animations
+                                                    </Card.Content>
+                                                </Card>*/
                                             }
                                             {redirectingToHome &&
                                             <Redirect to={'/introduction'}/>
