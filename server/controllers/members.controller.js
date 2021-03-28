@@ -52,62 +52,78 @@ exports.update = (req, res) => {
     const {updateError, updateValid} = validateUpdate(req.body);
     if(!updateValid){
         //ensure all formats are proper before checking for changes
-        console.log(updateError);
         return res.status(400).json(updateError);
     }
     else {
         //member_first, member_last, member_email can all stay the same, if needed ....(for now).
+        const member_id = req.body._id;
         const member_email = req.body.member_email;
-        const member_password = req.body.member_password || "";
+        const member_password = req.body.member_password;
+        const member_password_confirm = req.body.member_password_confirm;
         const type = req.body.type;
-        Member.findOne({member_email: req.body.member_email},(error, member) => {
+        Member.findOne({_id: req.body._id},(error, member) => {
             if(error){
+                console.log(error);
                 return res.status(400).send(error); // no member found in the database
             }
             else {
                 console.log(member);
-                if(member === null){
-                    res.status(400);
-                    return res.json({updatedInformationError: "There was an error updating your information: double-check your email and password."});
-                }
-                else {
                     console.log("Validating member password.");
-                    bcrypt.compare(member_password, member.member_password).then(passwordValidate => {
-                        if(passwordValidate){
-                            //password is the same, prompt that password needs to change.
-                            res.status(400);
-                            console.log("New password equals old password");
-                            return res.json({updateMemberInformationError: "Your new password must be different from your current password."})
-                        }
-                        else {
-                            bcrypt.genSalt(10, (error, salt) => {
-                                bcrypt.hash(member.member_password, salt, (error, hash) => {
-                                    //store hash in password database
-                                    if(error){
-                                        throw error;
-                                    }
-                                    else {
-                                        member.member_first = member_first;
-                                        member.member_last = member_last;
-                                        member.member_email = member_email;
-                                        member.member_password = hash;
-                                        member.account_change = new Date(); //keep track of date and time member changes login credentials
-                                        member.save((error => {
-                                            if(error){
-                                                console.log(error);
-                                                res.status(400).send(error);
-                                            }
-                                            else {
-                                                console.log("Successfully updated member's credentials.");
-                                                return res.json(member);
-                                            }
-                                        }));
-                                    }
+                    if(type === "password") {
+                        bcrypt.compare(member_password, member.member_password).then(passwordValidate => {
+                            if (passwordValidate) {
+                                //password is the same, prompt that password needs to change.
+                                res.status(400);
+                                console.log("New password equals old password");
+                                return res.json({updateMemberInformationError: "Your new password must be different from your current password."})
+                            } else {
+                                bcrypt.genSalt(10, (error, salt) => {
+                                    bcrypt.hash(member.member_password, salt, (error, hash) => {
+                                        //store hash in password database
+                                        if (error) {
+                                            throw error;
+                                        } else {
+                                            member.member_email = member_email;
+                                            member.member_password = hash;
+                                            //member.account_change = new Date(); //keep track of date and time member changes login credentials
+                                            member.account_change.password_change.push(new Date().toISOString());
+                                            member.save((error => {
+                                                if (error) {
+                                                    console.log(error);
+                                                    res.status(400).send(error);
+                                                } else {
+                                                    console.log("Password successfully updated.");
+                                                    return res.status(200).json(member);
+                                                }
+                                            }));
+                                        }
+                                    });
                                 });
-                            });
+                            }
+                        });
+                    }
+                    else if(type === "email"){
+                        console.log(member);
+                        if(member_email === member.member_email){
+                            res.status(400).json({updateEmailError: "Error: your new email address must be different from your current email address."})
                         }
-                    });
-                }
+                        else if (member_email !== member.member_email){
+                            member.member_email = member_email;
+                            member.account_change.email_change.push(new Date().toISOString());
+                            member.save((error => {
+                                if(error){
+                                    console.log(error);
+                                    res.status(400).send(error);
+                                }
+                                else {
+                                    console.log("Email address successfully updated.");
+                                    res.status(200);
+                                    return res.status(200).json(member_email);
+                                }
+                            }));
+                        }
+                    }
+
             }
         });
     }

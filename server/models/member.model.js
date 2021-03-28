@@ -22,7 +22,13 @@ const memberSchema = new Schema({
     member_password_confirm: {type: String, default: 'guest'},
     creation_date: Date,
     login_dates: [{type: Date}],
-    account_change: [{type: Date}],
+    //account_change:  {type:{type: String}, values: Date},
+    account_change: {
+        email_change: [Date],
+        password_change: [Date]
+    },
+    /*account_change: [{type: String, type: Date}],*/
+    /*account_change: [{type: String},{type: Date}],*/
     animation_data: {
         completed_animations: {type: Array},
         suggested_animations: {type: Array},

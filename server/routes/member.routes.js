@@ -4,8 +4,7 @@ const members = require('../controllers/members.controller.js'),
 
 router.param('memberId', members.findMemberById);
 let memberId = members.findMemberById;
-;/*router.route('/')
-    .get(members.test);*/
+
 
 router.route('/')
     .get(members.list);
@@ -15,7 +14,7 @@ router.route('/')
 
 router.route('/:memberId')
     .get(members.read)
-    .put(members.update);
+    .post(members.update);
     //.delete(members.delete);
 
 router.route('/:memberId/animations')
