@@ -288,7 +288,7 @@ function SettingsPage(props) {
                                                             />
                                                             <Form.Field
                                                                 control={Input}
-                                                                label='Confirm Email'
+                                                                label='Confirm Password'
                                                                 placeholder=''
                                                                 name='passwordConfirm'
                                                                 value={passwordConfirm}
