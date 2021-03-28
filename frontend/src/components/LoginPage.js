@@ -116,11 +116,7 @@ function LoginPage(props) {
                     sessionStorage.setItem('id', response.data);
                     sessionStorage.setItem('memberLoggedIn', "true");
                     sessionStorage.setItem('reload', "true");
-
-                    /*setFirst('');
-                    setLast('');
-                    setPassword('');
-                    setPasswordConfirm('');
+                    /*setPassword('');
                     setEmail('');*/
                 }).catch(function(error) {
                     console.log(error.response.data.loginEmailError);

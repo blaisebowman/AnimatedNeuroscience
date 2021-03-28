@@ -1,19 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link, Redirect, useHistory} from "react-router-dom";
-import {
-    Grid,
-    Segment,
-    Button,
-    Card,
-    Icon,
-    Divider,
-    List,
-    Menu,
-    Message,
-    Modal,
-    Form,
-    Input
-} from "semantic-ui-react"
+import {Grid, Segment, Button, Card, Icon, Divider, List, Menu, Message, Modal, Form, Input } from "semantic-ui-react"
 
 import '../neurons.css';
 import '../glias.css';
@@ -27,15 +14,29 @@ function SettingsPage(props) {
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [passwordConfirmError, setPasswordConfirmError] = useState("");
+    const [passwordUpdateSuccess, setPasswordUpdateSuccess] = useState("");
+    const [passwordUpdateError, setPasswordUpdateError] = useState("");
     const [currentEmail, setCurrentEmail] = useState("");
     const [email, setEmail] = useState("");
     const [emailConfirm, setEmailConfirm] = useState("");
     const [emailError, setEmailError] = useState("");
     const [emailConfirmError, setEmailConfirmError] = useState("");
+    const [emailUpdateSuccess, setEmailUpdateSuccess] = useState("");
+    const [emailUpdateError, setEmailUpdateError] = useState("");
     const [modalVisible, setModalVisible] = useState(false);
     const [redirectingToHome, setRedirectingToHome] = useState(false);
     const [currentTab, setCurrentTab] = useState("progress");
     const [completedAnimations, setCompletedAnimations] = useState([]);
+    const [capsLockPassword, setCapsLockPassword] = useState(false);
+    const [capsLockPasswordConfirm, setCapsLockPasswordConfirm] = useState(false);
+    const [currentInputForm, setCurrentInputForm] = useState("");
+    const [isCaps, setIsCaps] = useState(false);
+    const [isMasked, setIsMasked] = useState("password");
+
+    if(process.env.NODE_ENV === 'production'){
+        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        console.log = function (){};
+    }
 
     function changeTabs() {
         //ensure errors and values are set to default values on changes in the menu selection
@@ -48,6 +49,99 @@ function SettingsPage(props) {
         setEmailConfirm("");
         setEmailError("");
         setEmailConfirmError("");
+        setPasswordUpdateError("");
+        setPasswordUpdateSuccess("");
+        setEmailUpdateError("");
+        setEmailUpdateSuccess("");
+    }
+
+    useEffect(()=> {
+        const handleCapsLock = (e) => {
+            const deviceIsMac = /Mac/.test(navigator.platform);
+            if (deviceIsMac && e.keyCode === 57) {
+                if(isCaps === false){
+                    console.log("Mac user enabled caps lock");
+                    setIsCaps(true);
+                }
+                else {
+                    console.log("Mac user disabled caps lock");
+                    setIsCaps(false);
+                    setCapsLockPassword(false);
+                    setCapsLockPasswordConfirm(false);
+                }
+            } else if (!(deviceIsMac) && e.keyCode === 20) {
+                if(isCaps === false){
+                    console.log("Windows user enabled caps lock");
+                    setIsCaps(true);
+                }
+                else {
+                    console.log("Windows user disabled caps lock");
+                    setIsCaps(false);
+                    setCapsLockPassword(false);
+                    setCapsLockPasswordConfirm(false);
+                }
+            }
+        };
+        window.addEventListener('keydown', handleCapsLock);
+        return () => {
+            window.removeEventListener('keydown', handleCapsLock);
+        };
+    }, [isCaps]);
+
+    function checkCapsLock(e){
+        const deviceIsMac = /Mac/.test(navigator.platform);
+        console.log(e.target.name);
+        console.log(e._reactName);
+        console.log(e.keyCode);
+        //e.target.name = "password" || e.target.name = "passwordConfirm
+        //change all email based vars to passwordConfirm
+        if((e._reactName === "onClick") && (currentInputForm !== e.target.name)){
+            console.log(currentInputForm);
+            console.log(isCaps);
+            if(e.target.name === "password" && isCaps){
+                setCapsLockPassword(true);
+                setCapsLockPasswordConfirm(true);
+            }
+            else if(e.target.name === "passwordConfirm" && capsLockPassword === true){
+                setCapsLockPasswordConfirm(true)
+                setCapsLockPassword(false);
+            }
+            else if (e.target.name === "password" && capsLockPasswordConfirm === true){
+                setCapsLockPasswordConfirm(false);
+                setCapsLockPassword(true);
+            }
+            setCurrentInputForm(e.target.name);
+        }
+        else if (((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === false){
+            if(e.target.name === "passwordConfirm"){
+                if(capsLockPasswordConfirm === true){
+                    return;
+                }
+                else if (capsLockPassword === true){
+                    setCapsLockPassword(false);
+                }
+                else {
+                    setCapsLockPasswordConfirm(true);
+                }
+            }
+            else if (e.target.name === "password"){
+                if(capsLockPassword === true){
+                    return;
+                }
+                else if (capsLockPasswordConfirm === true){
+                    setCapsLockPasswordConfirm(false);
+                }
+                else {
+                    setCapsLockPassword(true);
+                }
+            }
+            setIsCaps(true);
+        }
+        else if(((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === true){
+            setCapsLockPasswordConfirm(false);
+            setCapsLockPassword(false);
+            setIsCaps(false);
+        }
     }
 
     function checkBadCharacters(value1, value2, type) {
@@ -87,7 +181,6 @@ function SettingsPage(props) {
         }
         setCompletedAnimations([]); //replace with the backend's data on a user
         //get a member's animation completion from the backend, convert into a list
-
     }
 
     function handlePassword() {
@@ -100,32 +193,56 @@ function SettingsPage(props) {
         //keep track of value of password as user types
         setPasswordError("");
         setPassword(value);
+        setPasswordUpdateError("")
+        setPasswordUpdateSuccess("");
     }
 
     function handleChangePasswordConfirm(e, {name, value}) {
         //keep track of value of password confirm as user types
         setPasswordConfirmError("");
         setPasswordConfirm(value);
+        setPasswordError("");
+        setPasswordUpdateSuccess("");
     }
 
-    function handlePasswordSubmit() {
+    async function handlePasswordSubmit() {
         //called on submit on the update password menu option
         checkBadCharacters(password, passwordConfirm, "password");
         if (passwordError.length === 0 && passwordConfirmError.length === 0) {
-            console.log("Password Updated");
+            let id = sessionStorage.getItem("id");
+            let port = process.env.PORT || 'http://localhost:8080/api/members/' + id;
+            await axios.post(port, {
+                _id: id,
+                member_password: password,
+                member_password_confirm: passwordConfirm,
+                type: "password",
+            }, {headers: {'Content-Type': 'application/json'}})
+                .then(function(response) {
+                    console.log("Password Updated");
+                    console.log(response.data);
+                    //setRedirect(true);
+                    setPassword('');
+                    setPasswordConfirm('');
+                    setPasswordUpdateSuccess(true);
+                }).catch(function(error) {
+                    console.log("Password NOT updated");
+                    console.log(error.response);
+                    console.log(error.response.headers);
+                    console.log(error.response.status);
+                    console.log(error.response.data.updateMemberInformationError);
+                    setPasswordUpdateError(error.response.data.updateMemberInformationError);
+                });
         } else {
             console.log("Password NOT updated.");
         }
     }
 
     async function handleEmail() {
-        //switch to email tab
+        //switch to email tab, returns a member's email from the database.
         setCurrentTab("email");
         changeTabs();
-        //GET EMAIL FROM BACKEND -> TO-DO
-        let storedEmail = "examplemail19@gmail.com"
+        let storedEmail = "";
         let id = sessionStorage.getItem("id");
-        console.log(id);
         let port = process.env.PORT || ('http://localhost:8080/api/members/' + id + '/read');
         await axios.post(port, {
                 _id: id,
@@ -148,22 +265,32 @@ function SettingsPage(props) {
     function handleChangeEmail(e, {name, value}) {
         //keep track of email as user types
         setEmailError("");
+        setEmailConfirmError("");
         setEmail(value);
+        setEmailUpdateError("");
+        setEmailUpdateSuccess("");
     }
 
     function handleChangeEmailConfirm(e, {name, value}) {
         //keep track of email confirmation as user types
+        setEmailError("");
         setEmailConfirmError("");
         setEmailConfirm(value);
+        setEmailUpdateError("");
+        setEmailUpdateSuccess("");
     }
 
     async function handleEmailSubmit() {
         //called on submit in email update menu option
         checkBadCharacters(email, emailConfirm, "email");
+        console.log(emailError);
+        console.log(emailConfirmError);
         if (emailError.length === 0 && emailConfirmError.length === 0) {
-            /*console.log("Email Updated");
-            let port = process.env.PORT || 'http://localhost:8080/api/members/update'
+            console.log("Email Updated");
+            let id = sessionStorage.getItem("id");
+            let port = process.env.PORT || 'http://localhost:8080/api/members/'+id
             await axios.post(port, {
+                _id: id,
                 member_email: email,
                 type: "email",
             }, {headers: {'Content-Type': 'application/json'}})
@@ -172,11 +299,13 @@ function SettingsPage(props) {
                     //setRedirect(true);
                     sessionStorage.setItem('reload', "true");
                     //setEmail('');
+                    setCurrentEmail(email);
+                    setEmailUpdateSuccess(true);
                 }).catch(function(error) {
                     console.log(error.response);
-                    console.log(error.response.headers);
-                    console.log(error.response.status);
-                });*/
+                    console.log("Email NOT updated.");
+                    setEmailUpdateError(error.response.data.updateMemberInformationError);
+                });
         } else {
             console.log("Email NOT updated.");
         }
@@ -191,11 +320,33 @@ function SettingsPage(props) {
         setModalVisible(false);
     }
 
-    function processDeletion() {
+    async function processDeletion() {
         //remove user associated with current ID from the database, and remove from session storage, redirect to home page.
-        setRedirectingToHome(true);
-        sessionStorage.removeItem("id");
-        sessionStorage.removeItem("memberLoggedIn");
+        console.log("Processing user deletion:");
+        let id = sessionStorage.getItem("id");
+        let port = process.env.PORT || ('http://localhost:8080/api/members/' + id);
+        var axios = require('axios');
+        var config = {
+            method: 'delete',
+            url: port,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data : {
+                _id: id
+            }
+        };
+
+        await axios(config)
+            .then(function (response) {
+                console.log(JSON.stringify(response.data));
+                sessionStorage.removeItem("id");
+                sessionStorage.removeItem("memberLoggedIn");
+                setRedirectingToHome(true);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     return (
@@ -279,6 +430,12 @@ function SettingsPage(props) {
                                                                 onChange={handleChangeEmailConfirm}
                                                             />
                                                         </Form.Group>
+                                                        {emailUpdateError &&
+                                                        <Message content={emailUpdateError} color={'red'}/>
+                                                        }
+                                                        {emailUpdateSuccess &&
+                                                        <Message content="Email Successfully Updated." color={'blue'}/>
+                                                        }
                                                         <Form.Button content='Submit' color='blue'/>
                                                     </Form>
                                                 </Card.Content>
@@ -294,6 +451,7 @@ function SettingsPage(props) {
                                                             upper-case letter, and one lower-case letter. '/>
                                                         <Form.Group widths='equal'>
                                                             <Form.Field
+                                                                type={isMasked}
                                                                 control={Input}
                                                                 label='Password'
                                                                 placeholder=''
@@ -301,8 +459,11 @@ function SettingsPage(props) {
                                                                 value={password}
                                                                 error={passwordError !== "" ? passwordError : false}
                                                                 onChange={handleChangePassword}
+                                                                onClick={checkCapsLock}
+                                                                onKeyDown={checkCapsLock}
                                                             />
                                                             <Form.Field
+                                                                type={isMasked}
                                                                 control={Input}
                                                                 label='Confirm Password'
                                                                 placeholder=''
@@ -310,8 +471,19 @@ function SettingsPage(props) {
                                                                 value={passwordConfirm}
                                                                 error={passwordConfirmError !== "" ? passwordConfirmError : false}
                                                                 onChange={handleChangePasswordConfirm}
+                                                                onClick={checkCapsLock}
+                                                                onKeyDown={checkCapsLock}
                                                             />
                                                         </Form.Group>
+                                                        {(capsLockPassword || capsLockPasswordConfirm) &&
+                                                        <Message content='Warning: Caps Lock is enabled.' color='yellow'/>
+                                                        }
+                                                        {passwordUpdateError &&
+                                                            <Message content={passwordUpdateError} color={'red'}/>
+                                                        }
+                                                        {passwordUpdateSuccess &&
+                                                        <Message content={"Password Successfully Updated."} color={'blue'}/>
+                                                        }
                                                         <Form.Button content='Submit' color='blue'/>
                                                     </Form>
                                                 </Card.Content>
@@ -350,22 +522,6 @@ function SettingsPage(props) {
                                                     </Modal>
                                                 </Card.Content>
                                             </Card>
-                                                /*<Card fluid>
-                                                    <Card fluid color='red'>
-                                                        <Message> WARNING: if you delete your account, you will lose all progress.</Message>
-                                                    </Card>
-                                                    <Card.Content>
-                                                        Delete my Account
-                                                    </Card.Content>
-                                                    <Card.Content color='red'>
-                                                        WARNING: if you delete your account, you will lose all progress.
-                                                    </Card.Content>
-
-
-                                                    <Card.Content>
-                                                        Remaining Animations
-                                                    </Card.Content>
-                                                </Card>*/
                                             }
                                             {redirectingToHome &&
                                             <Redirect to={'/introduction'}/>

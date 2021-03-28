@@ -4,8 +4,6 @@ import {Grid, GridColumn, Segment, Image, Divider, List, Icon, Card,} from "sema
 import '../introduction.css';
 import cise from '../images/cise.jpg';
 
-
-
 function Introduction(props) {
     useEffect(()=>{
         console.log("done")
@@ -22,8 +20,6 @@ function Introduction(props) {
         console.log(id);
         /*history.push(event.target.value + id);*/
     }
-
-
 
     return (
         <div className="App">

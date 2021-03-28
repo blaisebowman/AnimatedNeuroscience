@@ -17,8 +17,8 @@ router.route('/:memberId/read')
 
 router.route('/:memberId')
     .get(members.read)
-    .post(members.update);
-    //.delete(members.delete);
+    .post(members.update)
+    .delete(members.delete);
 
 router.route('/:memberId/animations')
     .get(members.getAnimationProgress);

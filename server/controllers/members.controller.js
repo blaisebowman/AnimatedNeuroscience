@@ -88,63 +88,70 @@ exports.read = (req, res) => {
 
 //Update a member's login credentials (PUT)
 exports.update = (req, res) => {
-    const {updateError, updateValid} = validateUpdate(req.body);
+    const {updateErrors, updateValid} = validateUpdate(req.body);
     if(!updateValid){
         //ensure all formats are proper before checking for changes
-        return res.status(400).json(updateError);
+        return res.status(400).json({updateErrors:updateErrors});
     }
     else {
         //member_first, member_last, member_email can all stay the same, if needed ....(for now).
-        const member_id = req.body._id;
+        console.log(req.body);
+        const _id = req.body._id;
         const member_email = req.body.member_email;
         const member_password = req.body.member_password;
-        const member_password_confirm = req.body.member_password_confirm;
         const type = req.body.type;
-        Member.findOne({_id: req.body._id},(error, member) => {
+        Member.findOne({_id: _id},(error, member) => {
             if(error){
                 console.log(error);
-                return res.status(400).send(error); // no member found in the database
+                return res.status(400).json({updateMemberInformationError: error}); // no member found in the database
             }
             else {
-                console.log(member);
+                console.log(member._id);
                     console.log("Validating member password.");
                     if(type === "password") {
-                        bcrypt.compare(member_password, member.member_password).then(passwordValidate => {
-                            if (passwordValidate) {
-                                //password is the same, prompt that password needs to change.
-                                res.status(400);
-                                console.log("New password equals old password");
-                                return res.json({updateMemberInformationError: "Your new password must be different from your current password."})
-                            } else {
-                                bcrypt.genSalt(10, (error, salt) => {
-                                    bcrypt.hash(member.member_password, salt, (error, hash) => {
-                                        //store hash in password database
-                                        if (error) {
-                                            throw error;
-                                        } else {
-                                            member.member_email = member_email;
-                                            member.member_password = hash;
-                                            //member.account_change = new Date(); //keep track of date and time member changes login credentials
-                                            member.account_change.password_change.push(new Date().toISOString());
-                                            member.save((error => {
-                                                if (error) {
-                                                    console.log(error);
-                                                    res.status(400).send(error);
-                                                } else {
-                                                    console.log("Password successfully updated.");
-                                                    return res.status(200).json(member);
-                                                }
-                                            }));
-                                        }
+                        bcrypt.compare(member_password, member.member_password,(error, match)=>{
+                            if(error){
+                                console.log(error);
+                                res.status(400).send(error);
+                            }
+                            else {
+                                console.log("hit else");
+                                console.log(match);
+                                console.log(member_password);
+                                console.log(member.member_password);
+                                if (match) {
+                                    //password is the same, prompt that password needs to change.
+                                    console.log("New password equals old password");
+                                    return res.status(400).json({updateMemberInformationError: "Your new password must be different from your current password."})
+                                } else {
+                                    bcrypt.genSalt(10, (error, salt) => {
+                                        bcrypt.hash(member_password, salt, (error, hash) => {
+                                            //store hash in password database
+                                            if (error) {
+                                                throw error;
+                                            } else {
+                                                member.member_password = hash;
+                                                member.account_change.password_change.push(new Date().toISOString());
+                                                member.save((error => {
+                                                    if (error) {
+                                                        console.log(error);
+                                                        res.status(400).send(error);
+                                                    } else {
+                                                        console.log("Password successfully updated.");
+                                                        return res.status(200).json(member);
+                                                    }
+                                                }));
+                                            }
+                                        });
                                     });
-                                });
+                                }
                             }
                         });
                     }
                     else if(type === "email"){
                         console.log(member);
                         if(member_email === member.member_email){
-                            res.status(400).json({updateEmailError: "Error: your new email address must be different from your current email address."})
+                            res.status(400).json({updateMemberInformationError: "Error: your new email address must be different from your current email address."})
                         }
                         else if (member_email !== member.member_email){
                             member.member_email = member_email;
@@ -174,8 +181,23 @@ exports.updateName = (req, res) => {
 
 //Delete a member's account (DELETE)
 exports.delete = (req, res) => {
-    res.status(200);
-    res.json("Testing user delete");
+    id = req.body._id;
+    Member.findOneAndDelete({_id: id},(error, member) => {
+        if(error){
+            console.log("Error, user not found in the database.");
+            return res.status(400).json({deleteError: "User not found in the database."});
+        }
+        else {
+            if (member === null) {
+                console.log("Error, user not found in the database.");
+                return res.status(400).json({deleteError: "User not found in the database"});
+            }
+            else {
+            console.log("Member with id " + id + " deleted.");
+            return res.status(200).json({deleteSuccess: "User successfully deleted."});
+            }
+        }
+    });
 }
 
 exports.findMemberById = (req, res, next, id) => {
