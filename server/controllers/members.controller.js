@@ -202,22 +202,31 @@ exports.delete = (req, res) => {
 
 exports.findMemberById = (req, res, next, id) => {
     //find a member by their member ID.
-    Member.findById(id).exec((error, member) => {
-        console.log(member);
-        if (error) {
-            res.status(400);
-            res.json({memberWithId: 'A member with that ID does not exist in the database.'});
-        } else {
-            req.member = member;
-            next();
-            console.log("A member was found in database with the given ID.");
-        }
-    });
+    //console.log(id);
+        Member.findById(id).exec((error, member) => {
+            console.log(id);
+            console.log(id);
+            console.log(member);
+            if (error) {
+                if (member === undefined) {
+                    console.log("undefined member");
+                }
+                res.status(400);
+                res.json({memberWithId: 'A member with that ID does not exist in the database.'});
+            } else {
+                req.member = member;
+                next();
+                console.log("A member was found in database with the given ID.");
+            }
+        });
+
 }
 
 //List a member's animation data (GET)
 exports.getAnimationProgress = (req, res) => {
     //to test in Postman: GET HTTP://localhost:8080/api/members/<memberId>/animations
+    console.log("GETTING ANIMATIONS");
+    console.log(req.member.animation_data);
     res.status(200);
     res.json(req.member.animation_data);
 };

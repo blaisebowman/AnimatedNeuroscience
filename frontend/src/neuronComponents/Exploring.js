@@ -8,6 +8,7 @@ import '../glias.css';
 
 
 function ExploringPage(props) {
+    console.log(App2.toString());
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
     const history = useHistory();
     const [height, setHeight] = useState(null);
