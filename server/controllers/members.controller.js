@@ -201,8 +201,7 @@ exports.findMemberById = (req, res, next, id) => {
     //console.log(id);
         Member.findById(id).exec((error, member) => {
             console.log(id);
-            console.log(id);
-            console.log(member);
+            //console.log(member);
             if (error) {
                 if (member === undefined) {
                     console.log("undefined member");
@@ -228,18 +227,15 @@ exports.getAnimationProgress = (req, res) => {
 };
 //List a member's animation completion progress (GET)
 exports.getAnimationCompletion = (req, res, next) => {
-
     //to test in Postman: GET HTTP://localhost:8080/api/members/<memberId>/animations/completed
     let params = req.query;
     console.log(params);
     id = req.query._id;
     let animationCategory = req.query.animationCategory;
     let animationName= req.query.animationName;
-    console.log(req.body.params);
     console.log(animationCategory);
-
     Member.findOne({_id: id},(error, member) => {
-        console.log(id);
+        //console.log(id);
         if (error) {
             return res.status(400).send(error);
         } else {
@@ -258,6 +254,7 @@ exports.getAnimationCompletion = (req, res, next) => {
                 case "glias":
                     switch(animationName){
                         case "astrocyte":
+                            console.log("GETTING ASTROCYTE DATA: " + member.animation_data.glias.astrocyte);
                         return res.status(200).send(member.animation_data.glias.astrocyte);
                         case "oligodendroglia":
                             return res.status(200).send(member.animation_data.glias.oligodendroglia);
@@ -354,6 +351,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.neurons.exploring.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.neurons.exploring.completedActions;
                                 }
                                 console.log(checkCompletion(actionsCompleted, animationComplete));
                                 if(checkCompletion(member.animation_data.neurons.exploring.completedActions, animationComplete)){
@@ -366,6 +364,8 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.neurons.protein.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.neurons.protein.completedActions;
+
                                 }
                                 if(checkCompletion(member.animation_data.neurons.protein.completedActions, animationComplete)){
                                     member.animation_data.neurons.protein.complete = true;
@@ -377,6 +377,8 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.neurons.cellular.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.neurons.cellular.completedActions;
+
                                 }
                                 if(checkCompletion(member.animation_data.neurons.cellular.completedActions, animationComplete)){
                                     member.animation_data.neurons.cellular.complete = true;
@@ -391,9 +393,12 @@ exports.updateAnimationProgress = (req, res) => {
                             case "astrocyte":
                                 isComplete = member.animation_data.glias.astrocyte.complete;
                                 actionsCompleted = member.animation_data.glias.astrocyte.completedActions;
+
+console.log("PUSHED: " + action);
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.glias.astrocyte.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.glias.astrocyte.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.glias.astrocyte.completedActions, animationComplete)){
                                     member.animation_data.glias.astrocyte.complete = true;
@@ -405,6 +410,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.glias.oligodendroglia.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.glias.oligodendroglia.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.glias.oligodendroglia.completedActions, animationComplete)){
                                     member.animation_data.glias.oligodendroglia.complete = true;
@@ -416,6 +422,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.glias.chemical.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.glias.chemical.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.glias.chemical.completedActions, animationComplete)){
                                     member.animation_data.glias.chemical.complete = true;
@@ -427,6 +434,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.glias.cns.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.glias.cns.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.glias.cns.completedActions, animationComplete)){
                                     member.animation_data.glias.cns.complete = true;
@@ -444,6 +452,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.brain.neural.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.brain.neural.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.brain.neural.completedActions, animationComplete)){
                                     member.animation_data.brain.neural.complete = true;
@@ -454,6 +463,8 @@ exports.updateAnimationProgress = (req, res) => {
                                 actionsCompleted = member.animation_data.brain.early.completedActions;
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.brain.early.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.brain.early.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.brain.early.completedActions, animationComplete)){
                                     member.animation_data.brain.early.complete = true;
@@ -465,6 +476,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.brain.lobes.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.brain.lobes.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.brain.lobes.completedActions, animationComplete)){
                                     member.animation_data.brain.lobes.complete = true;
@@ -476,6 +488,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.brain.structure.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.brain.structure.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.brain.structure.completedActions, animationComplete)){
                                     member.animation_data.brain.structure.complete = true;
@@ -493,6 +506,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.sensory.visual.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.sensory.visual.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.sensory.visual.completedActions, animationComplete)){
                                     member.animation_data.sensory.visual.complete = true;
@@ -504,6 +518,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))) {
                                     member.animation_data.sensory.auditory.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.sensory.auditory.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.sensory.auditory.completedActions, animationComplete)){
                                     member.animation_data.sensory.auditory.complete = true;
@@ -515,6 +530,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.sensory.olfactory.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.sensory.olfactory.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.sensory.olfactory.completedActions, animationComplete)){
                                     member.animation_data.sensory.olfactory.complete = true;
@@ -526,6 +542,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.sensory.pain.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.sensory.pain.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.sensory.pain.completedActions, animationComplete)){
                                     member.animation_data.sensory.pain.complete = true;
@@ -543,6 +560,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.cerebellum.micro.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.cerebellum.micro.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.cerebellum.micro.completedActions, animationComplete)){
                                     member.animation_data.cerebellum.micro.complete = true;
@@ -554,6 +572,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.cerebellum.pathways.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.cerebellum.pathways.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.cerebellum.pathways.completedActions, animationComplete)){
                                     member.animation_data.cerebellum.pathways.complete = true;
@@ -571,6 +590,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.nervous.ans.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.nervous.ans.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.nervous.ans.completedActions, animationComplete)){
                                     member.animation_data.nervous.ans.complete = true;
@@ -582,6 +602,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.nervous.action.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.nervous.action.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.nervous.action.completedActions, animationComplete)){
                                     member.animation_data.nervous.action.complete = true;
@@ -593,6 +614,7 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.nervous.hypothalamus.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                    actionsCompleted = member.animation_data.nervous.hypothalamus.completedActions;
                                 }
                                 if(checkCompletion(member.animation_data.nervous.hypothalamus.completedActions, animationComplete)){
                                     member.animation_data.nervous.hypothalamus.complete = true;
@@ -611,8 +633,7 @@ exports.updateAnimationProgress = (req, res) => {
                         res.status(400).send(error);
                     }
                     else {
-                        console.log(actionsCompleted);
-                        console.log("actions completed: " + actionsCompleted);
+                        console.log("ACTIONS COMPLETED : " + actionsCompleted);
                         return res.status(200).json({actionsCompleted: actionsCompleted});
                     }
                 }));

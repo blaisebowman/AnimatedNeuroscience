@@ -6,6 +6,11 @@ import axios, {AxiosResponse, AxiosError} from "axios";
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
 
 const App2 = () => {
+    /*if(process.env.NODE_ENV === 'production'){
+        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        console.log = function (){};
+    }*/
+
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
     const [userClicked, setUserClicked] = useState<string>("");
     const [userIsDone, setUserIsDone] = useState(false);
@@ -16,8 +21,6 @@ const App2 = () => {
             getMemberArray()
         }
     }, []);
-
-    if(sessionStorage.getItem("id")){}
 
     let animationComplete: string [] = ["button_1", "button_2","button_3", "button_4", "button_5", "button_6", "button_7", "button_8", "button_9", "button_10", "button_11"]
     let id = sessionStorage.getItem("id");
@@ -38,9 +41,11 @@ const App2 = () => {
         console.log(response.data);
         setUserIsDone(response.data['complete']);
         setMemberArray(response.data['completedActions']);
-        if(memberArray.every(r=> animationComplete.includes(r))){
-            console.log("I AM COMPLETE");
-            setUserIsDone(true);
+        if(animationComplete.every(r=> memberArray.includes(r))){
+            if (!userIsDone) {
+                console.log("The user finished the animation.");
+                setUserIsDone(true);
+            }
         }
     }
 
@@ -77,28 +82,33 @@ const App2 = () => {
         }
     };
 
-    async function postMemberArray(){
-        axios.post<Member>(port, {_id: id, animationCategory: "neurons", animationName: "exploring", action: userClicked, animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
-            .then(handleMemberPostResponse)
-            .catch(handlePostError);
-    }
-
     function handleClick(event: Object){
-        const  obj = Object.values(event);
+        const obj = Object.values(event);
         console.log(obj[1].name);
+        console.log(userClicked);
+        if (userClicked === ""){
+            animationObject?.removeAllEventListeners();
+        }
+        if (userClicked !== obj[1].name && userClicked !== "") {
+            console.log("User pressed a different button.");
+        }
         setUserClicked(obj[1].name);
-        if(memberArray.includes(obj[1].name)){
+        console.log("User click button with name: " + (obj[1].name));
+        if (memberArray.includes(obj[1].name)) {
             console.log("Button already in the array.");
         }
+        if (obj[1].name !== null) {
             getMemberArray();
-            postMemberArray();
-        animationObject?.removeAllEventListeners();
+            axios.post<Member>(port, {_id: id, animationCategory: "glias", animationName: "astrocyte", action: obj[1].name, animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
+                .then(handleMemberPostResponse)
+                .catch(handlePostError);
+        }
     }
 
 if(sessionStorage.getItem("id")) {
     //only set event listener if the page viewer is a member
     if (!(animationObject?.hasEventListener('click'))) {
-        console.log("ADDING EVENT");
+        console.log("Adding event listener.");
         animationObject?.addEventListener('click', handleClick);
     }
 }
