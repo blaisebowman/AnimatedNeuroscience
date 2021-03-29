@@ -9,24 +9,25 @@ const App2 = () => {
     const [arrayOfButtons, setArrayOfButtons] = useState([]);
     const [memberArrayOfButtons, setMemberArray] = useState([]);
     let id = sessionStorage.getItem("id");
-    console.log(animationObject);
 
     animationObject?.addEventListener('click',(element) => {
     const obj = Object.values(element);
-    console.log(obj[1]);
+    //console.log(obj[1]);
     console.log(obj[1].name);
     })
 
     interface Member {
-        animationData: object,
-        completedAnimations: [],
-        suggestedAnimations: []
+        _id: string,
+        animationCategory: string,
+        animationName: string,
     }
+
     const handleMemberResponse = (response: AxiosResponse<Member>)=>{
-        console.log(response.data.animationData);
-        console.log(response.data.completedAnimations);
-        console.log(response.data.suggestedAnimations);
+        console.log(response);
+        console.log(response.data);
+        //response.data is the {complete: false, completedActions: []} object used to determine if an action has been completed in an animation
     }
+
     const handleError = (error: AxiosError) => {
         if (error.response) {
             console.log("CALLING");
@@ -34,19 +35,18 @@ const App2 = () => {
             console.log(error.response.status);
             console.log(error.response.headers);
         } else {
+            console.log(id);
             console.log(error.message);
         }
     };
 
     async function getMemberArray(){
-        let port = process.env.PORT || 'http://localhost:8080/api/members/'+id+'/animations';
-        axios.get<Member>(port)
+        let port = process.env.PORT || 'http://localhost:8080/api/members/'+id+'/animations/completed';
+        axios.get<Member>(port, {params: {_id: id, animationCategory: "neurons", animationName: "exploring"}})
             .then(handleMemberResponse)
             .catch(handleError);
     }
     getMemberArray();
-
-
 
     return (
         <div style={{maxHeight: '65vh', maxWidth: '60vw', margin:'auto'}}>

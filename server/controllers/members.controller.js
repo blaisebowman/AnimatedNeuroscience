@@ -231,10 +231,97 @@ exports.getAnimationProgress = (req, res) => {
     res.json(req.member.animation_data);
 };
 //List a member's animation completion progress (GET)
-exports.getAnimationCompletion = (req, res) => {
+exports.getAnimationCompletion = (req, res, next) => {
+
     //to test in Postman: GET HTTP://localhost:8080/api/members/<memberId>/animations/completed
-    res.status(200);
-    res.json(req.member.animation_data.completed_animations);
+    let params = req.query;
+    console.log(params);
+    id = req.query._id;
+    let animationCategory = req.query.animationCategory;
+    let animationName= req.query.animationName;
+    console.log(req.body.params);
+    console.log(animationCategory);
+
+    Member.findOne({_id: id},(error, member) => {
+        console.log(id);
+        if (error) {
+            return res.status(400).send(error);
+        } else {
+            switch (animationCategory){
+                case "neurons":
+                    switch (animationName) {
+                        case "exploring":
+                            return res.status(200).send(member.animation_data.neurons.exploring)
+                        case "protein":
+                            return res.status(200).send(member.animation_data.neurons.protein);
+                        case "cellular":
+                            return res.status(200).send(member.animation_data.neurons.cellular);
+                        default:
+                            return res.status(400).json({error: "Cannot find the specified animation"});
+                    }
+                case "glias":
+                    switch(animationName){
+                        case "astrocyte":
+                        return res.status(200).send(member.animation_data.glias.astrocyte);
+                        case "oligodendroglia":
+                            return res.status(200).send(member.animation_data.glias.oligodendroglia);
+                        case "chemical":
+                            return res.status(200).send(member.animation_data.glias.chemical);
+                        case "cns":
+                            return res.status(200).send(member.animation_data.glias.cns);
+                        default:
+                            return res.status(400).json({error: "Cannot find the specified animation"});
+                    }
+                    case "brain":
+                    switch(animationName){
+                        case "neural":
+                            return res.status(200).send(member.animation_data.brain.neural);
+                        case "early":
+                            return res.status(200).send(member.animation_data.brain.early);
+                        case "lobes":
+                            return res.status(200).send(member.animation_data.brain.lobes);
+                        case "structure":
+                            return res.status(200).send(member.animation_data.brain.structure);
+                        default:
+                            return res.status(400).json({error: "Cannot find the specified animation"});
+                    }
+                    case "sensory":
+                    switch(animationName){
+                        case "visual":
+                            return res.status(200).send(member.animation_data.sensory.visual);
+                        case "auditory":
+                            return res.status(200).send(member.animation_data.sensory.auditory);
+                        case "olfactory":
+                            return res.status(200).send(member.animation_data.sensory.olfactory);
+                        case "pain":
+                            return res.status(200).send(member.animation_data.sensory.pain);
+                        default:
+                            return res.status(400).json({error: "Cannot find the specified animation"});
+                    }
+                    case "cerebellum":
+                    switch(animationName){
+                        case "micro":
+                            return res.status(200).send(member.animation_data.cerebellum.micro);
+                        case "pathways":
+                            return res.status(200).send(member.animation_data.cerebellum.pathways);
+                        default:
+                            return res.status(400).json({error: "Cannot find the specified animation"});
+                    }
+                case "nervous":
+                    switch(animationName){
+                        case "ans":
+                            return res.status(200).send(member.animation_data.nervous.ans);
+                        case "action":
+                            return res.status(200).send(member.animation_data.nervous.action);
+                        case "potentials":
+                            return res.status(200).send(member.animation_data.nervous.hypothalamus);
+                        default:
+                            return res.status(400).json({error: "Cannot find the specified animation"});
+                    }
+                default:
+                    return res.status(400).json({error: "Cannot find the specified animation category"});
+            }
+        }});
 };
 //List a member's suggested animations (GET)
 exports.getAnimationSuggested = (req, res) => {
@@ -244,13 +331,17 @@ exports.getAnimationSuggested = (req, res) => {
 };
 
 //Update a member's completed animations
-exports.updateAnimationCompletion = (req, res) => {
+exports.updateAnimationProgress = (req, res) => {
+    id = req.body._id;
+    animationName= req.body.animationName;
+    Member.findOne({_id: _id},(error, member) => {
+        if (error) {
+            return res.status(400).send(error);
+        } else {
+            return res.status(200).json({animation: animationName});
+        }});
+};
 
-}
-//Update a member's suggested animations
-exports.updateAnimationCompletion = (req, res) => {
-
-}
 
 exports.register = (req, res) => {
     /*

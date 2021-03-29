@@ -22,47 +22,44 @@ const memberSchema = new Schema({
     member_password_confirm: {type: String, default: 'guest'},
     creation_date: Date,
     login_dates: [{type: Date}],
-    //account_change:  {type:{type: String}, values: Date},
     account_change: {
         email_change: [Date],
         password_change: [Date]
     },
-    /*account_change: [{type: String, type: Date}],*/
-    /*account_change: [{type: String},{type: Date}],*/
     animation_data: {
-        completed_animations: {type: Array},
-        suggested_animations: {type: Array},
+        completed_animations: {type: Array, default: []},
+        suggested_animations: {type: Array, default: []},
         neurons: {
-            exploring: {type: Boolean},
-            protein: {type: Boolean},
-            cellular: {type: Boolean},
+            exploring: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            protein: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            cellular: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}}
         },
         glias: {
-            astrocyte: {type: Boolean},
-            oligodendroglia: {type: Boolean},
-            chemical: {type: Boolean},
-            cns: {type: Boolean}
+            astrocyte: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            oligodendroglia: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            chemical: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            cns: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}}
         },
         brain:{
-            neural: {type: Boolean},
-            early: {type: Boolean},
-            lobes: {type: Boolean},
-            structure: {type: Boolean}
+            neural: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            early: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            lobes: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            structure: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}}
         },
         sensory: {
-            visual: {type: Boolean},
-            auditory: {type: Boolean},
-            olfactory: {type: Boolean},
-            pain: {type: Boolean}
+            visual: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            auditory: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            olfactory: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            pain: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}}
         },
         cerebellum: {
-            micro: {type: Boolean},
-            pathways: {type: Boolean}
+            micro: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            pathways: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}}
         },
         nervous: {
-            ans: {type: Boolean},
-            action: {type: Boolean},
-            hypothalamus: {type: Boolean}
+            ans: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            action: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
+            hypothalamus: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}}
         }
     }
 });
