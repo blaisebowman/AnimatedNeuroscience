@@ -175,10 +175,6 @@ exports.update = (req, res) => {
     }
 };
 
-exports.updateName = (req, res) => {
-
-};
-
 //Delete a member's account (DELETE)
 exports.delete = (req, res) => {
     id = req.body._id;
@@ -337,12 +333,15 @@ exports.updateAnimationProgress = (req, res) => {
     let animationCategory = req.body.animationCategory;
     let animationName= req.body.animationName;
     let action = req.body.action;
+    let animationComplete = req.body.animationComplete;
     Member.findOne({_id: _id},(error, member) => {
         if (error) {
             return res.status(400).send(error);
         } else {
             let isComplete;
             let actionsCompleted;
+            let checkCompletion = (array, target) => target.every(v => array.includes(v));
+
             //has member completed animation? = member.animation_data.<animationCategory>.<animationName>.complete = true || false
             //actions has a member completed in an animation = member.animation_data.<animationCategory>.<animationName>.completedActions = []
             if (animationCategory !== "" && animationName !== "" && action !== "") {
@@ -356,6 +355,10 @@ exports.updateAnimationProgress = (req, res) => {
                                     member.animation_data.neurons.exploring.completedActions.push(action);
                                     console.log("Pushed action to array");
                                 }
+                                console.log(checkCompletion(actionsCompleted, animationComplete));
+                                if(checkCompletion(member.animation_data.neurons.exploring.completedActions, animationComplete)){
+                                    member.animation_data.neurons.exploring.complete = true;
+                                }
                                 break;
                             case "protein":
                                 isComplete = member.animation_data.neurons.protein.complete;
@@ -364,6 +367,9 @@ exports.updateAnimationProgress = (req, res) => {
                                     member.animation_data.neurons.protein.completedActions.push(action);
                                     console.log("Pushed action to array");
                                 }
+                                if(checkCompletion(member.animation_data.neurons.protein.completedActions, animationComplete)){
+                                    member.animation_data.neurons.protein.complete = true;
+                                }
                                 break;
                             case "cellular":
                                 isComplete = member.animation_data.neurons.cellular.complete;
@@ -371,6 +377,9 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.neurons.cellular.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                }
+                                if(checkCompletion(member.animation_data.neurons.cellular.completedActions, animationComplete)){
+                                    member.animation_data.neurons.cellular.complete = true;
                                 }
                                 break;
                             default:
@@ -386,6 +395,9 @@ exports.updateAnimationProgress = (req, res) => {
                                     member.animation_data.glias.astrocyte.completedActions.push(action);
                                     console.log("Pushed action to array");
                                 }
+                                if(checkCompletion(member.animation_data.glias.astrocyte.completedActions, animationComplete)){
+                                    member.animation_data.glias.astrocyte.complete = true;
+                                }
                                 break;
                             case "oligodendroglia":
                                 isComplete = member.animation_data.glias.oligodendroglia.complete;
@@ -393,6 +405,9 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.glias.oligodendroglia.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                }
+                                if(checkCompletion(member.animation_data.glias.oligodendroglia.completedActions, animationComplete)){
+                                    member.animation_data.glias.oligodendroglia.complete = true;
                                 }
                                 break;
                             case "chemical":
@@ -402,6 +417,9 @@ exports.updateAnimationProgress = (req, res) => {
                                     member.animation_data.glias.chemical.completedActions.push(action);
                                     console.log("Pushed action to array");
                                 }
+                                if(checkCompletion(member.animation_data.glias.chemical.completedActions, animationComplete)){
+                                    member.animation_data.glias.chemical.complete = true;
+                                }
                                 break;
                             case "cns":
                                 isComplete = member.animation_data.glias.cns.complete;
@@ -409,6 +427,9 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.glias.cns.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                }
+                                if(checkCompletion(member.animation_data.glias.cns.completedActions, animationComplete)){
+                                    member.animation_data.glias.cns.complete = true;
                                 }
                                 break;
                             default:
@@ -424,12 +445,18 @@ exports.updateAnimationProgress = (req, res) => {
                                     member.animation_data.brain.neural.completedActions.push(action);
                                     console.log("Pushed action to array");
                                 }
+                                if(checkCompletion(member.animation_data.brain.neural.completedActions, animationComplete)){
+                                    member.animation_data.brain.neural.complete = true;
+                                }
                                 break;
                             case "early":
                                 isComplete = member.animation_data.brain.early.complete;
                                 actionsCompleted = member.animation_data.brain.early.completedActions;
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.brain.early.completedActions.push(action);
+                                }
+                                if(checkCompletion(member.animation_data.brain.early.completedActions, animationComplete)){
+                                    member.animation_data.brain.early.complete = true;
                                 }
                                 break;
                             case "lobes":
@@ -439,6 +466,9 @@ exports.updateAnimationProgress = (req, res) => {
                                     member.animation_data.brain.lobes.completedActions.push(action);
                                     console.log("Pushed action to array");
                                 }
+                                if(checkCompletion(member.animation_data.brain.lobes.completedActions, animationComplete)){
+                                    member.animation_data.brain.lobes.complete = true;
+                                }
                                 break;
                             case "structure":
                                 isComplete = member.animation_data.brain.structure.complete;
@@ -446,6 +476,9 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.brain.structure.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                }
+                                if(checkCompletion(member.animation_data.brain.structure.completedActions, animationComplete)){
+                                    member.animation_data.brain.structure.complete = true;
                                 }
                                 break;
                             default:
@@ -461,6 +494,9 @@ exports.updateAnimationProgress = (req, res) => {
                                     member.animation_data.sensory.visual.completedActions.push(action);
                                     console.log("Pushed action to array");
                                 }
+                                if(checkCompletion(member.animation_data.sensory.visual.completedActions, animationComplete)){
+                                    member.animation_data.sensory.visual.complete = true;
+                                }
                                 break;
                             case "auditory":
                                 isComplete = member.animation_data.sensory.auditory.complete;
@@ -468,6 +504,9 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))) {
                                     member.animation_data.sensory.auditory.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                }
+                                if(checkCompletion(member.animation_data.sensory.auditory.completedActions, animationComplete)){
+                                    member.animation_data.sensory.auditory.complete = true;
                                 }
                                 break;
                             case "olfactory":
@@ -477,6 +516,9 @@ exports.updateAnimationProgress = (req, res) => {
                                     member.animation_data.sensory.olfactory.completedActions.push(action);
                                     console.log("Pushed action to array");
                                 }
+                                if(checkCompletion(member.animation_data.sensory.olfactory.completedActions, animationComplete)){
+                                    member.animation_data.sensory.olfactory.complete = true;
+                                }
                                 break;
                             case "pain":
                                 isComplete = member.animation_data.sensory.pain.complete;
@@ -484,6 +526,9 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.sensory.pain.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                }
+                                if(checkCompletion(member.animation_data.sensory.pain.completedActions, animationComplete)){
+                                    member.animation_data.sensory.pain.complete = true;
                                 }
                                 break;
                             default:
@@ -499,6 +544,9 @@ exports.updateAnimationProgress = (req, res) => {
                                     member.animation_data.cerebellum.micro.completedActions.push(action);
                                     console.log("Pushed action to array");
                                 }
+                                if(checkCompletion(member.animation_data.cerebellum.micro.completedActions, animationComplete)){
+                                    member.animation_data.cerebellum.micro.complete = true;
+                                }
                                 break;
                             case "pathways":
                                 isComplete = member.animation_data.cerebellum.pathways.complete;
@@ -506,6 +554,9 @@ exports.updateAnimationProgress = (req, res) => {
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.cerebellum.pathways.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                }
+                                if(checkCompletion(member.animation_data.cerebellum.pathways.completedActions, animationComplete)){
+                                    member.animation_data.cerebellum.pathways.complete = true;
                                 }
                                 break;
                             default:
@@ -521,6 +572,9 @@ exports.updateAnimationProgress = (req, res) => {
                                     member.animation_data.nervous.ans.completedActions.push(action);
                                     console.log("Pushed action to array");
                                 }
+                                if(checkCompletion(member.animation_data.nervous.ans.completedActions, animationComplete)){
+                                    member.animation_data.nervous.ans.complete = true;
+                                }
                                 break;
                             case "action":
                                 isComplete = member.animation_data.nervous.action.complete;
@@ -529,13 +583,19 @@ exports.updateAnimationProgress = (req, res) => {
                                     member.animation_data.nervous.action.completedActions.push(action);
                                     console.log("Pushed action to array");
                                 }
+                                if(checkCompletion(member.animation_data.nervous.action.completedActions, animationComplete)){
+                                    member.animation_data.nervous.action.complete = true;
+                                }
                                 break;
                             case "potentials":
-                                isComplete = member.animation_data.nervous.potentials.complete;
-                                actionsCompleted = member.animation_data.nervous.potentials.completedActions;
+                                isComplete = member.animation_data.nervous.hypothalamus.complete;
+                                actionsCompleted = member.animation_data.nervous.hypothalamus.completedActions;
                                 if(!(actionsCompleted.includes(action))){
-                                    member.animation_data.nervous.potentials.completedActions.push(action);
+                                    member.animation_data.nervous.hypothalamus.completedActions.push(action);
                                     console.log("Pushed action to array");
+                                }
+                                if(checkCompletion(member.animation_data.nervous.hypothalamus.completedActions, animationComplete)){
+                                    member.animation_data.nervous.hypothalamus.complete = true;
                                 }
                                 break;
                             default:
@@ -558,6 +618,9 @@ exports.updateAnimationProgress = (req, res) => {
                 }));
             }
             else {
+                console.log(animationName);
+                console.log(animationCategory);
+                console.log(action);
                 return res.status(400).json({updateAnimationError: "Either the animation's category, name, or action is an empty string."});
             }
         }});

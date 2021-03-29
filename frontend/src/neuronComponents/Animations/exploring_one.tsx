@@ -1,5 +1,6 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
+import {Message} from "semantic-ui-react";
 import axios, {AxiosResponse, AxiosError} from "axios";
 
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
@@ -8,9 +9,17 @@ const App2 = () => {
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
     const [userClicked, setUserClicked] = useState<string>("");
     const [userIsDone, setUserIsDone] = useState(false);
-    const [isListener, setIsListener] = useState(false);
-    const [memberArray, setMemberArray] = useState([]);
-    let exploringComplete: string [] = ['button_1', 'button_2','button_3', 'button_4', 'button_5', 'button_6', 'button_7', 'button_8', 'button_9', 'button_10', 'button_11']
+    const [memberArray, setMemberArray] = useState<Array<string>>([]);
+    useEffect(() => {
+        //call getMemberArray on page load, which is used to determine if the user has completed the animation.
+        if(sessionStorage.getItem("id")){
+            getMemberArray()
+        }
+    }, []);
+
+    if(sessionStorage.getItem("id")){}
+
+    let animationComplete: string [] = ["button_1", "button_2","button_3", "button_4", "button_5", "button_6", "button_7", "button_8", "button_9", "button_10", "button_11"]
     let id = sessionStorage.getItem("id");
     let port = process.env.PORT || 'http://localhost:8080/api/members/'+id+'/animations/completed';
 
@@ -20,26 +29,25 @@ const App2 = () => {
         animationCategory: string,
         animationName: string,
         complete: boolean,
-        completedActions: []
+        completedActions: [],
+        animationComplete: []
     }
 
     const handleMemberGetResponse = (response: AxiosResponse<Member>)=>{
         //response.data is the {complete: false, completedActions: []} object used to determine if an action has been completed in an animation
-        console.log(response);
         console.log(response.data);
-        console.log(response.data['complete']);
-        console.log(response.data['completedActions']);
         setUserIsDone(response.data['complete']);
         setMemberArray(response.data['completedActions']);
+        if(memberArray.every(r=> animationComplete.includes(r))){
+            console.log("I AM COMPLETE");
+            setUserIsDone(true);
+        }
     }
 
     const handleGetError = (error: AxiosError) => {
         if (error.response) {
             console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
         } else {
-            console.log(id);
             console.log(error.message);
         }
     };
@@ -50,7 +58,6 @@ const App2 = () => {
             .then(handleMemberGetResponse)
             .catch(handleGetError);
     }
-
 
     const handleMemberPostResponse = (response: AxiosResponse<Member>)=>{
         //response.data is the {complete: false, completedActions: []} object used to determine if an action has been completed in an animation
@@ -71,35 +78,30 @@ const App2 = () => {
     };
 
     async function postMemberArray(){
-        axios.post<Member>(port, {_id: id, animationCategory: "neurons", animationName: "exploring", action: userClicked},{headers: {'Content-Type': 'application/json'}})
+        axios.post<Member>(port, {_id: id, animationCategory: "neurons", animationName: "exploring", action: userClicked, animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
             .then(handleMemberPostResponse)
             .catch(handlePostError);
     }
 
-
-    animationObject?.addEventListener('click',(element) => {
-        const obj = Object.values(element);
-        //console.log(obj[1]);
+    function handleClick(event: Object){
+        const  obj = Object.values(event);
         console.log(obj[1].name);
         setUserClicked(obj[1].name);
-        getMemberArray();
-        postMemberArray();
-        setIsListener(true);
-    });
-
-    if(isListener) {
-        console.log("already clicked");
-        animationObject?.removeEventListener('click', (element) => {
-            const obj = Object.values(element);
-            //console.log(obj[1]);
-            console.log(obj[1].name);
-            setUserClicked(obj[1].name);
+        if(memberArray.includes(obj[1].name)){
+            console.log("Button already in the array.");
+        }
             getMemberArray();
             postMemberArray();
-        });
+        animationObject?.removeAllEventListeners();
     }
 
-
+if(sessionStorage.getItem("id")) {
+    //only set event listener if the page viewer is a member
+    if (!(animationObject?.hasEventListener('click'))) {
+        console.log("ADDING EVENT");
+        animationObject?.addEventListener('click', handleClick);
+    }
+}
 
     return (
         <div style={{maxHeight: '65vh', maxWidth: '60vw', margin:'auto'}}>
@@ -107,6 +109,9 @@ const App2 = () => {
                 getAnimationObject={getAnimationObject}
                 animationName="exploring"
             />
+            {userIsDone &&
+            <Message content = 'Congratulations! You completed this animation.' color='green'/>
+            }
         </div>
     );
 };
