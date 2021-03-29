@@ -332,13 +332,234 @@ exports.getAnimationSuggested = (req, res) => {
 
 //Update a member's completed animations
 exports.updateAnimationProgress = (req, res) => {
-    id = req.body._id;
-    animationName= req.body.animationName;
+    console.log(req.body);
+    let _id = req.body._id;
+    let animationCategory = req.body.animationCategory;
+    let animationName= req.body.animationName;
+    let action = req.body.action;
     Member.findOne({_id: _id},(error, member) => {
         if (error) {
             return res.status(400).send(error);
         } else {
-            return res.status(200).json({animation: animationName});
+            let isComplete;
+            let actionsCompleted;
+            //has member completed animation? = member.animation_data.<animationCategory>.<animationName>.complete = true || false
+            //actions has a member completed in an animation = member.animation_data.<animationCategory>.<animationName>.completedActions = []
+            if (animationCategory !== "" && animationName !== "" && action !== "") {
+                switch (animationCategory){
+                    case "neurons":
+                        switch (animationName) {
+                            case "exploring":
+                                isComplete = member.animation_data.neurons.exploring.complete;
+                                actionsCompleted = member.animation_data.neurons.exploring.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.neurons.exploring.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            case "protein":
+                                isComplete = member.animation_data.neurons.protein.complete;
+                                actionsCompleted = member.animation_data.neurons.protein.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.neurons.protein.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            case "cellular":
+                                isComplete = member.animation_data.neurons.cellular.complete;
+                                actionsCompleted = member.animation_data.neurons.cellular.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.neurons.cellular.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            default:
+                                return res.status(400).json({error: "Cannot find the specified animation"});
+                        }
+                        break;
+                    case "glias":
+                        switch(animationName){
+                            case "astrocyte":
+                                isComplete = member.animation_data.glias.astrocyte.complete;
+                                actionsCompleted = member.animation_data.glias.astrocyte.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.glias.astrocyte.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            case "oligodendroglia":
+                                isComplete = member.animation_data.glias.oligodendroglia.complete;
+                                actionsCompleted = member.animation_data.glias.oligodendroglia.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.glias.oligodendroglia.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            case "chemical":
+                                isComplete = member.animation_data.glias.chemical.complete;
+                                actionsCompleted = member.animation_data.glias.chemical.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.glias.chemical.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            case "cns":
+                                isComplete = member.animation_data.glias.cns.complete;
+                                actionsCompleted = member.animation_data.glias.cns.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.glias.cns.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            default:
+                                return res.status(400).json({error: "Cannot find the specified animation"});
+                        }
+                        break;
+                    case "brain":
+                        switch(animationName){
+                            case "neural":
+                                isComplete = member.animation_data.brain.neural.complete;
+                                actionsCompleted = member.animation_data.brain.neural.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.brain.neural.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            case "early":
+                                isComplete = member.animation_data.brain.early.complete;
+                                actionsCompleted = member.animation_data.brain.early.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.brain.early.completedActions.push(action);
+                                }
+                                break;
+                            case "lobes":
+                                isComplete = member.animation_data.brain.lobes.complete;
+                                actionsCompleted = member.animation_data.brain.lobes.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.brain.lobes.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            case "structure":
+                                isComplete = member.animation_data.brain.structure.complete;
+                                actionsCompleted = member.animation_data.brain.structure.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.brain.structure.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            default:
+                                return res.status(400).json({error: "Cannot find the specified animation"});
+                        }
+                        break;
+                    case "sensory":
+                        switch(animationName){
+                            case "visual":
+                                isComplete = member.animation_data.sensory.visual.complete;
+                                actionsCompleted = member.animation_data.sensory.visual.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.sensory.visual.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            case "auditory":
+                                isComplete = member.animation_data.sensory.auditory.complete;
+                                actionsCompleted = member.animation_data.sensory.auditory.completedActions;
+                                if(!(actionsCompleted.includes(action))) {
+                                    member.animation_data.sensory.auditory.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            case "olfactory":
+                                isComplete = member.animation_data.sensory.olfactory.complete;
+                                actionsCompleted = member.animation_data.sensory.olfactory.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.sensory.olfactory.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            case "pain":
+                                isComplete = member.animation_data.sensory.pain.complete;
+                                actionsCompleted = member.animation_data.sensory.pain.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.sensory.pain.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            default:
+                                return res.status(400).json({error: "Cannot find the specified animation"});
+                        }
+                        break;
+                    case "cerebellum":
+                        switch(animationName){
+                            case "micro":
+                                isComplete = member.animation_data.cerebellum.micro.complete;
+                                actionsCompleted = member.animation_data.cerebellum.micro.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.cerebellum.micro.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            case "pathways":
+                                isComplete = member.animation_data.cerebellum.pathways.complete;
+                                actionsCompleted = member.animation_data.cerebellum.pathways.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.cerebellum.pathways.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            default:
+                                return res.status(400).json({error: "Cannot find the specified animation"});
+                        }
+                        break;
+                    case "nervous":
+                        switch(animationName){
+                            case "ans":
+                                isComplete = member.animation_data.nervous.ans.complete;
+                                actionsCompleted = member.animation_data.nervous.ans.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.nervous.ans.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            case "action":
+                                isComplete = member.animation_data.nervous.action.complete;
+                                actionsCompleted = member.animation_data.nervous.action.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.nervous.action.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            case "potentials":
+                                isComplete = member.animation_data.nervous.potentials.complete;
+                                actionsCompleted = member.animation_data.nervous.potentials.completedActions;
+                                if(!(actionsCompleted.includes(action))){
+                                    member.animation_data.nervous.potentials.completedActions.push(action);
+                                    console.log("Pushed action to array");
+                                }
+                                break;
+                            default:
+                                return res.status(400).json({error: "Cannot find the specified animation"});
+                        }
+                        break;
+                    default:
+                        return res.status(400).json({error: "Cannot find the specified animation category"});
+                }
+                member.save((error => {
+                    if(error){
+                        console.log(error);
+                        res.status(400).send(error);
+                    }
+                    else {
+                        console.log(actionsCompleted);
+                        console.log("actions completed: " + actionsCompleted);
+                        return res.status(200).json({actionsCompleted: actionsCompleted});
+                    }
+                }));
+            }
+            else {
+                return res.status(400).json({updateAnimationError: "Either the animation's category, name, or action is an empty string."});
+            }
         }});
 };
 
