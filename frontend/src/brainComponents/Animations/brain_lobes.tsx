@@ -2,12 +2,15 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
 import axios, {AxiosError, AxiosResponse} from "axios";
-import {Message} from "semantic-ui-react";
+import {Message, Progress} from "semantic-ui-react";
 
 const BrainLobes= () => {
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
     console.log(animationObject);
     const [userClicked, setUserClicked] = useState<string>("");
+    const [percentComplete, setPercentComplete] = useState<number>(0);
+    const [progressMessage, setProgressMessage] = useState<string>("");
+    const [progressColor, setProgressColor] = useState<any>("black");
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
     useEffect(() => {
@@ -37,11 +40,34 @@ const BrainLobes= () => {
         console.log(response.data);
         setUserIsDone(response.data['complete']);
         setMemberArray(response.data['completedActions']);
-        if(animationComplete.every(r=> memberArray.includes(r))){
+        if (animationComplete.every(r => memberArray.includes(r))) {
+            setPercentComplete(100);
+            setProgressMessage("Congratulations, you completed this animation!");
             if (!userIsDone) {
                 console.log("The user finished the animation.");
                 setUserIsDone(true);
             }
+        }
+        else {
+            console.log(memberArray.filter(e=> !animationComplete.includes(e)));
+            //Determine percentage of animation left remaining.
+            let memberActions: string[] = response.data.completedActions;
+            let percent = (Math.round(100-(((animationComplete.length - ((animationComplete.filter(e=>memberActions.includes(e)))).length)/animationComplete.length)*100)))
+            console.log(animationComplete.filter(e=> !memberArray.includes(e)));
+            setPercentComplete(percent);
+            if(percent < 1){
+                setProgressMessage("Let's get started! Interact with the animation and monitor your progress.");
+            } else if (percent >=1 && percent < 20){
+                setProgressMessage("That's a good start, keep it up!");
+            }else if (percent >=20 && percent < 80){
+                setProgressMessage("You're making some serious progress!");
+            }else if (percent >=80 && percent < 100){
+                setProgressMessage("You're almost done!");
+            }else if (percent === 100){
+                setProgressMessage("Congratulations, you completed this animation!");
+            }
+            console.log(percent);
+            console.log(percentComplete);
         }
     }
 
@@ -113,9 +139,10 @@ const BrainLobes= () => {
                 getAnimationObject={getAnimationObject}
                 animationName="lobes_js"
             />
-            {userIsDone &&
-            <Message content = 'Congratulations! You completed this animation.' color='green'/>
-            }
+            <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                <Message content ={progressMessage}/>
+                <Progress percent={percentComplete} inverted color='green' progress/>
+            </Message>
         </div>
     );
 };

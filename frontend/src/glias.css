@@ -34,12 +34,12 @@
     border: 0 !important;
     box-shadow: none !important;
     margin-top: 0 !important;
-    margin-left: 0rem !important;
+    margin-left: 0 !important;
 }
 .category {
     box-shadow: 0 0 0 0.2rem rgba(27,77,228,1.0) !important;
     border-radius: 0.4rem !important;
-    border: 0px solid rgba(27,77,228,1.0) !important;
+    border: 0 solid rgba(27,77,228,1.0) !important;
 }
 .gridParent {
     margin-left: -0.5rem !important;
@@ -68,7 +68,7 @@
 .ui.dropdown>.dropdown.icon {
     color: #ffffff !important;
     margin-top: 0.25rem !important;
-    margin-left: 0rem !important;
+    margin-left: 0 !important;
 }
 .noPadding {
     padding: 0 !important;
