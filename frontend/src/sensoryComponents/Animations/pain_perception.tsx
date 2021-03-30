@@ -19,15 +19,14 @@ const PainPerception = () => {
             getMemberArray();
         }
     }, []);
-    //due to the intricacies of this animation in particular, we will consider a small amount of buttons to count as complete.
     /*
-    somatosensory or [*back13,back12, back9, back7, back4] from thalamus
-    thalamus or [*back19,back18,back17,back16,back15,back14] or [*ff12, ff13, ff14, ff15, ff16, ff17, ff18]
-    gate or [*back22,back21, back20] or [*ff18, ff19, ff20, ff21]
-    senseReceptors or [*ff21]
-    hover buttons: [throb2, throbbob, throb1, thrboblob, throbalice]
-    mc_btns (click): [mc_btn1, ma_btn2, mc_btn3, ma_btn4, mc_btn5, ma_btn6, mc_btn7, ma_btn8, mc_btn9, ma_btn10]
-
+    FOR 'COMPLETION':
+    #1] somatosensory or [*back13,back12, back9, back7, back4] from thalamus
+    #2] thalamus or [*back19,back18,back17,back16,back15,back14] or [*ff12, ff13, ff14, ff15, ff16, ff17, ff18]
+    #3] gate or [*back22,back21, back20] or [*ff18, ff19, ff20, ff21]
+    #4] senseReceptors or [*ff21]
+    #5] hover buttons: [throb2, throbbob, throb1, thrboblob, throbalice]
+    #6] mc_btns/ma_btns (click): [mc_btn1, ma_btn2, mc_btn3, ma_btn4, mc_btn5, ma_btn6, mc_btn7, ma_btn8, mc_btn9, ma_btn10]
      */
     let animationComplete: string [] = ["throb2", "throbbob", "throb1", "thrboblob", "throbalice", "back4", "back8", "back11", "back12", "back13", "back14", "back15", "back16", "back17", "back18", "back19", "back20", "back21", "ff21", "mc_btn1", "ma_btn2", "mc_btn3", "ma_btn4", "mc_btn5", "ma_btn6", "mc_btn7", "ma_btn8", "mc_btn9", "ma_btn10"];
     let needToCountHover: string [] = ["throb2", "throbbob", "throb1", "thrboblob", "throbalice"];
@@ -37,7 +36,7 @@ const PainPerception = () => {
     let port = process.env.PORT || 'http://localhost:8080/api/members/'+id+'/animations/completed';
 
     interface Member {
-        //parameters to be passed in GET request.
+        //parameters to be passed in GET/POST request.
         _id: string,
         animationCategory: string,
         animationName: string,
