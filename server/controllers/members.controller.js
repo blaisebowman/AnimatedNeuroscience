@@ -306,7 +306,7 @@ exports.getAnimationCompletion = (req, res, next) => {
                             return res.status(200).send(member.animation_data.nervous.ans);
                         case "action":
                             return res.status(200).send(member.animation_data.nervous.action);
-                        case "potentials":
+                        case "hypothalamus":
                             return res.status(200).send(member.animation_data.nervous.hypothalamus);
                         default:
                             return res.status(400).json({error: "Cannot find the specified animation"});
@@ -393,8 +393,6 @@ exports.updateAnimationProgress = (req, res) => {
                             case "astrocyte":
                                 isComplete = member.animation_data.glias.astrocyte.complete;
                                 actionsCompleted = member.animation_data.glias.astrocyte.completedActions;
-
-console.log("PUSHED: " + action);
                                 if(!(actionsCompleted.includes(action))){
                                     member.animation_data.glias.astrocyte.completedActions.push(action);
                                     console.log("Pushed action to array");
@@ -608,7 +606,7 @@ console.log("PUSHED: " + action);
                                     member.animation_data.nervous.action.complete = true;
                                 }
                                 break;
-                            case "potentials":
+                            case "hypothalamus":
                                 isComplete = member.animation_data.nervous.hypothalamus.complete;
                                 actionsCompleted = member.animation_data.nervous.hypothalamus.completedActions;
                                 if(!(actionsCompleted.includes(action))){

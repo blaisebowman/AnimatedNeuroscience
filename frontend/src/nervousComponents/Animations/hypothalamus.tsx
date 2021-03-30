@@ -7,9 +7,14 @@ import {Message} from "semantic-ui-react";
 const Hypothalamus = () => {
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
     const [userClicked, setUserClicked] = useState<string>("");
-    const [userHover, setUserHover] = useState<string>("");
+    const [percentComplete, setPercentComplete] = useState<string>("");
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
+    //FOR 'COMPLETION': Mobile: require clicks. Desktop: require hover OR clicks
+    let animationComplete: string [] = ["inputBtn", "outputBtn", "overviewBtn", "trhBtn", "crhBtn", "gnrhBtn", "ghrhBtn", "somatostatinBtn", "prfBtn", "adhBtn", "oxytocinBtn"];
+    let id = sessionStorage.getItem("id");
+    let port = process.env.PORT || 'http://localhost:8080/api/members/' + id + '/animations/completed';
+
     useEffect(() => {
         //call getMemberArray on page load, which is used to determine if the user has completed the animation.
         if (sessionStorage.getItem("id")) {
@@ -17,11 +22,6 @@ const Hypothalamus = () => {
         }
     }, []);
 
-    //FOR 'COMPLETION': Mobile: require clicks. Desktop: require hover/or clicks
-
-    let animationComplete: string [] = ["inputBtn", "outputBtn", "overviewButton", "trhBtn", "crhBtn", "gnrhBtn", "ghrhBtn", "somatostatinBtn", "prfBtn", "adhBtn", "oxytocinBtn"];
-    let id = sessionStorage.getItem("id");
-    let port = process.env.PORT || 'http://localhost:8080/api/members/' + id + '/animations/completed';
 
     interface Member {
         //parameters to be passed in GET/POST request.
@@ -38,7 +38,6 @@ const Hypothalamus = () => {
         console.log(response.data);
         setUserIsDone(response.data['complete']);
         setMemberArray(response.data['completedActions']);
-        console.log(animationComplete.filter(e => !memberArray.includes(e)));
         if (animationComplete.every(r => memberArray.includes(r))) {
             if (!userIsDone) {
                 console.log("The user finished the animation.");
@@ -46,7 +45,10 @@ const Hypothalamus = () => {
             }
         }
         else {
-            console.log(memberArray.filter(e=> !animationComplete.includes(e)));
+            //Determine percentage of animation left remaining.
+            console.log(animationComplete.filter(e=> !memberArray.includes(e)));
+            setPercentComplete((Math.round(100-(((animationComplete.length - ((animationComplete.filter(e=>memberArray.includes(e)))).length)/animationComplete.length)*100))).toString());
+            console.log(percentComplete);
         }
     }
 
@@ -60,7 +62,7 @@ const Hypothalamus = () => {
 
     async function getMemberArray() {
         //get a member's progress on the exploring animation
-        await axios.get<Member>(port, {params: {_id: id, animationCategory: "cerebellum", animationName: "pathways"}})
+        await axios.get<Member>(port, {params: {_id: id, animationCategory: "nervous", animationName: "hypothalamus"}})
             .then(handleMemberGetResponse)
             .catch(handleGetError);
     }
