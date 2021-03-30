@@ -1,12 +1,9 @@
 import React, {useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
-import PageHeader from "../components/PageHeader";
-import NavigationBar from "../components/NavigationBar";
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 
 import '../glias.css';
-
 
 function CellularPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);

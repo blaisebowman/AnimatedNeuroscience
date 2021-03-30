@@ -1,6 +1,5 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {Message} from "semantic-ui-react";
@@ -10,7 +9,6 @@ const OlfactorySystem = () => {
     const [userClicked, setUserClicked] = useState<string>("");
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
-
     useEffect(() => {
         //call getMemberArray on page load, which is used to determine if the user has completed the animation.
         if(sessionStorage.getItem("id")){

@@ -1,6 +1,5 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
 import {Message} from "semantic-ui-react";
 import axios, {AxiosError, AxiosResponse} from "axios";
