@@ -1,12 +1,13 @@
 const mongoose = require ('mongoose'),
     Member = require('../models/member.model'),
+    Mailer = require('../email/emailSender')
     util  = require('util'),
     bcrypt = require('bcryptjs'),
     jwt = require('jsonwebtoken'),
     validateRegister = require('../validation/register'),
     validateLogin = require('../validation/login'),
-    validateUpdate = require('../validation/update'),
-    email = require('./email.controller');
+    validateUpdate = require('../validation/update');
+
 
 //List all the information of a member in the database (GET)
 
@@ -196,25 +197,55 @@ exports.delete = (req, res) => {
     });
 }
 
+exports.updateEmail =(req, res) => {
+
+}
+exports.initialRegistration =(req, res) => {
+
+}
+
+exports.forgotPassword = (req, res) =>{
+    const memberId  = req.body._id;
+    const sendTo = req.body.member_email;
+    const firstName = req.body.member_first;
+    const resetPasswordLink = process.env.RESET_PASSWORD_LINK || ck.resetPasswordLink;
+    Member.findOne({_id: memberId}, (error, member) => {
+        console.log(memberId);
+        if(error){
+            console.log(error);
+            return res.status(400).send(error);
+        }
+        else {
+            if(sendTo){
+                const forgotPassword = {
+                    from: "animatedneuroscience@gmail.com",
+                    to: sendTo,
+                    subject: "Animated Neuroscience Password Reset",
+                    data: {userName: firstName, resetPasswordLink: resetPasswordLink}
+                }
+                Mailer.send(forgotPassword).then(r => {console.log("Successfully sent forgot password email.")}).catch(error => {console.log(error)});
+                return res.status(200).json({success: "Email sent"});
+            }
+        }});
+}
+
 exports.findMemberById = (req, res, next, id) => {
     //find a member by their member ID.
-    //console.log(id);
         Member.findById(id).exec((error, member) => {
             console.log(id);
-            //console.log(member);
             if (error) {
-                if (member === undefined) {
+                if(member === undefined) {
                     console.log("undefined member");
+                    console.log(member);
                 }
-                res.status(400);
-                res.json({memberWithId: 'A member with that ID does not exist in the database.'});
+                console.log(error);
+                return res.status(400).json({memberWithId: 'A member with that ID does not exist in the database.'});
             } else {
                 req.member = member;
                 next();
                 console.log("A member was found in database with the given ID.");
             }
         });
-
 }
 
 //List a member's animation data (GET)
