@@ -20,12 +20,14 @@ module.exports.init = function() {
             //handle initial connection error
             console.log("Initial connection error: " + error + '\n\t' + process.env.MONGODB_URI);
             console.log(process.env.MONGODB_URI);
-
         }
     );
     mongoose.connection.on('error', error => {
         console.log(error);
     });
+
+    //console.log(mongoose.connection.collections);
+
 
     const app = express();
 

@@ -1,6 +1,6 @@
 const mongoose = require ('mongoose'),
     Member = require('../models/member.model'),
-    Mailer = require('../email/emailSender')
+    Mailer = require('../email/emailSender'),
     util  = require('util'),
     bcrypt = require('bcryptjs'),
     jwt = require('jsonwebtoken'),
@@ -14,6 +14,9 @@ const mongoose = require ('mongoose'),
 if(process.env.NODE_ENV === 'production'){
     console.log("In production mode. Disable log statements -> hide log statements from console.");
     console.log = function (){};
+}
+else {
+    require('mongoose').set('debug', true);
 }
 
 exports.test = (req, res) => {
@@ -29,9 +32,13 @@ exports.list = (req, res) => {
         if(error){
             res.status(400).send(error);
         }
+        if(member.length === 0){
+            console.log("No members in the database");
+        }
         else {
+            console.log(member);
             res.status(200);
-            res.json(member);
+            return res.json(member);
         }
     }).lean();
 };
@@ -208,7 +215,7 @@ exports.forgotPassword = (req, res) =>{
     const memberId  = req.body._id;
     const sendTo = req.body.member_email;
     const firstName = req.body.member_first;
-    const resetPasswordLink = process.env.RESET_PASSWORD_LINK || ck.resetPasswordLink;
+    const resetPasswordLink = req.body.resetPasswordLink;
     Member.findOne({_id: memberId}, (error, member) => {
         console.log(memberId);
         if(error){
@@ -230,17 +237,12 @@ exports.forgotPassword = (req, res) =>{
 }
 
 exports.findMemberById = (req, res, next, id) => {
-    //find a member by their member ID.
         Member.findById(id).exec((error, member) => {
-            console.log(id);
             if (error) {
-                if(member === undefined) {
-                    console.log("undefined member");
-                    console.log(member);
-                }
-                console.log(error);
-                return res.status(400).json({memberWithId: 'A member with that ID does not exist in the database.'});
-            } else {
+                console.log("A member was found in database with the given ID.");
+                res.status(400);
+                return res.json({memberWithId: 'A member with that ID does not exist in the database.'});
+            } else{
                 req.member = member;
                 next();
                 console.log("A member was found in database with the given ID.");
@@ -756,19 +758,23 @@ exports.login = (req, res) => {
     else {
         const memberEmail = req.body.member_email;
         const memberPassword = req.body.member_password;
-        Member.findOne({member_email: req.body.member_email},(error, member) => {
+        Member.findOne({member_email: memberEmail},(error, member) => {
             if(error){
                 return res.status(400).send(error);
             }
             else {
-                if(member === null){
-                    res.status(400);
-                    return res.json({loginEmailError: "We can't find an account associated with that email. Please double-check your email address."});
+                console.log('if');
+                if(member === null){/*
+                c
+                    console.log(member);
+                    console.log(memberEmail);
+                    console.log(member.member_email);*/
+                   /* res.status(400);
+                    return res.json({loginEmailError: "We can't find an account associated with that email. Please double-check your email address."});*/
                 }
                 else {
                     //memberPassword -> plain text password
                     //member.member_password -> hashed password associated with member in database
-                    console.log(memberPassword);
                     console.log(member);
                     console.log(member.member_password)
                     console.log("Validating member password.");

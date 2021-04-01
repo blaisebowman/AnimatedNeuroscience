@@ -1,12 +1,8 @@
-const members = require('../controllers/members.controller.js'),
-    emails = require('../controllers/email.controller.js'),
+const members = require('../controllers/members.controller'),
     express = require('express'),
     router = express.Router();
 
-module.exports = router;
-
 router.param('memberId', members.findMemberById);
-let memberId = members.findMemberById;
 
 router.route('/')
     .get(members.list);
@@ -14,7 +10,7 @@ router.route('/')
 /*router.route('/search')
     .get(members.filterMembers);*/
 
-router.route('/register/')
+router.route('/register')
     .post(members.register);
 
 router.route('/login')
@@ -47,12 +43,4 @@ router.route('/:memberId/animations/completed')
 router.route('/:memberId/animations/suggested')
     .get(members.getAnimationSuggested);
 
-
-
-
-
-
-/*
-router.param('memberId', members.findMemberById);
-*/
 module.exports = router;

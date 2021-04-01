@@ -73,6 +73,6 @@ memberSchema.pre('save', function(next){
     next();
 });
 
-const Member = mongoose.model('Member', memberSchema);
+const Member = mongoose.model('Member', memberSchema, 'members');
 
 module.exports = Member;
