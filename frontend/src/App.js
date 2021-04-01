@@ -1,7 +1,6 @@
 import './App.css';
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Switch, Route, withRouter, Redirect} from "react-router-dom";
-/*import EntryPage from "./components/Entry";*/ //import only if using the entry page, which you are not, as of now
 import Introduction from "./components/Introduction";
 import Neurons from "./components/Neurons";
 import ExploringPage from "./neuronComponents/Exploring";
@@ -34,6 +33,7 @@ import RegisterPage from "./components/RegisterPage";
 import PageHeader from "./components/PageHeader";
 import NavigationBar from "./components/NavigationBar";
 import SettingsPage from "./components/SettingsPage";
+import ForgotPasswordPage from "./components/ForgotPassword";
 
 class App extends Component {
   render () {
@@ -78,6 +78,7 @@ class App extends Component {
                 <Route exact path='/register' component={withRouter(RegisterPage)}/>
                 <Route exact path='/login' component={withRouter(LoginPage)}/>
                 <Route exact path='/settings' component={withRouter(SettingsPage)}/>
+                <Route exact path='/forgotpassword' component={withRouter(ForgotPasswordPage)}/>
             </Switch>
         </Router>
     );
