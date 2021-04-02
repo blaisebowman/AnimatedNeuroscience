@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {Message, Progress} from "semantic-ui-react";
+import {ProgressDimmer} from "../../styledComponents";
 
 const BrainDevelopment= () => {
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
@@ -13,10 +14,22 @@ const BrainDevelopment= () => {
     const [progressColor, setProgressColor] = useState<any>("black");
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
+    const [userIsMember, setUserIsMember] = useState<boolean>(false);
+
+    if(process.env.NODE_ENV === 'production'){
+        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        console.log = function (){};
+    }
+
     useEffect(() => {
         //call getMemberArray on page load, which is used to determine if the user has completed the animation.
-        if(sessionStorage.getItem("id")){
+        if (sessionStorage.getItem("id")) {
             getMemberArray();
+            setUserIsMember(true);
+            console.log("Page Initial Load.");
+        }
+        else {
+            setUserIsMember(false);
         }
     }, []);
 /*NOTE: this animation has many ways to navigate (play, step-through, step back, etc.) To be considered 'complete'. the user will only have to
@@ -147,6 +160,9 @@ logic to mis-align between the desktop and mobile version. Therefore, we will as
                 animationName="brainDevelopment"
             />
             <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                <ProgressDimmer active={!userIsMember}>
+                    <Message content='To track your progress, register or login to your account.'/>
+                </ProgressDimmer>
                 <Message content ={progressMessage}/>
                 <Progress percent={percentComplete} inverted color='green' progress/>
             </Message>

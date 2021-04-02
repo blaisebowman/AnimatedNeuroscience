@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {Message, Progress} from "semantic-ui-react";
+import {ProgressDimmer} from "../../styledComponents";
 
 const Hypothalamus = () => {
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
@@ -12,6 +13,7 @@ const Hypothalamus = () => {
     const [progressColor, setProgressColor] = useState<any>("black");
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
+    const [userIsMember, setUserIsMember] = useState<boolean>(false);
     //FOR 'COMPLETION': Mobile: require clicks. Desktop: require hover OR clicks
     let animationComplete: string [] = ["inputBtn", "outputBtn", "overviewBtn", "trhBtn", "crhBtn", "gnrhBtn", "ghrhBtn", "somatostatinBtn", "prfBtn", "adhBtn", "oxytocinBtn"];
     let id = sessionStorage.getItem("id");
@@ -21,7 +23,11 @@ const Hypothalamus = () => {
         //call getMemberArray on page load, which is used to determine if the user has completed the animation.
         if (sessionStorage.getItem("id")) {
             getMemberArray();
+            setUserIsMember(true);
             console.log("Page Initial Load.");
+        }
+        else {
+            setUserIsMember(false);
         }
     }, []);
 
@@ -152,6 +158,9 @@ const Hypothalamus = () => {
                 animationName="hypothalamusJS"
             />
             <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                <ProgressDimmer active={!userIsMember}>
+                    <Message content='To track your progress, register or login to your account.'/>
+                </ProgressDimmer>
                 <Message content ={progressMessage}/>
                 <Progress percent={percentComplete} inverted color='green' progress/>
             </Message>

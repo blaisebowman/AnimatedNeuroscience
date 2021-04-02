@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
 import {Message, Progress} from "semantic-ui-react";
 import axios, {AxiosError, AxiosResponse} from "axios";
+import {ProgressDimmer} from "../../styledComponents";
 
 const VisualSystem = () => {
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
@@ -14,10 +15,22 @@ const VisualSystem = () => {
     const [progressColor, setProgressColor] = useState<any>("black");
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
+    const [userIsMember, setUserIsMember] = useState<boolean>(false);
+
+    if(process.env.NODE_ENV === 'production'){
+        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        console.log = function (){};
+    }
+
     useEffect(() => {
         //call getMemberArray on page load, which is used to determine if the user has completed the animation.
-        if(sessionStorage.getItem("id")){
+        if (sessionStorage.getItem("id")) {
             getMemberArray();
+            setUserIsMember(true);
+            console.log("Page Initial Load.");
+        }
+        else {
+            setUserIsMember(false);
         }
     }, []);
     //only need the second to last button of certain animations to ensure completition
@@ -180,6 +193,9 @@ const VisualSystem = () => {
                 animationName="menu_js"
             />
             <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                <ProgressDimmer active={!userIsMember}>
+                    <Message content='To track your progress, register or login to your account.'/>
+                </ProgressDimmer>
                 <Message content ={progressMessage}/>
                 <Progress percent={percentComplete} inverted color='green' progress/>
             </Message>

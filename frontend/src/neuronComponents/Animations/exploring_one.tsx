@@ -2,15 +2,14 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {Message, Progress} from "semantic-ui-react";
 import axios, {AxiosResponse, AxiosError} from "axios";
-
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
+import {ProgressDimmer} from "../../styledComponents";
 
 const App2 = () => {
-    /*if(process.env.NODE_ENV === 'production'){
+    if(process.env.NODE_ENV === 'production'){
         console.log("In production mode. Disable log statements -> hide log statements from console.");
         console.log = function (){};
-    }*/
-
+    }
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
     const [userClicked, setUserClicked] = useState<string>("");
     const [percentComplete, setPercentComplete] = useState<number>(0);
@@ -18,10 +17,17 @@ const App2 = () => {
     const [progressColor, setProgressColor] = useState<any>("black");
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
+    const [userIsMember, setUserIsMember] = useState<boolean>(false);
+
     useEffect(() => {
         //call getMemberArray on page load, which is used to determine if the user has completed the animation.
-        if(sessionStorage.getItem("id")){
-            getMemberArray()
+        if (sessionStorage.getItem("id")) {
+            getMemberArray();
+            setUserIsMember(true);
+            console.log("Page Initial Load.");
+        }
+        else {
+            setUserIsMember(false);
         }
     }, []);
 
@@ -146,6 +152,9 @@ if(sessionStorage.getItem("id")) {
                 animationName="exploring"
             />
             <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                <ProgressDimmer active={!userIsMember}>
+                    <Message content='To track your progress, register or login to your account.'/>
+                </ProgressDimmer>
                 <Message content ={progressMessage}/>
                 <Progress percent={percentComplete} inverted color='green' progress/>
             </Message>
