@@ -21,6 +21,7 @@ function RegisterPage(props) {
     const [email, setEmail] = useState("");
     const [isMaskedPassword, setIsMaskedPassord] = useState("password");
     const [isMaskedPasswordConfirm, setIsMaskedPassordConfirm] = useState("password");
+    const [emailExists, setEmailExists] = useState(false);
     const nameRegex = /^(?!-)(?!.*-$)[a-zA-Z-]/;
     const emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
@@ -101,6 +102,7 @@ function RegisterPage(props) {
     function handleChangeEmail(e, {name, value}){
         setErrorStateEmail("");
         setEmail(value);
+        setEmailExists(false);
     }
 
     function handleChangeCheck(e, {name, value}){
@@ -151,6 +153,9 @@ function RegisterPage(props) {
                     console.log(error.response);
                     console.log(error.response.headers);
                     console.log(error.response.status);
+                    if (error.response.data.registerError !== undefined){
+                        setEmailExists(true);
+                    }
                 });
         }
         else {
@@ -178,7 +183,6 @@ function RegisterPage(props) {
                                                         </Card.Description>
                                                     </MessageLogin>
                                                 </Card.Content>
-
                                                 <Card.Content extra>
                                                     <Form onSubmit={handleSubmit}>
                                                         <Form.Group widths='equal'>
@@ -215,7 +219,6 @@ function RegisterPage(props) {
                                                             onChange={handleChangePassword}
                                                             /*onClick={checkCapsLock}
                                                             onKeyDown={checkCapsLock}*/
-
                                                             action={<Button.Group basic>
                                                                 <Button icon onClick={toggleMask} name='password'><Icon name='eye'/></Button>
                                                             </Button.Group>
@@ -246,6 +249,12 @@ function RegisterPage(props) {
                                                             error={errorStateEmail !== "" ? errorStateEmail : false}
                                                             onChange={handleChangeEmail}
                                                         />
+                                                        {emailExists &&
+                                                        <Message color='red'>That email is already associated with an account. Would you like to login?
+                                                            <Divider/>
+                                                            <Button as={Link} to='/login' color='green'>Login</Button>
+                                                        </Message>
+                                                        }
                                                         <Form.Checkbox
                                                             label='I Agree to the Terms and Conditions of An Animated Discovery of Neuroscience.'
                                                             onChange={handleChangeCheck}

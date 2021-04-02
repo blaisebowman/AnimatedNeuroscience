@@ -705,12 +705,14 @@ exports.register = (req, res) => {
         const memberEmail = req.body.member_email;
         Member.findOne({member_email: memberEmail}, (error, member) => {
             if(error){
-                //Member is already registered (prompt user and redirect to login page on frontend);
                 return res.status(400).send(error);
             }
             else {
+                if (member.member_email === memberEmail){
+                    return res.status(400).json({registerError: "There is already an account associated with that email address."});
+                }
                 // No member is the database is associated with the registration email (new user)
-                if(member === null){
+                else {
                     console.log("Registering a new member");
                     const newMember = new Member({
                         member_first: req.body.member_first,
@@ -740,9 +742,6 @@ exports.register = (req, res) => {
                             }
                         });
                     });
-                } else {
-                    //member !== null
-                    return res.status(400).json({userExists: "Email is already registered to another user."});
                 }
             }
         })
@@ -800,7 +799,6 @@ exports.login = (req, res) => {
                                   return res.json(id);
                               }
                           }));
-
                       }
                       else {
                           res.status(400);
