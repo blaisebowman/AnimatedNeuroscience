@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Form, Message, Dimmer} from 'semantic-ui-react';
+import {Form, Message, Dimmer, Card} from 'semantic-ui-react';
 
 //tentative styled components, eventually replacing the usage of !important in .css and .scss files.
 
@@ -24,5 +24,12 @@ export const SubmitButton = styled(Form.Button)`
     background-color: #e7600c !important;
     font-weight: 900;
     }
-
+`
+export const CustomCardDescription = styled(Card.Description)`
+color: white !important;
+background-color: #000000 !important;
+    &&& > .ui.button {
+    background-color: #e7600c !important;
+    font-weight: 900;
+    }
 `

@@ -8,23 +8,13 @@ const mongoose = require ('mongoose'),
     validateLogin = require('../validation/login'),
     validateUpdate = require('../validation/update');
 
-
-//List all the information of a member in the database (GET)
-
 if(process.env.NODE_ENV === 'production'){
     console.log("In production mode. Disable log statements -> hide log statements from console.");
     console.log = function (){};
-}
-else {
+} else {
     require('mongoose').set('debug', true);
 }
 
-exports.test = (req, res) => {
-    console.log("Testing GET");
-    res.status(200);
-    res.json("TESTING...TESTING...123S");
-    console.log("Test GET request posted successfully.");
-}
 
 //List information of all members in the database (GET)
 exports.list = (req, res) => {
@@ -205,10 +195,10 @@ exports.delete = (req, res) => {
 }
 
 exports.updateEmail =(req, res) => {
-
+//TODO -> Set up email sent to user upon changing their email address.
 }
 exports.initialRegistration =(req, res) => {
-
+//TODO -> Handle initial registration email.
 }
 
 exports.forgotPassword = (req, res) =>{
@@ -749,13 +739,15 @@ exports.register = (req, res) => {
 }
 
 exports.login = (req, res) => {
-    /*
-    To test in Postman: http://localhost:8080/api/login
-    {
+    /* To test in Postman:
+    1. [POST] HTTP://localhost:8080/api/login
+    2. Body -> raw -> JSON
+    3. {
     "member_email": "xxxxxxx",
-    "member_password": "yyyyyy"
+    "member_password": "yyyyyyyy"
     }
-     */
+    4. Press Send
+    */
     const {loginError, loginValid} = validateLogin(req.body);
     if (!loginValid){
         console.log(loginError);
@@ -769,20 +761,12 @@ exports.login = (req, res) => {
                 return res.status(400).send(error);
             }
             else {
-                console.log('if');
-                if(member === null){/*
-                c
-                    console.log(member);
-                    console.log(memberEmail);
-                    console.log(member.member_email);*/
-                   /* res.status(400);
-                    return res.json({loginEmailError: "We can't find an account associated with that email. Please double-check your email address."});*/
+                if(member === null){
+                //
                 }
                 else {
                     //memberPassword -> plain text password
                     //member.member_password -> hashed password associated with member in database
-                    console.log(member);
-                    console.log(member.member_password)
                     console.log("Validating member password.");
                     bcrypt.compare(memberPassword, member.member_password).then(passwordValidate => {
                       if(passwordValidate){

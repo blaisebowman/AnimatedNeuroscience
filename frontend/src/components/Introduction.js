@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useHistory} from "react-router";
-import {Grid, GridColumn, Segment, Image, Divider, List, Icon, Card,} from "semantic-ui-react";
+import {Grid, GridColumn, Segment, Image, Divider, List, Icon, Card, Message} from "semantic-ui-react";
+import  {CustomCardDescription} from '../styledComponents';
 import '../introduction.css';
 import cise from '../images/cise.jpg';
 
@@ -18,7 +19,6 @@ function Introduction(props) {
     if(sessionStorage.getItem("memberLoggedIn")){
         id = sessionStorage.getItem("id");
         console.log(id);
-        /*history.push(event.target.value + id);*/
     }
 
     return (
@@ -40,9 +40,9 @@ function Introduction(props) {
                                             </Card></Grid.Column>
                                             <Grid.Column>
                                                 <Card>
-                                                    <Card.Description>
+                                                    <CustomCardDescription>
                                                         Objective
-                                                    </Card.Description>
+                                                    </CustomCardDescription>
                                                     <Card.Content textAlign='left'>
                                                         This web site is intended to provide basic
                                                         developmental, anatomical, and physiological information regarding the brain
@@ -51,9 +51,9 @@ function Introduction(props) {
                                                     </Card.Content>
                                                 </Card>
                                                 <Card>
-                                                    <Card.Description>
+                                                    <CustomCardDescription>
                                                        Audience
-                                                    </Card.Description>
+                                                    </CustomCardDescription>
                                                     <Card.Content textAlign='left'>
                                                         The target audience is the senior undergraduate and/or beginning
                                                         graduate student interested in pursuing a research career in "Computational
@@ -72,6 +72,10 @@ function Introduction(props) {
                                     </Grid.Column>
                                     <Grid.Column columnWidth={8}>
                                         <Card fluid>
+                                            <CustomCardDescription>
+                                                History
+                                                <Icon name='book' className='iconContributor'/>
+                                            </CustomCardDescription>
                                             <Card.Content textAlign='left'>
                                                 The site is the result of a continuing
                                                 series of undergraduate senior projects performed under the guidance of Dr.
@@ -82,10 +86,10 @@ function Introduction(props) {
                                         </Card>
                                         <Divider horizontal/>
                                         <Card fluid>
-                                            <Card.Description>
+                                            <CustomCardDescription>
                                                 Contributors
                                                 <Icon name='users' className='iconContributor'/>
-                                            </Card.Description>
+                                            </CustomCardDescription>
                                             <Card.Content>
                                                 <List divided relaxed className="contributors">
                                                 <List.Item>Kelly A. Haiber (Fall '04, Spring '05)</List.Item>

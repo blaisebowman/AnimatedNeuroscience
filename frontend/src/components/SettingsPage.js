@@ -56,6 +56,7 @@ function SettingsPage(props) {
     }
 
     useEffect(()=> {
+        //TODO -> Mobile Caps Lock Detection (iOS, Android)
         const handleCapsLock = (e) => {
             const deviceIsMac = /Mac/.test(navigator.platform);
             if (deviceIsMac && e.keyCode === 57) {
@@ -180,7 +181,6 @@ function SettingsPage(props) {
             id = sessionStorage.getItem("id");
         }
         setCompletedAnimations([]); //replace with the backend's data on a user
-        //get a member's animation completion from the backend, convert into a list
     }
 
     function handlePassword() {
@@ -336,7 +336,6 @@ function SettingsPage(props) {
                 _id: id
             }
         };
-
         await axios(config)
             .then(function (response) {
                 console.log(JSON.stringify(response.data));
