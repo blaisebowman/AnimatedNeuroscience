@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Button, Card, Divider, Form, Grid, Header, Icon, Image, Input, Message, Segment} from "semantic-ui-react"
+import React, {useEffect, useState} from "react";
+import {Button, Card, Divider, Form, Grid, Header, Icon, Image, Input, Message, Modal, Segment} from "semantic-ui-react"
 import {Link, Redirect} from "react-router-dom";
 import axios from "axios";
 
@@ -7,6 +7,7 @@ function LoginPage(props) {
     const [redirect, setRedirect] = useState(false);
     const [height, setHeight] = useState(null);
     const [width, setWidth] = useState(null);
+
     const [errorStateEmail, setErrorStateEmail] = useState("");
     const [errorStatePassword, setErrorStatePassword] = useState("");
     const [password, setPassword] = useState("");
@@ -16,12 +17,21 @@ function LoginPage(props) {
     const [currentInputForm, setCurrentInputForm] = useState("");
     const [isCaps, setIsCaps] = useState(false);
     const [isMasked, setIsMasked] = useState("password");
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
+    const [forgotPasswordError, setForgotPasswordError] = useState("");
+    const [forgotPasswordSuccess, setForgotPasswordSuccess] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
     if(process.env.NODE_ENV === 'production'){
         console.log("In production mode. Disable log statements -> hide log statements from console.");
         console.log = function (){};
     }
+
+    /*useEffect(()=>{
+        console.log("Updated password error " + forgotPasswordError);
+    },[forgotPasswordError]);*/
+
     function checkCapsLock(e){
         const deviceIsMac = /Mac/.test(navigator.platform);
         console.log(e.target.name);
@@ -70,13 +80,20 @@ function LoginPage(props) {
         }
     }
 
-    function checkBadCharacters (email, password) {
+    function checkBadCharacters (email, password, type) {
         //check to make sure the email and password are in the proper format (prior to making comparisons in the backend).
-        if (!(emailRegex.test(email))) {
-            setErrorStateEmail("Please enter a valid email address.");
+        if (type === "forgotPassword"){
+            if (!(emailRegex.test(email))) {
+                setForgotPasswordError("Please enter a valid email address.");
+            }
         }
-        if (!(passwordRegex.test(password))) {
-            setErrorStatePassword("Your password is incorrect. Please double-check your password.");
+        else if(type === "login") {
+            if (!(emailRegex.test(email))) {
+                setErrorStateEmail("Please enter a valid email address.");
+            }
+            if (!(passwordRegex.test(password))) {
+                 setErrorStatePassword("Your password is incorrect. Please double-check your password.");
+            }
         }
     }
 
@@ -95,10 +112,65 @@ function LoginPage(props) {
         setPassword(value);
     }
 
+    function handleClickForgotPassword(e){
+        e.preventDefault(); //prevent page from re-rendering
+        setModalVisible(true);
+    }
+
+    function handleForgotPasswordCancel(e){
+        e.preventDefault(); //prevent page from re-rendering
+        setModalVisible(false);
+        setForgotPasswordEmail("");
+        setForgotPasswordError("");
+    }
+
+    function handleChangeForgotPassword(e, {name, value}){
+        //keep track of the forgot password input field as a user types
+        e.preventDefault();
+        setForgotPasswordError("");
+        setForgotPasswordEmail(value);
+        console.log(value);
+    }
+
+    async function handleForgotPasswordSubmit(e){
+        //e.preventDefault();
+        console.log(forgotPasswordError);
+        console.log(forgotPasswordEmail.length === 0);
+        await checkBadCharacters(forgotPasswordEmail, "", "forgotPassword");
+        console.log(forgotPasswordError);
+        if(forgotPasswordError.length === 0 && forgotPasswordEmail.length !== 0){
+            //setForgotPasswordEmail(forgotPasswordEmail);
+            let port = process.env.PORT || 'http://localhost:8080/api/members/forgotPassword';
+            //VVVVVVV********HANDLE FOR DEPLOYMENT*******VVVVVVV
+            let resetPassLink = 'http://localhost:3030/resetPassword'
+            //^^^^^^^********HANDLE FOR DEPLOYMENT*******^^^^^
+            await axios.post(port, {member_email: forgotPasswordEmail, resetPasswordLink: resetPassLink},{headers: {'Content-Type': 'application/json'}})
+                .then(function(response) {
+                    console.log(response.data);
+                    setForgotPasswordError("");
+                    //setRedirect(true);
+                    /*setPassword('');
+                    setEmail('');
+                    setForgotPasswordEmail('');*/
+                }).catch(function(error) {
+                    console.log(error.response);
+                    if (error.response.data.forgotPasswordError !== undefined){
+                        setForgotPasswordError(error.response.data.forgotPasswordError);
+                    }
+                    else {
+                        //setForgotPasswordError("");
+                    }
+                    console.log("Error validating user email in the backend.");
+                });
+        }
+        else {
+            console.log("Unsuccessful submission of forgot password.");
+        }
+    }
+
     async function handleSubmit (){
-        console.log("email: " + email + "\npassword: " + password);
         console.log("Email error state: " + errorStateEmail + "\nPassword error state: " + errorStatePassword);
-        checkBadCharacters(email, password);
+        checkBadCharacters(email, password, "login");
         console.log("Email error state: " + errorStateEmail + "\nPassword error state: " + errorStatePassword);
         if((errorStateEmail.length === 0 && errorStatePassword.length === 0) && (email.length >=3 && password.length >=8)){
             setEmail(email);
@@ -143,7 +215,7 @@ function LoginPage(props) {
     }
 
     function toggleMask(){
-
+            //T0-DO
     }
 
     return (
@@ -195,13 +267,45 @@ function LoginPage(props) {
                                                     {capsLockPassword &&
                                                     <Message content='Warning: Caps Lock is enabled.' color='yellow'/>
                                                     }
-                                                    <Link to = "/register">Forgot your password?</Link>
-                                                    {/*
-                                                    Link to a pop-up that connects to the backend, prompts for email, sends email to user link to one-time login.
-                                                    Link directs user to reset their password. Have as a seperate page.
-                                                    */}
+                                                    <Button onClick={handleClickForgotPassword}>Forget your password?</Button>
+                                                    <Modal
+                                                        open={modalVisible}
+                                                    >
+                                                        <Modal.Header styles={{textAlign: "middle"}}
+                                                                      className='myModalHeader'>Please enter the email associated with your account.</Modal.Header>
+                                                        <Modal.Actions className='myModalActions'>
+                                                            <Form>
+                                                                <Form.Group widths='equal'>
+                                                                    <Form.Field
+                                                                        control={Input}
+                                                                        label='Email Address Registered to Your Account'
+                                                                        placeholder=''
+                                                                        name='forgotPasswordEmail'
+                                                                        value={forgotPasswordEmail}
+                                                                        error = {forgotPasswordError !== "" ? forgotPasswordError : false}
+                                                                        onChange={handleChangeForgotPassword}
+                                                                    />
+                                                                </Form.Group>
+                                                            </Form>
+                                                            <Button
+                                                                content='Cancel Password Reset'
+                                                                labelPosition='right'
+                                                                icon='cancel'
+                                                                onClick={handleForgotPasswordCancel}
+                                                                negative
+                                                            />
+                                                            <Button
+                                                                content='Send Password Reset Link.'
+                                                                labelPosition='right'
+                                                                icon='checkmark'
+                                                                onClick={handleForgotPasswordSubmit}
+                                                                positive
+                                                                type = 'submit'
+                                                            />
+                                                        </Modal.Actions>
+                                                    </Modal>
+
                                                 <Divider/>
-                                                    <Form.Button content='Submit' color='blue' />
                                                 </Form>
                                                 {redirect &&
                                                 <Redirect to={{pathname: '/introduction'}}/>

@@ -94,7 +94,7 @@ exports.read = (req, res) => {
         }});
 }
 
-//Update a member's login credentials (PUT)
+//UPDATE A MEMBER'S LOGIN CREDENTIALS
 exports.update = (req, res) => {
     const {updateErrors, updateValid} = validateUpdate(req.body);
     if(!updateValid){
@@ -212,26 +212,33 @@ exports.initialRegistration =(req, res) => {
 }
 
 exports.forgotPassword = (req, res) =>{
-    const memberId  = req.body._id;
     const sendTo = req.body.member_email;
-    const firstName = req.body.member_first;
     const resetPasswordLink = req.body.resetPasswordLink;
-    Member.findOne({_id: memberId}, (error, member) => {
-        console.log(memberId);
+    Member.findOne({member_email: sendTo}, (error, member) => {
         if(error){
             console.log(error);
-            return res.status(400).send(error);
+            return res.status(400).json({forgotPasswordError: "There is not an account associated with that email address. Please double-check your password."});
         }
         else {
-            if(sendTo){
-                const forgotPassword = {
-                    from: "animatedneuroscience@gmail.com",
-                    to: sendTo,
-                    subject: "Animated Neuroscience Password Reset",
-                    data: {userName: firstName, resetPasswordLink: resetPasswordLink}
+            if(!member){
+                console.log(error);
+                return res.status(400).json({forgotPasswordError: "There is not an account associated with that email address. Please double-check your password."})
+            }
+            else {
+                if (member.member_email === sendTo) {
+                    const forgotPassword = {
+                        from: "animatedneuroscience@gmail.com",
+                        to: sendTo,
+                        subject: "Animated Neuroscience Password Reset",
+                        data: {userName: member.member_first, resetPasswordLink: resetPasswordLink}
+                    }
+                    Mailer.send(forgotPassword).then(r => {
+                        console.log("Successfully sent forgot password email.");
+                    }).catch(error => {
+                        console.log(error)
+                    });
+                    return res.status(200).json({success: "Email sent"});
                 }
-                Mailer.send(forgotPassword).then(r => {console.log("Successfully sent forgot password email.")}).catch(error => {console.log(error)});
-                return res.status(200).json({success: "Email sent"});
             }
         }});
 }

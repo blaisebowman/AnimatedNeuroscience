@@ -4,7 +4,7 @@ const validator = require('validator'),
 module.exports = function validateRegister(arguments){
     let registerErrors = {}; //initialize register errors object
     let nameRegex = /^(?!-)(?!.*-$)[a-zA-Z-]+$/;
-    let emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    let emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
     let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/; //at least 8 characters, maximum of 20 characters. At least one upper-case letter, one lower-case letter, and at least one integer.
     //*First name
     arguments.member_first = !isEmpty(arguments.member_first) ? arguments.member_first : "";

@@ -22,7 +22,7 @@ router.route('/initialRegistration')
 router.route('/updateEmail')
     .post(members.updateEmail);
 
-router.route('/:memberId/forgotPassword')
+router.route('/forgotPassword')
     .post(members.forgotPassword);
 
 router.route('/:memberId/read')
