@@ -47,9 +47,6 @@
 .noPadding {
     padding: 0 !important;
     margin: 0 !important;
-    /*
-    background-color: #000000 !important;
-    */
 }
 
 .topRow {
@@ -110,20 +107,3 @@
     content: '.';
     visibility: hidden;
 }
-
-/*
-.transition-enter {
-    opacity: 1;
-}
-
-.transition-enter-active {
-    opacity: 1;
-}
-
-.transition-exit {
-    opacity: 1;
-}
-
-.transition-exit-active {
-    opacity: 1;
-}*/

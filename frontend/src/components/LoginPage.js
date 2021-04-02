@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Button, Card, Divider, Form, Grid, Header, Icon, Image, Input, Message, Modal, Segment} from "semantic-ui-react"
+import {MessageLogin, SubmitButton} from "../styledComponents";
 import {Link, Redirect} from "react-router-dom";
 import axios from "axios";
+import "../modal.css"
 
 function LoginPage(props) {
     const [redirect, setRedirect] = useState(false);
@@ -114,6 +116,7 @@ function LoginPage(props) {
 
     function handleClickForgotPassword(e){
         e.preventDefault(); //prevent page from re-rendering
+        setIsMasked("password"); //ensure password is masked upon returning from a forgot password request
         setModalVisible(true);
     }
 
@@ -122,14 +125,15 @@ function LoginPage(props) {
         setModalVisible(false);
         setForgotPasswordEmail("");
         setForgotPasswordError("");
+        setForgotPasswordSuccess(false);
     }
 
     function handleChangeForgotPassword(e, {name, value}){
         //keep track of the forgot password input field as a user types
         e.preventDefault();
-        setForgotPasswordError("");
         setForgotPasswordEmail(value);
-        console.log(value);
+        setForgotPasswordError("");
+        setForgotPasswordSuccess(false);
     }
 
     async function handleForgotPasswordSubmit(e){
@@ -152,6 +156,7 @@ function LoginPage(props) {
                     /*setPassword('');
                     setEmail('');
                     setForgotPasswordEmail('');*/
+                    setForgotPasswordSuccess(true);
                 }).catch(function(error) {
                     console.log(error.response);
                     if (error.response.data.forgotPasswordError !== undefined){
@@ -214,8 +219,14 @@ function LoginPage(props) {
         }
     }
 
-    function toggleMask(){
-            //T0-DO
+    function toggleMask(e){
+        e.preventDefault(); //prevent page from re-rendering
+        if(isMasked === "password"){
+            setIsMasked("text");
+        }
+        else {
+            setIsMasked("password");
+        }
     }
 
     return (
@@ -230,11 +241,10 @@ function LoginPage(props) {
                                     <Grid.Column width={8} className={'firstCol'}>
                                         <Card fluid>
                                             <Card.Content>
-                                                <Card.Description>Login to your Account</Card.Description>
+                                                <MessageLogin>
+                                                    <Message.Header>Welcome Back!</Message.Header>
+                                                </MessageLogin>
                                             </Card.Content>
-                                            <Card.Description>
-                                                Welcome Back!
-                                            </Card.Description>
                                             <Card.Content extra>
                                                 <Form onSubmit={handleSubmit}>
                                                     <Form.Field
@@ -251,7 +261,9 @@ function LoginPage(props) {
                                                     {capsLockEmail &&
                                                     <Message content='Warning: Caps Lock is enabled.' color='yellow'/>
                                                     }
+                                                    <Form.Group>
                                                     <Form.Field
+                                                        width={16}
                                                         type= {isMasked}
                                                         control={Input}
                                                         label='Password'
@@ -262,17 +274,20 @@ function LoginPage(props) {
                                                         onChange={handleChangePassword}
                                                         onClick={checkCapsLock}
                                                         onKeyDown={checkCapsLock}
+                                                        actionPosition='right'
+                                                        action={<Button.Group basic>
+                                                            <Button icon onClick={toggleMask} ><Icon name='eye'/></Button>
+                                                            <Icon name='eye'/>
+                                                        </Button.Group>
+                                                            }
                                                     />
-                                                    {/*<Button icon='eye' onClick={toggleMask}/>*/}
+                                                    </Form.Group>
                                                     {capsLockPassword &&
                                                     <Message content='Warning: Caps Lock is enabled.' color='yellow'/>
                                                     }
                                                     <Button onClick={handleClickForgotPassword}>Forget your password?</Button>
-                                                    <Modal
-                                                        open={modalVisible}
-                                                    >
-                                                        <Modal.Header styles={{textAlign: "middle"}}
-                                                                      className='myModalHeader'>Please enter the email associated with your account.</Modal.Header>
+                                                    <Modal open={modalVisible}>
+                                                        <Modal.Header styles={{textAlign: "middle"}} className='myModalHeader'>Please enter the email associated with your account.</Modal.Header>
                                                         <Modal.Actions className='myModalActions'>
                                                             <Form>
                                                                 <Form.Group widths='equal'>
@@ -287,6 +302,9 @@ function LoginPage(props) {
                                                                     />
                                                                 </Form.Group>
                                                             </Form>
+                                                            {forgotPasswordSuccess &&
+                                                            <Message success header='We found your account!' content='Check your email for a link to reset your password.' className='forgotPasswordSuccess'/>
+                                                            }
                                                             <Button
                                                                 content='Cancel Password Reset'
                                                                 labelPosition='right'
@@ -295,7 +313,7 @@ function LoginPage(props) {
                                                                 negative
                                                             />
                                                             <Button
-                                                                content='Send Password Reset Link.'
+                                                                content='Send Password Reset Link'
                                                                 labelPosition='right'
                                                                 icon='checkmark'
                                                                 onClick={handleForgotPasswordSubmit}
@@ -304,8 +322,8 @@ function LoginPage(props) {
                                                             />
                                                         </Modal.Actions>
                                                     </Modal>
-
                                                 <Divider/>
+                                                    <SubmitButton content='Submit' color='blue'/>
                                                 </Form>
                                                 {redirect &&
                                                 <Redirect to={{pathname: '/introduction'}}/>

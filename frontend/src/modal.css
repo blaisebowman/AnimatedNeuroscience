@@ -6,5 +6,9 @@
 }
 
 .myCardHeader {
-background-color: white !important;
+    background-color: white !important;
+}
+
+.formButton {
+    display: block !important;
 }
