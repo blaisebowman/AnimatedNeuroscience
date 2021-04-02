@@ -9,7 +9,6 @@ function LoginPage(props) {
     const [redirect, setRedirect] = useState(false);
     const [height, setHeight] = useState(null);
     const [width, setWidth] = useState(null);
-
     const [errorStateEmail, setErrorStateEmail] = useState("");
     const [errorStatePassword, setErrorStatePassword] = useState("");
     const [password, setPassword] = useState("");
@@ -285,7 +284,6 @@ function LoginPage(props) {
                                                     {capsLockPassword &&
                                                     <Message content='Warning: Caps Lock is enabled.' color='yellow'/>
                                                     }
-                                                    <Button onClick={handleClickForgotPassword}>Forget your password?</Button>
                                                     <Modal open={modalVisible}>
                                                         <Modal.Header styles={{textAlign: "middle"}} className='myModalHeader'>Please enter the email associated with your account.</Modal.Header>
                                                         <Modal.Actions className='myModalActions'>
@@ -322,9 +320,18 @@ function LoginPage(props) {
                                                             />
                                                         </Modal.Actions>
                                                     </Modal>
-                                                <Divider/>
                                                     <SubmitButton content='Submit' color='blue'/>
                                                 </Form>
+                                                <Divider/>
+                                                <Grid>
+                                                    <Grid.Row>
+                                                    <Grid.Column width={16}>
+                                                        <Button onClick={handleClickForgotPassword}>Forget your password?</Button>
+                                                    </Grid.Column>
+                                                    </Grid.Row>
+                                                </Grid>
+                                                <Divider/>
+                                                <Link to="/register">Don't have an account? <u>Sign up</u>.</Link>
                                                 {redirect &&
                                                 <Redirect to={{pathname: '/introduction'}}/>
                                                 }

@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Button, Card, Divider, Grid, Icon, Segment, Form, Input, Message} from "semantic-ui-react"
+import {MessageLogin, SubmitButton} from "../styledComponents";
 import {Link, Redirect} from "react-router-dom";
 import axios from 'axios';
 
@@ -169,11 +170,15 @@ function RegisterPage(props) {
                                         <Grid.Column width={8} className={'firstCol'}>
                                             <Card fluid>
                                                 <Card.Content>
-                                                    <Card.Description>Create an Account</Card.Description>
+                                                    <MessageLogin>
+                                                        <Message.Header>Create an Account!</Message.Header>
+                                                    <Divider/>
+                                                        <Card.Description>
+                                                            Monitor your progress and hit your learning goals!
+                                                        </Card.Description>
+                                                    </MessageLogin>
                                                 </Card.Content>
-                                                <Card.Description>
-                                                    Monitor your progress and hit your learning goals!
-                                                </Card.Description>
+
                                                 <Card.Content extra>
                                                     <Form onSubmit={handleSubmit}>
                                                         <Form.Group widths='equal'>
@@ -250,7 +255,7 @@ function RegisterPage(props) {
                                                         <Form.Button content='Submit' color='blue'/>
                                                     </Form>
                                                     <Divider/>
-                                                    <Link to="/login">Already a Member? Click here to login.</Link>
+                                                    <Link to="/login">Already a Member? <u>Login</u>.</Link>
                                                     {redirect &&
                                                     <Redirect to={'/introduction'}/>
                                                     }

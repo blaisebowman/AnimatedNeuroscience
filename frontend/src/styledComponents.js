@@ -9,6 +9,11 @@ export const MessageLogin = styled(Message)`
         border-radius: 1.5rem !important;
         color: rgba(0, 0, 0, 0.87) !important;
 `
+export const MessageSubtitle = styled(Message)`
+        background: #f2f2f2 !important;
+        border-radius: 1.5rem !important;
+        color: rgba(0, 0, 0, 0.87) !important;
+`
 
 export const SubmitButton = styled(Form.Button)`
     &&& > .ui.button {
