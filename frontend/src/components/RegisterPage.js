@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Card, Divider, Grid, Header, Icon, Image, Segment, Form, Input, Message, List} from "semantic-ui-react"
+import {Button, Card, Divider, Grid, Icon, Segment, Form, Input, Message} from "semantic-ui-react"
 import {Link, Redirect} from "react-router-dom";
 import axios from 'axios';
 
@@ -18,10 +18,36 @@ function RegisterPage(props) {
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [email, setEmail] = useState("");
+    const [isMaskedPassword, setIsMaskedPassord] = useState("password");
+    const [isMaskedPasswordConfirm, setIsMaskedPassordConfirm] = useState("password");
     const nameRegex = /^(?!-)(?!.*-$)[a-zA-Z-]/;
     const emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
-    //const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
+
+    if(process.env.NODE_ENV === 'production'){
+        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        console.log = function (){};
+    }
+
+    function toggleMask(e, {name}){
+        e.preventDefault(); //prevent page from re-rendering
+        if (name === "password"){
+            if(isMaskedPassword === "password"){
+                setIsMaskedPassord("text");
+            }
+            else {
+                setIsMaskedPassord("password");
+            }
+        }
+        else if (name === "passwordConfirm"){
+            if(isMaskedPasswordConfirm === "password"){
+                setIsMaskedPassordConfirm("text");
+            }
+            else {
+                setIsMaskedPassordConfirm("password");
+            }
+        }
+    }
 
     function checkBadCharacters (first, last, password, passwordConfirmation, email){
         if(!(nameRegex.test(first))){
@@ -55,22 +81,27 @@ function RegisterPage(props) {
         setErrorStateFirst("");
         setFirst(value);
     }
+
     function handleChangeLast(e, {name, value}){
         setErrorStateLast("");
         setLast(value);
     }
+
     function handleChangePassword(e, {name, value}){
         setErrorStatePassword("");
         setPassword(value);
     }
+
     function handleChangePasswordConfirm(e, {name, value}){
         setErrorStatePasswordConfirm("");
         setPasswordConfirm(value);
     }
+
     function handleChangeEmail(e, {name, value}){
         setErrorStateEmail("");
         setEmail(value);
     }
+
     function handleChangeCheck(e, {name, value}){
         if(errorStateCheck !== "checked"){
             setErrorStateCheck("checked");
@@ -81,7 +112,6 @@ function RegisterPage(props) {
     }
 
    async function handleSubmit (){
-        console.log(first + " " + last + " " + password + " " + email);
         console.log(errorStateCheck);
         console.log(errorStateFirst);
         console.log(errorStateLast);
@@ -92,19 +122,17 @@ function RegisterPage(props) {
         if(errorStateFirst.length === 0 && errorStateLast.length === 0 && errorStateEmail.length === 0 && errorStatePassword.length === 0 && errorStatePasswordConfirm.length === 0 && errorStateCheck === "checked"){
             //CHECK IF EMAIL IS ALREADY WITHIN THE DATA-BASE, then prompt login page or forgot password.
             console.log("Successful submission");
-            console.log(first + " " + last + " " + password + " " + email);
             setFirst(first);
             setLast(last);
             setPassword(password);
             setPasswordConfirm(passwordConfirm);
             setEmail(email);
-            console.log(first + " " + last + " " + password + " " + email);
             let port = process.env.PORT || 'http://localhost:8080/api/members/register'
             await axios.post(port, {
                 member_first: first,
                 member_last: last,
                 member_email: email,
-               member_password: password,
+                member_password: password,
                 member_password_confirm: passwordConfirm,
             }, {headers: {'Content-Type': 'application/json'}})
                 .then(function(response) {
@@ -168,27 +196,42 @@ function RegisterPage(props) {
                                                                 onChange={handleChangeLast}
                                                             />
                                                         </Form.Group>
+                                                        <Message size='mini' attached='bottom'>Passwords must be between
+                                                            8-20 characters and contain at least one number, one
+                                                            upper-case letter, and one lower-case letter. </Message>
                                                         <Form.Field
+                                                            type= {isMaskedPassword}
                                                             control={Input}
                                                             label='Password'
                                                             placeholder=''
                                                             name='password'
                                                             value={password}
-                                                            error={errorStatePassword !== "" ? errorStatePassword : false}
+                                                            error={errorStatePassword.length !== 0 ? errorStatePassword : false}
                                                             onChange={handleChangePassword}
+                                                            /*onClick={checkCapsLock}
+                                                            onKeyDown={checkCapsLock}*/
+
+                                                            action={<Button.Group basic>
+                                                                <Button icon onClick={toggleMask} name='password'><Icon name='eye'/></Button>
+                                                            </Button.Group>
+                                                            }
                                                         />
-                                                        <Message size='mini' attached='bottom'>Password must be between
-                                                            8-20 characters and contain at least one number, one
-                                                            upper-case letter, and one lower-case letter. </Message>
                                                         <Form.Field
-                                                            control={Input}
-                                                            label='Confirm Password'
-                                                            placeholder=''
-                                                            name='passwordConfirm'
-                                                            value={passwordConfirm}
-                                                            error={errorStatePasswordConfirm.length !== 0 ? errorStatePasswordConfirm : false}
-                                                            onChange={handleChangePasswordConfirm}
-                                                        />
+                                                        type= {isMaskedPasswordConfirm}
+                                                        control={Input}
+                                                        label='Confirm Password'
+                                                        placeholder=''
+                                                        name='passwordConfirm'
+                                                        value={passwordConfirm}
+                                                        error={errorStatePasswordConfirm.length !== 0 ? errorStatePasswordConfirm : false}
+                                                        onChange={handleChangePasswordConfirm}
+                                                        /*onClick={checkCapsLock}
+                                                        onKeyDown={checkCapsLock}*/
+                                                        action={<Button.Group basic>
+                                                            <Button icon onClick={toggleMask} name='passwordConfirm'><Icon name='eye'/></Button>
+                                                        </Button.Group>
+                                                        }
+                                                    />
                                                         <Form.Field
                                                             control={Input}
                                                             label='Email'
@@ -199,7 +242,7 @@ function RegisterPage(props) {
                                                             onChange={handleChangeEmail}
                                                         />
                                                         <Form.Checkbox
-                                                            label='I agree to the Terms and Conditions of An Animated Discovery of Neuroscience.'
+                                                            label='I Agree to the Terms and Conditions of An Animated Discovery of Neuroscience.'
                                                             onChange={handleChangeCheck}
                                                             error={(errorStateCheck.length !== 0 && errorStateCheck !== "checked") ? errorStateCheck : false}
                                                             onClick={handleChangeCheck}
