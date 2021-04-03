@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {Link, Redirect, useHistory} from "react-router-dom";
-import {Grid, Segment, Button, Card, Icon, Divider, List, Menu, Message, Modal, Form, Input } from "semantic-ui-react"
-
+import {Grid, Segment, Button, Card, Icon, Divider, List, Menu, Message, Modal, Form, Input, Dropdown, Table } from "semantic-ui-react"
+import {CustomMenuItem, CustomProgressHeader, CustomProgressMenu, CustomProgressDropdown} from "../styledComponents";
 import '../neurons.css';
 import '../glias.css';
 import '../modal.css';
 import axios from "axios";
 
 function SettingsPage(props) {
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/
+    const emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -32,11 +32,35 @@ function SettingsPage(props) {
     const [currentInputForm, setCurrentInputForm] = useState("");
     const [isCaps, setIsCaps] = useState(false);
     const [isMasked, setIsMasked] = useState("password");
+    const [options, setOptions] = useState([
+        {key: 1, text: 'Number Completed (High - Low)', value: 'Number Completed (High - Low)'},
+        {key: 2, text: 'Number Completed (Low - High)', value: 'Number Completed (Low - High'},
+        {key: 3, text: 'Time Remaining (High-Low)', value: 'Time Remaining (High-Low)'},
+        {key: 4, text: 'Time Remaining (Low-High)', value: 'Time Remaining (Low-High)'}
+        ]);
+    const [dropdownOption, setDropdownOption] = useState("Number Completed (High - Low)");
+    const [animationsInfo, setAnimationsInfo] = useState([
+        {name: "", complete: "", remaining: "", percentage: "", time: ""},
+        {name: "", complete: "", remaining: "", percentage: "", time: ""},
+        {name: "", complete: "", remaining: "", percentage: "", time: ""},
+        {name: "", complete: "", remaining: "", percentage: "", time: ""},
+        {name: "", complete: "", remaining: "", percentage: "", time: ""},
+        {name: "", complete: "", remaining: "", percentage: "", time: ""},
+    ]);
 
     if(process.env.NODE_ENV === 'production'){
         console.log("In production mode. Disable log statements -> hide log statements from console.");
         console.log = function (){};
     }
+
+    useEffect(()=>{
+        //TODO
+        //run only on change to Animation Progress
+        if(currentTab === "progress"){
+            //Axios GET request (getAnimationsSorted) to return the array of animation objects determined in the backend
+            //setAnimationsInfo(PLACEHOLDER);
+        }
+        }, [currentTab]);
 
     function changeTabs() {
         //ensure errors and values are set to default values on changes in the menu selection
@@ -348,6 +372,19 @@ function SettingsPage(props) {
             });
     }
 
+    function handleDropdownEnter (){
+        //TODO
+    }
+
+    function handleDropdownLeave (){
+        //TODO
+    }
+
+    function handleDropdownSelection (){
+        //TODO
+        //Axios get request with parameters passed
+    }
+
     return (
         <div className="App">
             <Segment className="body">
@@ -366,9 +403,9 @@ function SettingsPage(props) {
                                     <Grid.Row columns={3}>
                                         <Grid.Column width={3}>
                                             <Menu vertical fluid>
-                                                <Menu.Item name='msg'>
+                                                <CustomMenuItem name='msg'>
                                                     Account Settings
-                                                </Menu.Item>
+                                                </CustomMenuItem>
                                                 <Menu.Item name='progress' onClick={handleProgress}>
                                                     <Icon name='trophy'/>
                                                     View My Progress
@@ -389,17 +426,88 @@ function SettingsPage(props) {
                                         </Grid.Column>
                                         <Grid.Column width={13}>
                                             {currentTab === "progress" &&
-                                            <Card fluid>
-                                                <Card.Content>
-                                                    Monitor your Progress!
-                                                </Card.Content>
-                                                <Card.Content>
-                                                    Completed Animations
-                                                </Card.Content>
-                                                <Card.Content>
-                                                    Remaining Animations
-                                                </Card.Content>
-                                            </Card>
+                                                <CustomProgressMenu vertical fluid>
+                                                    <CustomMenuItem>
+                                                        Your Progress
+                                                    </CustomMenuItem>
+
+                                                    <Menu.Item>
+                                                        <Message>
+                                                            <Grid columns={2}>
+                                                                <Grid.Column width={12} textAlign='left' verticalAlign='middle'>
+                                                                    <CustomProgressHeader>
+                                                                        Animation Completion By Category
+                                                                    </CustomProgressHeader>
+                                                                </Grid.Column>
+                                                                <Grid.Column width={4} textAlign='middle' float='left'>
+                                                                    <CustomProgressDropdown
+                                                                        text='Sort By'
+                                                                        onMouseEnter={handleDropdownEnter}
+                                                                        onMouseLeave={handleDropdownLeave}
+                                                                        onClick = {handleDropdownSelection}
+                                                                        options ={options}
+                                                                        placeholder='Sort By: '
+                                                                        selection
+                                                                        value ={dropdownOption}
+                                                                    />
+                                                                </Grid.Column>
+                                                            </Grid>
+                                                        </Message>
+                                                        <Message>
+                                                            <Table>
+                                                                <Table.Header>
+                                                                    <Table.Row>
+                                                                        <Table.HeaderCell>Animation Category</Table.HeaderCell>
+                                                                        <Table.HeaderCell>Number Completed</Table.HeaderCell>
+                                                                        <Table.HeaderCell>Number Remaining</Table.HeaderCell>
+                                                                        <Table.HeaderCell>Estimated Time</Table.HeaderCell>
+                                                                    </Table.Row>
+                                                                </Table.Header>
+                                                                <Table.Body>
+                                                                    <Table.Row>
+                                                                    <Table.HeaderCell>{animationsInfo[0].name}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[0].complete}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[0].remaining}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[0].time}</Table.HeaderCell>
+                                                                    </Table.Row>
+                                                                    <Table.Row>
+                                                                    <Table.HeaderCell>{animationsInfo[1].name}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[1].complete}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[1].remaining}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[1].time}</Table.HeaderCell>
+                                                                    </Table.Row>
+                                                                    <Table.Row>
+                                                                    <Table.HeaderCell>{animationsInfo[2].name}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[2].complete}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[2].remaining}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[2].time}</Table.HeaderCell>
+                                                                    </Table.Row> 
+                                                                    <Table.Row>
+                                                                    <Table.HeaderCell>{animationsInfo[3].name}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[3].complete}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[3].remaining}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[3].time}</Table.HeaderCell>
+                                                                    </Table.Row>
+                                                                    <Table.Row>
+                                                                    <Table.HeaderCell>{animationsInfo[4].name}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[4].complete}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[4].remaining}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[4].time}</Table.HeaderCell>
+                                                                    </Table.Row>
+                                                                    <Table.Row>
+                                                                    <Table.HeaderCell>{animationsInfo[5].name}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[5].complete}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[5].remaining}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[5].time}</Table.HeaderCell>
+                                                                    </Table.Row>
+                                                                </Table.Body>
+                                                            </Table>
+                                                        </Message>
+                                                        <Dropdown>
+                                                        </Dropdown>
+                                                    </Menu.Item>
+                                                </CustomProgressMenu>
+
                                             }
                                             {currentTab === "email" &&
                                             <Card fluid>

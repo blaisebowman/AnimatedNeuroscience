@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Form, Message, Dimmer, Card} from 'semantic-ui-react';
+import {Dropdown, Form, Menu, Message, Dimmer, Card, Header} from 'semantic-ui-react';
 
 //tentative styled components, eventually replacing the usage of !important in .css and .scss files.
 
@@ -33,3 +33,46 @@ background-color: #000000 !important;
     font-weight: 900;
     }
 `
+export const CustomMenuItem = styled(Menu.Item)`
+text-align: center !important;
+color: white !important;
+background-color: #000000 !important;
+`
+export const CustomProgressMenuItem = styled(Menu.Item)`
+text-align: center !important;
+color: white !important;
+background-color: #000000 !important;
+    &&& > .ui.button {
+    background-color: #e7600c !important;
+    font-weight: 900;
+    }
+`
+export const CustomProgressMenu = styled(Menu)`
+color: white !important;
+&&& > .ui.menu .item {
+text-align: center !important;
+}
+`
+export const CustomProgressHeader = styled(Header)`
+font-family: "lato", sans-serif !important;
+color: black !important;
+`
+
+export const CustomProgressDropdown = styled(Dropdown)`
+color: black !important;
+min-width: 100% !important;
+&&& > .ui.dropdown>.text {
+color: #0000000 !important;
+}
+
+&&& > .ui.dropdown:not(.button)>.default.text {
+color: #0000000 !important;
+text-color: #000000 !important;
+}
+&&& > .dropdown.icon {
+       color: #000000 !important;
+       margin-top: 0 !important;
+       padding-top: 0 !important;
+}
+`
+

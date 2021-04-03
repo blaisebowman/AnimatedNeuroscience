@@ -3,6 +3,7 @@ const nodemailer = require('nodemailer');
 const ck = require('ckey');
 
 class Mail {
+    //TODO -> change so it takes in a parameter of which email to send (initial email, change password email, 'change email' email)
     static async send(message){
         let user = process.env.LOGIN_EMAIL || ck.LOGIN_EMAIL;
         let password = process.env.PASSWORD_EMAIL || ck.PASSWORD_EMAIL;

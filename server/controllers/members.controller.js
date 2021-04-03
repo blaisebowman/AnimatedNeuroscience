@@ -353,6 +353,40 @@ exports.getAnimationSuggested = (req, res) => {
     res.json(req.member.animation_data.suggested_animations);
 };
 
+exports.getAnimationSorted = (req, res) => {
+    //TODO
+    //To be used in animation progress page on frontend
+    //returns the array of animation data (sorted according to req.body.filter)
+    //to test in Postman: GET HTTP://localhost:8080/api/members/<memberId>/animations
+    id = req.body.id;
+    sortBy = req.body.sortBy;
+    let returnArray =[{},{},{},{},{},{}];
+    Member.findOne({_id: id}, (error, member) => {
+        if(error){
+            return res.status(400).json({progressError: "There was an error returning the member's progress."});
+        }
+        else {
+            switch(sortBy){
+                case "Number Completed (High - Low)":
+
+                    break;
+                case "Number Completed (Low - High)":
+
+                    break;
+                case "Time Remaining (High-Low)":
+
+                    break;
+                case "Time Remaining (Low-High)":
+
+                    break;
+                default:
+                    return res.status(400).json({progressError: "An invalid sorting parameter was passed."});
+            }
+            return res.status(200).json({sortedData: returnArray});
+        }
+    });
+};
+
 //Update a member's completed animations
 exports.updateAnimationProgress = (req, res) => {
     console.log(req.body);

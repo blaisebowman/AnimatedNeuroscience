@@ -7,9 +7,6 @@ router.param('memberId', members.findMemberById);
 router.route('/')
     .get(members.list);
 
-/*router.route('/search')
-    .get(members.filterMembers);*/
-
 router.route('/register')
     .post(members.register);
 
@@ -42,5 +39,8 @@ router.route('/:memberId/animations/completed')
 
 router.route('/:memberId/animations/suggested')
     .get(members.getAnimationSuggested);
+
+router.route('/:memberId/animations/sorted')
+    .get(members.getAnimationSorted);
 
 module.exports = router;

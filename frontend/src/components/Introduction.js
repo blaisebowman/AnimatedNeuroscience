@@ -64,10 +64,7 @@ function Introduction(props) {
                                         </Grid>
                                         </Grid.Row>
                                         <Grid.Row>
-                                            <Divider>
-
-                                            </Divider>
-
+                                            <Divider/>
                                         </Grid.Row>
                                     </Grid.Column>
                                     <Grid.Column columnWidth={8}>
