@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Card, Divider, Grid, Icon, Segment, Form, Input, Message} from "semantic-ui-react"
 import {MessageLogin, SubmitButton} from "../styledComponents";
 import {Link, Redirect} from "react-router-dom";
@@ -22,6 +22,10 @@ function RegisterPage(props) {
     const [isMaskedPassword, setIsMaskedPassord] = useState("password");
     const [isMaskedPasswordConfirm, setIsMaskedPassordConfirm] = useState("password");
     const [emailExists, setEmailExists] = useState(false);
+    const [capsLockEmail, setCapsLockEmail] = useState(false);
+    const [capsLockPassword, setCapsLockPassword] = useState(false);
+    const [currentInputForm, setCurrentInputForm] = useState("");
+    const [isCaps, setIsCaps] = useState(false);
     const nameRegex = /^(?!-)(?!.*-$)[a-zA-Z-]/;
     const emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
@@ -30,6 +34,38 @@ function RegisterPage(props) {
         console.log("In production mode. Disable log statements -> hide log statements from console.");
         console.log = function (){};
     }
+
+    useEffect(()=> {
+        //TODO -> Mobile Caps Lock Detection (iOS, Android)
+        const handleCapsLock = (e) => {
+            const deviceIsMac = /Mac/.test(navigator.platform);
+            if (deviceIsMac && e.keyCode === 57) {
+                if(isCaps === false){
+                    console.log("Mac user enabled caps lock");
+                    setIsCaps(true);
+                }
+                else {
+                    console.log("Mac user disabled caps lock");
+                    setIsCaps(false);
+                    setCapsLockPassword(false);
+                }
+            } else if (!(deviceIsMac) && e.keyCode === 20) {
+                if(isCaps === false){
+                    console.log("Windows user enabled caps lock");
+                    setIsCaps(true);
+                }
+                else {
+                    console.log("Windows user disabled caps lock");
+                    setIsCaps(false);
+                    setCapsLockPassword(false);
+                }
+            }
+        };
+        window.addEventListener('keydown', handleCapsLock);
+        return () => {
+            window.removeEventListener('keydown', handleCapsLock);
+        };
+    }, [isCaps]);
 
     function toggleMask(e, {name}){
         e.preventDefault(); //prevent page from re-rendering
@@ -50,6 +86,75 @@ function RegisterPage(props) {
             }
         }
     }
+
+    function checkCapsLock(e){
+        const deviceIsMac = /Mac/.test(navigator.platform);
+        console.log(e.target.name);
+        console.log(e._reactName);
+        console.log(e.keyCode);
+        if((e._reactName === "onKeyUp" || e._reactName === "onKeyDown") && e.keyCode === 13) {
+            const form = e.target.form; //the current form
+            const index = Array.prototype.indexOf.call(form, e.target); //the index of the form
+            if (index === 6) {
+                handleSubmit(); //submit the form, the user will encounter the pertinent login errors
+            } else {
+                if(index === 2 || index === 4){
+                    e.target.form.elements[index + 2].focus(); //move to next input field in the form
+                }
+                else {
+                    e.target.form.elements[index + 1].focus(); //move to next input field in the form
+                }
+                e.preventDefault();
+            }
+            //don't consider the "I Agree to Terms and Conditions"; we want to ensure user HAS to click that checkbox manually.
+        }
+        else if((e._reactName === "onClick") && (currentInputForm !== e.target.name)){
+            if(e.target.name === "password" || e.target.name === "passwordConfirm"){
+                if(isCaps === true){
+                    setCapsLockPassword(true);
+                }
+                else {
+                    setCapsLockPassword(false );
+                }
+            }
+            else {
+                setCapsLockPassword(false);
+            }
+            setCurrentInputForm(e.target.name);
+        }
+        else if (((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === false){
+            if(e.target.name === "email"){
+                if(capsLockEmail === true){
+                    return;
+                }
+                else if (capsLockPassword === true){
+                    setCapsLockPassword(false);
+                }
+                else {
+                    setCapsLockEmail(true);
+                }
+            }
+            else if (e.target.name === "password"){
+                if(capsLockPassword === true){
+                    return;
+                }
+                else if (capsLockEmail === true){
+                    setCapsLockEmail(false);
+                }
+                else {
+                    setCapsLockPassword(true);
+                }
+            }
+            setIsCaps(true);
+        }
+        else if(((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === true){
+            setCapsLockEmail(false);
+            setCapsLockPassword(false);
+            setIsCaps(false);
+            console.log("Modifying caps");
+        }
+    }
+
 
     function checkBadCharacters (first, last, password, passwordConfirmation, email){
         if(!(nameRegex.test(first))){
@@ -193,7 +298,9 @@ function RegisterPage(props) {
                                                                 name='first'
                                                                 value={first}
                                                                 error={errorStateFirst !== "" ? errorStateFirst : false}
+                                                                onClick={checkCapsLock}
                                                                 onChange={handleChangeFirst}
+                                                                onKeyDown={checkCapsLock}
                                                             />
                                                             <Form.Field
                                                                 control={Input}
@@ -202,12 +309,17 @@ function RegisterPage(props) {
                                                                 name='last'
                                                                 value={last}
                                                                 error={errorStateLast !== "" ? errorStateLast : false}
+                                                                onClick={checkCapsLock}
                                                                 onChange={handleChangeLast}
+                                                                onKeyDown={checkCapsLock}
                                                             />
                                                         </Form.Group>
                                                         <Message size='mini' attached='bottom'>Passwords must be between
                                                             8-20 characters and contain at least one number, one
                                                             upper-case letter, and one lower-case letter. </Message>
+                                                        {capsLockPassword &&
+                                                        <Message content='Warning: Caps Lock is enabled.' color='yellow'/>
+                                                        }
                                                         <Form.Field
                                                             type= {isMaskedPassword}
                                                             control={Input}
@@ -217,8 +329,8 @@ function RegisterPage(props) {
                                                             value={password}
                                                             error={errorStatePassword.length !== 0 ? errorStatePassword : false}
                                                             onChange={handleChangePassword}
-                                                            /*onClick={checkCapsLock}
-                                                            onKeyDown={checkCapsLock}*/
+                                                            onClick={checkCapsLock}
+                                                            onKeyDown={checkCapsLock}
                                                             action={<Button.Group basic>
                                                                 <Button icon onClick={toggleMask} name='password'><Icon name='eye'/></Button>
                                                             </Button.Group>
@@ -233,8 +345,8 @@ function RegisterPage(props) {
                                                         value={passwordConfirm}
                                                         error={errorStatePasswordConfirm.length !== 0 ? errorStatePasswordConfirm : false}
                                                         onChange={handleChangePasswordConfirm}
-                                                        /*onClick={checkCapsLock}
-                                                        onKeyDown={checkCapsLock}*/
+                                                        onClick={checkCapsLock}
+                                                        onKeyDown={checkCapsLock}
                                                         action={<Button.Group basic>
                                                             <Button icon onClick={toggleMask} name='passwordConfirm'><Icon name='eye'/></Button>
                                                         </Button.Group>
@@ -247,7 +359,9 @@ function RegisterPage(props) {
                                                             name='email'
                                                             value={email}
                                                             error={errorStateEmail !== "" ? errorStateEmail : false}
+                                                            onClick={checkCapsLock}
                                                             onChange={handleChangeEmail}
+                                                            onKeyDown={checkCapsLock}
                                                         />
                                                         {emailExists &&
                                                         <Message color='red'>That email is already associated with an account. Would you like to login?

@@ -251,6 +251,7 @@ exports.findMemberById = (req, res, next, id) => {
 exports.getAnimationProgress = (req, res) => {
     //to test in Postman: GET HTTP://localhost:8080/api/members/<memberId>/animations
     console.log("GETTING ANIMATIONS");
+
     console.log(req.member.animation_data);
     res.status(200);
     res.json(req.member.animation_data);
