@@ -77,7 +77,7 @@ function SensorySystems(props) {
                                                         <Button color='blue'>The Visual System</Button>
                                                     </Link>
                                                 </div>
-                                                <Icon name="clock outline"/>5 min.
+                                                <Icon name="clock outline"/>10 min.
                                             </Card.Content>
                                             <Card.Content>
                                                 <div style={{overflowX: 'hidden'}}>
@@ -93,7 +93,7 @@ function SensorySystems(props) {
                                                         <Button color='blue'>The Olfactory System</Button>
                                                     </Link>
                                                 </div>
-                                                <Icon name="clock outline"/>5 min.
+                                                <Icon name="clock outline"/>7 min.
                                             </Card.Content>
                                             <Card.Content>
                                                 <div style={{overflowX: 'hidden'}}>

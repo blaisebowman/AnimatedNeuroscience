@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
-import PageHeader from "./PageHeader";
-import NavigationBar from "./NavigationBar";
 import {Grid, Image, Segment, Button,  Card, Icon, Divider, List} from "semantic-ui-react"
 import neuron from "../images/neuron.jpg"
 
@@ -88,7 +86,7 @@ function Neurons(props) {
                                                         <Button color='blue'>Exploring the Neuron</Button>
                                                     </Link>
                                                 </div>
-                                                <Icon name="clock outline"/>5 min.
+                                                <Icon name="clock outline"/>3 min.
                                             </Card.Content>
                                             <Card.Content>
                                                 <div style={{overflowX: 'hidden'}}>

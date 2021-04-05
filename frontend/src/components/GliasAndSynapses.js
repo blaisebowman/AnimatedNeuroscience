@@ -76,7 +76,7 @@ function GliasAndSynapses(props) {
                                                         <Button color='blue'>Astrocyte</Button>
                                                     </Link>
                                                 </div>
-                                                <Icon name="clock outline"/>5 min.
+                                                <Icon name="clock outline"/>3 min.
                                             </Card.Content>
                                             <Card.Content>
                                                 <div style={{overflowX: 'hidden'}}>
@@ -84,7 +84,7 @@ function GliasAndSynapses(props) {
                                                         <Button color='blue'>Oligodendroglia</Button>
                                                     </Link>
                                                 </div>
-                                                <Icon name="clock outline"/>5 min.
+                                                <Icon name="clock outline"/>3 min.
                                             </Card.Content>
                                             <Card.Content>
                                                 <div style={{overflowX: 'hidden'}}>

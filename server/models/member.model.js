@@ -30,36 +30,36 @@ const memberSchema = new Schema({
         completed_animations: {type: Array, default: []},
         suggested_animations: {type: Array, default: []},
         neurons: {
-            exploring: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            protein: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            cellular: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}}
+            exploring: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 3}},
+            protein: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 5}},
+            cellular: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 5}}
         },
         glias: {
-            astrocyte: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            oligodendroglia: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            chemical: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            cns: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}}
+            astrocyte: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 3}},
+            oligodendroglia: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 3}},
+            chemical: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 5}},
+            cns: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 5}}
         },
         brain:{
-            neural: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            early: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            lobes: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            structure: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}}
+            neural: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 7}},
+            early: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 3}},
+            lobes: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 2}},
+            structure: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 3}}
         },
         sensory: {
-            visual: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            auditory: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            olfactory: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            pain: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}}
+            visual: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 10}},
+            auditory: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 5}},
+            olfactory: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 7}},
+            pain: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 12}}
         },
         cerebellum: {
-            micro: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            pathways: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}}
+            micro: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 3}},
+            pathways: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 3}}
         },
         nervous: {
-            ans: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            action: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}},
-            hypothalamus: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}}
+            ans: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 3}},
+            action: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 7}},
+            hypothalamus: {complete: {type: Boolean, default: false}, completedActions: {type: [String], default: []}, timeRemaining: {type: Number, default: 5}}
         }
     }
 });

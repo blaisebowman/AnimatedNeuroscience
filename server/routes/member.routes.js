@@ -40,7 +40,7 @@ router.route('/:memberId/animations/completed')
 router.route('/:memberId/animations/suggested')
     .get(members.getAnimationSuggested);
 
-router.route('/:memberId/animations/sorted')
+router.route('/:memberId/sorted')
     .get(members.getAnimationSorted);
 
 module.exports = router;

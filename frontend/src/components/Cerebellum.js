@@ -75,7 +75,7 @@ function Cerebellum(props) {
                                                         <Button color='blue'>Micro-circuitry</Button>
                                                     </Link>
                                                 </div>
-                                                <Icon name="clock outline"/>5 min.
+                                                <Icon name="clock outline"/>3 min.
                                             </Card.Content>
                                             <Card.Content>
                                                 <div style={{overflowX: 'hidden'}}>
@@ -83,7 +83,7 @@ function Cerebellum(props) {
                                                         <Button color='blue'>Pathways</Button>
                                                     </Link>
                                                 </div>
-                                                <Icon name="clock outline"/>5 min.
+                                                <Icon name="clock outline"/>3 min.
                                             </Card.Content>
 
                                         </Card>

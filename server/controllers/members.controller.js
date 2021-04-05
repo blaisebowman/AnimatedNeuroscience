@@ -184,7 +184,7 @@ exports.delete = (req, res) => {
         else {
             if (member === null) {
                 console.log("Error, user not found in the database.");
-                return res.status(400).json({deleteError: "User not found in the database"});
+                    return res.status(400).json({deleteError: "User not found in the database"});
             }
             else {
             console.log("Member with id " + id + " deleted.");
@@ -236,9 +236,8 @@ exports.forgotPassword = (req, res) =>{
 exports.findMemberById = (req, res, next, id) => {
         Member.findById(id).exec((error, member) => {
             if (error) {
-                console.log("A member was found in database with the given ID.");
                 res.status(400);
-                return res.json({memberWithId: 'A member with that ID does not exist in the database.'});
+                return res.status(400).json({memberWithId: 'A member with that ID does not exist in the database.'});
             } else{
                 req.member = member;
                 next();
@@ -266,7 +265,7 @@ exports.getAnimationCompletion = (req, res, next) => {
     let animationName= req.query.animationName;
     console.log(animationCategory);
     Member.findOne({_id: id},(error, member) => {
-        //console.log(id);
+        //         //console.log(id);
         if (error) {
             return res.status(400).send(error);
         } else {
@@ -355,35 +354,126 @@ exports.getAnimationSuggested = (req, res) => {
 };
 
 exports.getAnimationSorted = (req, res) => {
-    //TODO
+    /* To test in Postman:
+    GET: HTTP://localhost:8080/api/members/<*member's id as a string without quotation marks*>/sorted
+    Parameter 1: key: id, value: <*member's id as a string without quotation marks*>
+    Parameter 2: sortBy, value: <one of the four options from the progress dropdown*>
+     */
+    /*Member.collection.updateMany({},
+        { $set: {
+            "animation_data.neurons.exploring.timeRemaining": 3,
+            "animation_data.neurons.exploring.complete": false,
+            "animation_data.neurons.exploring.completedActions": [],
+            "animation_data.neurons.protein.timeRemaining": 5,
+                "animation_data.neurons.protein.complete": false,
+                "animation_data.neurons.protein.completedActions": [],
+            "animation_data.neurons.cellular.timeRemaining": 5,
+                "animation_data.neurons.cellular.complete": false,
+                "animation_data.neurons.cellular.completedActions": [],
+            "animation_data.glias.astrocyte.timeRemaining": 3,
+                "animation_data.glias.astrocyte.complete": false,
+                "animation_data.glias.astrocyte.completedActions": [],
+            "animation_data.glias.oligodendroglia.timeRemaining": 3,
+                "animation_data.glias.oligodendroglia.complete": false,
+                "animation_data.glias.oligodendroglia.completedActions": [],
+            "animation_data.glias.chemical.timeRemaining": 5,
+                "animation_data.glias.chemical.complete": false,
+                "animation_data.glias.chemical.completedActions": [],
+            "animation_data.glias.cns.timeRemaining": 5,
+                "animation_data.glias.cns.complete": false,
+                "animation_data.glias.cns.completedActions": [],
+            "animation_data.brain.neural.timeRemaining": 7,
+                "animation_data.brain.neural.complete": false,
+                "animation_data.brain.neural.completedActions": [],
+            "animation_data.brain.early.timeRemaining": 3,
+                "animation_data.brain.early.complete": false,
+                "animation_data.brain.early.completedActions": [],
+            "animation_data.brain.lobes.timeRemaining": 2,
+                "animation_data.brain.lobes.complete": false,
+                "animation_data.brain.lobes.completedActions": [],
+            "animation_data.brain.structure.timeRemaining": 3,
+                "animation_data.brain.structure.complete": false,
+                "animation_data.brain.structure.completedActions": [],
+            "animation_data.sensory.visual.timeRemaining": 10,
+                "animation_data.sensory.visual.complete": false,
+                "animation_data.sensory.visual.completedActions": [],
+            "animation_data.sensory.auditory.timeRemaining": 5,
+                "animation_data.sensory.auditory.complete": false,
+                "animation_data.sensory.auditory.completedActions": [],
+            "animation_data.sensory.olfactory.timeRemaining": 7,
+                "animation_data.sensory.olfactory.complete": false,
+                "animation_data.sensory.olfactory.completedActions": [],
+            "animation_data.cerebellum.micro.timeRemaining": 3,
+                "animation_data.cerebellum.micro.complete": false,
+                "animation_data.cerebellum.micro.completedActions": [],
+            "animation_data.cerebellum.pathways.timeRemaining": 3,
+                "animation_data.cerebellum.pathways.complete": false,
+                "animation_data.cerebellum.pathways.completedActions": [],
+            "animation_data.nervous.ans.timeRemaining": 3,
+                "animation_data.nervous.ans.complete": false,
+                "animation_data.nervous.ans.completedActions": [],
+            "animation_data.nervous.action.timeRemaining": 7,
+                "animation_data.nervous.action.complete": false,
+                "animation_data.nervous.action.completedActions": [],
+            "animation_data.nervous.hypothalamus.timeRemaining": 5,
+                "animation_data.nervous.hypothalamus.complete": false,
+                "animation_data.nervous.hypothalamus.completedActions": [],
+        }
+});*/
     //To be used in animation progress page on frontend
     //returns the array of animation data (sorted according to req.body.filter)
     //to test in Postman: GET HTTP://localhost:8080/api/members/<memberId>/animations
-    id = req.body.id;
-    sortBy = req.body.sortBy;
-    let returnArray =[{},{},{},{},{},{}];
-    Member.findOne({_id: id}, (error, member) => {
+    let id = req.query._id;
+    let sortBy = req.query.sortBy;
+    Member.findOne({id: id}, (error, member) => {
         if(error){
+            console.log(error);
             return res.status(400).json({progressError: "There was an error returning the member's progress."});
         }
+        else if (member === null){
+            //
+        }
         else {
-            switch(sortBy){
-                case "Number Completed (High - Low)":
-
-                    break;
-                case "Number Completed (Low - High)":
-
-                    break;
-                case "Time Remaining (High-Low)":
-
-                    break;
-                case "Time Remaining (Low-High)":
-
-                    break;
-                default:
-                    return res.status(400).json({progressError: "An invalid sorting parameter was passed."});
-            }
-            return res.status(200).json({sortedData: returnArray});
+                console.log(member);
+                let baseArray = [];
+                for (const prop in member.animation_data){
+                    if (member.animation_data.hasOwnProperty(prop) && (prop !== "completed_animations") && (prop !== "suggested_animations") && (prop !== "$init")){
+                        let complete = 0;
+                        let time = 0;
+                        for (const property in member.animation_data[prop]){
+                            if (member.animation_data[prop].hasOwnProperty(property) && property !== "$init"){
+                                if(member.animation_data[prop][property].complete === true){
+                                    complete++;
+                                }
+                                time += member.animation_data[prop][property].timeRemaining;
+                            }
+                        }
+                        baseArray.push({name: prop, complete: complete, timeRemaining: time});
+                        console.log(baseArray);
+                    }
+                }
+                console.log(sortBy);
+                switch (sortBy) {
+                    case "Number Completed (High - Low)":
+                        baseArray.sort((a,b) => a.complete - b.complete);
+                        console.log(baseArray);
+                        break;
+                    case "Number Completed (Low - High)":
+                        baseArray.sort((a,b) => b.complete - a.complete);
+                        console.log(baseArray);
+                        break;
+                    case "Time Remaining (High - Low)":
+                        baseArray.sort((a,b) => a.timeRemaining - b.timeRemaining);
+                        console.log(baseArray);
+                        break;
+                    case "Time Remaining (Low - High)":
+                        baseArray.sort((a,b) => b.timeRemaining - a.timeRemaining);
+                        console.log(baseArray);
+                        break;
+                    default:
+                        return res.status(400).json({progressError: "An invalid sorting parameter was passed."});
+                }
+                return res.status(200).json({sortedData: baseArray});
         }
     });
 };
@@ -765,7 +855,7 @@ exports.register = (req, res) => {
                                        return res.status(400).send(error);
                                     });
                             }
-                        });
+                        });f
                     });
                 }
             }

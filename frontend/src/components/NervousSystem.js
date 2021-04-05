@@ -77,7 +77,7 @@ function NervousSystem(props) {
                                                         <Button color='blue'>ANS</Button>
                                                     </Link>
                                                 </div>
-                                                <Icon name="clock outline"/>5 min.
+                                                <Icon name="clock outline"/>3 min.
                                             </Card.Content>
                                             <Card.Content>
                                                 <div style={{overflowX: 'hidden'}}>
@@ -85,7 +85,7 @@ function NervousSystem(props) {
                                                         <Button color='blue'>Action Potentials</Button>
                                                     </Link>
                                                 </div>
-                                                <Icon name="clock outline"/>5 min.
+                                                <Icon name="clock outline"/>7 min.
                                             </Card.Content><Card.Content>
                                                 <div style={{overflowX: 'hidden'}}>
                                                     <Link to={{pathname: "/nervoussystem-hypothalamus"}} className='navText'>

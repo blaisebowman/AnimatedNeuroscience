@@ -88,7 +88,7 @@ function TheBrain(props) {
                                                         <Button color='blue'>Neural Tube</Button>
                                                     </Link>
                                                 </div>
-                                                <Icon name="clock outline"/>5 min.
+                                                <Icon name="clock outline"/>7 min.
                                             </Card.Content>
                                             <Card.Content>
                                                 <div style={{overflowX: 'hidden'}}>
@@ -96,7 +96,7 @@ function TheBrain(props) {
                                                         <Button color='blue'>Early Development</Button>
                                                     </Link>
                                                 </div>
-                                                <Icon name="clock outline"/>5 min.
+                                                <Icon name="clock outline"/>3 min.
                                             </Card.Content>
                                             <Card.Content>
                                                 <div style={{overflowX: 'hidden'}}>
@@ -104,7 +104,7 @@ function TheBrain(props) {
                                                         <Button color='blue'>Lobes of the Brain</Button>
                                                     </Link>
                                                 </div>
-                                                <Icon name="clock outline"/>5 min.
+                                                <Icon name="clock outline"/>2 min.
                                             </Card.Content>
                                             <Card.Content>
                                                 <div style={{overflowX: 'hidden'}}>
@@ -112,7 +112,7 @@ function TheBrain(props) {
                                                         <Button color='blue'>Structure and Function</Button>
                                                     </Link>
                                                 </div>
-                                                <Icon name="clock outline"/>5 min.
+                                                <Icon name="clock outline"/>3 min.
                                             </Card.Content>
                                         </Card>
                                     </Grid.Column>
