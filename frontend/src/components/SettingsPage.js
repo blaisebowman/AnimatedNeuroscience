@@ -31,7 +31,8 @@ function SettingsPage(props) {
     const [capsLockPasswordConfirm, setCapsLockPasswordConfirm] = useState(false);
     const [currentInputForm, setCurrentInputForm] = useState("");
     const [isCaps, setIsCaps] = useState(false);
-    const [isMasked, setIsMasked] = useState("password");
+    const [isMaskedPassword, setIsMaskedPassword] = useState("password");
+    const [isMaskedPasswordConfirm, setIsMaskedPasswordConfirm] = useState("password");
     const [options, setOptions] = useState([
         {key: 1, text: 'Number Completed (High - Low)', value: 'Number Completed (High - Low)'},
         {key: 2, text: 'Number Completed (Low - High)', value: 'Number Completed (Low - High'},
@@ -115,11 +116,32 @@ function SettingsPage(props) {
 
     function checkCapsLock(e){
         const deviceIsMac = /Mac/.test(navigator.platform);
-        console.log(e.target.name);
-        console.log(e._reactName);
-        console.log(e.keyCode);
-        //e.target.name = "password" || e.target.name = "passwordConfirm
-        //change all email based vars to passwordConfirm
+        console.log("Target: " + e.target.name + "\tFunction: " + e._reactName + "\tKey Code: " + e.keyCode);
+        if((e._reactName === "onKeyUp" || e._reactName === "onKeyDown") && e.keyCode === 13) {
+            const form = e.target.form; //the current form
+            const index = Array.prototype.indexOf.call(form, e.target); //the index of the forms
+            switch(currentTab){
+                case "email":
+                    if(index === 0){
+                        e.target.form.elements[index + 1].focus(); //move to next input field in the form
+                    }
+                    else {
+                        handlePasswordSubmit();
+                    }
+                    break;
+                case "password":
+                    if(index === 0){
+                        e.target.form.elements[index + 2].focus(); //move to next input field in the form
+                    }
+                    else if (index === 2){
+                        handlePasswordSubmit();
+                    }
+                    break;
+                default:
+                    console.log("Error in form navigation with enter.");
+            }
+            e.preventDefault();
+        }
         if((e._reactName === "onClick") && (currentInputForm !== e.target.name)){
             console.log(currentInputForm);
             console.log(isCaps);
@@ -190,6 +212,26 @@ function SettingsPage(props) {
             } else if (value1 !== value2) {
                 setPasswordError("Passwords do not match.");
                 setPasswordConfirmError("Passwords do not match.");
+            }
+        }
+    }
+
+    function toggleMask(e, {name}){
+        e.preventDefault(); //prevent page from re-rendering
+        if (name === "password"){
+            if(isMaskedPassword === "password"){
+                setIsMaskedPassword("text");
+            }
+            else {
+                setIsMaskedPassword("password");
+            }
+        }
+        else if (name === "passwordConfirm"){
+            if(isMaskedPasswordConfirm === "password"){
+                setIsMaskedPasswordConfirm("text");
+            }
+            else {
+                setIsMaskedPasswordConfirm("password");
             }
         }
     }
@@ -526,6 +568,7 @@ function SettingsPage(props) {
                                                                 value={email}
                                                                 error={emailError !== "" ? emailError : false}
                                                                 onChange={handleChangeEmail}
+                                                                onKeyDown={checkCapsLock}
                                                             />
                                                             <Form.Field
                                                                 control={Input}
@@ -535,6 +578,7 @@ function SettingsPage(props) {
                                                                 value={emailConfirm}
                                                                 error={emailConfirmError !== "" ? emailConfirmError : false}
                                                                 onChange={handleChangeEmailConfirm}
+                                                                onKeyDown={checkCapsLock}
                                                             />
                                                         </Form.Group>
                                                         {emailUpdateError &&
@@ -558,28 +602,36 @@ function SettingsPage(props) {
                                                             upper-case letter, and one lower-case letter. '/>
                                                         <Form.Group widths='equal'>
                                                             <Form.Field
-                                                                type={isMasked}
+                                                                type= {isMaskedPassword}
                                                                 control={Input}
                                                                 label='Password'
                                                                 placeholder=''
                                                                 name='password'
                                                                 value={password}
-                                                                error={passwordError !== "" ? passwordError : false}
+                                                                error={passwordError.length !== 0 ? passwordError : false}
                                                                 onChange={handleChangePassword}
                                                                 onClick={checkCapsLock}
                                                                 onKeyDown={checkCapsLock}
+                                                                action={<Button.Group basic>
+                                                                    <Button icon onClick={toggleMask} name='password'><Icon name='eye'/></Button>
+                                                                </Button.Group>
+                                                                }
                                                             />
                                                             <Form.Field
-                                                                type={isMasked}
+                                                                type= {isMaskedPasswordConfirm}
                                                                 control={Input}
                                                                 label='Confirm Password'
                                                                 placeholder=''
                                                                 name='passwordConfirm'
                                                                 value={passwordConfirm}
-                                                                error={passwordConfirmError !== "" ? passwordConfirmError : false}
+                                                                error={passwordConfirmError.length !== 0 ? passwordConfirmError : false}
                                                                 onChange={handleChangePasswordConfirm}
                                                                 onClick={checkCapsLock}
                                                                 onKeyDown={checkCapsLock}
+                                                                action={<Button.Group basic>
+                                                                    <Button icon onClick={toggleMask} name='passwordConfirm'><Icon name='eye'/></Button>
+                                                                </Button.Group>
+                                                                }
                                                             />
                                                         </Form.Group>
                                                         {(capsLockPassword || capsLockPasswordConfirm) &&

@@ -34,7 +34,6 @@ function LoginPage(props) {
     },[forgotPasswordError]);*/
 
     function checkCapsLock(e){
-        //TODO ADD KEY FOR ENTER.
         const deviceIsMac = /Mac/.test(navigator.platform);
         console.log(e.target.name);
         console.log(e._reactName);

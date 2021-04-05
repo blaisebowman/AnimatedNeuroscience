@@ -19,8 +19,8 @@ function RegisterPage(props) {
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [email, setEmail] = useState("");
-    const [isMaskedPassword, setIsMaskedPassord] = useState("password");
-    const [isMaskedPasswordConfirm, setIsMaskedPassordConfirm] = useState("password");
+    const [isMaskedPassword, setIsMaskedPassword] = useState("password");
+    const [isMaskedPasswordConfirm, setIsMaskedPasswordConfirm] = useState("password");
     const [emailExists, setEmailExists] = useState(false);
     const [capsLockEmail, setCapsLockEmail] = useState(false);
     const [capsLockPassword, setCapsLockPassword] = useState(false);
@@ -71,18 +71,18 @@ function RegisterPage(props) {
         e.preventDefault(); //prevent page from re-rendering
         if (name === "password"){
             if(isMaskedPassword === "password"){
-                setIsMaskedPassord("text");
+                setIsMaskedPassword("text");
             }
             else {
-                setIsMaskedPassord("password");
+                setIsMaskedPassword("password");
             }
         }
         else if (name === "passwordConfirm"){
             if(isMaskedPasswordConfirm === "password"){
-                setIsMaskedPassordConfirm("text");
+                setIsMaskedPasswordConfirm("text");
             }
             else {
-                setIsMaskedPassordConfirm("password");
+                setIsMaskedPasswordConfirm("password");
             }
         }
     }
