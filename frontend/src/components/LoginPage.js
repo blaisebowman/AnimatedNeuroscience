@@ -41,25 +41,19 @@ function LoginPage(props) {
         console.log(e.keyCode);
         if((e._reactName === "onKeyUp" || e._reactName === "onKeyDown") && e.keyCode === 13){
             //user presses enter
-            if(email.length !== 0 && password.length !== 0){
-                handleSubmit(); //submit the form
-            }
-            else {
                 const form = e.target.form; //the current form
                 const index = Array.prototype.indexOf.call(form, e.target); //the index of the form
-                console.log(index);
-                //TODO -> Figure out why password mask is firing on valid email and password and pressing enter while password field is in focus?
-
-                if (index === 1){
+                if (index === 0){
+                    e.target.form.elements[index + 1].focus(); //move to next input field in the form
+                }
+                else if (index === 1 || (email.length !== 0 && password.length !== 0)){
                     handleSubmit(); //submit the form, the user will encounter the pertinent login errors
                     e.preventDefault();
                 }
                 else {
                     e.target.form.elements[index + 2].focus(); //move to next input field in the form
-                    e.preventDefault();
                 }
             }
-        }
         else if((e._reactName === "onClick") && (currentInputForm !== e.target.name)){
             if(e.target.name === "email" && capsLockPassword === true){
                 setCapsLockEmail(true)
