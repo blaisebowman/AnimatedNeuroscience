@@ -13,13 +13,6 @@
     border-bottom: 0.2rem solid aliceblue !important;
 }
 
-.navDropHeader {
-    margin: 1rem 0.75rem !important;
-    color: rgba(0, 0, 0, 1) !important;
-    background-color: rgba(255, 255, 255, 1) !important;
-    text-align: center;
-}
-
 .navBarIcon {
     float: right !important;
     margin-left: 1rem !important;

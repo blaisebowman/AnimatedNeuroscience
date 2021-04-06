@@ -97,15 +97,34 @@ export const CustomNavigationMenu= styled(Menu)`
 export const CustomNavigationMenuItem= styled(Menu.Item)`
     flex: 1 1 auto !important;
     min-width: 14% !important;
-    
+`
+export const CustomNavigationMenuItemLink= styled(Menu.Item)`
+    flex: 1 1 auto !important;
+    min-width: 14% !important;
+    &&& > .ui.simple.active.dropdown>.menu, .ui.simple.dropdown:hover>.menu {
+    opacity: 0 !important;
+    }
 `
 export const CustomSegment= styled(Segment)`
     background: #000000 !important;
     border-radius: 0rem !important;
     min-height: 10% !important;
     margin: 0  !important;
-    padding: 0.5em 0.5em !important;
-   
-    
+    padding: 0em 0em !important;
+`
+export const DDItem= styled(Dropdown.Item)`
+    &&& > a {
+        color: #000000 !important;
+    }
+`
+export const CustomDivider= styled(Dropdown.Divider)`
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+`
+export const CustomHeader= styled(Dropdown.Header)`
+    margin: 1rem 0.75rem !important;
+    color: rgba(0, 0, 0, 1) !important;
+    background-color: rgba(255, 255, 255, 1) !important;
+    text-align: center;
 `
 

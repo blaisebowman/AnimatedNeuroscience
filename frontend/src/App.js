@@ -37,7 +37,7 @@ import ForgotPasswordPage from "./components/ForgotPassword";
 
 class App extends Component {
   render () {
-    return (
+      return (
         <Router>
             <PageHeader/>
             <NavigationBar/>
