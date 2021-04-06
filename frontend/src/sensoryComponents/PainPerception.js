@@ -4,7 +4,7 @@ import PainPerception from "./Animations/pain_perception";
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 import {CustomAdobeSegmentSensory} from "../styledComponents";
-
+import {CustomAnimationDropdown} from "../styledComponents";
 
 import '../glias.css';
 
@@ -50,7 +50,7 @@ function PainPerceptionPage(props) {
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
                                                       verticalAlign='middle'>
-                                                    <Dropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
                                                         <Dropdown.Menu className="menu" >
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/sensorysystems-visual", state: {selectorIsVisible: false}}} className='navText'>Visual System</Link>
@@ -62,7 +62,7 @@ function PainPerceptionPage(props) {
                                                             <Link to={{pathname: "/sensorysystems-pain", state: {selectorIsVisible: false}}} className='navText'>Pain Perception</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
-                                                    </Dropdown>
+                                                    </CustomAnimationDropdown>
                                                 </Grid>
                                             </div>
                                         </Card>

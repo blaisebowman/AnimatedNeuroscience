@@ -3,6 +3,8 @@ import {Link, useHistory} from "react-router-dom";
 import Hypothalamus from "./Animations/hypothalamus";
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 import {CustomAdobeSegmentNervous} from "../styledComponents";
+import {CustomAnimationDropdown} from "../styledComponents";
+
 
 import '../glias.css';
 
@@ -47,7 +49,7 @@ function HypothalamusPage(props) {
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={3} className="dropdownContainer"
                                                       verticalAlign='middle'>
-                                                    <Dropdown placeholder='Select A Lesson' fluid
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid
                                                               open={selectorIsVisible}>
                                                         <Dropdown.Menu className="menu">
                                                             <Dropdown.Item>
@@ -67,7 +69,7 @@ function HypothalamusPage(props) {
                                                             }} className='navText'>Hypothalamus</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
-                                                    </Dropdown>
+                                                    </CustomAnimationDropdown>
                                                 </Grid>
                                             </div>
                                         </Card>

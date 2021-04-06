@@ -7,6 +7,7 @@ import App2 from "./Animations/exploring_one.tsx";
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 
 import '../glias.css';
+import {CustomAnimationDropdown} from "../styledComponents";
 
 
 function ProteinPage(props) {
@@ -42,7 +43,7 @@ function ProteinPage(props) {
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={3} className="dropdownContainer"
                                                       verticalAlign='center'>
-                                                    <Dropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
                                                         <Dropdown.Menu className="menu" fluid>
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/neurons-exploring", state: {selectorIsVisible: false}}} className='navText'>Exploring the Neuron</Link>
@@ -52,7 +53,7 @@ function ProteinPage(props) {
                                                             <Link to={{pathname: "/neurons-cellular", state: {selectorIsVisible: false}}} className='navText'>Cellular Respiration</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
-                                                    </Dropdown>
+                                                    </CustomAnimationDropdown>
                                                 </Grid>
                                             </div>
                                         </Card>

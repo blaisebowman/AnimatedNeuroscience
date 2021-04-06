@@ -2,6 +2,8 @@ import React, {useCallback, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import OlfactorySystem from "./Animations/olfactory_system";
 import {CustomAdobeSegmentSensory} from "../styledComponents";
+import {CustomAnimationDropdown} from "../styledComponents";
+
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 
 import '../glias.css';
@@ -47,7 +49,7 @@ function TheOlfactorySystemPage(props) {
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
                                                       verticalAlign='middle'>
-                                                    <Dropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
                                                         <Dropdown.Menu className="menu">
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/sensorysystems-visual", state: {selectorIsVisible: false}}} className='navText'>Visual System</Link>
@@ -59,7 +61,7 @@ function TheOlfactorySystemPage(props) {
                                                             <Link to={{pathname: "/sensorysystems-pain", state: {selectorIsVisible: false}}} className='navText'>Pain Perception</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
-                                                    </Dropdown>
+                                                    </CustomAnimationDropdown>
                                                 </Grid>
                                             </div>
                                         </Card>

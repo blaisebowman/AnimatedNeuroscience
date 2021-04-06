@@ -35,18 +35,18 @@ function SettingsPage(props) {
     const [isMaskedPasswordConfirm, setIsMaskedPasswordConfirm] = useState("password");
     const [options, setOptions] = useState([
         {key: 1, text: 'Number Completed (High - Low)', value: 'Number Completed (High - Low)'},
-        {key: 2, text: 'Number Completed (Low - High)', value: 'Number Completed (Low - High'},
-        {key: 3, text: 'Time Remaining (High-Low)', value: 'Time Remaining (High-Low)'},
-        {key: 4, text: 'Time Remaining (Low-High)', value: 'Time Remaining (Low-High)'}
+        {key: 2, text: 'Number Completed (Low - High)', value: 'Number Completed (Low - High)'},
+        {key: 3, text: 'Time Remaining (High-Low)', value: 'Time Remaining (High - Low)'},
+        {key: 4, text: 'Time Remaining (Low-High)', value: 'Time Remaining (Low - High)'}
         ]);
-    const [dropdownOption, setDropdownOption] = useState("Number Completed (High - Low)");
+    const [dropdownOption, setDropdownOption] = useState("");
     const [animationsInfo, setAnimationsInfo] = useState([
-        {name: "", complete: "", remaining: "", percentage: "", time: ""},
-        {name: "", complete: "", remaining: "", percentage: "", time: ""},
-        {name: "", complete: "", remaining: "", percentage: "", time: ""},
-        {name: "", complete: "", remaining: "", percentage: "", time: ""},
-        {name: "", complete: "", remaining: "", percentage: "", time: ""},
-        {name: "", complete: "", remaining: "", percentage: "", time: ""},
+        {name: "", complete: "", remaining: "", time: ""},
+        {name: "", complete: "", remaining: "", time: ""},
+        {name: "", complete: "", remaining: "", time: ""},
+        {name: "", complete: "", remaining: "", time: ""},
+        {name: "", complete: "", remaining: "", time: ""},
+        {name: "", complete: "", remaining: "", time: ""},
     ]);
 
     if(process.env.NODE_ENV === 'production'){
@@ -422,9 +422,41 @@ function SettingsPage(props) {
         //TODO
     }
 
-    function handleDropdownSelection (){
+    function handleDropdownSelection (e, {value}){
+        console.log(e);
+        console.log(value);
         //TODO
-        //Axios get request with parameters passed
+        var axios = require('axios');
+        let id = sessionStorage.getItem("id");
+        let port = process.env.PORT || ('http://localhost:8080/api/members/' + id + '/sorted?id=' +id + "&sortBy=" + value);
+        var data = JSON.stringify({
+            "_id": id,
+            "sortBy": value
+        });
+
+        var config = {
+            method: 'get',
+            url: port,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data : data
+        };
+
+        axios(config)
+            .then(function (response) {
+                console.log(JSON.stringify(response.data));
+                for (var i = 0, len = 6; i < len; i++){
+
+                }
+                console.log((response.data.sortedData[0].name));
+                setAnimationsInfo(response.data.sortedData);
+                console.log(animationsInfo[0].name);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
     }
 
     return (
@@ -486,7 +518,7 @@ function SettingsPage(props) {
                                                                         text='Sort By'
                                                                         onMouseEnter={handleDropdownEnter}
                                                                         onMouseLeave={handleDropdownLeave}
-                                                                        onClick = {handleDropdownSelection}
+                                                                        onChange = {handleDropdownSelection}
                                                                         options ={options}
                                                                         placeholder='Sort By: '
                                                                         selection
@@ -502,7 +534,7 @@ function SettingsPage(props) {
                                                                         <Table.HeaderCell>Animation Category</Table.HeaderCell>
                                                                         <Table.HeaderCell>Number Completed</Table.HeaderCell>
                                                                         <Table.HeaderCell>Number Remaining</Table.HeaderCell>
-                                                                        <Table.HeaderCell>Estimated Time</Table.HeaderCell>
+                                                                        <Table.HeaderCell>Estimated Time (Minutes)</Table.HeaderCell>
                                                                     </Table.Row>
                                                                 </Table.Header>
                                                                 <Table.Body>
@@ -510,37 +542,37 @@ function SettingsPage(props) {
                                                                     <Table.HeaderCell>{animationsInfo[0].name}</Table.HeaderCell>
                                                                     <Table.HeaderCell>{animationsInfo[0].complete}</Table.HeaderCell>
                                                                     <Table.HeaderCell>{animationsInfo[0].remaining}</Table.HeaderCell>
-                                                                    <Table.HeaderCell>{animationsInfo[0].time}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[0].timeRemaining}</Table.HeaderCell>
                                                                     </Table.Row>
                                                                     <Table.Row>
                                                                     <Table.HeaderCell>{animationsInfo[1].name}</Table.HeaderCell>
                                                                     <Table.HeaderCell>{animationsInfo[1].complete}</Table.HeaderCell>
                                                                     <Table.HeaderCell>{animationsInfo[1].remaining}</Table.HeaderCell>
-                                                                    <Table.HeaderCell>{animationsInfo[1].time}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[1].timeRemaining}</Table.HeaderCell>
                                                                     </Table.Row>
                                                                     <Table.Row>
                                                                     <Table.HeaderCell>{animationsInfo[2].name}</Table.HeaderCell>
                                                                     <Table.HeaderCell>{animationsInfo[2].complete}</Table.HeaderCell>
                                                                     <Table.HeaderCell>{animationsInfo[2].remaining}</Table.HeaderCell>
-                                                                    <Table.HeaderCell>{animationsInfo[2].time}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[2].timeRemaining}</Table.HeaderCell>
                                                                     </Table.Row> 
                                                                     <Table.Row>
                                                                     <Table.HeaderCell>{animationsInfo[3].name}</Table.HeaderCell>
                                                                     <Table.HeaderCell>{animationsInfo[3].complete}</Table.HeaderCell>
                                                                     <Table.HeaderCell>{animationsInfo[3].remaining}</Table.HeaderCell>
-                                                                    <Table.HeaderCell>{animationsInfo[3].time}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[3].timeRemaining}</Table.HeaderCell>
                                                                     </Table.Row>
                                                                     <Table.Row>
                                                                     <Table.HeaderCell>{animationsInfo[4].name}</Table.HeaderCell>
                                                                     <Table.HeaderCell>{animationsInfo[4].complete}</Table.HeaderCell>
                                                                     <Table.HeaderCell>{animationsInfo[4].remaining}</Table.HeaderCell>
-                                                                    <Table.HeaderCell>{animationsInfo[4].time}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[4].timeRemaining}</Table.HeaderCell>
                                                                     </Table.Row>
                                                                     <Table.Row>
                                                                     <Table.HeaderCell>{animationsInfo[5].name}</Table.HeaderCell>
                                                                     <Table.HeaderCell>{animationsInfo[5].complete}</Table.HeaderCell>
                                                                     <Table.HeaderCell>{animationsInfo[5].remaining}</Table.HeaderCell>
-                                                                    <Table.HeaderCell>{animationsInfo[5].time}</Table.HeaderCell>
+                                                                    <Table.HeaderCell>{animationsInfo[5].timeRemaining}</Table.HeaderCell>
                                                                     </Table.Row>
                                                                 </Table.Body>
                                                             </Table>

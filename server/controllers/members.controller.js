@@ -439,16 +439,44 @@ exports.getAnimationSorted = (req, res) => {
                 for (const prop in member.animation_data){
                     if (member.animation_data.hasOwnProperty(prop) && (prop !== "completed_animations") && (prop !== "suggested_animations") && (prop !== "$init")){
                         let complete = 0;
+                        let remaining = 0;
                         let time = 0;
                         for (const property in member.animation_data[prop]){
-                            if (member.animation_data[prop].hasOwnProperty(property) && property !== "$init"){
+                            if (member.animation_data[prop].hasOwnProperty(property) && property !== "$init" && member.animation_data[prop] !== "$init"){
                                 if(member.animation_data[prop][property].complete === true){
                                     complete++;
                                 }
+                                else if (member.animation_data[prop][property].complete === false) {
+                                    remaining += 1;
+                                }
                                 time += member.animation_data[prop][property].timeRemaining;
+
                             }
                         }
-                        baseArray.push({name: prop, complete: complete, timeRemaining: time});
+                        let name = "";
+                        switch (prop){
+                            case "neurons":
+                                name = "Neurons";
+                                break;
+                            case "glias":
+                                name = "Glias and Synapses";
+                                break;
+                            case "brain":
+                                name = "The Brain";
+                                break;
+                            case "sensory":
+                                name = "Sensory Systems";
+                                break;
+                            case "cerebellum":
+                                name = "Cerebellum";
+                                break;
+                            case "nervous":
+                                name = "Nervous System";
+                                break;
+                            default:
+                                break;
+                        }
+                        baseArray.push({name: name, complete: complete, remaining: remaining, timeRemaining: time});
                         console.log(baseArray);
                     }
                 }
@@ -463,11 +491,11 @@ exports.getAnimationSorted = (req, res) => {
                         console.log(baseArray);
                         break;
                     case "Time Remaining (High - Low)":
-                        baseArray.sort((a,b) => a.timeRemaining - b.timeRemaining);
+                        baseArray.sort((a,b) => b.timeRemaining - a.timeRemaining);
                         console.log(baseArray);
                         break;
                     case "Time Remaining (Low - High)":
-                        baseArray.sort((a,b) => b.timeRemaining - a.timeRemaining);
+                        baseArray.sort((a,b) => a.timeRemaining - b.timeRemaining);
                         console.log(baseArray);
                         break;
                     default:

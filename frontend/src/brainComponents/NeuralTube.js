@@ -3,6 +3,8 @@ import {Link, useHistory} from "react-router-dom";
 import BrainDevelopment from "./Animations/brainDevelopment";
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
+import {CustomAnimationDropdown} from "../styledComponents";
+
 
 import '../glias.css';
 
@@ -40,7 +42,7 @@ function NeuralTubePage(props) {
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
                                                       verticalAlign='center'>
-                                                    <Dropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
                                                         <Dropdown.Menu className="menu" fluid>
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/thebrain-neuraltube", state: {selectorIsVisible: false}}} className='navText'>Neural Tube</Link>
@@ -52,7 +54,7 @@ function NeuralTubePage(props) {
                                                             <Link to={{pathname: "/thebrain-structure", state: {selectorIsVisible: false}}} className='navText'>Structure and Function</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
-                                                    </Dropdown>
+                                                    </CustomAnimationDropdown>
                                                 </Grid>
                                             </div>
                                         </Card>

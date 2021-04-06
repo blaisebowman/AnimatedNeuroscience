@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import App2 from "../neuronComponents/Animations/exploring_one.tsx";
+import {CustomAnimationDropdown} from "../styledComponents";
+
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 
@@ -39,7 +41,7 @@ function MicrocircuitryPage(props) {
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={2} className="dropdownContainer"
                                                       verticalAlign='center'>
-                                                    <Dropdown placeholder='Select A Lesson' fluid
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid
                                                               open={selectorIsVisible}>
                                                         <Dropdown.Menu className="menu" fluid>
                                                             <Dropdown.Item>
@@ -54,7 +56,7 @@ function MicrocircuitryPage(props) {
                                                             }} className='navText'>Pathways</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
-                                                    </Dropdown>
+                                                    </CustomAnimationDropdown>
                                                 </Grid>
                                             </div>
                                         </Card>

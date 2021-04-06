@@ -4,6 +4,8 @@ import BrainLobes from "./Animations/brain_lobes";
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 import {CustomAdobeSegmentBrain} from "../styledComponents";
+import {CustomAnimationDropdown} from "../styledComponents";
+
 
 import '../glias.css';
 
@@ -49,7 +51,7 @@ function LobesOfTheBrainPage(props) {
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
                                                       verticalAlign='middle'>
-                                                    <Dropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
                                                         <Dropdown.Menu className="menu">
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/thebrain-neuraltube", state: {selectorIsVisible: false}}} className='navText'>Neural Tube</Link>
@@ -61,7 +63,7 @@ function LobesOfTheBrainPage(props) {
                                                             <Link to={{pathname: "/thebrain-structure", state: {selectorIsVisible: false}}} className='navText'>Structure and Function</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
-                                                    </Dropdown>
+                                                    </CustomAnimationDropdown>
                                                 </Grid>
                                             </div>
                                         </Card>

@@ -1,4 +1,3 @@
-
 .imgSeg{
     background: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
     min-height: 100vh;
@@ -63,7 +62,9 @@
     text-align: center !important;
 }
 .ui.default.dropdown:not(.button)>.text, .ui.dropdown:not(.button)>.default.text {
+    /*
     color: #ffffff !important;
+    */
 }
 .ui.dropdown>.dropdown.icon {
     color: #ffffff !important;

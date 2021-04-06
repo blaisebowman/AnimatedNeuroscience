@@ -1,6 +1,8 @@
 import React, {useCallback, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import ActionPotentials from "./Animations/action_potentials";
+import {CustomAnimationDropdown} from "../styledComponents";
+
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 
@@ -47,7 +49,7 @@ function ActionPotentialsPage(props) {
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={3} className="dropdownContainer"
                                                       verticalAlign='middle'>
-                                                    <Dropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
                                                         <Dropdown.Menu className="menu">
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/nervoussystem-autonomic", state: {selectorIsVisible: false}}} className='navText'>ANS</Link>
@@ -57,7 +59,7 @@ function ActionPotentialsPage(props) {
                                                             <Link to={{pathname: "/nervoussystem-hypothalamus", state: {selectorIsVisible: false}}} className='navText'>Hypothalamus</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
-                                                    </Dropdown>
+                                                    </CustomAnimationDropdown>
                                                 </Grid>
                                             </div>
                                         </Card>

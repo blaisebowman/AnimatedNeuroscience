@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
+import {CustomAnimationDropdown} from "../styledComponents";
 
 import '../glias.css';
 
@@ -38,7 +39,7 @@ function CellularPage(props) {
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={3} className="dropdownContainer"
                                                       verticalAlign='center'>
-                                                    <Dropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
                                                         <Dropdown.Menu className="menu" fluid>
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/neurons-exploring", state: {selectorIsVisible: false}}} className='navText'>Exploring the Neuron</Link>
@@ -48,7 +49,7 @@ function CellularPage(props) {
                                                             <Link to={{pathname: "/neurons-cellular", state: {selectorIsVisible: false}}} className='navText'>Cellular Respiration</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
-                                                    </Dropdown>
+                                                    </CustomAnimationDropdown>
                                                 </Grid>
                                             </div>
                                         </Card>

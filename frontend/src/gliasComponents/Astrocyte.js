@@ -4,6 +4,7 @@ import Astrocyte from "./Animations/astrocyte";
 import {Grid, GridColumn, Segment, Dropdown, Card, } from "semantic-ui-react";
 
 import '../glias.css';
+import {CustomAnimationDropdown} from "../styledComponents";
 
 
 function AstrocytePage(props) {
@@ -47,7 +48,7 @@ function AstrocytePage(props) {
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
                                                       verticalAlign='middle'>
-                                                    <Dropdown placeholder='Select A Lesson' fluid = {true} open={selectorIsVisible}>
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid = {true} open={selectorIsVisible}>
                                                         <Dropdown.Menu className="menu" fluid="true">
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/gliasandsynapses-astrocyte", state: {selectorIsVisible: false}}} className='navText'>Astrocyte</Link>
@@ -59,7 +60,7 @@ function AstrocytePage(props) {
                                                             <Link to={{pathname: "/gliasandsynapses-cns", state: {selectorIsVisible: false}}} className='navText'>CNS Synapses</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
-                                                    </Dropdown>
+                                                    </CustomAnimationDropdown>
                                                 </Grid>
                                             </div>
                                         </Card>

@@ -1,9 +1,8 @@
 import React, {Component, useEffect, useReducer, useState, useRef} from 'react';
 import {Link, useHistory} from "react-router-dom";
-import PageHeader from "../components/PageHeader";
-import NavigationBar from "../components/NavigationBar";
-import Astrocyte from "./Animations/astrocyte";
 import {Grid, GridColumn, Image, Segment, Button, Dropdown, Card, Icon, Divider} from "semantic-ui-react";
+import {CustomAnimationDropdown} from "../styledComponents";
+
 /*
 import '../glias.scss';
 */
@@ -43,7 +42,7 @@ function CNSSynapsesPage(props) {
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
                                                       verticalAlign='center'>
-                                                    <Dropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
                                                         <Dropdown.Menu className="menu" fluid>
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/gliasandsynapses-astrocyte", state: {selectorIsVisible: false}}} className='navText'>Astrocyte</Link>
@@ -55,7 +54,7 @@ function CNSSynapsesPage(props) {
                                                             <Link to={{pathname: "/gliasandsynapses-cns", state: {selectorIsVisible: false}}} className='navText'>CNS Synapses</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
-                                                    </Dropdown>
+                                                    </CustomAnimationDropdown>
                                                 </Grid>
                                             </div>
                                         </Card>

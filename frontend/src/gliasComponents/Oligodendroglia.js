@@ -2,6 +2,8 @@ import React, {useCallback, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import Oligodendroglia from "./Animations/oligodendroglia";
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
+import {CustomAnimationDropdown} from "../styledComponents";
+
 
 import '../glias.css';
 
@@ -47,7 +49,7 @@ function OligodendrogliaPage(props) {
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
                                                       verticalAlign='center'>
-                                                    <Dropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
                                                         <Dropdown.Menu className="menu" fluid>
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/gliasandsynapses-astrocyte", state: {selectorIsVisible: false}}} className='navText'>Astrocyte</Link>
@@ -59,7 +61,7 @@ function OligodendrogliaPage(props) {
                                                             <Link to={{pathname: "/gliasandsynapses-cns", state: {selectorIsVisible: false}}} className='navText'>CNS Synapses</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
-                                                    </Dropdown>
+                                                    </CustomAnimationDropdown>
                                                 </Grid>
                                             </div>
                                         </Card>
