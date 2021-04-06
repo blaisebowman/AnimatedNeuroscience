@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Dropdown, Form, Menu, Message, Dimmer, Card, Header} from 'semantic-ui-react';
+import {Dropdown, Form, Menu, Message, Dimmer, Card, Header, Segment} from 'semantic-ui-react';
 
 //tentative styled components, eventually replacing the usage of !important in .css and .scss files.
 
@@ -74,5 +74,38 @@ text-color: #000000 !important;
        margin-top: 0 !important;
        padding-top: 0 !important;
 }
+`
+export const CustomNavigationMenu= styled(Menu)`
+    display: flex !important;
+    justify-content: space-between !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    background: rgba(0,0,0,0.9) !important;
+    &&& > .visible.transition {
+    height: 100% !important;
+    }
+    &&& > .active.item {
+    border-radius: 2em !important;
+    background: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
+    transition-duration: 0.4s;
+    background: -moz-linear-gradient(40deg, #05ebe4 0%, #8000f1 100%) !important;
+    background: -webkit-linear-gradient(40deg, #05ebe4 0%, #8000f1 100%) !important;
+    background: linear-gradient(40deg, #05ebe4 0%, #8000f1 100%) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#05ebe4', endColorstr='#8000f1', GradientType=1) !important;
+    }
+`
+export const CustomNavigationMenuItem= styled(Menu.Item)`
+    flex: 1 1 auto !important;
+    min-width: 14% !important;
+    
+`
+export const CustomSegment= styled(Segment)`
+    background: #000000 !important;
+    border-radius: 0rem !important;
+    min-height: 10% !important;
+    margin: 0  !important;
+    padding: 0.5em 0.5em !important;
+   
+    
 `
 

@@ -1,7 +1,7 @@
 /*.ui.segment {
   background: aliceblue linear-gradient(rgba(250, 0, 0, 0.5), transparent) !important;
 }*/
-.ui.segment {
+.imgSeg{
     background: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
     min-height: 100vh;
 }

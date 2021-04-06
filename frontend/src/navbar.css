@@ -32,7 +32,7 @@
 }
 
 .navText {
-    color: aliceblue;
+    color: black !important;
     alignment: left;
 }
 

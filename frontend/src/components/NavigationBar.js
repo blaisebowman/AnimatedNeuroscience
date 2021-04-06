@@ -1,6 +1,13 @@
-import React, {Component, useCallback, useEffect, useRef, useState} from 'react';
+import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-import {Grid, Segment, Dropdown, Icon} from 'semantic-ui-react';
+import {Grid, Segment, Dropdown, Icon, Menu} from 'semantic-ui-react';
+import {
+    CustomNavigationMenu,
+    CustomMenuItem,
+    CustomNavigationMenuItem,
+    CustomDropdown,
+    CustomSegment
+} from "../styledComponents";
 import '../navbar.css';
 
 //convert to function
@@ -15,11 +22,11 @@ class NavigationBar extends Component {
             sensoryMenuShown: false,
             cerebellumMenuShown: false,
             nervousMenuShown: false,
-            tabWidth: JSON.parse(localStorage.getItem('tabWidth')) || 0,
-            tabHeight: JSON.parse(localStorage.getItem('toHeight')) || 0,
-            fromLeft: JSON.parse(localStorage.getItem('tabLeft')) || 0,
-            currentTab: JSON.parse(localStorage.getItem('toTab')) || "",
-            prevTab: JSON.parse(localStorage.getItem('prevTab')) || "",
+            tabWidth: JSON.parse(sessionStorage.getItem('tabWidth')) || 0,
+            tabHeight: JSON.parse(sessionStorage.getItem('toHeight')) || 0,
+            fromLeft: JSON.parse(sessionStorage.getItem('tabLeft')) || 0,
+            currentTab: JSON.parse(sessionStorage.getItem('toTab')) || "introductionTab",
+            prevTab: JSON.parse(sessionStorage.getItem('prevTab')) || "",
             animating: false,
         }
         this.tab0 = React.createRef();
@@ -31,20 +38,26 @@ class NavigationBar extends Component {
         this.tab6 = React.createRef();
     }
 
-    tabClick = (currentTab) => (event) => {
-        localStorage.setItem('tabWidth', JSON.stringify(this.state.tabWidth));
-        localStorage.setItem('tabHeight', JSON.stringify(this.state.tabHeight));
-        localStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
+
+    tabClick = (currentTab) => (e, {name}) => {
+        this.setState({currentTab: currentTab});
+        console.log(e);
+        console.log(name);
+        console.log(currentTab);
+        /*let array = sessionStorage.getItem('previous');
+        sessionStorage.setItem('tabWidth', JSON.stringify(this.state.tabWidth));
+        sessionStorage.setItem('tabHeight', JSON.stringify(this.state.tabHeight));
+        sessionStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
         if (this.state.currentTab !== currentTab) {
             console.log("CHANGING TABS");
             console.log(this.state.currentTab);
             console.log(this.state.prevTab);
             this.setState({prevTab: this.state.currentTab},
                 () => {
-                    localStorage.setItem('prevTab', JSON.stringify(this.state.currentTab));
+                    sessionStorage.setItem('prevTab', JSON.stringify(this.state.currentTab));
                 });
             this.setState({currentTab: currentTab}, () => {
-                localStorage.setItem('toTab', JSON.stringify(currentTab));
+                sessionStorage.setItem('toTab', JSON.stringify(currentTab));
             });
         }
         switch (currentTab) {
@@ -52,56 +65,56 @@ class NavigationBar extends Component {
                 this.setState({tabWidth: this.tab0.current.offsetParent.offsetWidth});
                 this.setState({tabHeight: this.tab0.current.offsetParent.offsetHeight});
                 this.setState({fromLeft: this.tab0.current.offsetParent.offsetLeft}, () => {
-                    localStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
+                    sessionStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
                 });
                 break;
             case "neuronTab":
                 this.setState({tabWidth: this.tab1.current.offsetParent.offsetWidth});
                 this.setState({tabHeight: this.tab1.current.offsetParent.offsetHeight});
                 this.setState({fromLeft: this.tab1.current.offsetParent.offsetLeft}, () => {
-                    localStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
+                    sessionStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
                 });
                 break;
             case "gliasTab":
                 this.setState({tabWidth: this.tab2.current.offsetParent.offsetWidth});
                 this.setState({tabHeight: this.tab2.current.offsetParent.offsetHeight});
                 this.setState({fromLeft: this.tab2.current.offsetParent.offsetLeft}, () => {
-                    localStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
+                    sessionStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
                 });
                 break;
             case "brainTab":
                 this.setState({tabWidth: this.tab3.current.offsetParent.offsetWidth});
                 this.setState({tabHeight: this.tab3.current.offsetParent.offsetHeight});
                 this.setState({fromLeft: this.tab3.current.offsetParent.offsetLeft}, () => {
-                    localStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
+                    sessionStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
                 });
                 break;
             case "sensoryTab":
                 this.setState({tabWidth: this.tab4.current.offsetParent.offsetWidth});
                 this.setState({tabHeight: this.tab4.current.offsetParent.offsetHeight});
                 this.setState({fromLeft: this.tab4.current.offsetParent.offsetLeft}, () => {
-                    localStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
+                    sessionStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
                 });
                 break;
             case "cerebellumTab":
                 this.setState({tabWidth: this.tab5.current.offsetParent.offsetWidth});
                 this.setState({tabHeight: this.tab5.current.offsetParent.offsetHeight});
                 this.setState({fromLeft: this.tab5.current.offsetParent.offsetLeft}, () => {
-                    localStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
+                    sessionStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
                 });
                 break;
             case "nervousTab":
                 this.setState({tabWidth: this.tab6.current.offsetParent.offsetWidth});
                 this.setState({tabHeight: this.tab6.current.offsetParent.offsetHeight});
                 this.setState({fromLeft: this.tab6.current.offsetParent.offsetLeft}, () => {
-                    localStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
+                    sessionStorage.setItem('tabLeft', JSON.stringify(this.state.fromLeft));
                 });
                 break;
             default:
                 this.setState({tabWidth: this.tab0.current.offsetParent.offsetWidth});
                 this.setState({tabHeight: this.tab0.current.offsetParent.offsetHeight});
                 this.setState({fromLeft: this.tab0.current.offsetParent.offsetLeft});
-        }
+        }*/
         console.log("TAB CLICK CALLED");
         console.log("000000");
         console.log(this.state.prevTab);
@@ -111,7 +124,7 @@ class NavigationBar extends Component {
     }
     resizePage = () => {
         console.log("Window resizing.");
-        switch (this.state.currentTab) {
+       /* switch (this.state.currentTab) {
             case "introductionTab":
                 this.setState({tabWidth: this.tab0.current.offsetParent.offsetWidth});
                 this.setState({tabHeight: this.tab0.current.offsetParent.offsetHeight});
@@ -151,24 +164,176 @@ class NavigationBar extends Component {
                 this.setState({tabWidth: this.tab0.current.offsetParent.offsetWidth});
                 this.setState({tabHeight: this.tab0.current.offsetParent.offsetHeight});
                 this.setState({fromLeft: this.tab0.current.offsetParent.offsetLeft});
-        }
+        }*/
 
     }
 
     componentDidMount() {
         this.resizePage();
+        window.onpopstate = e =>{
+            console.log("back");
+            console.log(sessionStorage);
+            this.tabClick(sessionStorage.getItem("prevTab"));
+        }
         window.addEventListener('resize', this.resizePage);
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.resizePage);
+        console.log("leaving");
+        //window.sessionStorage.clear();
     }
 
     render() {
         //Seperate elastic animations for main navigation bar (horizontal) and dropdowns (vertical)
         return (
-            <Segment className="navWrapper">
-                <Grid columns={7} textAlign='center' className='modGridNav' style={{maxWidth: '100vw'}}>
+            <CustomSegment>
+                <CustomNavigationMenu>
+                    <CustomNavigationMenuItem active={this.state.currentTab === "introductionTab"}>
+                        <Dropdown as ={Link} placeholder='Introduction' to="/introduction"
+                                  fluid simple icon='home' style={{color: "white"}} name="introductionTab"
+                                  onClick={this.tabClick("introductionTab")}/>
+                    </CustomNavigationMenuItem>
+                    <CustomNavigationMenuItem active={this.state.currentTab === "neuronTab"}>
+                        <Dropdown as={Link} to="/neurons" placeholder="Neurons" fluid simple
+                                  open={this.state.neuronMenuShown} name= "neuronTab" onClick={this.tabClick("neuronTab")}>
+                            <Dropdown.Menu>
+                                <Dropdown.Item>
+                                    <Icon name='star'/>
+                                    <Link to={{pathname: "/neurons"}} className='navText'>Overview</Link>
+                                </Dropdown.Item>
+                                <Dropdown.Divider className='navBarDivider'/>
+                                <Dropdown.Header className="navDropHeader">Animated Lessons</Dropdown.Header>
+                                <Dropdown.Divider className='navBarDivider'/>
+                                <Dropdown.Item><Link to={{pathname: "/neurons-exploring"}} className='navText'>Exploring
+                                    the Neuron</Link><Icon name='angle right'
+                                                           className='navBarIcon'/></Dropdown.Item>
+                                <Dropdown.Item><Link to={{pathname: "/neurons-protein"}} className='navText'>Protein
+                                    Synthesis</Link><Icon name='angle right'
+                                                          className='navBarIcon'/></Dropdown.Item>
+                                <Dropdown.Item><Link to={{pathname: "/neurons-cellular"}} className='navText'>Cellular
+                                    Respiration</Link><Icon name='angle right'
+                                                            className='navBarIcon'/></Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </CustomNavigationMenuItem>
+                <CustomNavigationMenuItem active={this.state.currentTab === "gliasTab"}>
+                    <Dropdown as={Link} to="/gliasandsynapses" placeholder="Glias and Synapses" fluid simple
+                              open={this.state.gliasMenuShown} name="gliasTab" onClick={this.tabClick("gliasTab")}>
+                        <Dropdown.Menu>
+                            <Dropdown.Item><Icon name='star'/><Link to={{pathname: "/gliasandsynapses"}}
+                                                                    className='navText'>Overview</Link></Dropdown.Item>
+                            <Dropdown.Divider/>
+                            <Dropdown.Header className="navDropHeader">Animated Lessons</Dropdown.Header>
+                            <Dropdown.Divider/>
+                            <Dropdown.Item><Link to={{pathname: "/gliasandsynapses-astrocyte"}}
+                                                 className='navText'>Astrocyte</Link><Icon
+                                name='angle right' className='navBarIcon'/></Dropdown.Item>
+                            <Dropdown.Item><Link to={{pathname: "/gliasandsynapses-oligodendroglia"}}
+                                                 className='navText'>Oligodendroglia</Link><Icon
+                                name='angle right' className='navBarIcon'/></Dropdown.Item>
+                            <Dropdown.Item><Link to={{pathname: "/gliasandsynapses-chemical"}}
+                                                 className='navText'>Chemical Synapses</Link><Icon
+                                name='angle right' className='navBarIcon'/></Dropdown.Item>
+                            <Dropdown.Item><Link to={{pathname: "/gliasandsynapses-cns"}}
+                                                 className='navText'>CNS Synapses</Link><Icon
+                                name='angle right' className='navBarIcon'/></Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+
+                </CustomNavigationMenuItem>
+                <CustomNavigationMenuItem active={this.state.currentTab === "brainTab"}>
+                    <Dropdown as={Link} to="/thebrain" placeholder="The Brain" fluid simple
+                              open={this.state.brainMenuShown} active={this.state.currentTab === "brainTab"} name="brainTab" onClick={this.tabClick("brainTab")}>
+                        <Dropdown.Menu>
+                            <Dropdown.Item><Icon name='star'/><Link to={{pathname: "/thebrain"}}
+                                                                    className='navText'>Overview</Link></Dropdown.Item>
+                            <Dropdown.Divider/>
+                            <Dropdown.Header className="navDropHeader">Animated Lessons</Dropdown.Header>
+                            <Dropdown.Divider/>
+                            <Dropdown.Item><Link to={{pathname: "/thebrain-neuraltube"}}
+                                                 className='navText'>Neural Tube</Link><Icon
+                                name='angle right' className='navBarIcon'/></Dropdown.Item>
+                            <Dropdown.Item><Link to={{pathname: "/thebrain-earlydevelopment"}}
+                                                 className='navText'>Early Brain Development</Link><Icon
+                                name='angle right' className='navBarIcon'/></Dropdown.Item>
+                            <Dropdown.Item><Link to={{pathname: "/thebrain-lobes"}} className='navText'>Lobes
+                                of the Brain</Link><Icon name='angle right'
+                                                         className='navBarIcon'/></Dropdown.Item>
+                            <Dropdown.Item><Link to={{pathname: "/thebrain-structure"}} className='navText'>Structure
+                                and Function</Link><Icon name='angle right'
+                                                         className='navBarIcon'/></Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </CustomNavigationMenuItem>
+
+                <CustomNavigationMenuItem active={this.state.currentTab === "sensoryTab"}>
+                    <Dropdown as={Link} to="/sensorysystems" placeholder="Sensory Systems" fluid simple
+                              open={this.state.sensoryMenuShown} name="sensoryTab" onClick={this.tabClick("sensoryTab")}>
+                        <Dropdown.Menu>
+                            <Dropdown.Item><Icon name='star'/><Link to={{pathname: "/sensorysystems"}}
+                                                                    className='navText'>Overview</Link></Dropdown.Item>
+                            <Dropdown.Divider/>
+                            <Dropdown.Header className="navDropHeader">Animated Lessons</Dropdown.Header>
+                            <Dropdown.Divider/>
+                            <Dropdown.Item><Link to={{pathname: "/sensorysystems-visual"}}
+                                                 className='navText'>The Visual System</Link><Icon
+                                name='angle right' className='navBarIcon'/></Dropdown.Item>
+                            <Dropdown.Item><Link to={{pathname: "/sensorysystems-auditory"}}
+                                                 className='navText'>The Auditory System</Link><Icon
+                                name='angle right' className='navBarIcon'/></Dropdown.Item>
+                            <Dropdown.Item><Link to={{pathname: "/sensorysystems-olfactory"}}
+                                                 className='navText'>The Olfactory System</Link><Icon
+                                name='angle right' className='navBarIcon'/></Dropdown.Item>
+                            <Dropdown.Item><Link to={{pathname: "/sensorysystems-pain"}}
+                                                 className='navText'>Pain Perception</Link><Icon
+                                name='angle right' className='navBarIcon'/></Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </CustomNavigationMenuItem>
+                <CustomNavigationMenuItem active={this.state.currentTab === "cerebellumTab"}>
+                    <Dropdown as={Link} to="/cerebellum" placeholder="Cerebellum" fluid simple
+                              open={this.state.cerebellumMenuShown} name="cerebellumTab"
+                              onClick={this.tabClick("cerebellumTab")}>
+                        <Dropdown.Menu>
+                            <Dropdown.Item><Icon name='star'/><Link to={{pathname: "/cerebellum"}}
+                                                                    className='navText'>Overview</Link></Dropdown.Item>
+                            <Dropdown.Divider/>
+                            <Dropdown.Header className="navDropHeader">Animated Lessons</Dropdown.Header>
+                            <Dropdown.Divider/>
+                            <Dropdown.Item><Link to={{pathname: "/cerebellum-microcircuitry"}}
+                                                 className='navText'>Micro-circuitry</Link><Icon
+                                name='angle right' className='navBarIcon'/></Dropdown.Item>
+                            <Dropdown.Item><Link to={{pathname: "/cerebellum-pathways"}}
+                                                 className='navText'>Pathways</Link><Icon name='angle right'
+                                                                                          className='navBarIcon'/></Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </CustomNavigationMenuItem>
+                <CustomNavigationMenuItem active={this.state.currentTab === "nervousTab"}>
+                    <Dropdown as={Link} to="/nervoussystem" placeholder="Nervous System" fluid simple
+                              open={this.state.nervousMenuShown} name="nervousTab" onClick={this.tabClick("nervousTab")}>
+                        <Dropdown.Menu>
+                            <Dropdown.Item><Icon name='star'/><Link to={{pathname: "/nervoussystem"}}
+                                                                    className='navText'>Overview</Link></Dropdown.Item>
+                            <Dropdown.Divider/>
+                            <Dropdown.Header className="navDropHeader">Animated Lessons</Dropdown.Header>
+                            <Dropdown.Divider/>
+                            <Dropdown.Item><Link to={{pathname: "/nervoussystem-autonomic"}}
+                                                 className='navText'>ANS</Link><Icon name='angle right'
+                                                                                     className='navBarIcon'/></Dropdown.Item>
+                            <Dropdown.Item><Link to={{pathname: "/nervoussystem-actionpotentials"}}
+                                                 className='navText'>Action Potentials</Link><Icon
+                                name='angle right' className='navBarIcon'/></Dropdown.Item>
+                            <Dropdown.Item><Link to={{pathname: "/nervoussystem-hypothalamus"}}
+                                                 className='navText'>Hypothalamus</Link><Icon
+                                name='angle right' className='navBarIcon'/></Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </CustomNavigationMenuItem>
+                </CustomNavigationMenu>
+            </CustomSegment>
+        /*/* <Grid columns={7} textAlign='center' className='modGridNav' style={{maxWidth: '100vw'}}>
                     <Grid.Row verticalAlign='middle' className="navRow">
                         <div className='animate' style={{
                             left: this.state.fromLeft + "px",
@@ -336,8 +501,7 @@ class NavigationBar extends Component {
                             </div>
                         </Grid.Column>
                     </Grid.Row>
-                </Grid>
-            </Segment>
+                </Grid>} */
         );
     }
 }

@@ -12,16 +12,10 @@
 .imgSeg {
     border: 0 !important;
     box-shadow: none !important;
-    /*
-    background: none !important;
-    */
 }
 .definitionSegment {
     border: 0 !important;
     box-shadow: none !important;
-    /*
-    background: none !important;
-    */
 }
 .gridParent {
 }
@@ -39,17 +33,3 @@
     background-color: #FFFFFF!important;
     position:relative !important;
 }
-/*.noPadding::before {
-  content: "" !important;
-  background-image: url("images/neuron.jpg");
-  background-position: center; !* Center the image *!
-  background-repeat: no-repeat; !* Do not repeat the image *!
-  background-size: cover; !* Resize the background image to cover the entire container *!
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  opacity: 0.3;
-
-}*/
