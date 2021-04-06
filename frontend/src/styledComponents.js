@@ -127,4 +127,36 @@ export const CustomHeader= styled(Dropdown.Header)`
     background-color: rgba(255, 255, 255, 1) !important;
     text-align: center;
 `
+export const CustomAdobeSegmentBrain= styled(Segment)`
+    border: 0 !important;
+    box-shadow: none !important;
+    min-width: 67.5% !important;
+    min-height: 87.5vh !important;
+    padding: 2vh 0 2vh 0 !important;
+    background-color: #000000 !important;
+`
+export const CustomAdobeSegmentSensory= styled(Segment)`
+    border: 0 !important;
+    box-shadow: none !important;
+    min-width: 67.5% !important;
+    min-height: 87.5vh !important;
+    padding: 2vh 0 2vh 0 !important;
+    background-color: #000000 !important;
+`
+export const CustomAdobeSegmentCerebellum= styled(Segment)`
+    border: 0 !important;
+    box-shadow: none !important;
+    min-width: 67.5% !important;
+    min-height: 82vh !important;
+    padding: 2vh 0 2vh 0 !important;
+    background-color: #000000 !important;
+`
+export const CustomAdobeSegmentNervous= styled(Segment)`
+    border: 0 !important;
+    box-shadow: none !important;
+    min-width: 67.5% !important;
+    min-height: 77.5vh !important;
+    padding: 2vh 0 2vh 0 !important;
+    background-color: #000000 !important;
+`
 

@@ -152,7 +152,7 @@ const Hypothalamus = () => {
     }
 
     return (
-        <div style={{maxHeight: '65vh', maxWidth: '50vw', margin:'auto'}}>
+        <div style={{minHeight: '65vh', maxWidth: '50vw', margin:'auto'}}>
             <AnimateCC
                 getAnimationObject={getAnimationObject}
                 animationName="hypothalamusJS"

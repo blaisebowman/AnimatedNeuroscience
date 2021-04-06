@@ -2,6 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import Hypothalamus from "./Animations/hypothalamus";
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
+import {CustomAdobeSegmentNervous} from "../styledComponents";
 
 import '../glias.css';
 
@@ -36,9 +37,9 @@ function HypothalamusPage(props) {
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
                                     <GridColumn width={12}>
-                                        <Segment className="adobeSeg" style={{width: width, height: height}}>
+                                        <CustomAdobeSegmentNervous style={{width: width, height: height}}>
                                             <Hypothalamus/>
-                                        </Segment>
+                                        </CustomAdobeSegmentNervous>
                                     </GridColumn>
                                     <Grid.Column width={4} className="gridParent">
                                         <Card className="category">

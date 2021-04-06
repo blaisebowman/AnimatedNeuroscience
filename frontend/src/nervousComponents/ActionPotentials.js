@@ -6,7 +6,6 @@ import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 
 import '../glias.css';
 
-
 function ActionPotentialsPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
     const history = useHistory();

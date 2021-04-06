@@ -3,6 +3,7 @@ import {Link, useHistory} from "react-router-dom";
 import BrainLobes from "./Animations/brain_lobes";
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
+import {CustomAdobeSegmentBrain} from "../styledComponents";
 
 import '../glias.css';
 
@@ -38,9 +39,9 @@ function LobesOfTheBrainPage(props) {
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
                                     <GridColumn width={12}>
-                                        <Segment className="adobeSeg" style={{width: width, height: height}}>
+                                        < CustomAdobeSegmentBrain style={{width: width, height: height}}>
                                             <BrainLobes/>
-                                        </Segment>
+                                        </CustomAdobeSegmentBrain>
                                     </GridColumn>
                                     <Grid.Column width={4} className="gridParent">
                                         <Card className="category">

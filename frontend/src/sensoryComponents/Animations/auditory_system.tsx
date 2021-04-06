@@ -186,7 +186,7 @@ const AuditorySystem = () => {
         }
     }
     return (
-        <div style={{maxHeight: '65vh', maxWidth: '70vw', margin:'auto'}}>
+        <div style={{minHeight: '65vh', maxWidth: '70vw', margin:'auto'}}>
             <AnimateCC
                 getAnimationObject={getAnimationObject}
                 animationName="auditory_as_js"

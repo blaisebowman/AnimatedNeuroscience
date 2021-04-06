@@ -1,6 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
+import {CustomAdobeSegmentSensory} from "../styledComponents";
 import AuditorySystem from "./Animations/auditory_system";
 import '../glias.css';
 
@@ -36,9 +37,9 @@ function TheAuditorySystemPage(props) {
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
                                     <GridColumn width={12}>
-                                        <Segment className="adobeSeg"  style={{width: width, height: height}}>
+                                        <CustomAdobeSegmentSensory style={{width: width, height: height}}>
                                             <AuditorySystem/>
-                                        </Segment>
+                                        </CustomAdobeSegmentSensory>
                                     </GridColumn>
                                     <Grid.Column width={4} className="gridParent">
                                         <Card className="category">

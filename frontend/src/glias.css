@@ -1,6 +1,4 @@
-/*.ui.segment {
-  background: aliceblue linear-gradient(rgba(250, 0, 0, 0.5), transparent) !important;
-}*/
+
 .imgSeg{
     background: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
     min-height: 100vh;
@@ -21,7 +19,9 @@
     border: 0 !important;
     box-shadow: none !important;
     min-width: 67.5% !important;
-    padding: 0 !important;
+    min-height: 78.5vh !important;
+    padding: 2vh 0 2vh 0 !important;
+    background-color: #000000 !important;
 }
 .imgSeg {
     border: 0 !important;

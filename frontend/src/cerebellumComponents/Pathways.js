@@ -2,6 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import CerebellumCircuit from "./Animations/cerebellum_circuit.tsx";
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
+import {CustomAdobeSegmentCerebellum} from "../styledComponents";
 
 import '../glias.css';
 
@@ -36,9 +37,9 @@ function PathwaysPage(props) {
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
                                     <GridColumn width={12}>
-                                        <Segment className="adobeSeg" style={{width: width, height: height}}>
+                                        <CustomAdobeSegmentCerebellum style={{width: width, height: height}}>
                                             <CerebellumCircuit/>
-                                        </Segment>
+                                        </CustomAdobeSegmentCerebellum>
                                     </GridColumn>
                                     <Grid.Column width={4} className="gridParent">
                                         <Card className="category">

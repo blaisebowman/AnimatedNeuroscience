@@ -154,7 +154,7 @@ logic to mis-align between the desktop and mobile version. Therefore, we will as
         }
     }
     return (
-        <div style={{maxHeight: '65vh', maxWidth: '70vw', margin:'auto'}}>
+        <div style={{minHeight: '65vh', maxWidth: '70vw', margin:'auto'}}>
             <AnimateCC
                 getAnimationObject={getAnimationObject}
                 animationName="brainDevelopment"

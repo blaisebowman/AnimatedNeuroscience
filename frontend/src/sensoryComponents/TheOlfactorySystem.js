@@ -1,6 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import OlfactorySystem from "./Animations/olfactory_system";
+import {CustomAdobeSegmentSensory} from "../styledComponents";
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
 
 import '../glias.css';
@@ -36,9 +37,9 @@ function TheOlfactorySystemPage(props) {
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
                                     <GridColumn width={12}>
-                                        <Segment className="adobeSeg" style={{width: width, height: height}}>
+                                        <CustomAdobeSegmentSensory style={{width: width, height: height}}>
                                             <OlfactorySystem/>
-                                        </Segment>
+                                        </CustomAdobeSegmentSensory>
                                     </GridColumn>
                                     <Grid.Column width={4} className="gridParent">
                                         <Card className="category">

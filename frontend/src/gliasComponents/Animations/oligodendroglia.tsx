@@ -148,7 +148,7 @@ const Oligodendroglia = () => {
         }
     }
     return (
-        <div style={{maxHeight: '65vh', maxWidth: '60vw', margin:'auto'}}>
+        <div style={{minHeight: '65vh', maxWidth: '60vw', margin:'auto'}}>
             <AnimateCC
                 getAnimationObject={getAnimationObject}
                 animationName="Oligodendroglia"

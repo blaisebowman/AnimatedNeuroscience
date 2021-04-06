@@ -3,6 +3,8 @@ import {Link, useHistory} from "react-router-dom";
 import PainPerception from "./Animations/pain_perception";
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
+import {CustomAdobeSegmentSensory} from "../styledComponents";
+
 
 import '../glias.css';
 
@@ -38,9 +40,9 @@ function PainPerceptionPage(props) {
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
                                     <GridColumn width={12}>
-                                        <Segment className="adobeSeg" style={{width: width, height: height}}>
+                                        <CustomAdobeSegmentSensory style={{width: width, height: height}}>
                                             <PainPerception/>
-                                        </Segment>
+                                        </CustomAdobeSegmentSensory>
                                     </GridColumn>
                                     <Grid.Column width={4} className="gridParent">
                                         <Card className="category">
