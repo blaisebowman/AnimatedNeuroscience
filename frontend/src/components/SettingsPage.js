@@ -385,7 +385,7 @@ function SettingsPage(props) {
             //on change to the progress tab, load the member data with a default sorting category.
             setDropdownOption("Number Completed (High - Low)");
             let id = sessionStorage.getItem("id");
-            let port = process.env.PORT || ('http://localhost:8080/api/members/' + id + '/sorted?id=' +id + "&sortBy=Number Completed (High - Low)");
+            let port = process.env.PORT || ('http://localhost:8080/api/members/' + id + '/sorted?_id=' +id + "&sortBy=Number Completed (High - Low)");
             axios({method: 'get', url: port, headers: {'Content-Type': 'application/json'}, data : {"_id": id, "sortBy": "Number Completed (High - Low)"}})
                 .then(function (response) {
                     console.log(JSON.stringify(response.data));
@@ -412,7 +412,7 @@ function SettingsPage(props) {
     async function handleDropdownSelection (e, {value}){
         setDropdownOption(value); // set the option (or value) currently selected in the dropdown
         let id = sessionStorage.getItem("id");
-        let port = process.env.PORT || ('http://localhost:8080/api/members/' + id + '/sorted?id=' +id + "&sortBy=" + value);
+        let port = process.env.PORT || ('http://localhost:8080/api/members/' + id + '/sorted?_id=' +id + "&sortBy=" + value);
         await axios({method: 'get', url: port, headers: {'Content-Type': 'application/json'}, data : {"_id": id, "sortBy": value}})
             .then(function (response) {
                 console.log(JSON.stringify(response.data));

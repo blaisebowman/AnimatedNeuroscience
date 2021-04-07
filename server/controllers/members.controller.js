@@ -230,18 +230,7 @@ exports.forgotPassword = (req, res) =>{
         }});
 }
 
-exports.findMemberById = (req, res, next, id) => {
-        Member.findById(id).exec((error, member) => {
-            if (error) {
-                res.status(400);
-                return res.status(400).json({memberWithId: 'A member with that ID does not exist in the database.'});
-            } else{
-                req.member = member;
-                next();
-                console.log("A member was found in database with the given ID.");
-            }
-        });
-}
+
 
 //List a member's animation data (GET)
 exports.getAnimationProgress = (req, res) => {
@@ -350,7 +339,7 @@ exports.getAnimationSuggested = (req, res) => {
     res.json(req.member.animation_data.suggested_animations);
 };
 
-exports.getAnimationSorted = (req, res) => {
+exports.getAnimationSorted = async(req, res) => {
     /* To test in Postman:
     GET: HTTP://localhost:8080/api/members/<*member's id as a string without quotation marks*>/sorted
     Parameter 1: key: id, value: <*member's id as a string without quotation marks*>
@@ -420,37 +409,43 @@ exports.getAnimationSorted = (req, res) => {
     //To be used in animation progress page on frontend
     //returns the array of animation data (sorted according to req.body.filter)
     //to test in Postman: GET HTTP://localhost:8080/api/members/<memberId>/animations
+    console.log("query: ");
+    console.log(req.query);
     let id = req.query._id;
+    console.log(id);
+    var searchFor = mongoose.Types.ObjectId(id);
     let sortBy = req.query.sortBy;
-    Member.findOne({id: id}, (error, member) => {
-        if(error){
+
+    await Member.findOne({_id: searchFor}, (error, member) => {
+
+        if (error) {
             console.log(error);
             return res.status(400).json({progressError: "There was an error returning the member's progress."});
-        }
-        else if (member === null){
-            //
-        }
-        else {
+        } else {
+            if (member) {
                 console.log(member);
                 let baseArray = [];
-                for (const prop in member.animation_data){
-                    if (member.animation_data.hasOwnProperty(prop) && (prop !== "completed_animations") && (prop !== "suggested_animations") && (prop !== "$init")){
+                for (const prop in member.animation_data) {
+                    if (member.animation_data.hasOwnProperty(prop) && (prop !== "completed_animations") && (prop !== "suggested_animations") && (prop !== "$init")) {
                         let complete = 0;
                         let remaining = 0;
                         let time = 0;
-                        for (const property in member.animation_data[prop]){
-                            if (member.animation_data[prop].hasOwnProperty(property) && property !== "$init" && member.animation_data[prop] !== "$init"){
-                                if(member.animation_data[prop][property].complete === true){
-                                    complete++;
-                                }
-                                else if (member.animation_data[prop][property].complete === false) {
+                        console.log(prop);
+                        for (const property in member.animation_data[prop]) {
+                            if (member.animation_data[prop].hasOwnProperty(property) && property !== "$init" && member.animation_data[prop] !== "$init") {
+                                console.log(property + "  " + member.animation_data[prop][property].complete);
+                                console.log(member.animation_data[prop][property]);
+                                if (member.animation_data[prop][property].complete === true) {
+                                    console.log("*** I AM COMPLETE***");
+                                    complete += 1;
+                                } else if (member.animation_data[prop][property].complete === false) {
                                     remaining += 1;
                                 }
                                 time += member.animation_data[prop][property].timeRemaining;
                             }
                         }
                         let name = "";
-                        switch (prop){
+                        switch (prop) {
                             case "neurons":
                                 name = "Neurons";
                                 break;
@@ -476,49 +471,80 @@ exports.getAnimationSorted = (req, res) => {
                         console.log(baseArray);
                     }
                 }
-                console.log(sortBy);
                 switch (sortBy) {
+                    //if two or more categories have the same number of animations complete, sort by time remaining (high - low)
                     case "Number Completed (High - Low)":
-                        baseArray.sort((a,b) => a.complete - b.complete);
+                        baseArray.sort((a, b) => b.complete - a.complete);
+                        console.log(baseArray);
+                        baseArray.sort(function(a,b){
+                           if (a.complete === b.complete){
+                               if(a.timeRemaining > b.timeRemaining){
+                                   return 1;
+                               } else if(a.timeRemaining < b.timeRemaining){
+                                   return -1;
+                               } else {
+                                   return 0;
+                               }
+                           }
+                        });
                         console.log(baseArray);
                         break;
+                    //if two or more categories have the same number of animations complete, sort by time remaining (low - high)
                     case "Number Completed (Low - High)":
-                        baseArray.sort((a,b) => b.complete - a.complete);
+                        baseArray.sort((a, b) => a.complete - b.complete);
                         console.log(baseArray);
+                        baseArray.sort(function(a,b){
+                            if (a.complete === b.complete){
+                                if(a.timeRemaining > b.timeRemaining){
+                                    return 1;
+                                } else if(a.timeRemaining < b.timeRemaining){
+                                    return -1;
+                                } else {
+                                    return 0;
+                                }
+                            }
+                        });
                         break;
+                        //if two or more categories have the SAME time remaining, sort by animations complete (high - low)
                     case "Time Remaining (High - Low)":
-                        baseArray.sort((a,b) => b.timeRemaining - a.timeRemaining);
+                        baseArray.sort((a, b) => b.timeRemaining - a.timeRemaining);
                         console.log(baseArray);
+                        baseArray.sort(function(a,b){
+                            if (a.timeRemaining === b.timeRemaining){
+                                if(a.complete > b.complete){
+                                    return 1;
+                                } else if(a.complete < b.complete){
+                                    return -1;
+                                } else {
+                                    return 0;
+                                }
+                            }
+                        });
                         break;
+                        //if two or more categories have the SAME time remaining, sort by number of animations complete (low - high)
                     case "Time Remaining (Low - High)":
-                        baseArray.sort((a,b) => a.timeRemaining - b.timeRemaining);
+                        baseArray.sort((a, b) => a.timeRemaining - b.timeRemaining);
                         console.log(baseArray);
+                        baseArray.sort(function(a,b){
+                            if (a.timeRemaining === b.timeRemaining){
+                                if(a.complete > b.complete){
+                                    return 1;
+                                } else if(a.complete < b.complete){
+                                    return -1;
+                                } else {
+                                    return 0;
+                                }
+                            }
+                        });
                         break;
                     default:
                         return res.status(400).json({progressError: "An invalid sorting parameter was passed."});
                 }
-                /* TODO -> PSEUDOCODE
-                if(sortBy === "Number Complete (Low - High))"{
-                    *if two or more categories have the SAME number of animations complete,
-                    prioritize the animations with the MOST time remaining as first in that subset.
-                    *EX: Consider time remaining (High - Low ) as the second sorting parameter
-                }
-                else if(sortBy === "Number Complete (High - Low))"{
-                     *if two or more categories have the SAME number of animations complete,
-                    prioritize the animations with the MOST time remaining as first in that subset.
-                    *EX: Consider time remaining (Low - High) as the second sorting parameter
-                }
-                else if(sortBy === "Time Remaining (Low - High))"{
-                     *if two or more categories have the SAME time remaining,
-                    prioritize the category with the MOST animations complete in that subset.
-                    *EX: Consider Number Complete (High-Low) as the second sorting parameter
-                }
-                else if(sortBy === "Time Remaining (High - Low))"{
-                     *if two or more categories have the SAME time remaining,
-                    prioritize the category with the LEAST animations complete in that subset.
-                    *EX: Consider Number Complete (Low - High) as the second sorting parameter
-                }*/
                 return res.status(200).json({sortedData: baseArray});
+            }
+            else {
+                return res.status(400).json({error: "No member"});
+            }
         }
     });
 };
@@ -964,7 +990,18 @@ exports.login = (req, res) => {
         });
     }
 }
-
+exports.findMemberById = (req, res, next, id) => {
+    Member.findById(id).exec((error, member) => {
+        if (error) {
+            res.status(400);
+            return res.status(400).json({memberWithId: 'A member with that ID does not exist in the database.'});
+        } else {
+            req.member = member;
+            next();
+            console.log("A member was found in database with the given ID.");
+        }
+    });
+}
 
 
 
