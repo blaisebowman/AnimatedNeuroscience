@@ -249,6 +249,7 @@ function RegisterPage(props) {
                     sessionStorage.setItem('id', response.data);
                     sessionStorage.setItem('memberLoggedIn', "true");
                     sessionStorage.setItem('reload', "true");
+                    sessionStorage.setItem("sortedArray", JSON.stringify({"sortedData":[{"name":"","complete":0,"remaining":0,"timeRemaining":0},{"name":"Glias and Synapses","complete":0,"remaining":0,"timeRemaining":0},{"name":"The Brain","complete":0,"remaining":0,"timeRemaining":0},{"name":"Sensory Systems","complete":0,"remaining":0,"timeRemaining":0},{"name":"Cerebellum","complete":0,"remaining":0,"timeRemaining":0},{"name":"Nervous System","complete":0,"remaining":0,"timeRemaining":0}]}));///store in session storage, in case of page refresh
                     /*setFirst('');
                     setLast('');
                     setPassword('');

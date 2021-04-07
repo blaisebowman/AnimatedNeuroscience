@@ -1,12 +1,13 @@
-import React from 'react';
-import {Link} from "react-router-dom";
-import {Image, Grid, Header, Button, Card, Divider, Dropdown, Icon} from 'semantic-ui-react';
+import React, {useEffect, useState} from 'react';
+import {Link, Redirect} from "react-router-dom";
+import {Image, Grid, Header, Button, Icon} from 'semantic-ui-react';
 import hometitle2 from '../images/hometitle2.jpg';
-import icon from '../images/WebHeader.jpg';
 import '../header.css';
 
-
 function PageHeader(props) {
+    const [redirectingToHome, setRedirectingToHome] = useState(false);
+    const [id, setId] = useState("");
+    const [loggedIn, setLoggedIn] = useState(false);
     const openRepository = (url) => {
         const newTabOpened = window.open(url, '_blank', 'noopner, norefferer');
         //open in new window to avoid security issues with _blank
@@ -15,12 +16,32 @@ function PageHeader(props) {
         }
     }
 
-    let id = ""; //get id from backend -> upon a valid login or registration, user is directed to this page.
-    if(sessionStorage.getItem("memberLoggedIn")){
-        id = sessionStorage.getItem("id");
-        /*history.push(event.target.value + id);*/
+   // let id = ""; //get id from backend -> upon a valid login or registration, user is directed to this page.
+    /*if(sessionStorage.getItem("memberLoggedIn")){
+        setId(sessionStorage.getItem("id"));
+    }*/
+
+    function handleLogOut(){
+        setRedirectingToHome(true);
     }
 
+
+    useEffect(()=> {
+        console.log(redirectingToHome);
+        if(redirectingToHome === true){
+            console.log("GOING HOME");
+            sessionStorage.clear();
+            setId("");
+            //setRedirectingToHome(false);
+        }
+        else if(sessionStorage.getItem("memberLoggedIn")){
+            setId(sessionStorage.getItem("id"));
+            console.log(id);
+            setRedirectingToHome(false);
+        }
+        console.log(sessionStorage);
+
+    },[redirectingToHome]);
 
     return (
         <Header as='h2' className='modGrid' style={{maxHeight: '100vh'}}>
@@ -51,7 +72,6 @@ function PageHeader(props) {
                     }
                     {id !== "" &&
                     <Grid columns={3} rows={1} className='modGrid'>
-                        <Grid.Column/>
                         <Grid.Column>
                             <Button fluid color='blue'
                                     onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}
@@ -61,6 +81,12 @@ function PageHeader(props) {
                             <Button fluid color='orange' className='headerButton'>
                                 <Link to={{pathname: "/settings"}} className='headerButton'>My Account <Icon name = 'user'/></Link>
                             </Button>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Button fluid color='orange' className='headerButton' onClick={handleLogOut}>Logout</Button>
+                            {redirectingToHome &&
+                            <Redirect to={'/introduction'}/>
+                            }
                         </Grid.Column>
                     </Grid>
                     }

@@ -1,9 +1,7 @@
 const mongoose = require ('mongoose'),
     Member = require('../models/member.model'),
     Mailer = require('../email/emailSender'),
-    util  = require('util'),
     bcrypt = require('bcryptjs'),
-    jwt = require('jsonwebtoken'),
     validateRegister = require('../validation/register'),
     validateLogin = require('../validation/login'),
     validateUpdate = require('../validation/update');
@@ -14,7 +12,6 @@ if(process.env.NODE_ENV === 'production'){
 } else {
     require('mongoose').set('debug', true);
 }
-
 
 //List information of all members in the database (GET)
 exports.list = (req, res) => {
@@ -256,7 +253,7 @@ exports.getAnimationProgress = (req, res) => {
     res.json(req.member.animation_data);
 };
 //List a member's animation completion progress (GET)
-exports.getAnimationCompletion = (req, res, next) => {
+exports.getAnimationCompletion = (req, res) => {
     //to test in Postman: GET HTTP://localhost:8080/api/members/<memberId>/animations/completed
     let params = req.query;
     console.log(params);

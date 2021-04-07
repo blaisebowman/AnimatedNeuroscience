@@ -33,7 +33,7 @@ function SettingsPage(props) {
     const [isMaskedPassword, setIsMaskedPassword] = useState("password");
     const [isMaskedPasswordConfirm, setIsMaskedPasswordConfirm] = useState("password");
     const [dropdownOption, setDropdownOption] = useState("");
-    const [animationsInfo, setAnimationsInfo] = useState(JSON.parse(sessionStorage.getItem("sortedArray")).sortedData || [
+    const [animationsInfo, setAnimationsInfo] =useState(JSON.parse(sessionStorage.getItem("sortedArray")).sortedData || [
         {name: "", complete: "", remaining: "", timeRemaining: ""},
         {name: "", complete: "", remaining: "", timeRemaining: ""},
         {name: "", complete: "", remaining: "", timeRemaining: ""},
@@ -390,6 +390,7 @@ function SettingsPage(props) {
                 .then(function (response) {
                     console.log(JSON.stringify(response.data));
                     setAnimationsInfo(response.data.sortedData);
+                    console.log(response.data);
                     sessionStorage.setItem("sortedArray", (JSON.stringify(response.data))); //store in session storage, in case of page refresh
                 })
                 .catch(function (error) {
