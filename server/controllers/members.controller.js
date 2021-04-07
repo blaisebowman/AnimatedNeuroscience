@@ -450,7 +450,6 @@ exports.getAnimationSorted = (req, res) => {
                                     remaining += 1;
                                 }
                                 time += member.animation_data[prop][property].timeRemaining;
-
                             }
                         }
                         let name = "";
@@ -501,6 +500,27 @@ exports.getAnimationSorted = (req, res) => {
                     default:
                         return res.status(400).json({progressError: "An invalid sorting parameter was passed."});
                 }
+                /* TODO -> PSEUDOCODE
+                if(sortBy === "Number Complete (Low - High))"{
+                    *if two or more categories have the SAME number of animations complete,
+                    prioritize the animations with the MOST time remaining as first in that subset.
+                    *EX: Consider time remaining (High - Low ) as the second sorting parameter
+                }
+                else if(sortBy === "Number Complete (High - Low))"{
+                     *if two or more categories have the SAME number of animations complete,
+                    prioritize the animations with the MOST time remaining as first in that subset.
+                    *EX: Consider time remaining (Low - High) as the second sorting parameter
+                }
+                else if(sortBy === "Time Remaining (Low - High))"{
+                     *if two or more categories have the SAME time remaining,
+                    prioritize the category with the MOST animations complete in that subset.
+                    *EX: Consider Number Complete (High-Low) as the second sorting parameter
+                }
+                else if(sortBy === "Time Remaining (High - Low))"{
+                     *if two or more categories have the SAME time remaining,
+                    prioritize the category with the LEAST animations complete in that subset.
+                    *EX: Consider Number Complete (Low - High) as the second sorting parameter
+                }*/
                 return res.status(200).json({sortedData: baseArray});
         }
     });

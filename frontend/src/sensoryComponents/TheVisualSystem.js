@@ -1,15 +1,13 @@
 import React, {useCallback, useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
-import VisualSystem from "./Animations/visual_system";
 import {CustomAnimationDropdown} from "../styledComponents";
-
+import VisualSystem from "./Animations/visual_system";
 import '../glias.css';
 
 
 function TheVisualSystemPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const history = useHistory();
     const [height, setHeight] = useState(null);
     const [width, setWidth] = useState(null);
     const adobeContainer = useCallback(x => {

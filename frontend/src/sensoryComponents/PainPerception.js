@@ -1,17 +1,14 @@
 import React, {useCallback, useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
-import PainPerception from "./Animations/pain_perception";
-
+import {Link} from "react-router-dom";
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
-import {CustomAdobeSegmentSensory} from "../styledComponents";
-import {CustomAnimationDropdown} from "../styledComponents";
+import {CustomAdobeSegmentSensory, CustomAnimationDropdown} from "../styledComponents";
+import PainPerception from "./Animations/pain_perception";
 
 import '../glias.css';
 
 
 function PainPerceptionPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const history = useHistory();
     const [height, setHeight] = useState(null);
     const [width, setWidth] = useState(null);
     const adobeContainer = useCallback(x => {

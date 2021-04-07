@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {Link, Redirect, useHistory} from "react-router-dom";
-import {Grid, Segment, Button, Card, Icon, Divider, List, Menu, Message, Modal, Form, Input, Dropdown, Table } from "semantic-ui-react"
+import {Redirect} from "react-router-dom";
+import {Grid, Segment, Button, Card, Icon, Menu, Message, Modal, Form, Input, Dropdown, Table } from "semantic-ui-react"
 import {CustomMenuItem, CustomProgressHeader, CustomProgressMenu, CustomProgressDropdown} from "../styledComponents";
 import '../neurons.css';
 import '../glias.css';
@@ -26,61 +26,34 @@ function SettingsPage(props) {
     const [modalVisible, setModalVisible] = useState(false);
     const [redirectingToHome, setRedirectingToHome] = useState(false);
     const [currentTab, setCurrentTab] = useState("progress");
-    const [completedAnimations, setCompletedAnimations] = useState([]);
     const [capsLockPassword, setCapsLockPassword] = useState(false);
     const [capsLockPasswordConfirm, setCapsLockPasswordConfirm] = useState(false);
     const [currentInputForm, setCurrentInputForm] = useState("");
     const [isCaps, setIsCaps] = useState(false);
     const [isMaskedPassword, setIsMaskedPassword] = useState("password");
     const [isMaskedPasswordConfirm, setIsMaskedPasswordConfirm] = useState("password");
-    const [options, setOptions] = useState([
-        {key: 1, text: 'Number Completed (High - Low)', value: 'Number Completed (High - Low)'},
+    const [dropdownOption, setDropdownOption] = useState("");
+    const [animationsInfo, setAnimationsInfo] = useState(JSON.parse(sessionStorage.getItem("sortedArray")).sortedData || [
+        {name: "", complete: "", remaining: "", timeRemaining: ""},
+        {name: "", complete: "", remaining: "", timeRemaining: ""},
+        {name: "", complete: "", remaining: "", timeRemaining: ""},
+        {name: "", complete: "", remaining: "", timeRemaining: ""},
+        {name: "", complete: "", remaining: "", timeRemaining: ""},
+        {name: "", complete: "", remaining: "", timeRemaining: ""},
+    ]);
+    const [selectorIsVisible, setSelectorIsVisible] = useState(false);
+    let options = [{key: 1, text: 'Number Completed (High - Low)', value: 'Number Completed (High - Low)'},
         {key: 2, text: 'Number Completed (Low - High)', value: 'Number Completed (Low - High)'},
         {key: 3, text: 'Time Remaining (High-Low)', value: 'Time Remaining (High - Low)'},
-        {key: 4, text: 'Time Remaining (Low-High)', value: 'Time Remaining (Low - High)'}
-        ]);
-    const [dropdownOption, setDropdownOption] = useState("");
-    const [animationsInfo, setAnimationsInfo] = useState([
-        {name: "", complete: "", remaining: "", time: ""},
-        {name: "", complete: "", remaining: "", time: ""},
-        {name: "", complete: "", remaining: "", time: ""},
-        {name: "", complete: "", remaining: "", time: ""},
-        {name: "", complete: "", remaining: "", time: ""},
-        {name: "", complete: "", remaining: "", time: ""},
-    ]);
+        {key: 4, text: 'Time Remaining (Low-High)', value: 'Time Remaining (Low - High)'}];
 
     if(process.env.NODE_ENV === 'production'){
-        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        //In production mode. Disable log statements -> hide log statements from console
         console.log = function (){};
     }
 
-    useEffect(()=>{
-        if(currentTab === "progress"){
-            setDropdownOption("Number Completed (High - Low)");
-            var axios = require('axios');
-            let id = sessionStorage.getItem("id");
-            let port = process.env.PORT || ('http://localhost:8080/api/members/' + id + '/sorted?id=' +id + "&sortBy=Number Completed (High - Low)");
-            var data = JSON.stringify({
-                "_id": id,
-                "sortBy": "Number Completed (High - Low)"
-            });
-
-            var config = {method: 'get', url: port, headers: {'Content-Type': 'application/json'}, data : data};
-
-            axios(config)
-                .then(function (response) {
-                    console.log(JSON.stringify(response.data));
-                    setAnimationsInfo(response.data.sortedData);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
-        }
-        }, [currentTab]);
-
-
     function changeTabs() {
-        //ensure errors and values are set to default values on changes in the menu selection
+        //ensure errors and values are set to *default* values on changes in the menu selection
         setPassword("");
         setPasswordConfirm("");
         setPassword("");
@@ -237,33 +210,18 @@ function SettingsPage(props) {
         if (name === "password"){
             if(isMaskedPassword === "password"){
                 setIsMaskedPassword("text");
-            }
-            else {
+            } else {
                 setIsMaskedPassword("password");
             }
-        }
-        else if (name === "passwordConfirm"){
+        } else if (name === "passwordConfirm"){
             if(isMaskedPasswordConfirm === "password"){
                 setIsMaskedPasswordConfirm("text");
-            }
-            else {
+            } else {
                 setIsMaskedPasswordConfirm("password");
             }
         }
     }
 
-    function handleProgress() {
-        //upon a valid login or registration, user is directed to this page
-        //load progress on default, as it takes up a bunch of whitespace.
-        //shows member progress
-        setCurrentTab("progress");
-        changeTabs();
-        let id = ""; //get id from backend.
-        if (sessionStorage.getItem("memberLoggedIn")) {
-            id = sessionStorage.getItem("id");
-        }
-        setCompletedAnimations([]); //replace with the backend's data on a user
-    }
 
     function handlePassword() {
         //allows member to update password
@@ -305,7 +263,7 @@ function SettingsPage(props) {
                     //setRedirect(true);
                     setPassword('');
                     setPasswordConfirm('');
-                    setPasswordUpdateSuccess(true);
+                    setPasswordUpdateSuccess("true");
                 }).catch(function(error) {
                     console.log("Password NOT updated");
                     console.log(error.response);
@@ -371,18 +329,14 @@ function SettingsPage(props) {
             console.log("Email Updated");
             let id = sessionStorage.getItem("id");
             let port = process.env.PORT || 'http://localhost:8080/api/members/'+id
-            await axios.post(port, {
-                _id: id,
-                member_email: email,
-                type: "email",
-            }, {headers: {'Content-Type': 'application/json'}})
+            await axios.post(port, {_id: id, member_email: email, type: "email",}, {headers: {'Content-Type': 'application/json'}})
                 .then(function(response) {
                     console.log(response.data);
                     //setRedirect(true);
                     sessionStorage.setItem('reload', "true");
                     //setEmail('');
                     setCurrentEmail(email);
-                    setEmailUpdateSuccess(true);
+                    setEmailUpdateSuccess("true");
                 }).catch(function(error) {
                     console.log(error.response);
                     console.log("Email NOT updated.");
@@ -407,18 +361,7 @@ function SettingsPage(props) {
         console.log("Processing user deletion:");
         let id = sessionStorage.getItem("id");
         let port = process.env.PORT || ('http://localhost:8080/api/members/' + id);
-        var axios = require('axios');
-        var config = {
-            method: 'delete',
-            url: port,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data : {
-                _id: id
-            }
-        };
-        await axios(config)
+        await axios({method: 'delete', url: port, headers: {'Content-Type': 'application/json'}, data : {_id: id}})
             .then(function (response) {
                 console.log(JSON.stringify(response.data));
                 sessionStorage.removeItem("id");
@@ -430,46 +373,54 @@ function SettingsPage(props) {
             });
     }
 
-    function handleDropdownEnter (){
-        //TODO
+    function handleProgress() {
+        //upon a valid login or registration, user is directed to this page
+        setCurrentTab("progress"); //-> causes useEffect hook to run, thereby displaying member data with default sort method on render.
+        changeTabs();
     }
 
-    function handleDropdownLeave (){
-        //TODO
+    useEffect(()=>{
+        console.log(JSON.parse(sessionStorage.getItem("sortedArray")).sortedData);
+        if(currentTab === "progress"){
+            //on change to the progress tab, load the member data with a default sorting category.
+            setDropdownOption("Number Completed (High - Low)");
+            let id = sessionStorage.getItem("id");
+            let port = process.env.PORT || ('http://localhost:8080/api/members/' + id + '/sorted?id=' +id + "&sortBy=Number Completed (High - Low)");
+            axios({method: 'get', url: port, headers: {'Content-Type': 'application/json'}, data : {"_id": id, "sortBy": "Number Completed (High - Low)"}})
+                .then(function (response) {
+                    console.log(JSON.stringify(response.data));
+                    setAnimationsInfo(response.data.sortedData);
+                    sessionStorage.setItem("sortedArray", (JSON.stringify(response.data))); //store in session storage, in case of page refresh
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        }
+    }, [currentTab]);
+
+    function handleDropdown (){
+        //toggle if the dropdown is displaying it's options
+        if(selectorIsVisible === true){
+            setSelectorIsVisible(false);
+        } else {
+            setSelectorIsVisible(true );
+        }
+        console.log(selectorIsVisible);
     }
 
-
-
-    function handleDropdownSelection (e, {value}){
-        console.log(e);
-        console.log(value);
-        setDropdownOption(value);
-        var axios = require('axios');
+    async function handleDropdownSelection (e, {value}){
+        setDropdownOption(value); // set the option (or value) currently selected in the dropdown
         let id = sessionStorage.getItem("id");
         let port = process.env.PORT || ('http://localhost:8080/api/members/' + id + '/sorted?id=' +id + "&sortBy=" + value);
-        var data = JSON.stringify({
-            "_id": id,
-            "sortBy": value
-        });
-
-        var config = {
-            method: 'get',
-            url: port,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data : data
-        };
-
-        axios(config)
+        await axios({method: 'get', url: port, headers: {'Content-Type': 'application/json'}, data : {"_id": id, "sortBy": value}})
             .then(function (response) {
                 console.log(JSON.stringify(response.data));
                 setAnimationsInfo(response.data.sortedData);
+                sessionStorage.setItem("sortedArray", (JSON.stringify(response.data))); //store in session storage in case of page refresh
             })
             .catch(function (error) {
                 console.log(error);
             });
-
     }
 
     return (
@@ -517,7 +468,6 @@ function SettingsPage(props) {
                                                     <CustomMenuItem>
                                                         Your Progress
                                                     </CustomMenuItem>
-
                                                     <Menu.Item>
                                                         <Message>
                                                             <Grid columns={2}>
@@ -529,8 +479,9 @@ function SettingsPage(props) {
                                                                 <Grid.Column width={4} textAlign='middle' float='left'>
                                                                     <CustomProgressDropdown
                                                                         text='Sort By'
-                                                                        onMouseEnter={handleDropdownEnter}
-                                                                        onMouseLeave={handleDropdownLeave}
+                                                                        open={selectorIsVisible}
+                                                                        onMouseEnter={handleDropdown}
+                                                                        onMouseLeave={handleDropdown}
                                                                         onChange = {handleDropdownSelection}
                                                                         options ={options}
                                                                         placeholder='Sort By: '
@@ -629,7 +580,7 @@ function SettingsPage(props) {
                                                         {emailUpdateError &&
                                                         <Message content={emailUpdateError} color={'red'}/>
                                                         }
-                                                        {emailUpdateSuccess &&
+                                                        {emailUpdateSuccess === " true" &&
                                                         <Message content="Email Successfully Updated." color={'blue'}/>
                                                         }
                                                         <Form.Button content='Submit' color='blue'/>
@@ -658,7 +609,9 @@ function SettingsPage(props) {
                                                                 onClick={checkCapsLock}
                                                                 onKeyDown={checkCapsLock}
                                                                 action={<Button.Group basic>
-                                                                    <Button icon onClick={toggleMask} name='password'><Icon name='eye'/></Button>
+                                                                    <Button icon onClick={toggleMask} name='password'>
+                                                                        <Icon name='eye'/>
+                                                                    </Button>
                                                                 </Button.Group>
                                                                 }
                                                             />
@@ -674,7 +627,9 @@ function SettingsPage(props) {
                                                                 onClick={checkCapsLock}
                                                                 onKeyDown={checkCapsLock}
                                                                 action={<Button.Group basic>
-                                                                    <Button icon onClick={toggleMask} name='passwordConfirm'><Icon name='eye'/></Button>
+                                                                    <Button icon onClick={toggleMask} name='passwordConfirm'>
+                                                                        <Icon name='eye'/>
+                                                                    </Button>
                                                                 </Button.Group>
                                                                 }
                                                             />
@@ -685,7 +640,7 @@ function SettingsPage(props) {
                                                         {passwordUpdateError &&
                                                             <Message content={passwordUpdateError} color={'red'}/>
                                                         }
-                                                        {passwordUpdateSuccess &&
+                                                        {passwordUpdateSuccess === "true" &&
                                                         <Message content={"Password Successfully Updated."} color={'blue'}/>
                                                         }
                                                         <Form.Button content='Submit' color='blue'/>
@@ -704,9 +659,9 @@ function SettingsPage(props) {
                                                         open={modalVisible}
                                                         trigger={<Button>Delete My Account</Button>}
                                                     >
-                                                        <Modal.Header styles={{textAlign: "middle"}}
-                                                                      className='myModalHeader'>Are you sure you want to
-                                                            delete your account?</Modal.Header>
+                                                        <Modal.Header styles={{textAlign: "middle"}} className='myModalHeader'>
+                                                            Are you sure you want to delete your account?
+                                                        </Modal.Header>
                                                         <Modal.Actions className='myModalActions'>
                                                             <Button
                                                                 content='No, I want to keep my account.'
