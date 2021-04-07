@@ -1,7 +1,13 @@
 .App {
   text-align: center;
-  height: 100vh;
+  width: 100vw !important;
   background: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
+  height: 100vh !important;
+  /*
+  overflow: visible !important;
+  */
+
+
 }
 
 

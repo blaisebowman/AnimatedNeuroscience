@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Dropdown, Form, Menu, Message, Dimmer, Card, Header, Segment} from 'semantic-ui-react';
+import {Dropdown, Form, Menu, Message, Dimmer, Card, Header, Segment, Grid} from 'semantic-ui-react';
 
 //tentative styled components, eventually replacing the usage of !important in .css and .scss files.
 
@@ -185,4 +185,32 @@ export const CustomAdobeSegmentNervous= styled(Segment)`
     min-height: 77.5vh !important;
     padding: 2vh 0 2vh 0 !important;
     background-color: #000000 !important;
+`
+/*BelowFor Exploring*/
+export const CustomContainerSegmentA= styled(Segment)`
+    border: 0 !important;
+    box-shadow: none !important;
+    min-width: 67.5% !important;
+    max-width: 100% !important;
+    min-height: 70vh !important;
+    height: 100vh !important;
+    background-color: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
+    background: none !important;
+    padding: 0 0 0 0 !important;
+    margin: 0 0 0 0 !important;
+    height: auto !important;
+`
+export const CustomGrid= styled(Grid.Column)`
+    padding-bottom: 0 !important;
+ 
+`
+export const CustomContainerSegment= styled(Segment)`
+    border: 0 !important;
+    box-shadow: none !important;
+    min-width: 67.5% !important;
+    max-width: 100% !important;
+    min-height: 78.5vh !important;
+    background-color: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
+    // padding: 0 0 2vh 0 !important;
+    padding: 0 0 0 0 !important;
 `

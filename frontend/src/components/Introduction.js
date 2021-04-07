@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useHistory} from "react-router";
 import {Grid, GridColumn, Segment, Image, Divider, List, Icon, Card, Message} from "semantic-ui-react";
-import  {CustomCardDescription} from '../styledComponents';
+import {CustomCardDescription, CustomContainerSegment} from '../styledComponents';
 import '../introduction.css';
 import cise from '../images/cise.jpg';
 
@@ -23,7 +23,7 @@ function Introduction(props) {
 
     return (
         <div className="App">
-            <Segment className="body">
+            <CustomContainerSegment>
                 <div className="modGrid">
                     <Grid className="introduction" style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
@@ -114,7 +114,7 @@ function Introduction(props) {
                         <GridColumn className='noPadding'/>
                     </Grid>
                 </div>
-            </Segment>
+            </CustomContainerSegment>
         </div>
     );
 }

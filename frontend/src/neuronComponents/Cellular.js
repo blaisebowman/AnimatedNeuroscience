@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
-import {CustomAnimationDropdown} from "../styledComponents";
+import {CustomAnimationDropdown, CustomContainerSegment} from "../styledComponents";
 
 import '../glias.css';
 
 function CellularPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const history = useHistory();
 
     function handleSelector() {
         if(selectorIsVisible === true){
@@ -22,16 +21,18 @@ function CellularPage(props) {
 
     return (
         <div className="App">
-            <Segment className="body">
+            <CustomContainerSegment>
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
                                     <GridColumn width={12}>
+                                        <div style={{minHeight: '75vh', maxWidth: '60vw', margin:'auto'}}>
                                         <Segment className="adobeSeg">
                                             CELLULAR PLACEHOLDER
                                         </Segment>
+                                            </div>
                                     </GridColumn>
                                     <Grid.Column width={4} className="gridParent">
                                         <Card className="category">
@@ -59,7 +60,7 @@ function CellularPage(props) {
                         </Grid.Column>
                     </Grid>
                 </div>
-            </Segment>
+            </CustomContainerSegment>
         </div>
     );
 }

@@ -1,15 +1,14 @@
-import React, {Component, useEffect, useReducer, useState, useRef, useCallback} from 'react';
-import {Link, useHistory} from "react-router-dom";
+import React, {useState, useCallback} from 'react';
+import {Link} from "react-router-dom";
 import Astrocyte from "./Animations/astrocyte";
 import {Grid, GridColumn, Segment, Dropdown, Card, } from "semantic-ui-react";
 
 import '../glias.css';
-import {CustomAnimationDropdown} from "../styledComponents";
+import {CustomAnimationDropdown, CustomContainerSegment} from "../styledComponents";
 
 
 function AstrocytePage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const history = useHistory();
     const [height, setHeight] = useState(null);
     const [width, setWidth] = useState(null);
     const adobeContainer = useCallback(x => {
@@ -31,7 +30,7 @@ function AstrocytePage(props) {
 
     return (
         <div className="App">
-            <Segment className="body">
+            <CustomContainerSegment>
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
@@ -70,7 +69,7 @@ function AstrocytePage(props) {
                         </Grid.Column>
                     </Grid>
                 </div>
-            </Segment>
+            </CustomContainerSegment>
         </div>
     );
 }

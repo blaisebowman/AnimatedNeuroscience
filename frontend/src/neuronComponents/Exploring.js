@@ -1,17 +1,15 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
+import React, {useCallback, useState} from 'react';
+import {Link} from "react-router-dom";
 import App2 from "./Animations/exploring_one.tsx";
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
-import {CustomAnimationDropdown} from "../styledComponents";
+import {CustomAnimationDropdown, CustomContainerSegment, CustomContainerSegmentA} from "../styledComponents";
 
 import '../glias.css';
 
 
 function ExploringPage(props) {
-    console.log(App2.toString());
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const history = useHistory();
     const [height, setHeight] = useState(null);
     const [width, setWidth] = useState(null);
     const adobeContainer = useCallback(x => {
@@ -33,7 +31,7 @@ function ExploringPage(props) {
 
     return (
         <div className="App">
-            <Segment className="body">
+            <CustomContainerSegmentA>
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
@@ -70,7 +68,7 @@ function ExploringPage(props) {
                         </Grid.Column>
                     </Grid>
                 </div>
-            </Segment>
+            </CustomContainerSegmentA>
         </div>
     );
 }

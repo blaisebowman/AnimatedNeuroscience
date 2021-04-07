@@ -1,6 +1,12 @@
 .imgSeg{
     background: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
-    min-height: 100vh;
+    height: 100vh;
+    /*
+    overflow-y: auto !important;
+    */
+    margin: 0em 1em 0em 0 !important;
+    padding: 1em 1em 0em 1em !important;
+
 }
 .modGrid2 {
     margin: 0 !important;
@@ -60,11 +66,6 @@
 }
 .ui.dropdown {
     text-align: center !important;
-}
-.ui.default.dropdown:not(.button)>.text, .ui.dropdown:not(.button)>.default.text {
-    /*
-    color: #ffffff !important;
-    */
 }
 .ui.dropdown>.dropdown.icon {
     color: #ffffff !important;

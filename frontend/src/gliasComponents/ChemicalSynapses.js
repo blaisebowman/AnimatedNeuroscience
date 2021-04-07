@@ -1,15 +1,14 @@
-import React, {Component, useEffect, useReducer, useState, useRef, useCallback} from 'react';
-import {Link, useHistory} from "react-router-dom";
+import React, {useState, useCallback} from 'react';
+import {Link} from "react-router-dom";
 import ChemicalSynapse from "./Animations/chemicalSynapse";
 import {Grid, GridColumn, Image, Segment, Button, Dropdown, Card, Icon, Divider} from "semantic-ui-react";
 
 import '../glias.css';
-import {CustomAnimationDropdown} from "../styledComponents";
+import {CustomAnimationDropdown, CustomContainerSegmentA} from "../styledComponents";
 
 
 function ChemicalSynpasesPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const history = useHistory();
     const [height, setHeight] = useState(null);
     const [width, setWidth] = useState(null);
     const adobeContainer = useCallback(x => {
@@ -32,7 +31,7 @@ function ChemicalSynpasesPage(props) {
 
     return (
         <div className="App">
-            <Segment className="body">
+            <CustomContainerSegmentA>
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
@@ -71,7 +70,7 @@ function ChemicalSynpasesPage(props) {
                         </Grid.Column>
                     </Grid>
                 </div>
-            </Segment>
+            </CustomContainerSegmentA>
         </div>
     );
 }

@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import Oligodendroglia from "./Animations/oligodendroglia";
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
-import {CustomAnimationDropdown} from "../styledComponents";
+import {CustomAnimationDropdown, CustomContainerSegment} from "../styledComponents";
 
 
 import '../glias.css';
@@ -32,7 +32,7 @@ function OligodendrogliaPage(props) {
 
     return (
         <div className="App">
-            <Segment className="body">
+            <CustomContainerSegment className="body">
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
@@ -71,7 +71,7 @@ function OligodendrogliaPage(props) {
                         </Grid.Column>
                     </Grid>
                 </div>
-            </Segment>
+            </CustomContainerSegment>
         </div>
     );
 }

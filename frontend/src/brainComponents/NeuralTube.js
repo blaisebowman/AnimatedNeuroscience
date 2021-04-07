@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import BrainDevelopment from "./Animations/brainDevelopment";
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
-import {CustomAnimationDropdown} from "../styledComponents";
+import {CustomAnimationDropdown, CustomGrid, CustomContainerSegment} from "../styledComponents";
 
 
 import '../glias.css';
@@ -11,7 +11,6 @@ import '../glias.css';
 
 function NeuralTubePage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const history = useHistory();
 
     function handleSelector() {
         if(selectorIsVisible === true){
@@ -25,17 +24,17 @@ function NeuralTubePage(props) {
 
     return (
         <div className="App">
-            <Segment className="body">
+            <CustomContainerSegment>
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
-                                    <GridColumn width={12}>
+                                    <CustomGrid width={12}>
                                         <Segment className="adobeSeg">
                                             <BrainDevelopment/>
                                         </Segment>
-                                    </GridColumn>
+                                    </CustomGrid>
                                     <Grid.Column width={4} className="gridParent">
                                         <Card className="category">
                                             <div onMouseEnter={handleSelector}
@@ -64,7 +63,7 @@ function NeuralTubePage(props) {
                         </Grid.Column>
                     </Grid>
                 </div>
-            </Segment>
+            </CustomContainerSegment>
         </div>
     );
 }

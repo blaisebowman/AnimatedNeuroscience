@@ -1,18 +1,18 @@
-import React, {useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
+import React from 'react';
+import {Link} from "react-router-dom";
 import {Grid, Image, Segment, Button,  Card, Icon, Divider, List} from "semantic-ui-react"
 import neuron from "../images/neuron.jpg"
 
 import '../neurons.css';
 
 import '../glias.css';
+import {CustomContainerSegment} from "../styledComponents";
 
 
 function Neurons(props) {
-    const [redirecting, setRedirecting] = useState(0);
     return (
         <div className="App">
-            <Segment className="body">
+            <CustomContainerSegment>
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
@@ -111,7 +111,7 @@ function Neurons(props) {
                         </Grid.Column>
                     </Grid>
                 </div>
-            </Segment>
+            </CustomContainerSegment>
         </div>
     );
 }
