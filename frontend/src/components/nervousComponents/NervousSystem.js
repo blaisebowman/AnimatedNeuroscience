@@ -1,17 +1,15 @@
-import React, {useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
-import PageHeader from "../PageHeader";
-import NavigationBar from "../NavigationBar";
+import React from 'react';
+import {Link} from "react-router-dom";
 import {Grid, Image, Segment, Button,  Card, Icon, Divider, List} from "semantic-ui-react"
 import nervoussystem from "../../images/nervoussystem.jpg";
-
 import '../../neurons.css';
-
 import '../../glias.css';
+import {IconContext} from "react-icons";
+import {GiMuscleUp} from "react-icons/all";
 
 
 function NervousSystem(props) {
-    const [redirecting, setRedirecting] = useState(0);
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     return (
         <div className="App">
             <Segment className="body">
@@ -28,7 +26,7 @@ function NervousSystem(props) {
                                                     Pictured: The Nervous System
                                                 </Card.Description>
                                                 <Card.Content>
-                                                    Placeholder
+                                                    The Nervous System sends signals between cells in the body and is responsible for control of the body.
                                                 </Card.Content>
                                             </Card.Content>
                                         </Card>
@@ -39,12 +37,12 @@ function NervousSystem(props) {
                                                 </Card.Description>
                                             </Card.Content>
                                             <Card.Content textAlign='left'>
-                                                <Icon name='balance scale'/> WIP
+                                                <Icon name='send'/> The Nervous System Sends Signals to Cells.
                                                 <Divider/>
-                                                <Icon name='exchange'/> WIP
-                                                <Divider/>
-                                                <Icon name='comment alternate outline'/>WIP
-                                                <Divider/>
+                                                <IconContext.Provider value={{color: 'black', size: '1em', style: {marginRight: '0.5em'}}}>
+                                                    <GiMuscleUp/>
+                                                </IconContext.Provider>
+                                                The Nervous System's Signals Cause Muscles to Contract.
                                             </Card.Content>
                                         </Card>
 
@@ -53,13 +51,23 @@ function NervousSystem(props) {
                                         <Card fluid>
                                             <Card.Content>The Nervous System</Card.Content>
                                             <Card.Content textAlign='left'>
-                                                WIP
+                                                The Nervous System coordinates activity between cells in the body. The nervous system is comprimsed of mainly the central nervous system (CNS) and the peripheral nervous system (PNS).
                                             </Card.Content>
                                             <Card.Content textAlign='left'>
-                                                WIP
+                                                <Card.Description textAlign='center'>Central Nervous System</Card.Description>
+                                                <List bulleted floated='left'>
+                                                    <List.Item>Comprised of the brain and the spinal cord.</List.Item>
+                                                    <List.Item>The brain is the 'center' of the central nervous system and is the most complex organ in the body.</List.Item>
+                                                    <List.Item>The spinal cord protrudes from the brain and runs down to the lower abdomen.</List.Item>
+                                                </List>
                                             </Card.Content>
                                             <Card.Content textAlign='left'>
-                                                WIP
+                                                <Card.Description textAlign='center'>Peripheral Nervous System</Card.Description>
+                                                <List bulleted floated='left'>
+                                                    <List.Item>Comprised of Nerves and Ganglia located outside of the brain and spinal cord.</List.Item>
+                                                    <List.Item>Somatic Nervous System - facilitation of voluntary movements.</List.Item>
+                                                    <List.Item>Autonomic Nervous System - facilitation of involuntary movements.</List.Item>
+                                                </List>
                                             </Card.Content>
                                         </Card>
                                     </Grid.Column>

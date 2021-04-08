@@ -1,15 +1,13 @@
-import React, {useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
-import {Grid, Image, Segment, Button,  Card, Icon, Divider, List} from "semantic-ui-react"
+import React from 'react';
+import {Link} from "react-router-dom";
+import {Grid, Image, Segment, Button,  Card, Icon, Divider} from "semantic-ui-react"
 import cerebellum from "../../images/cerebellum.jpg";
-
 import '../../neurons.css';
-
 import '../../glias.css';
 
 
 function Cerebellum(props) {
-    const [redirecting, setRedirecting] = useState(0);
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     return (
         <div className="App">
             <Segment className="body">
@@ -26,7 +24,7 @@ function Cerebellum(props) {
                                                     Pictured: The Cerebellum
                                                 </Card.Description>
                                                 <Card.Content>
-                                                    Placeholder
+                                                    The Cerebellum is is essential in motor control; however, recent finding have linked the cerebellum as a contributor to cognitive functions, such as behavior and emotions.
                                                 </Card.Content>
                                             </Card.Content>
                                         </Card>
@@ -37,12 +35,9 @@ function Cerebellum(props) {
                                                 </Card.Description>
                                             </Card.Content>
                                             <Card.Content textAlign='left'>
-                                                <Icon name='balance scale'/> WIP
+                                                <Icon name='balance scale'/> Aids in Motor Control
                                                 <Divider/>
-                                                <Icon name='exchange'/> WIP
-                                                <Divider/>
-                                                <Icon name='comment alternate outline'/>WIP
-                                                <Divider/>
+                                                <Icon name='pencil'/> Damage to the Cerebellum Results in Disorders in Coordination.
                                             </Card.Content>
                                         </Card>
 
@@ -51,13 +46,10 @@ function Cerebellum(props) {
                                         <Card fluid>
                                             <Card.Content>Cerebellum</Card.Content>
                                             <Card.Content textAlign='left'>
-                                                WIP
+                                                The cerebellum is a structure of the hindbrain. The cerebellum does not initiate movement or contribute to involuntary reflexes; however, the cerebellum facilitates fine motor control. When the cerebellum is damaged, an individual may develop deficiencies in motor coordination, such as difficulties writing or judging distance.
                                             </Card.Content>
                                             <Card.Content textAlign='left'>
-                                                WIP
-                                            </Card.Content>
-                                            <Card.Content textAlign='left'>
-                                                WIP
+                                                The cerebellum contains special types of neurons, known as Purkinje cells and granule cells. Purkinje cells receive impulses from granule cells and release gamma-aminobutryic acid (GABA). Granule cells are the smallest neuron in the brain, and as a result, their function has yet to be determined. However, granule cells are believed to encode information from mossy fibers.
                                             </Card.Content>
                                         </Card>
                                     </Grid.Column>

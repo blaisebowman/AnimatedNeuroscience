@@ -1,17 +1,14 @@
-import React, {useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
-import PageHeader from "../PageHeader";
-import NavigationBar from "../NavigationBar";
+import React from 'react';
+import {Link} from "react-router-dom";
 import {Grid, Image, Segment, Button,  Card, Icon, Divider, List} from "semantic-ui-react"
 import visual from "../../images/visual.jpg";
-
 import '../../neurons.css';
-
 import '../../glias.css';
 
 
 function SensorySystems(props) {
-    const [redirecting, setRedirecting] = useState(0);
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
     return (
         <div className="App">
             <Segment className="body">
@@ -28,7 +25,7 @@ function SensorySystems(props) {
                                                     Pictured: The Visual System
                                                 </Card.Description>
                                                 <Card.Content>
-                                                    Placeholder
+                                                    The Visual System facilitates the sense of sight. The sense of sight allows for the differentiation in visible light and depth perception.
                                                 </Card.Content>
                                             </Card.Content>
                                         </Card>
@@ -39,12 +36,10 @@ function SensorySystems(props) {
                                                 </Card.Description>
                                             </Card.Content>
                                             <Card.Content textAlign='left'>
-                                                <Icon name='balance scale'/> WIP
+                                                <Icon name='handshake outline'/> Sensory Systems Can Work Together (ex: smell and taste).
                                                 <Divider/>
-                                                <Icon name='exchange'/> WIP
-                                                <Divider/>
-                                                <Icon name='comment alternate outline'/>WIP
-                                                <Divider/>
+                                                <Icon name='thermometer full'/> Somatosensory System Faciliatates Sense of Touch and Temperature.
+
                                             </Card.Content>
                                         </Card>
 
@@ -53,14 +48,22 @@ function SensorySystems(props) {
                                         <Card fluid>
                                             <Card.Content>Sensory Systems</Card.Content>
                                             <Card.Content textAlign='left'>
-                                                WIP
+                                                The Sensory Nervous System is composed of: the Auditory System, the Gustatory System, the Olfactory System, the Somatosensory System, the Vestibular System, and the Visual System.
+                                                In some instances, sensory systems will work together; for example, the sense of smell
+                                                and sense of taste are heavily connected.
                                             </Card.Content>
                                             <Card.Content textAlign='left'>
-                                                WIP
+                                                <Card.Description textAlign='center'>Sensory Nervous Systems</Card.Description>
+                                                <List bulleted floated='left'>
+                                                    <List.Item>The Auditory System facilitates the sense of hearing: comprised of the ear and other parts of the nervous system, such as the auditory cortex. </List.Item>
+                                                    <List.Item>The Gustatory System facilitates the sense of taste: comprised of mainly the tongue and its associated structures. </List.Item>
+                                                    <List.Item>The Olfactory System facilitates the sense of smell: comprised of the nose and other parts of the nervous system, such as the orbitofrontal cortex. neurons</List.Item>
+                                                    <List.Item>The Somatosensory System facilitates the sense of touch: comprised of the skin, hair, and other parts of the nervous system, such as the somatosensory cortex. </List.Item>
+                                                    <List.Item>The Visual System facilitates the sense of sight: comprised of the eye and other parts of the nervous system, such as the visual cortex.  </List.Item>
+                                                    <List.Item>The Vestibular System facilitates the sense of balance: comprised of mainly the cochlea and the otolith in the inner ear. </List.Item>
+                                                </List>
                                             </Card.Content>
-                                            <Card.Content textAlign='left'>
-                                                WIP
-                                            </Card.Content>
+
                                         </Card>
                                     </Grid.Column>
                                     <Grid.Column width={4} className="gridParent">

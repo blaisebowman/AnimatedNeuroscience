@@ -210,13 +210,54 @@ export const MobileNavigationSegment= styled(Segment)`
     background-color: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
     padding: 0 0 0 0 !important;
 `
+/*TODO -> Z-INDEX FOR DROPDOWN*/
 export const MobileDropdown= styled(Dropdown)`
     padding-right: 2rem  !important;
     padding-left: 2rem  !important;
+    background: linear-gradient(40deg, #05ebe4 0%, #8000f1 100%) !important;
+    background-color:  black !important;
+    min-height: 4vh !important;
+    .text {
+      color: white !important;
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    &&& > .icon {
+      margin: 1.25vh 0 0 0 !important;
+    }
+  
+`
+export const ImageGridColumnMob= styled(Grid.Column)`
+    padding: 1rem 0rem 1rem 0rem !important;
     background-color: black !important;
     box-shadow: none !important;
-    .text {
-    color: white !important;
-    }
-    /*TODO -> Z-INDEX*/
 `
+
+export const MobileHeader= styled(Header)`
+    color: white !important;
+}
+`
+export const MobileContainerSegment= styled(Segment)`
+    border: 0 !important;
+    background: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
+    padding: 0 0 0 0 !important;
+`
+export const MobileInnerContainerSegment= styled(Segment)`
+    border: 0 !important;
+    background-color: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
+    padding: 0 0 0 0 !important;
+`
+export const MobileGrid= styled(Grid)`
+    border: 0 !important;
+    background-color: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
+    background: none !important;
+    padding: 0 0 0 0 !important;
+    margin: 0 0 0 0 !important;
+`
+export const MobileGridSecondaryRow= styled(Grid.Row)`
+    padding-top: 0 !important;
+`
+

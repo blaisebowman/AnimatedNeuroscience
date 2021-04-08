@@ -1,26 +1,23 @@
 import React, {useState} from 'react';
 import {Link, withRouter} from "react-router-dom";
-import {Dropdown, Icon, Segment} from 'semantic-ui-react';
+import {Dropdown, Icon} from 'semantic-ui-react';
 import PropTypes from "prop-types";
-
-import {
-    CustomNavigationMenu,
-    CustomNavigationMenuItem,
-    CustomSegment,
-    CustomNavigationMenuItemLink,
-    DDItem,
-    CustomDivider,
-    CustomHeader,MobileDropdown
-} from "../styledComponents";
+import {CustomNavigationMenu, CustomNavigationMenuItem, CustomSegment, CustomNavigationMenuItemLink, DDItem, CustomDivider, CustomHeader,MobileDropdown} from "../styledComponents";
 import '../navbar.css';
+
 function NavigationBar (props) {
-    const [redirecting, setRedirecting] = useState();
     const [neuronMenuShown, setNeuronMenuShown] = useState(false);
     const [gliasMenuShown, setGliasMenuShown] = useState(false);
     const [brainMenuShown, setBrainMenuShown] = useState(false);
     const [sensoryMenuShown, setSensoryMenuShown] = useState(false);
     const [cerebellumMenuShown, setCerebellumMenuShown] = useState(false);
     const [nervousMenuShown, setNervousMenuShown] = useState(false);
+
+    if(process.env.NODE_ENV === 'production'){
+        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        console.log = function (){};
+    }
+
     let activeTab = "";
     if (window.location.href.lastIndexOf('-') > window.location.href.lastIndexOf('/')) {
         //is on an animation page
@@ -30,6 +27,7 @@ function NavigationBar (props) {
         //is on a cateogry page
         activeTab = window.location.href.substring(window.location.href.lastIndexOf('/'));
     }
+
     /*DETERMINE IF MOBILE VIEW -> In the future, rewrite in React-Native, then use react-native-web to convert.
     Due to mobile optimization being out of the scope of the project until much later in the development cycle,
     this is a workaround.*/
@@ -44,6 +42,9 @@ function NavigationBar (props) {
     } else {
         console.log("You are on a web browser");
     }
+    sessionStorage.setItem("isMobile", isMobile.toString());
+
+
     if (isMobile === false) {
         return (
             <CustomSegment>
@@ -218,7 +219,7 @@ function NavigationBar (props) {
     }
     else {
         return (
-                <MobileDropdown fluid placeholder="Select a Category" simple>
+                <MobileDropdown fluid placeholder="Select a Category">
                     <Dropdown.Menu>
                         <DDItem>
                             <Icon name='star'/>
@@ -230,7 +231,7 @@ function NavigationBar (props) {
                         </DDItem>
                         <DDItem>
                             <Icon name='star'/>
-                            <Link to={{pathname: "/gliasandsyanpses"}}>Glias and Synapses</Link>
+                            <Link to={{pathname: "/gliasandsynapses"}}>Glias and Synapses</Link>
                         </DDItem><DDItem>
                             <Icon name='star'/>
                             <Link to={{pathname: "/thebrain"}}>The Brain</Link>
@@ -244,11 +245,9 @@ function NavigationBar (props) {
                             <Icon name='star'/>
                             <Link to={{pathname: "/nervoussystem"}}>Nervous System</Link>
                         </DDItem>
-
                     </Dropdown.Menu>
                 </MobileDropdown>
         );
-
     }
 }
 

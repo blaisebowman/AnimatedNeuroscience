@@ -1,11 +1,13 @@
 .imgSeg{
     background: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
-    height: 100vh;
+    min-height: 100vh;
     /*
     overflow-y: auto !important;
     */
-    margin: 0em 1em 0em 0em !important;
+    margin: 0 1em 0 0 !important;
+    /*
     padding: 1em 1em 0em 1em !important;
+    */
 
 }
 .modGrid2 {
