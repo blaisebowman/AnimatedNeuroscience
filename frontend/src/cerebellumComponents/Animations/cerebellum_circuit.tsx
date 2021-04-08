@@ -191,7 +191,7 @@ const CerebellumCircuit = () => {
         }
     }
     return (
-        <div style={{minHeight: '65vh', maxWidth: '60vw', margin: 'auto'}}>
+        <div style={{minHeight: '65vh', maxWidth: '52.5vw', margin: 'auto'}}>
             <AnimateCC
                 getAnimationObject={getAnimationObject}
                 animationName="newcerebellumcircuit"

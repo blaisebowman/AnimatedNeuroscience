@@ -440,8 +440,9 @@ exports.getAnimationSorted = async(req, res) => {
                                     complete += 1;
                                 } else if (member.animation_data[prop][property].complete === false) {
                                     remaining += 1;
+                                    time += member.animation_data[prop][property].timeRemaining;
                                 }
-                                time += member.animation_data[prop][property].timeRemaining;
+
                             }
                         }
                         let name = "";

@@ -1,8 +1,8 @@
 import React, {useCallback, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import BrainStructure from "./Animations/brain_structure";
-import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
-import {CustomAdobeSegmentBrain} from "../styledComponents";
+import {Grid, Segment, Dropdown, Card,} from "semantic-ui-react";
+import {CustomAdobeSegmentBrain, CustomContainerSegment, CustomGrid} from "../styledComponents";
 import {CustomAnimationDropdown} from "../styledComponents";
 
 import '../glias.css';
@@ -10,7 +10,6 @@ import '../glias.css';
 
 function StructureAndFunctionPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const history = useHistory();
     const [height, setHeight] = useState(null);
     const [width, setWidth] = useState(null);
     const adobeContainer = useCallback(x => {
@@ -32,19 +31,19 @@ function StructureAndFunctionPage(props) {
 
     return (
         <div className="App">
-            <Segment className="body">
+            <CustomContainerSegment>
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
-                                    <GridColumn width={12}>
+                                    <CustomGrid width={12}>
                                         <CustomAdobeSegmentBrain style={{width: width, height: height}}>
                                             <BrainStructure/>
                                         </CustomAdobeSegmentBrain>
-                                    </GridColumn>
+                                    </CustomGrid>
                                     <Grid.Column width={4} className="gridParent">
-                                        <Card className="category">
+                                        <Card className="category" fluid>
                                             <div onMouseEnter={handleSelector}
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
@@ -71,7 +70,7 @@ function StructureAndFunctionPage(props) {
                         </Grid.Column>
                     </Grid>
                 </div>
-            </Segment>
+            </CustomContainerSegment>
         </div>
     );
 }

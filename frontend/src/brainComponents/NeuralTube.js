@@ -36,7 +36,7 @@ function NeuralTubePage(props) {
                                         </Segment>
                                     </CustomGrid>
                                     <Grid.Column width={4} className="gridParent">
-                                        <Card className="category">
+                                        <Card className="category" fluid>
                                             <div onMouseEnter={handleSelector}
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"

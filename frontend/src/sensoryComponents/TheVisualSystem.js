@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {Link} from "react-router-dom";
-import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
-import {CustomAnimationDropdown} from "../styledComponents";
+import {Grid, Segment, Dropdown, Card,} from "semantic-ui-react";
+import {CustomAnimationDropdown, CustomContainerSegment, CustomGrid} from "../styledComponents";
 import VisualSystem from "./Animations/visual_system";
 import '../glias.css';
 
@@ -29,19 +29,19 @@ function TheVisualSystemPage(props) {
 
     return (
         <div className="App">
-            <Segment className="body">
+            <CustomContainerSegment className="body">
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
-                                    <GridColumn width={12}>
+                                    <CustomGrid width={12}>
                                         <Segment className="adobeSeg" style={{width: width, height: height}}>
                                             <VisualSystem/>
                                         </Segment>
-                                    </GridColumn>
+                                    </CustomGrid>
                                     <Grid.Column width={4} className="gridParent">
-                                        <Card className="category">
+                                        <Card className="category" fluid>
                                             <div onMouseEnter={handleSelector}
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
@@ -68,7 +68,7 @@ function TheVisualSystemPage(props) {
                         </Grid.Column>
                     </Grid>
                 </div>
-            </Segment>
+            </CustomContainerSegment>
         </div>
     );
 }

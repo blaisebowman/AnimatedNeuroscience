@@ -3,7 +3,12 @@ import {Link} from "react-router-dom";
 import App2 from "./Animations/exploring_one.tsx";
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
-import {CustomAnimationDropdown, CustomContainerSegment, CustomContainerSegmentA} from "../styledComponents";
+import {
+    CustomAnimationDropdown,
+    CustomContainerSegment,
+    CustomContainerSegmentA,
+    CustomGrid
+} from "../styledComponents";
 
 import '../glias.css';
 
@@ -31,17 +36,17 @@ function ExploringPage(props) {
 
     return (
         <div className="App">
-            <CustomContainerSegmentA>
+            <CustomContainerSegment>
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
                             <Segment className="imgSeg">
                                 <Grid columns={2}>
-                                    <GridColumn width={12}>
+                                    <CustomGrid width={12}>
                                         <Segment className="adobeSeg" style={{width: width, height: height}}>
                                             <App2/>
                                         </Segment>
-                                    </GridColumn>
+                                    </CustomGrid>
                                     <Grid.Column width={4} className="gridParent">
                                         <Card className="category" fluid>
                                             <div onMouseEnter={handleSelector}
@@ -68,7 +73,7 @@ function ExploringPage(props) {
                         </Grid.Column>
                     </Grid>
                 </div>
-            </CustomContainerSegmentA>
+            </CustomContainerSegment>
         </div>
     );
 }

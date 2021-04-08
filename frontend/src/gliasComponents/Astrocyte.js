@@ -1,10 +1,9 @@
 import React, {useState, useCallback} from 'react';
 import {Link} from "react-router-dom";
 import Astrocyte from "./Animations/astrocyte";
-import {Grid, GridColumn, Segment, Dropdown, Card, } from "semantic-ui-react";
-
+import {Grid, Segment, Dropdown, Card, } from "semantic-ui-react";
 import '../glias.css';
-import {CustomAnimationDropdown, CustomContainerSegment} from "../styledComponents";
+import {CustomAnimationDropdown, CustomContainerSegment, CustomGrid} from "../styledComponents";
 
 
 function AstrocytePage(props) {
@@ -36,19 +35,19 @@ function AstrocytePage(props) {
                         <Grid.Column width={16} className='noPadding'>
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
-                                    <GridColumn width={12}>
-                                        <Segment className="adobeSeg"  style={{width: width, height: height}}>
+                                    <CustomGrid width={12}>
+                                        <Segment className="adobeSeg">
                                             <Astrocyte/>
                                         </Segment>
-                                    </GridColumn>
+                                    </CustomGrid>
                                     <Grid.Column width={4} className="gridParent">
-                                        <Card className="category">
+                                        <Card className="category" fluid>
                                             <div onMouseEnter={handleSelector}
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
                                                       verticalAlign='middle'>
-                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid = {true} open={selectorIsVisible}>
-                                                        <Dropdown.Menu className="menu" fluid="true">
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
+                                                        <Dropdown.Menu className="menu" fluid>
                                                             <Dropdown.Item>
                                                                 <Link to={{pathname: "/gliasandsynapses-astrocyte", state: {selectorIsVisible: false}}} className='navText'>Astrocyte</Link>
                                                             </Dropdown.Item><Dropdown.Item>

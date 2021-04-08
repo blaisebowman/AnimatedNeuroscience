@@ -1,9 +1,8 @@
 import React, {useCallback, useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import AutonomicNervousSystem from "./Animations/autonomic_nervous_system";
-import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
-import {CustomAdobeSegmentNervous} from "../styledComponents";
-import {CustomAnimationDropdown} from "../styledComponents";
+import {Grid, Segment, Dropdown, Card,} from "semantic-ui-react";
+import {CustomAdobeSegmentNervous, CustomContainerSegment, CustomGrid, CustomAnimationDropdown} from "../styledComponents";
 
 
 import '../glias.css';
@@ -11,7 +10,6 @@ import '../glias.css';
 
 function AutonomicNervousSystemPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const history = useHistory();
     const [height, setHeight] = useState(null);
     const [width, setWidth] = useState(null);
     const adobeContainer = useCallback(x => {
@@ -31,19 +29,19 @@ function AutonomicNervousSystemPage(props) {
 
     return (
         <div className="App">
-            <Segment className="body">
+            <CustomContainerSegment className="body">
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
-                                    <GridColumn width={12}>
+                                    <CustomGrid width={12}>
                                         <CustomAdobeSegmentNervous style={{width: width, height: height}}>
                                             <AutonomicNervousSystem/>
                                         </CustomAdobeSegmentNervous>
-                                    </GridColumn>
+                                    </CustomGrid>
                                     <Grid.Column width={4} className="gridParent">
-                                        <Card className="category">
+                                        <Card className="category" fluid>
                                             <div onMouseEnter={handleSelector}
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={3} className="dropdownContainer"
@@ -78,7 +76,7 @@ function AutonomicNervousSystemPage(props) {
                         </Grid.Column>
                     </Grid>
                 </div>
-            </Segment>
+            </CustomContainerSegment>
         </div>
     );
 }

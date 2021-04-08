@@ -3,7 +3,7 @@ import {Link, useHistory} from "react-router-dom";
 import BrainLobes from "./Animations/brain_lobes";
 
 import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
-import {CustomAdobeSegmentBrain} from "../styledComponents";
+import {CustomAdobeSegmentBrain, CustomContainerSegment, CustomGrid} from "../styledComponents";
 import {CustomAnimationDropdown} from "../styledComponents";
 
 
@@ -34,19 +34,19 @@ function LobesOfTheBrainPage(props) {
 
     return (
         <div className="App">
-            <Segment className="body">
+            <CustomContainerSegment>
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
-                                    <GridColumn width={12}>
+                                    <CustomGrid width={12}>
                                         < CustomAdobeSegmentBrain style={{width: width, height: height}}>
                                             <BrainLobes/>
                                         </CustomAdobeSegmentBrain>
-                                    </GridColumn>
+                                    </CustomGrid>
                                     <Grid.Column width={4} className="gridParent">
-                                        <Card className="category">
+                                        <Card className="category" fluid>
                                             <div onMouseEnter={handleSelector}
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
@@ -73,7 +73,7 @@ function LobesOfTheBrainPage(props) {
                         </Grid.Column>
                     </Grid>
                 </div>
-            </Segment>
+            </CustomContainerSegment>
         </div>
     );
 }

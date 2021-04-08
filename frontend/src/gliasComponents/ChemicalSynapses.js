@@ -1,10 +1,10 @@
 import React, {useState, useCallback} from 'react';
 import {Link} from "react-router-dom";
 import ChemicalSynapse from "./Animations/chemicalSynapse";
-import {Grid, GridColumn, Image, Segment, Button, Dropdown, Card, Icon, Divider} from "semantic-ui-react";
+import {Grid, Image, Segment, Button, Dropdown, Card, Icon, Divider} from "semantic-ui-react";
 
 import '../glias.css';
-import {CustomAnimationDropdown, CustomContainerSegmentA} from "../styledComponents";
+import {CustomAnimationDropdown, CustomContainerSegment, CustomGrid} from "../styledComponents";
 
 
 function ChemicalSynpasesPage(props) {
@@ -31,19 +31,19 @@ function ChemicalSynpasesPage(props) {
 
     return (
         <div className="App">
-            <CustomContainerSegmentA>
+            <CustomContainerSegment>
                 <div className="modGrid">
                     <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
                         <Grid.Column width={16} className='noPadding'>
                             <Segment className="imgSeg">
                                 <Grid columns={3}>
-                                    <GridColumn width={12}>
+                                    <CustomGrid width={12}>
                                         <Segment className="adobeSeg" style={{width: width, height: height}}>
                                             <ChemicalSynapse/>
                                         </Segment>
-                                    </GridColumn>
+                                    </CustomGrid>
                                     <Grid.Column width={4} className="gridParent">
-                                        <Card className="category">
+                                        <Card className="category" fluid>
                                             <div onMouseEnter={handleSelector}
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
@@ -70,7 +70,7 @@ function ChemicalSynpasesPage(props) {
                         </Grid.Column>
                     </Grid>
                 </div>
-            </CustomContainerSegmentA>
+            </CustomContainerSegment>
         </div>
     );
 }

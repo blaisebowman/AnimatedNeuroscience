@@ -231,7 +231,7 @@ const PainPerception = () => {
         }
     }
     return (
-        <div style={{minHeight: '65vh', maxWidth: '70vw', margin:'auto'}}>
+        <div style={{minHeight: '65vh', maxWidth: '55vw', margin:'auto'}}>
             <AnimateCC
                 getAnimationObject={getAnimationObject}
                 animationName="painRedone"
