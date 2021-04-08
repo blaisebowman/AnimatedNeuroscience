@@ -34,9 +34,9 @@ function NavigationBar (props) {
     Due to mobile optimization being out of the scope of the project until much later in the development cycle,
     this is a workaround.*/
     //TODO -> BEFORE ANY PUSH TO REPO -> ENSURE THE FOLLOWING 3 LINES ARE COMMENTED (FOR NOW)
-    navigator.__defineGetter__('userAgent', function () {
+    /*navigator.__defineGetter__('userAgent', function () {
         return "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.105 Mobile Safari/537.36"
-    });
+    });*/
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     console.log(navigator.userAgent);
     if (isMobile) {
