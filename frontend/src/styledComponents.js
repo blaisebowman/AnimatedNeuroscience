@@ -199,3 +199,24 @@ export const CustomContainerSegment= styled(Segment)`
     background-color: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
     padding: 0 0 0 0 !important;
 `
+//MOBILE COMPONENTS BELOW
+export const MobileNavigationSegment= styled(Segment)`
+    color: black !imporant;
+    border: 0 !important;
+    box-shadow: none !important;
+    min-width: 67.5% !important;
+    max-width: 100% !important;
+    min-height: 70.5vh !important;
+    background-color: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
+    padding: 0 0 0 0 !important;
+`
+export const MobileDropdown= styled(Dropdown)`
+    padding-right: 2rem  !important;
+    padding-left: 2rem  !important;
+    background-color: black !important;
+    box-shadow: none !important;
+    .text {
+    color: white !important;
+    }
+    /*TODO -> Z-INDEX*/
+`
