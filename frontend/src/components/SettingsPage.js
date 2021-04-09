@@ -1,11 +1,31 @@
 import React, {useState, useEffect} from 'react';
-import {Redirect} from "react-router-dom";
-import {Grid, Segment, Button, Card, Icon, Menu, Message, Modal, Form, Input, Dropdown, Table } from "semantic-ui-react"
-import {CustomMenuItem, CustomProgressHeader, CustomProgressMenu, CustomProgressDropdown} from "../styledComponents";
+import {Link, Redirect} from "react-router-dom";
+import {Grid, Segment, Button, Card, Icon, Menu, Message, Modal, Form, Input, Dropdown, Table, Image, List, Divider} from "semantic-ui-react"
+import {
+    CustomMenuItem,
+    CustomMobileProgressMenu,
+    MobileSettingsGrid,
+    CustomProgressHeader,
+    CustomProgressMenu,
+    CustomProgressDropdown,
+    MobileContainerSegment,
+    MobileGrid,
+    CustomCardDescription,
+    DDItem,
+    MobileDropdown,
+    MobileGridSecondaryRow,
+    MobileSettingsDropdown,
+    CustomMobileMenuItem,
+    MobileProgressMenuMessage,
+    CustomMobileProgressDropdown,
+    MobileGridSecondaryProgressRow,
+    CustomMobileTable, MobileCard
+} from "../styledComponents";
 import '../neurons.css';
 import '../glias.css';
 import '../modal.css';
 import axios from "axios";
+import Responsive from "semantic-ui-react/dist/commonjs/addons/Responsive";
 
 function SettingsPage(props) {
     const emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
@@ -423,48 +443,49 @@ function SettingsPage(props) {
                 console.log(error);
             });
     }
-
-    return (
-        <div className="App">
-            <Segment className="body">
-                <div className="modGrid">
-                    <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
-                        <Grid.Column width={16} className='noPadding'>
-                            <Segment className="imgSeg">
-                                <Grid rows={3}>
-                                    <Grid.Row>
-                                        <Grid.Column width={16}>
-                                            <Card fluid>
-                                                <Card.Description>Welcome!</Card.Description>
-                                            </Card>
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                    <Grid.Row columns={3}>
-                                        <Grid.Column width={3}>
-                                            <Menu vertical fluid>
-                                                <CustomMenuItem name='msg'>
-                                                    Account Settings
-                                                </CustomMenuItem>
-                                                <Menu.Item name='progress' onClick={handleProgress}>
-                                                    <Icon name='trophy'/>
-                                                    View My Progress
-                                                </Menu.Item>
-                                                <Menu.Item name='update' onClick={handleEmail}>
-                                                    <Icon name='mail'/>
-                                                    Update My Email
-                                                </Menu.Item>
-                                                <Menu.Item name='update' onClick={handlePassword}>
-                                                    <Icon name='lock'/>
-                                                    Update My Password
-                                                </Menu.Item>
-                                                <Menu.Item name='delete' onClick={handleDelete}>
-                                                    <Icon name='user delete'/>
-                                                    Delete My Account
-                                                </Menu.Item>
-                                            </Menu>
-                                        </Grid.Column>
-                                        <Grid.Column width={13}>
-                                            {currentTab === "progress" &&
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if(isMobile === false) {
+        return (
+            <div className="App">
+                <Segment className="body">
+                    <div className="modGrid">
+                        <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
+                            <Grid.Column width={16} className='noPadding'>
+                                <Segment className="imgSeg">
+                                    <Grid rows={3}>
+                                        <Grid.Row>
+                                            <Grid.Column width={16}>
+                                                <Card fluid>
+                                                    <Card.Description>Welcome!</Card.Description>
+                                                </Card>
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                        <Grid.Row columns={3}>
+                                            <Grid.Column width={3}>
+                                                <Menu vertical fluid>
+                                                    <CustomMenuItem name='msg'>
+                                                        Account Settings
+                                                    </CustomMenuItem>
+                                                    <Menu.Item name='progress' onClick={handleProgress}>
+                                                        <Icon name='trophy'/>
+                                                        View My Progress
+                                                    </Menu.Item>
+                                                    <Menu.Item name='update' onClick={handleEmail}>
+                                                        <Icon name='mail'/>
+                                                        Update My Email
+                                                    </Menu.Item>
+                                                    <Menu.Item name='update' onClick={handlePassword}>
+                                                        <Icon name='lock'/>
+                                                        Update My Password
+                                                    </Menu.Item>
+                                                    <Menu.Item name='delete' onClick={handleDelete}>
+                                                        <Icon name='user delete'/>
+                                                        Delete My Account
+                                                    </Menu.Item>
+                                                </Menu>
+                                            </Grid.Column>
+                                            <Grid.Column width={13}>
+                                                {currentTab === "progress" &&
                                                 <CustomProgressMenu vertical fluid>
                                                     <CustomMenuItem>
                                                         Your Progress
@@ -472,7 +493,8 @@ function SettingsPage(props) {
                                                     <Menu.Item>
                                                         <Message>
                                                             <Grid columns={2}>
-                                                                <Grid.Column width={12} textAlign='left' verticalAlign='middle'>
+                                                                <Grid.Column width={12} textAlign='left'
+                                                                             verticalAlign='middle'>
                                                                     <CustomProgressHeader>
                                                                         Animation Completion By: {dropdownOption}
                                                                     </CustomProgressHeader>
@@ -483,11 +505,11 @@ function SettingsPage(props) {
                                                                         open={selectorIsVisible}
                                                                         onMouseEnter={handleDropdown}
                                                                         onMouseLeave={handleDropdown}
-                                                                        onChange = {handleDropdownSelection}
-                                                                        options ={options}
+                                                                        onChange={handleDropdownSelection}
+                                                                        options={options}
                                                                         placeholder='Sort By: '
                                                                         selection
-                                                                        value ={dropdownOption}
+                                                                        value={dropdownOption}
                                                                     />
                                                                 </Grid.Column>
                                                             </Grid>
@@ -496,48 +518,52 @@ function SettingsPage(props) {
                                                             <Table celled>
                                                                 <Table.Header>
                                                                     <Table.Row>
-                                                                        <Table.HeaderCell>Animation Category</Table.HeaderCell>
-                                                                        <Table.HeaderCell>Number Completed</Table.HeaderCell>
-                                                                        <Table.HeaderCell>Number Remaining</Table.HeaderCell>
-                                                                        <Table.HeaderCell>Estimated Time Remaining (Minutes)</Table.HeaderCell>
+                                                                        <Table.HeaderCell>Animation
+                                                                            Category</Table.HeaderCell>
+                                                                        <Table.HeaderCell>Number
+                                                                            Completed</Table.HeaderCell>
+                                                                        <Table.HeaderCell>Number
+                                                                            Remaining</Table.HeaderCell>
+                                                                        <Table.HeaderCell>Estimated Time Remaining
+                                                                            (Minutes)</Table.HeaderCell>
                                                                     </Table.Row>
                                                                 </Table.Header>
                                                                 <Table.Body>
                                                                     <Table.Row>
-                                                                    <Table.Cell>{animationsInfo[0].name}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[0].complete}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[0].remaining}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[0].timeRemaining}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[0].name}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[0].complete}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[0].remaining}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[0].timeRemaining}</Table.Cell>
                                                                     </Table.Row>
                                                                     <Table.Row>
-                                                                    <Table.Cell>{animationsInfo[1].name}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[1].complete}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[1].remaining}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[1].timeRemaining}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[1].name}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[1].complete}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[1].remaining}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[1].timeRemaining}</Table.Cell>
                                                                     </Table.Row>
                                                                     <Table.Row>
-                                                                    <Table.Cell>{animationsInfo[2].name}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[2].complete}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[2].remaining}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[2].timeRemaining}</Table.Cell>
-                                                                    </Table.Row> 
-                                                                    <Table.Row>
-                                                                    <Table.Cell>{animationsInfo[3].name}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[3].complete}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[3].remaining}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[3].timeRemaining}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[2].name}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[2].complete}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[2].remaining}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[2].timeRemaining}</Table.Cell>
                                                                     </Table.Row>
                                                                     <Table.Row>
-                                                                    <Table.Cell>{animationsInfo[4].name}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[4].complete}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[4].remaining}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[4].timeRemaining}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[3].name}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[3].complete}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[3].remaining}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[3].timeRemaining}</Table.Cell>
                                                                     </Table.Row>
                                                                     <Table.Row>
-                                                                    <Table.Cell>{animationsInfo[5].name}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[5].complete}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[5].remaining}</Table.Cell>
-                                                                    <Table.Cell>{animationsInfo[5].timeRemaining}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[4].name}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[4].complete}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[4].remaining}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[4].timeRemaining}</Table.Cell>
+                                                                    </Table.Row>
+                                                                    <Table.Row>
+                                                                        <Table.Cell>{animationsInfo[5].name}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[5].complete}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[5].remaining}</Table.Cell>
+                                                                        <Table.Cell>{animationsInfo[5].timeRemaining}</Table.Cell>
                                                                     </Table.Row>
                                                                 </Table.Body>
                                                             </Table>
@@ -547,155 +573,415 @@ function SettingsPage(props) {
                                                     </Menu.Item>
                                                 </CustomProgressMenu>
 
-                                            }
-                                            {currentTab === "email" &&
-                                            <Card fluid>
-                                                <Card.Header className='myCardHeader'>
-                                                    Update my Email
-                                                </Card.Header>
-                                                <Card.Content>
-                                                    <Form onSubmit={handleEmailSubmit}>
-                                                        <Message content={currentEmail}/>
-                                                        <Form.Group widths='equal'>
-                                                            <Form.Field
-                                                                control={Input}
-                                                                label='Email'
-                                                                placeholder=''
-                                                                name='email'
-                                                                value={email}
-                                                                error={emailError !== "" ? emailError : false}
-                                                                onChange={handleChangeEmail}
-                                                                onKeyDown={checkCapsLock}
-                                                            />
-                                                            <Form.Field
-                                                                control={Input}
-                                                                label='Confirm Email'
-                                                                placeholder=''
-                                                                name='emailConfirm'
-                                                                value={emailConfirm}
-                                                                error={emailConfirmError !== "" ? emailConfirmError : false}
-                                                                onChange={handleChangeEmailConfirm}
-                                                                onKeyDown={checkCapsLock}
-                                                            />
-                                                        </Form.Group>
-                                                        {emailUpdateError &&
-                                                        <Message content={emailUpdateError} color={'red'}/>
-                                                        }
-                                                        {emailUpdateSuccess === " true" &&
-                                                        <Message content="Email Successfully Updated." color={'blue'}/>
-                                                        }
-                                                        <Form.Button content='Submit' color='blue'/>
-                                                    </Form>
-                                                </Card.Content>
-                                            </Card>
-                                            }
-                                            {currentTab === "password" &&
-                                            <Card fluid>
-                                                <Card.Content>
-                                                    Update my Password
-                                                    <Form onSubmit={handlePasswordSubmit}>
-                                                        <Message content='Password must be between
+                                                }
+                                                {currentTab === "email" &&
+                                                <Card fluid>
+                                                    <Card.Header className='myCardHeader'>
+                                                        Update my Email
+                                                    </Card.Header>
+                                                    <Card.Content>
+                                                        <Form onSubmit={handleEmailSubmit}>
+                                                            <Message content={currentEmail}/>
+                                                            <Form.Group widths='equal'>
+                                                                <Form.Field
+                                                                    control={Input}
+                                                                    label='Email'
+                                                                    placeholder=''
+                                                                    name='email'
+                                                                    value={email}
+                                                                    error={emailError !== "" ? emailError : false}
+                                                                    onChange={handleChangeEmail}
+                                                                    onKeyDown={checkCapsLock}
+                                                                />
+                                                                <Form.Field
+                                                                    control={Input}
+                                                                    label='Confirm Email'
+                                                                    placeholder=''
+                                                                    name='emailConfirm'
+                                                                    value={emailConfirm}
+                                                                    error={emailConfirmError !== "" ? emailConfirmError : false}
+                                                                    onChange={handleChangeEmailConfirm}
+                                                                    onKeyDown={checkCapsLock}
+                                                                />
+                                                            </Form.Group>
+                                                            {emailUpdateError &&
+                                                            <Message content={emailUpdateError} color={'red'}/>
+                                                            }
+                                                            {emailUpdateSuccess === " true" &&
+                                                            <Message content="Email Successfully Updated."
+                                                                     color={'blue'}/>
+                                                            }
+                                                            <Form.Button content='Submit' color='blue'/>
+                                                        </Form>
+                                                    </Card.Content>
+                                                </Card>
+                                                }
+                                                {currentTab === "password" &&
+                                                <Card fluid>
+                                                    <Card.Content>
+                                                        Update my Password
+                                                        <Form onSubmit={handlePasswordSubmit}>
+                                                            <Message content='Password must be between
                                                             8-20 characters and contain at least one number, one
                                                             upper-case letter, and one lower-case letter. '/>
-                                                        <Form.Group widths='equal'>
-                                                            <Form.Field
-                                                                type= {isMaskedPassword}
-                                                                control={Input}
-                                                                label='Password'
-                                                                placeholder=''
-                                                                name='password'
-                                                                value={password}
-                                                                error={passwordError.length !== 0 ? passwordError : false}
-                                                                onChange={handleChangePassword}
-                                                                onClick={checkCapsLock}
-                                                                onKeyDown={checkCapsLock}
-                                                                action={<Button.Group basic>
-                                                                    <Button icon onClick={toggleMask} name='password'>
-                                                                        <Icon name='eye'/>
-                                                                    </Button>
-                                                                </Button.Group>
-                                                                }
-                                                            />
-                                                            <Form.Field
-                                                                type= {isMaskedPasswordConfirm}
-                                                                control={Input}
-                                                                label='Confirm Password'
-                                                                placeholder=''
-                                                                name='passwordConfirm'
-                                                                value={passwordConfirm}
-                                                                error={passwordConfirmError.length !== 0 ? passwordConfirmError : false}
-                                                                onChange={handleChangePasswordConfirm}
-                                                                onClick={checkCapsLock}
-                                                                onKeyDown={checkCapsLock}
-                                                                action={<Button.Group basic>
-                                                                    <Button icon onClick={toggleMask} name='passwordConfirm'>
-                                                                        <Icon name='eye'/>
-                                                                    </Button>
-                                                                </Button.Group>
-                                                                }
-                                                            />
-                                                        </Form.Group>
-                                                        {(capsLockPassword || capsLockPasswordConfirm) &&
-                                                        <Message content='Warning: Caps Lock is enabled.' color='yellow'/>
-                                                        }
-                                                        {passwordUpdateError &&
+                                                            <Form.Group widths='equal'>
+                                                                <Form.Field
+                                                                    type={isMaskedPassword}
+                                                                    control={Input}
+                                                                    label='Password'
+                                                                    placeholder=''
+                                                                    name='password'
+                                                                    value={password}
+                                                                    error={passwordError.length !== 0 ? passwordError : false}
+                                                                    onChange={handleChangePassword}
+                                                                    onClick={checkCapsLock}
+                                                                    onKeyDown={checkCapsLock}
+                                                                    action={<Button.Group basic>
+                                                                        <Button icon onClick={toggleMask}
+                                                                                name='password'>
+                                                                            <Icon name='eye'/>
+                                                                        </Button>
+                                                                    </Button.Group>
+                                                                    }
+                                                                />
+                                                                <Form.Field
+                                                                    type={isMaskedPasswordConfirm}
+                                                                    control={Input}
+                                                                    label='Confirm Password'
+                                                                    placeholder=''
+                                                                    name='passwordConfirm'
+                                                                    value={passwordConfirm}
+                                                                    error={passwordConfirmError.length !== 0 ? passwordConfirmError : false}
+                                                                    onChange={handleChangePasswordConfirm}
+                                                                    onClick={checkCapsLock}
+                                                                    onKeyDown={checkCapsLock}
+                                                                    action={<Button.Group basic>
+                                                                        <Button icon onClick={toggleMask}
+                                                                                name='passwordConfirm'>
+                                                                            <Icon name='eye'/>
+                                                                        </Button>
+                                                                    </Button.Group>
+                                                                    }
+                                                                />
+                                                            </Form.Group>
+                                                            {(capsLockPassword || capsLockPasswordConfirm) &&
+                                                            <Message content='Warning: Caps Lock is enabled.'
+                                                                     color='yellow'/>
+                                                            }
+                                                            {passwordUpdateError &&
                                                             <Message content={passwordUpdateError} color={'red'}/>
-                                                        }
-                                                        {passwordUpdateSuccess === "true" &&
-                                                        <Message content={"Password Successfully Updated."} color={'blue'}/>
-                                                        }
-                                                        <Form.Button content='Submit' color='blue'/>
-                                                    </Form>
-                                                </Card.Content>
-                                            </Card>
+                                                            }
+                                                            {passwordUpdateSuccess === "true" &&
+                                                            <Message content={"Password Successfully Updated."}
+                                                                     color={'blue'}/>
+                                                            }
+                                                            <Form.Button content='Submit' color='blue'/>
+                                                        </Form>
+                                                    </Card.Content>
+                                                </Card>
+                                                }
+                                                {currentTab === "delete" &&
+                                                <Card fluid>
+                                                    <Card.Content>
+                                                        <Message
+                                                            content='Are you sure you want to delete your account? You will lose all of your progress.'/>
+                                                        <Modal
+                                                            onClose={() => setModalVisible(false)}
+                                                            onOpen={() => setModalVisible(true)}
+                                                            open={modalVisible}
+                                                            trigger={<Button>Delete My Account</Button>}
+                                                        >
+                                                            <Modal.Header styles={{textAlign: "middle"}}
+                                                                          className='myModalHeader'>
+                                                                Are you sure you want to delete your account?
+                                                            </Modal.Header>
+                                                            <Modal.Actions className='myModalActions'>
+                                                                <Button
+                                                                    content='No, I want to keep my account.'
+                                                                    labelPosition='right'
+                                                                    icon='cancel'
+                                                                    onClick={cancelDeletion}
+                                                                    negative
+                                                                />
+                                                                <Button
+                                                                    content='Yes, delete my account.'
+                                                                    labelPosition='right'
+                                                                    icon='checkmark'
+                                                                    onClick={processDeletion}
+                                                                    positive
+                                                                />
+                                                            </Modal.Actions>
+                                                        </Modal>
+                                                    </Card.Content>
+                                                </Card>
+                                                }
+                                                {redirectingToHome &&
+                                                <Redirect to={'/introduction'}/>
+                                                }
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                    </Grid>
+                                </Segment>
+                            </Grid.Column>
+                        </Grid>
+                    </div>
+                </Segment>
+            </div>
+        );
+    }
+    else {
+        return (
+            <div className="AppMobile">
+                <MobileContainerSegment>
+                    <MobileSettingsGrid columns={2}>
+                        <Grid.Row>
+                            <Grid.Column width={16}>
+                                    <MobileSettingsDropdown fluid placeholder="Account Settings">
+                                        <Dropdown.Menu>
+                                            <DDItem name='progress' onClick={handleProgress}>
+                                                <Icon name='trophy'/>
+                                                View My Progress
+                                            </DDItem>
+                                            <DDItem name='update' onClick={handleEmail}>
+                                                <Icon name='mail'/>
+                                                Update My Email
+                                            </DDItem>
+                                            <DDItem name='update' onClick={handlePassword}>
+                                                <Icon name='lock'/>
+                                                Update My Password
+                                            </DDItem>
+                                            <DDItem name='delete' onClick={handleDelete}>
+                                                <Icon name='user delete'/>
+                                                Delete My Account
+                                            </DDItem>
+                                        </Dropdown.Menu>
+                                    </MobileSettingsDropdown>
+                            </Grid.Column>
+                        </Grid.Row>
+                            {currentTab === "progress" &&
+                            <CustomMobileProgressMenu vertical fluid>
+                                <CustomMobileMenuItem>
+                                    Your Progress
+                                </CustomMobileMenuItem>
+                                <Menu.Item>
+                                    <MobileProgressMenuMessage>
+                                        <Grid columns={2}>
+                                            <Grid.Column width={16} textAlign='middle' verticalAlign='top'>
+                                                <CustomProgressHeader>
+                                                    Animation Completion By: <br/>
+                                                    {dropdownOption.toString().substring(0,dropdownOption.indexOf('('))} <br/>
+                                                    {dropdownOption.toString().substring(dropdownOption.indexOf('('))}
+                                                </CustomProgressHeader>
+                                            </Grid.Column>
+                                            <MobileGridSecondaryProgressRow textAlign='middle'>
+                                                <CustomProgressDropdown
+                                                    text='Sort By'
+                                                    onChange={handleDropdownSelection}
+                                                    options={options}
+                                                    placeholder='Sort By: '
+                                                    selection
+                                                    value={dropdownOption}
+                                                />
+                                            </MobileGridSecondaryProgressRow>
+
+                                        </Grid>
+                                    </MobileProgressMenuMessage>
+                                    <Message>
+                                        <Table celled unstackable columns={3} collapsing>
+                                            <Table.Header>
+                                                <Table.Row>
+                                                    <Table.HeaderCell>Animation Category</Table.HeaderCell>
+                                                    <Table.HeaderCell >Number Completed</Table.HeaderCell>
+                                                    <Table.HeaderCell >Time Left</Table.HeaderCell>
+                                                </Table.Row>
+                                            </Table.Header>
+                                            <Table.Body>
+                                                <Table.Row>
+                                                    <Table.Cell>{animationsInfo[0].name}</Table.Cell>
+                                                    <Table.Cell>{animationsInfo[0].complete}</Table.Cell>
+                                                    <Table.Cell>{animationsInfo[0].timeRemaining}</Table.Cell>
+                                                </Table.Row>
+                                                <Table.Row>
+                                                    <Table.Cell>{animationsInfo[1].name}</Table.Cell>
+                                                    <Table.Cell>{animationsInfo[1].complete}</Table.Cell>
+                                                    <Table.Cell>{animationsInfo[1].timeRemaining}</Table.Cell>
+                                                </Table.Row>
+                                                <Table.Row>
+                                                    <Table.Cell>{animationsInfo[2].name}</Table.Cell>
+                                                    <Table.Cell>{animationsInfo[2].complete}</Table.Cell>
+                                                    <Table.Cell>{animationsInfo[2].timeRemaining}</Table.Cell>
+                                                </Table.Row>
+                                                <Table.Row>
+                                                    <Table.Cell>{animationsInfo[3].name}</Table.Cell>
+                                                    <Table.Cell>{animationsInfo[3].complete}</Table.Cell>
+                                                    <Table.Cell>{animationsInfo[3].timeRemaining}</Table.Cell>
+                                                </Table.Row>
+                                                <Table.Row>
+                                                    <Table.Cell>{animationsInfo[4].name}</Table.Cell>
+                                                    <Table.Cell>{animationsInfo[4].complete}</Table.Cell>
+                                                    <Table.Cell>{animationsInfo[4].timeRemaining}</Table.Cell>
+                                                </Table.Row>
+                                                <Table.Row>
+                                                    <Table.Cell>{animationsInfo[5].name}</Table.Cell>
+                                                    <Table.Cell>{animationsInfo[5].complete}</Table.Cell>
+                                                    <Table.Cell>{animationsInfo[5].timeRemaining}</Table.Cell>
+                                                </Table.Row>
+                                            </Table.Body>
+                                        </Table>
+                                    </Message>
+                                </Menu.Item>
+                            </CustomMobileProgressMenu>
+
+                            }
+                        {currentTab === "email" &&
+                        <MobileCard fluid>
+                            <Card.Header content=''>
+                                <b>Update my Email</b>
+                            </Card.Header>
+                            <Card.Content>
+                                <Form onSubmit={handleEmailSubmit}>
+                                    <Message content={currentEmail}/>
+                                    <Form.Group widths='equal'>
+                                        <Form.Field
+                                            control={Input}
+                                            label='Email'
+                                            placeholder=''
+                                            name='email'
+                                            value={email}
+                                            error={emailError !== "" ? emailError : false}
+                                            onChange={handleChangeEmail}
+                                            onKeyDown={checkCapsLock}
+                                        />
+                                        <Form.Field
+                                            control={Input}
+                                            label='Confirm Email'
+                                            placeholder=''
+                                            name='emailConfirm'
+                                            value={emailConfirm}
+                                            error={emailConfirmError !== "" ? emailConfirmError : false}
+                                            onChange={handleChangeEmailConfirm}
+                                            onKeyDown={checkCapsLock}
+                                        />
+                                    </Form.Group>
+                                    {emailUpdateError &&
+                                    <Message content={emailUpdateError} color={'red'}/>
+                                    }
+                                    {emailUpdateSuccess === " true" &&
+                                    <Message content="Email Successfully Updated."
+                                             color={'blue'}/>
+                                    }
+                                    <Form.Button content='Submit' color='blue'/>
+                                </Form>
+                            </Card.Content>
+                        </MobileCard>
+                        }
+                        {currentTab === "password" &&
+                        <MobileCard fluid>
+                            <Card.Content>
+                                Update my Password
+                                <Form onSubmit={handlePasswordSubmit}>
+                                    <Message content='Password must be between
+                                                            8-20 characters and contain at least one number, one
+                                                            upper-case letter, and one lower-case letter. '/>
+                                    <Form.Group widths='equal'>
+                                        <Form.Field
+                                            type={isMaskedPassword}
+                                            control={Input}
+                                            label='Password'
+                                            placeholder=''
+                                            name='password'
+                                            value={password}
+                                            error={passwordError.length !== 0 ? passwordError : false}
+                                            onChange={handleChangePassword}
+                                            onClick={checkCapsLock}
+                                            onKeyDown={checkCapsLock}
+                                            action={<Button.Group basic>
+                                                <Button icon onClick={toggleMask}
+                                                        name='password'>
+                                                    <Icon name='eye'/>
+                                                </Button>
+                                            </Button.Group>
                                             }
-                                            {currentTab === "delete" &&
-                                            <Card fluid>
-                                                <Card.Content>
-                                                    <Message
-                                                        content='Are you sure you want to delete your account? You will lose all of your progress.'/>
-                                                    <Modal
-                                                        onClose={() => setModalVisible(false)}
-                                                        onOpen={() => setModalVisible(true)}
-                                                        open={modalVisible}
-                                                        trigger={<Button>Delete My Account</Button>}
-                                                    >
-                                                        <Modal.Header styles={{textAlign: "middle"}} className='myModalHeader'>
-                                                            Are you sure you want to delete your account?
-                                                        </Modal.Header>
-                                                        <Modal.Actions className='myModalActions'>
-                                                            <Button
-                                                                content='No, I want to keep my account.'
-                                                                labelPosition='right'
-                                                                icon='cancel'
-                                                                onClick={cancelDeletion}
-                                                                negative
-                                                            />
-                                                            <Button
-                                                                content='Yes, delete my account.'
-                                                                labelPosition='right'
-                                                                icon='checkmark'
-                                                                onClick={processDeletion}
-                                                                positive
-                                                            />
-                                                        </Modal.Actions>
-                                                    </Modal>
-                                                </Card.Content>
-                                            </Card>
+                                        />
+                                        <Form.Field
+                                            type={isMaskedPasswordConfirm}
+                                            control={Input}
+                                            label='Confirm Password'
+                                            placeholder=''
+                                            name='passwordConfirm'
+                                            value={passwordConfirm}
+                                            error={passwordConfirmError.length !== 0 ? passwordConfirmError : false}
+                                            onChange={handleChangePasswordConfirm}
+                                            onClick={checkCapsLock}
+                                            onKeyDown={checkCapsLock}
+                                            action={<Button.Group basic>
+                                                <Button icon onClick={toggleMask}
+                                                        name='passwordConfirm'>
+                                                    <Icon name='eye'/>
+                                                </Button>
+                                            </Button.Group>
                                             }
-                                            {redirectingToHome &&
-                                            <Redirect to={'/introduction'}/>
-                                            }
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                </Grid>
-                            </Segment>
-                        </Grid.Column>
-                    </Grid>
-                </div>
-            </Segment>
-        </div>
-    );
+                                        />
+                                    </Form.Group>
+                                    {(capsLockPassword || capsLockPasswordConfirm) &&
+                                    <Message content='Warning: Caps Lock is enabled.'
+                                             color='yellow'/>
+                                    }
+                                    {passwordUpdateError &&
+                                    <Message content={passwordUpdateError} color={'red'}/>
+                                    }
+                                    {passwordUpdateSuccess === "true" &&
+                                    <Message content={"Password Successfully Updated."}
+                                             color={'blue'}/>
+                                    }
+                                    <Form.Button content='Submit' color='blue'/>
+                                </Form>
+                            </Card.Content>
+                        </MobileCard>
+                        }
+                        {currentTab === "delete" &&
+                        <MobileCard fluid>
+                            <Card.Content>
+                                <Message
+                                    content='Are you sure you want to delete your account? You will lose all of your progress.'/>
+                                <Modal
+                                    onClose={() => setModalVisible(false)}
+                                    onOpen={() => setModalVisible(true)}
+                                    open={modalVisible}
+                                    trigger={<Button>Delete My Account</Button>}
+                                >
+                                    <Modal.Header styles={{textAlign: "middle"}}
+                                                  className='myModalHeader'>
+                                        Are you sure you want to delete your account?
+                                    </Modal.Header>
+                                    <Modal.Actions className='myModalActions'>
+                                        <Button
+                                            content='No, I want to keep my account.'
+                                            labelPosition='right'
+                                            icon='cancel'
+                                            onClick={cancelDeletion}
+                                            negative
+                                        />
+                                        <Button
+                                            content='Yes, delete my account.'
+                                            labelPosition='right'
+                                            icon='checkmark'
+                                            onClick={processDeletion}
+                                            positive
+                                        />
+                                    </Modal.Actions>
+                                </Modal>
+                            </Card.Content>
+                        </MobileCard>
+                        }
+                        {redirectingToHome &&
+                        <Redirect to={'/introduction'}/>
+                        }
+                    </MobileSettingsGrid>
+                </MobileContainerSegment>
+            </div>
+        );
+    }
 }
 
 export default SettingsPage;

@@ -369,16 +369,17 @@ function LoginPage(props) {
             </div>
         );
     }
+    //MOBILE VIEW
     else {
         return (
-            <div className="App">
+            <div className="AppMobile">
                 <MobileContainerSegment>
                     <div className="modGrid">
                         <Grid className="introduction" columns={2}>
                             <Grid.Column width={16} className='noPadding'>
                                 <MobileInnerSegment>
                                     <Grid columns={3}>
-                                        <Grid.Column width={16} className={'firstCol'}>
+                                        <Grid.Column width={16}>
                                             <Card fluid>
                                                 <Card.Content>
                                                     <MessageLogin>

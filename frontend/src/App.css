@@ -8,5 +8,13 @@
   overflow: visible !important;
   */
 }
+.AppMobile {
+  text-align: center;
+  width: 100vw !important;
+  background: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
+  /*
+  overflow: visible !important;
+  */
+}
 
 

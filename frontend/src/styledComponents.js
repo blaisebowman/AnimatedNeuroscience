@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Dropdown, Form, Menu, Message, Dimmer, Card, Header, Segment, Grid} from 'semantic-ui-react';
+import {Button, Dropdown, Form, Menu, Message, Dimmer, Card, Header, Segment, Grid, Table} from 'semantic-ui-react';
 
 //tentative styled components, eventually replacing the usage of !important in .css and .scss files.
 
@@ -229,7 +229,31 @@ export const MobileDropdown= styled(Dropdown)`
     &&& > .icon {
       margin: 1.25vh 0 0 0 !important;
     }
-  
+`
+export const MobileSettingsDropdown= styled(Dropdown)`
+    padding-right: 2rem  !important;
+    padding-left: 2rem  !important;
+    background: black !important;
+    background-color:  black !important;
+    min-height: 4vh !important;
+    .text {
+      color: white !important;
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    &&& > .icon {
+      margin: 1.25vh 0 0 0 !important;
+    }
+    border-radius: .28571429rem;
+`
+export const MobileSettingsGrid= styled(Grid)`
+    border: 0 !important;
+    background: none !important;
+    padding: 0 0 0 0 !important;
+    margin: 0 0 0 0 !important;
 `
 export const ImageGridColumnMob= styled(Grid.Column)`
     padding: 1rem 0rem 1rem 0rem !important;
@@ -261,6 +285,10 @@ export const MobileGrid= styled(Grid)`
 export const MobileGridSecondaryRow= styled(Grid.Row)`
     padding-top: 0 !important;
 `
+export const MobileGridSecondaryProgressRow= styled(Grid.Row)`
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+`
 export const MobileInnerSegment= styled(Segment)`
     margin: 0 0 0 0 !important;
     padding-top: 1em 1em !important;
@@ -270,5 +298,47 @@ export const MobileInnerSegment= styled(Segment)`
     border-bottom-right-radius: 0 !important;
     border-radius-bottom: 0 !important;
     border-bottom: none !important;
+    border-right: none !important;
+    border-left: none !important;
 `
-
+export const MobileHeaderButton= styled(Button)`
+    color: white !important;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-align: center !important;
+    padding: .78571429em 0.55em .78571429em 0.55em !important;
+    &&& > a {
+     color: white !important;
+    }
+    .icon {
+        margin-right: 0.25rem !important;
+    }
+   
+`
+export const CustomMobileProgressMenu = styled(Menu)`
+    color: white !important;
+    &&& > .ui.menu .item {
+        text-align: center !important;
+    }
+    margin-top: 0 !important;
+    background: none !important;
+`
+export const CustomMobileMenuItem = styled(Menu.Item)`
+    text-align: center !important;
+    color: white !important;
+    background-color: #000000 !important;
+    margin-top: 1rem !important;
+    border-radius: 0.25rem !important;
+`
+export const MobileProgressMenuMessage = styled(Message)`
+    padding-top: 0 !important;
+`
+export const CustomMobileProgressHeader = styled(Header)`
+    font-family: "lato", sans-serif !important;
+    color: black !important;
+    word-wrap: break-word !important
+    text-align: justify !important;
+`
+export const MobileCard= styled(Card)`
+    margin-top: 0 !important;
+`
