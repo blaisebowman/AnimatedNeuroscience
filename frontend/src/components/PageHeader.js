@@ -18,7 +18,8 @@ function PageHeader(props) {
             newTabOpened.opener = null;
         }
     }
-    let isMobile = sessionStorage.getItem('isMobile');
+
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     // let id = ""; //get id from backend -> upon a valid login or registration, user is directed to this page.
     /*if(sessionStorage.getItem("memberLoggedIn")){
@@ -45,7 +46,7 @@ function PageHeader(props) {
         console.log(sessionStorage);
 
     }, [redirectingToHome]);
-    if (isMobile === "false") {
+    if (isMobile === false) {
         return (
             <Header as='h2' className='modGrid' style={{maxHeight: '100vh'}}>
                 <Grid columns={3} rows={2} className='modGrid' stretched style={{maxWidth: '100vw'}}>
