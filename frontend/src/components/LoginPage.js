@@ -1,14 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Button, Card, Divider, Form, Grid, Header, Icon, Image, Input, Message, Modal, Segment} from "semantic-ui-react"
-import {MessageLogin, SubmitButton} from "../styledComponents";
+import {MessageLogin, MobileContainerSegment, MobileInnerSegment, SubmitButton} from "../styledComponents";
 import {Link, Redirect} from "react-router-dom";
 import axios from "axios";
 import "../modal.css"
 
 function LoginPage(props) {
     const [redirect, setRedirect] = useState(false);
-    const [height, setHeight] = useState(null);
-    const [width, setWidth] = useState(null);
     const [errorStateEmail, setErrorStateEmail] = useState("");
     const [errorStatePassword, setErrorStatePassword] = useState("");
     const [password, setPassword] = useState("");
@@ -29,9 +27,7 @@ function LoginPage(props) {
         console.log = function (){};
     }
 
-    /*useEffect(()=>{
-        console.log("Updated password error " + forgotPasswordError);
-    },[forgotPasswordError]);*/
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     function checkCapsLock(e){
         const deviceIsMac = /Mac/.test(navigator.platform);
@@ -122,9 +118,10 @@ function LoginPage(props) {
 
     function handleChangePassword(e, {name, value}){
         //track the value in the password form field as a user types.
-        if(password.length !== 0){
+        if(password.length !== 0) {
             setErrorStatePassword("");
         }
+        setErrorStatePassword("");
         setPassword(value);
     }
 
@@ -245,125 +242,259 @@ function LoginPage(props) {
             setIsMasked("password");
         }
     }
-
-    return (
-        <div className="App">
-            <Segment className="body">
-                <div className="modGrid">
-                    <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
-                        <Grid.Column width={16} className='noPadding'>
-                            <Segment className="imgSeg">
-                                <Grid columns={3}>
-                                    <Grid.Column width={4}/>
-                                    <Grid.Column width={8} className={'firstCol'}>
-                                        <Card fluid>
-                                            <Card.Content>
-                                                <MessageLogin>
-                                                    <Message.Header>Welcome Back!</Message.Header>
-                                                </MessageLogin>
-                                            </Card.Content>
-                                            <Card.Content extra>
-                                                <Form onSubmit={handleSubmit}>
-                                                    <Form.Field
-                                                        control={Input}
-                                                        label='Email'
-                                                        placeholder=''
-                                                        name='email'
-                                                        value={email}
-                                                        error = {errorStateEmail !== "" ? errorStateEmail : false}
-                                                        onChange={handleChangeEmail}
-                                                        onClick={checkCapsLock}
-                                                        onKeyUp={checkCapsLock}
-                                                    />
-                                                    {capsLockEmail &&
-                                                    <Message content='Warning: Caps Lock is enabled.' color='yellow'/>
-                                                    }
-                                                    <Form.Group>
-                                                    <Form.Field
-                                                        width={16}
-                                                        type= {isMasked}
-                                                        control={Input}
-                                                        label='Password'
-                                                        placeholder=''
-                                                        name='password'
-                                                        value={password}
-                                                        error={errorStatePassword !== "" ? errorStatePassword : false}
-                                                        onChange={handleChangePassword}
-                                                        onClick={checkCapsLock}
-                                                        onKeyDown={checkCapsLock}
-                                                        actionPosition='right'
-                                                        action={<Button.Group basic>
-                                                            <Button icon onClick={toggleMask} ><Icon name='eye'/></Button>
-                                                            <Icon name='eye'/>
-                                                        </Button.Group>
-                                                            }
-                                                    />
-                                                    </Form.Group>
-                                                    {capsLockPassword &&
-                                                    <Message content='Warning: Caps Lock is enabled.' color='yellow'/>
-                                                    }
-                                                    <Modal open={modalVisible}>
-                                                        <Modal.Header styles={{textAlign: "middle"}} className='myModalHeader'>Please enter the email associated with your account.</Modal.Header>
-                                                        <Modal.Actions className='myModalActions'>
-                                                            <Form>
-                                                                <Form.Group widths='equal'>
-                                                                    <Form.Field
-                                                                        control={Input}
-                                                                        label='Email Address Registered to Your Account'
-                                                                        placeholder=''
-                                                                        name='forgotPasswordEmail'
-                                                                        value={forgotPasswordEmail}
-                                                                        error = {forgotPasswordError !== "" ? forgotPasswordError : false}
-                                                                        onChange={handleChangeForgotPassword}
-                                                                    />
-                                                                </Form.Group>
-                                                            </Form>
-                                                            {forgotPasswordSuccess &&
-                                                            <Message success header='We found your account!' content='Check your email for a link to reset your password.' className='forgotPasswordSuccess'/>
-                                                            }
-                                                            <Button
-                                                                content='Cancel Password Reset'
-                                                                labelPosition='right'
-                                                                icon='cancel'
-                                                                onClick={handleForgotPasswordCancel}
-                                                                negative
+    if(isMobile === false) {
+        return (
+            <div className="App">
+                <Segment className="body">
+                    <div className="modGrid">
+                        <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
+                            <Grid.Column width={16} className='noPadding'>
+                                <Segment className="imgSeg">
+                                    <Grid columns={3}>
+                                        <Grid.Column width={4}/>
+                                        <Grid.Column width={8} className={'firstCol'}>
+                                            <Card fluid>
+                                                <Card.Content>
+                                                    <MessageLogin>
+                                                        <Message.Header>Welcome Back!</Message.Header>
+                                                    </MessageLogin>
+                                                </Card.Content>
+                                                <Card.Content extra>
+                                                    <Form onSubmit={handleSubmit}>
+                                                        <Form.Field
+                                                            control={Input}
+                                                            label='Email'
+                                                            placeholder=''
+                                                            name='email'
+                                                            value={email}
+                                                            error={errorStateEmail !== "" ? errorStateEmail : false}
+                                                            onChange={handleChangeEmail}
+                                                            onClick={checkCapsLock}
+                                                            onKeyUp={checkCapsLock}
+                                                        />
+                                                        {capsLockEmail &&
+                                                        <Message content='Warning: Caps Lock is enabled.'
+                                                                 color='yellow'/>
+                                                        }
+                                                        <Form.Group>
+                                                            <Form.Field
+                                                                width={16}
+                                                                type={isMasked}
+                                                                control={Input}
+                                                                label='Password'
+                                                                placeholder=''
+                                                                name='password'
+                                                                value={password}
+                                                                error={errorStatePassword !== "" ? errorStatePassword : false}
+                                                                onChange={handleChangePassword}
+                                                                onClick={checkCapsLock}
+                                                                onKeyDown={checkCapsLock}
+                                                                actionPosition='right'
+                                                                action={<Button.Group basic>
+                                                                    <Button icon onClick={toggleMask}><Icon name='eye'/></Button>
+                                                                    <Icon name='eye'/>
+                                                                </Button.Group>
+                                                                }
                                                             />
-                                                            <Button
-                                                                content='Send Password Reset Link'
-                                                                labelPosition='right'
-                                                                icon='checkmark'
-                                                                onClick={handleForgotPasswordSubmit}
-                                                                positive
-                                                                type = 'submit'
+                                                        </Form.Group>
+                                                        {capsLockPassword &&
+                                                        <Message content='Warning: Caps Lock is enabled.'
+                                                                 color='yellow'/>
+                                                        }
+                                                        <Modal open={modalVisible}>
+                                                            <Modal.Header styles={{textAlign: "middle"}}
+                                                                          className='myModalHeader'>Please enter the
+                                                                email associated with your account.</Modal.Header>
+                                                            <Modal.Actions className='myModalActions'>
+                                                                <Form>
+                                                                    <Form.Group widths='equal'>
+                                                                        <Form.Field
+                                                                            control={Input}
+                                                                            label='Email Address Registered to Your Account'
+                                                                            placeholder=''
+                                                                            name='forgotPasswordEmail'
+                                                                            value={forgotPasswordEmail}
+                                                                            error={forgotPasswordError !== "" ? forgotPasswordError : false}
+                                                                            onChange={handleChangeForgotPassword}
+                                                                        />
+                                                                    </Form.Group>
+                                                                </Form>
+                                                                {forgotPasswordSuccess &&
+                                                                <Message success header='We found your account!'
+                                                                         content='Check your email for a link to reset your password.'
+                                                                         className='forgotPasswordSuccess'/>
+                                                                }
+                                                                <Button
+                                                                    content='Cancel Password Reset'
+                                                                    labelPosition='right'
+                                                                    icon='cancel'
+                                                                    onClick={handleForgotPasswordCancel}
+                                                                    negative
+                                                                />
+                                                                <Button
+                                                                    content='Send Password Reset Link'
+                                                                    labelPosition='right'
+                                                                    icon='checkmark'
+                                                                    onClick={handleForgotPasswordSubmit}
+                                                                    positive
+                                                                    type='submit'
+                                                                />
+                                                            </Modal.Actions>
+                                                        </Modal>
+                                                        <SubmitButton content='Submit' color='blue'/>
+                                                    </Form>
+                                                    <Divider/>
+                                                    <Grid>
+                                                        <Grid.Row>
+                                                            <Grid.Column width={16}>
+                                                                <Button onClick={handleClickForgotPassword}>Forget your
+                                                                    password?</Button>
+                                                            </Grid.Column>
+                                                        </Grid.Row>
+                                                    </Grid>
+                                                    <Divider/>
+                                                    <Link to="/register">Don't have an account? <u>Sign up</u>.</Link>
+                                                    {redirect &&
+                                                    <Redirect to={{pathname: '/introduction'}}/>
+                                                    }
+                                                </Card.Content>
+                                            </Card>
+                                        </Grid.Column>
+                                    </Grid>
+                                </Segment>
+                            </Grid.Column>
+                        </Grid>
+                    </div>
+                </Segment>
+            </div>
+        );
+    }
+    else {
+        return (
+            <div className="App">
+                <MobileContainerSegment>
+                    <div className="modGrid">
+                        <Grid className="introduction" columns={2}>
+                            <Grid.Column width={16} className='noPadding'>
+                                <MobileInnerSegment>
+                                    <Grid columns={3}>
+                                        <Grid.Column width={16} className={'firstCol'}>
+                                            <Card fluid>
+                                                <Card.Content>
+                                                    <MessageLogin>
+                                                        <Message.Header>Welcome Back!</Message.Header>
+                                                    </MessageLogin>
+                                                </Card.Content>
+                                                <Card.Content extra>
+                                                    <Form onSubmit={handleSubmit}>
+                                                        <Form.Field
+                                                            control={Input}
+                                                            label='Email'
+                                                            placeholder=''
+                                                            name='email'
+                                                            value={email}
+                                                            error={errorStateEmail !== "" ? errorStateEmail : false}
+                                                            onChange={handleChangeEmail}
+                                                            onClick={checkCapsLock}
+                                                            onKeyUp={checkCapsLock}
+                                                        />
+                                                        {capsLockEmail &&
+                                                        <Message content='Warning: Caps Lock is enabled.'
+                                                                 color='yellow'/>
+                                                        }
+                                                        <Form.Group>
+                                                            <Form.Field
+                                                                width={16}
+                                                                type={isMasked}
+                                                                control={Input}
+                                                                label='Password'
+                                                                placeholder=''
+                                                                name='password'
+                                                                value={password}
+                                                                error={errorStatePassword !== "" ? errorStatePassword : false}
+                                                                onChange={handleChangePassword}
+                                                                onClick={checkCapsLock}
+                                                                onKeyDown={checkCapsLock}
+                                                                actionPosition='right'
+                                                                action={<Button.Group basic>
+                                                                    <Button icon onClick={toggleMask}><Icon name='eye'/></Button>
+                                                                    <Icon name='eye'/>
+                                                                </Button.Group>
+                                                                }
                                                             />
-                                                        </Modal.Actions>
-                                                    </Modal>
-                                                    <SubmitButton content='Submit' color='blue'/>
-                                                </Form>
-                                                <Divider/>
-                                                <Grid>
-                                                    <Grid.Row>
-                                                    <Grid.Column width={16}>
-                                                        <Button onClick={handleClickForgotPassword}>Forget your password?</Button>
-                                                    </Grid.Column>
-                                                    </Grid.Row>
-                                                </Grid>
-                                                <Divider/>
-                                                <Link to="/register">Don't have an account? <u>Sign up</u>.</Link>
-                                                {redirect &&
-                                                <Redirect to={{pathname: '/introduction'}}/>
-                                                }
-                                            </Card.Content>
-                                        </Card>
-                                    </Grid.Column>
-                                </Grid>
-                            </Segment>
-                        </Grid.Column>
-                    </Grid>
-                </div>
-            </Segment>
-        </div>
-    );
+                                                        </Form.Group>
+                                                        {capsLockPassword &&
+                                                        <Message content='Warning: Caps Lock is enabled.'
+                                                                 color='yellow'/>
+                                                        }
+                                                        <Modal open={modalVisible}>
+                                                            <Modal.Header styles={{textAlign: "middle"}}
+                                                                          className='myModalHeader'>Please enter the
+                                                                email associated with your account.</Modal.Header>
+                                                            <Modal.Actions className='myModalActions'>
+                                                                <Form>
+                                                                    <Form.Group widths='equal'>
+                                                                        <Form.Field
+                                                                            control={Input}
+                                                                            label='Email Address Registered to Your Account'
+                                                                            placeholder=''
+                                                                            name='forgotPasswordEmail'
+                                                                            value={forgotPasswordEmail}
+                                                                            error={forgotPasswordError !== "" ? forgotPasswordError : false}
+                                                                            onChange={handleChangeForgotPassword}
+                                                                        />
+                                                                    </Form.Group>
+                                                                </Form>
+                                                                {forgotPasswordSuccess &&
+                                                                <Message success header='We found your account!'
+                                                                         content='Check your email for a link to reset your password.'
+                                                                         className='forgotPasswordSuccess'/>
+                                                                }
+                                                                <Button
+                                                                    content='Cancel Password Reset'
+                                                                    labelPosition='right'
+                                                                    icon='cancel'
+                                                                    onClick={handleForgotPasswordCancel}
+                                                                    negative
+                                                                />
+                                                                <Button
+                                                                    content='Send Password Reset Link'
+                                                                    labelPosition='right'
+                                                                    icon='checkmark'
+                                                                    onClick={handleForgotPasswordSubmit}
+                                                                    positive
+                                                                    type='submit'
+                                                                />
+                                                            </Modal.Actions>
+                                                        </Modal>
+                                                        <SubmitButton content='Submit' color='blue'/>
+                                                    </Form>
+                                                    <Divider/>
+                                                    <Grid>
+                                                        <Grid.Row>
+                                                            <Grid.Column width={16}>
+                                                                <Button onClick={handleClickForgotPassword}>Forget your
+                                                                    password?</Button>
+                                                            </Grid.Column>
+                                                        </Grid.Row>
+                                                    </Grid>
+                                                    <Divider/>
+                                                    <Link to="/register">Don't have an account? <u>Sign up</u>.</Link>
+                                                    {redirect &&
+                                                    <Redirect to={{pathname: '/introduction'}}/>
+                                                    }
+                                                </Card.Content>
+                                            </Card>
+                                        </Grid.Column>
+                                    </Grid>
+                                </MobileInnerSegment>
+                            </Grid.Column>
+                        </Grid>
+                    </div>
+                </MobileContainerSegment>
+            </div>
+        );
+    }
 }
 
 export default LoginPage;

@@ -24,6 +24,7 @@ export const SubmitButton = styled(Form.Button)`
         background-color: #e7600c !important;
         font-weight: 900;
     }
+    margin: 1em 0 0 0 !important
 `
 export const CustomCardDescription = styled(Card.Description)`
     color: white !important;
@@ -259,5 +260,15 @@ export const MobileGrid= styled(Grid)`
 `
 export const MobileGridSecondaryRow= styled(Grid.Row)`
     padding-top: 0 !important;
+`
+export const MobileInnerSegment= styled(Segment)`
+    margin: 0 0 0 0 !important;
+    padding-top: 1em 1em !important;
+    background: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
+    min-height: 78vh !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-radius-bottom: 0 !important;
+    border-bottom: none !important;
 `
 

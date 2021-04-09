@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Button, Card, Divider, Grid, Icon, Segment, Form, Input, Message} from "semantic-ui-react"
-import {MessageLogin, SubmitButton} from "../styledComponents";
+import {MessageLogin, MobileContainerSegment, MobileInnerSegment, SubmitButton} from "../styledComponents";
 import {Link, Redirect} from "react-router-dom";
 import axios from 'axios';
 
@@ -29,6 +29,8 @@ function RegisterPage(props) {
     const nameRegex = /^(?!-)(?!.*-$)[a-zA-Z-]/;
     const emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
+
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if(process.env.NODE_ENV === 'production'){
         console.log("In production mode. Disable log statements -> hide log statements from console.");
@@ -89,9 +91,16 @@ function RegisterPage(props) {
 
     function checkCapsLock(e){
         const deviceIsMac = /Mac/.test(navigator.platform);
+        const deviceIsAndroid = /Android/.test(navigator.platform);
+        console.log(deviceIsAndroid);
+        if(e.getModifierState("CapsLock")){
+            console.log("I GOT CAPPED");
+        }
+
         console.log(e.target.name);
         console.log(e._reactName);
         console.log(e.keyCode);
+        //ANDROID - 115, Apple - 57
         if((e._reactName === "onKeyUp" || e._reactName === "onKeyDown") && e.keyCode === 13) {
             const form = e.target.form; //the current form
             const index = Array.prototype.indexOf.call(form, e.target); //the index of the form
@@ -134,7 +143,7 @@ function RegisterPage(props) {
                     setCapsLockEmail(true);
                 }
             }
-            else if (e.target.name === "password"){
+            else if (e.target.name === "password" || e.target.name === "passwordConfirm"){
                 if(capsLockPassword === true){
                     return;
                 }
@@ -269,6 +278,7 @@ function RegisterPage(props) {
         }
         //if first is invalid, or empty, display relevant error
     }
+    if(isMobile === false) {
         return (
             <div className="App">
                 <Segment className="body">
@@ -283,7 +293,7 @@ function RegisterPage(props) {
                                                 <Card.Content>
                                                     <MessageLogin>
                                                         <Message.Header>Create an Account!</Message.Header>
-                                                    <Divider/>
+                                                        <Divider/>
                                                         <Card.Description>
                                                             Monitor your progress and hit your learning goals!
                                                         </Card.Description>
@@ -319,10 +329,11 @@ function RegisterPage(props) {
                                                             8-20 characters and contain at least one number, one
                                                             upper-case letter, and one lower-case letter. </Message>
                                                         {capsLockPassword &&
-                                                        <Message content='Warning: Caps Lock is enabled.' color='yellow'/>
+                                                        <Message content='Warning: Caps Lock is enabled.'
+                                                                 color='yellow'/>
                                                         }
                                                         <Form.Field
-                                                            type= {isMaskedPassword}
+                                                            type={isMaskedPassword}
                                                             control={Input}
                                                             label='Password'
                                                             placeholder=''
@@ -333,26 +344,29 @@ function RegisterPage(props) {
                                                             onClick={checkCapsLock}
                                                             onKeyDown={checkCapsLock}
                                                             action={<Button.Group basic>
-                                                                <Button icon onClick={toggleMask} name='password'><Icon name='eye'/></Button>
+                                                                <Button icon onClick={toggleMask} name='password'><Icon
+                                                                    name='eye'/></Button>
                                                             </Button.Group>
                                                             }
                                                         />
                                                         <Form.Field
-                                                        type= {isMaskedPasswordConfirm}
-                                                        control={Input}
-                                                        label='Confirm Password'
-                                                        placeholder=''
-                                                        name='passwordConfirm'
-                                                        value={passwordConfirm}
-                                                        error={errorStatePasswordConfirm.length !== 0 ? errorStatePasswordConfirm : false}
-                                                        onChange={handleChangePasswordConfirm}
-                                                        onClick={checkCapsLock}
-                                                        onKeyDown={checkCapsLock}
-                                                        action={<Button.Group basic>
-                                                            <Button icon onClick={toggleMask} name='passwordConfirm'><Icon name='eye'/></Button>
-                                                        </Button.Group>
-                                                        }
-                                                    />
+                                                            type={isMaskedPasswordConfirm}
+                                                            control={Input}
+                                                            label='Confirm Password'
+                                                            placeholder=''
+                                                            name='passwordConfirm'
+                                                            value={passwordConfirm}
+                                                            error={errorStatePasswordConfirm.length !== 0 ? errorStatePasswordConfirm : false}
+                                                            onChange={handleChangePasswordConfirm}
+                                                            onClick={checkCapsLock}
+                                                            onKeyDown={checkCapsLock}
+                                                            action={<Button.Group basic>
+                                                                <Button icon onClick={toggleMask}
+                                                                        name='passwordConfirm'><Icon
+                                                                    name='eye'/></Button>
+                                                            </Button.Group>
+                                                            }
+                                                        />
                                                         <Form.Field
                                                             control={Input}
                                                             label='Email'
@@ -365,7 +379,8 @@ function RegisterPage(props) {
                                                             onKeyDown={checkCapsLock}
                                                         />
                                                         {emailExists &&
-                                                        <Message color='red'>That email is already associated with an account. Would you like to login?
+                                                        <Message color='red'>That email is already associated with an
+                                                            account. Would you like to login?
                                                             <Divider/>
                                                             <Button as={Link} to='/login' color='green'>Login</Button>
                                                         </Message>
@@ -394,8 +409,139 @@ function RegisterPage(props) {
                     </div>
                 </Segment>
             </div>
-
         );
+    }
+    else {
+        return (
+            <div className="App">
+                <MobileContainerSegment>
+                    <div className="modGrid">
+                        <Grid className="introduction">
+                            <Grid.Column width={16} className='noPadding'>
+                                <MobileInnerSegment className="imgSeg">
+                                    <Grid>
+                                        <Grid.Column width={16}>
+                                            <Card fluid>
+                                                <Card.Content>
+                                                    <MessageLogin>
+                                                        <Message.Header>Create an Account!</Message.Header>
+                                                        <Divider/>
+                                                        <Card.Description>
+                                                            Monitor your progress and hit your learning goals!
+                                                        </Card.Description>
+                                                    </MessageLogin>
+                                                </Card.Content>
+                                                <Card.Content extra>
+                                                    <Form onSubmit={handleSubmit}>
+                                                        <Form.Group widths='equal'>
+                                                            <Form.Field
+                                                                control={Input}
+                                                                label='First Name'
+                                                                placeholder='John'
+                                                                name='first'
+                                                                value={first}
+                                                                error={errorStateFirst !== "" ? errorStateFirst : false}
+                                                                onClick={checkCapsLock}
+                                                                onChange={handleChangeFirst}
+                                                                onKeyDown={checkCapsLock}
+                                                            />
+                                                            <Form.Field
+                                                                control={Input}
+                                                                label='Last Name'
+                                                                placeholder='Doe'
+                                                                name='last'
+                                                                value={last}
+                                                                error={errorStateLast !== "" ? errorStateLast : false}
+                                                                onClick={checkCapsLock}
+                                                                onChange={handleChangeLast}
+                                                                onKeyDown={checkCapsLock}
+                                                            />
+                                                        </Form.Group>
+                                                        <Message size='mini' attached='bottom'>Passwords must be between
+                                                            8-20 characters and contain at least one number, one
+                                                            upper-case letter, and one lower-case letter. </Message>
+                                                        {capsLockPassword &&
+                                                        <Message content='Warning: Caps Lock is enabled.'
+                                                                 color='yellow'/>
+                                                        }
+                                                        <Form.Field
+                                                            type={isMaskedPassword}
+                                                            control={Input}
+                                                            label='Password'
+                                                            placeholder=''
+                                                            name='password'
+                                                            value={password}
+                                                            error={errorStatePassword.length !== 0 ? errorStatePassword : false}
+                                                            onChange={handleChangePassword}
+                                                            onClick={checkCapsLock}
+                                                            onKeyDown={checkCapsLock}
+                                                            action={<Button.Group basic>
+                                                                <Button icon onClick={toggleMask} name='password'><Icon
+                                                                    name='eye'/></Button>
+                                                            </Button.Group>
+                                                            }
+                                                        />
+                                                        <Form.Field
+                                                            type={isMaskedPasswordConfirm}
+                                                            control={Input}
+                                                            label='Confirm Password'
+                                                            placeholder=''
+                                                            name='passwordConfirm'
+                                                            value={passwordConfirm}
+                                                            error={errorStatePasswordConfirm.length !== 0 ? errorStatePasswordConfirm : false}
+                                                            onChange={handleChangePasswordConfirm}
+                                                            onClick={checkCapsLock}
+                                                            onKeyDown={checkCapsLock}
+                                                            action={<Button.Group basic>
+                                                                <Button icon onClick={toggleMask}
+                                                                        name='passwordConfirm'><Icon
+                                                                    name='eye'/></Button>
+                                                            </Button.Group>
+                                                            }
+                                                        />
+                                                        <Form.Field
+                                                            control={Input}
+                                                            label='Email'
+                                                            placeholder='allygator@fakeemail.com'
+                                                            name='email'
+                                                            value={email}
+                                                            error={errorStateEmail !== "" ? errorStateEmail : false}
+                                                            onClick={checkCapsLock}
+                                                            onChange={handleChangeEmail}
+                                                            onKeyDown={checkCapsLock}
+                                                        />
+                                                        {emailExists &&
+                                                        <Message color='red'>That email is already associated with an
+                                                            account. Would you like to login?
+                                                            <Divider/>
+                                                            <Button as={Link} to='/login' color='green'>Login</Button>
+                                                        </Message>
+                                                        }
+                                                        <Form.Checkbox
+                                                            label='I Agree to the Terms and Conditions of An Animated Discovery of Neuroscience.'
+                                                            onChange={handleChangeCheck}
+                                                            error={(errorStateCheck.length !== 0 && errorStateCheck !== "checked") ? errorStateCheck : false}
+                                                            onClick={handleChangeCheck}
+                                                        />
+                                                        <Form.Button content='Submit' color='blue'/>
+                                                    </Form>
+                                                    <Divider/>
+                                                    <Link to="/login">Already a Member? <u>Login</u>.</Link>
+                                                    {redirect &&
+                                                    <Redirect to={'/introduction'}/>
+                                                    }
+                                                </Card.Content>
+                                            </Card>
+                                        </Grid.Column>
+                                    </Grid>
+                                </MobileInnerSegment>
+                            </Grid.Column>
+                        </Grid>
+                    </div>
+                </MobileContainerSegment>
+            </div>
+        );
+    }
 }
 
 export default RegisterPage;

@@ -16,7 +16,7 @@ function SensorySystems(props) {
             <div className="App">
                 <Segment className="body">
                     <div className="modGrid">
-                        <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
+                        <Grid className="introduction" columns={2}>
                             <Grid.Column width={16} className='noPadding'>
                                 <Segment className="imgSeg">
                                     <Grid columns={3}>
