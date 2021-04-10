@@ -2,7 +2,7 @@ import React, {useCallback, useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 import App2 from "./Animations/exploring_one.tsx";
 
-import {Grid, Segment, Dropdown, Card, Icon} from "semantic-ui-react";
+import {Grid, Segment, Dropdown, Card, Icon, Message} from "semantic-ui-react";
 import {
     AdobeContainer,
     CustomAnimationDropdown,
@@ -15,7 +15,7 @@ import {
     MobileContainerSegment,
     MobileGrid, MobileGridPrimaryRow,
     MobileGridSecondaryRow,
-    MobileSettingsDropdown
+    MobileSettingsDropdown, PortraitMessage
 } from "../../styledComponents";
 
 import '../../glias.css';
@@ -44,7 +44,6 @@ function ExploringPage(props) {
     window.addEventListener("orientationchange", function(event) {
         console.log("the orientation of the device is now " + event.target.screen.orientation.angle);
         setOrientationIs(event.target.screen.orientation.angle);
-
     });
     useEffect(()=>{
             console.log("the orientation of the device is now " + orientationIs);
@@ -101,10 +100,11 @@ function ExploringPage(props) {
             <div className="AppMobile">
                 <MobileAnimationSegment>
                     <MobileGrid>
-                        <MobileGridPrimaryRow>
-                            <Card fluid>
-                                <div onMouseEnter={handleSelector}
-                                     onMouseLeave={handleSelector}>
+                        <MobileGridSecondaryRow>
+                            <AdobeContainer>
+                                <Card fluid>
+                                    <div onMouseEnter={handleSelector}
+                                         onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson" >
                                             <Dropdown.Menu>
                                                 <Dropdown.Item>
@@ -115,11 +115,14 @@ function ExploringPage(props) {
                                                 </Dropdown.Item>
                                             </Dropdown.Menu>
                                         </MobileSettingsDropdown>
-                                </div>
-                            </Card>
-                        </MobileGridPrimaryRow>
-                        <MobileGridSecondaryRow>
-                            <AdobeContainer>
+                                    </div>
+                                </Card>
+                                <Card fluid>
+                                    <PortraitMessage warning>
+                                        <Message.Header>Tip of the Day</Message.Header>
+                                        <p>For a better experience, please rotate your device into landscape orientation.</p>
+                                    </PortraitMessage>
+                                </Card>
                             <App2/>
                             </AdobeContainer>
                         </MobileGridSecondaryRow>

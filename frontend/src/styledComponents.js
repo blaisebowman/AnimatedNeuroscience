@@ -353,13 +353,6 @@ export const MobileAnimation= styled(AnimateCC)`
     div {
         display: none !important;
     }
-     @media screen and (orientation:landscape) {
-        canvas {
-            height: 100vh !important;
-            width: 100vw !important;
-            object-fit: contain !important;   
-        }
-    }
 `
 export const MobileAnimationSegment= styled(Segment)`
     border: 0 !important;
@@ -379,14 +372,20 @@ export const AdobeContainer= styled(Segment)`
         margin: 0 0 0 0 !important;
         padding: 0 0 0 0 !important;
         border: none !important;
+        object-fit: fill !important;
     }
 `
 export const FullScreen= styled(Segment)`
     @media screen and (orientation:landscape) {
         padding: 0 0 0 0 !important;
         border: none !important;
+        background-color: black !important;
     }
-    
+`
+export const PortraitMessage= styled(Message)`
+    @media screen and (orientation:landscape) {
+        display: none !important;
+    }
 `
 export const MobileAnimationDropdown = styled(Dropdown)`
     &&& > .dropdownContainer {

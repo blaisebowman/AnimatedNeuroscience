@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {Message, Progress} from "semantic-ui-react";
-import {ProgressDimmer} from "../../../styledComponents";
+import {FullScreen, MobileAnimation, MobileAnimationMessage, ProgressDimmer} from "../../../styledComponents";
 
 const Astrocyte = () => {
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
@@ -15,6 +15,19 @@ const Astrocyte = () => {
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
     const [userIsMember, setUserIsMember] = useState<boolean>(false);
+    const [orientationIs, setOrientationIs] = useState<number>(0);
+
+
+    let aspectRatio = 800/500; //varies by animation
+    let height = window.screen.height;
+    let width = (aspectRatio * window.screen.height);
+    let marginLR = ((window.screen.width - width) / 2);
+
+    useEffect(()=>{
+        console.log("the orientation of the device is now " + orientationIs);
+        setOrientationIs(parseInt(sessionStorage.getItem('orientation') as string) || 0);
+        console.log(parseInt(sessionStorage.getItem('orientation') as string));
+    }, []);
 
     if(process.env.NODE_ENV === 'production'){
         console.log("In production mode. Disable log statements -> hide log statements from console.");
@@ -121,6 +134,7 @@ const Astrocyte = () => {
         const obj = Object.values(event);
         console.log(obj[1].name);
         console.log(userClicked);
+        console.log(event);
         if (userClicked === ""){
         animationObject?.removeAllEventListeners();
         }
@@ -140,6 +154,7 @@ const Astrocyte = () => {
         }
     }
 
+
     if(sessionStorage.getItem("id")) {
         //only set event listener if the page viewer is a member
         if (!(animationObject?.hasEventListener('click'))) {
@@ -148,21 +163,74 @@ const Astrocyte = () => {
         }
     }
 
-    return (
-        <div style={{minHeight: '55vh', maxWidth: '55vw', margin:'auto'}}>
-            <AnimateCC
-                getAnimationObject={getAnimationObject}
-                animationName="glias"
-            />
-            <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
-                <ProgressDimmer active={!userIsMember}>
-                    <Message content='To track your progress, register or login to your account.'/>
-                </ProgressDimmer>
-                <Message content ={progressMessage}/>
-                <Progress percent={percentComplete} inverted color='green' progress/>
-            </Message>
-        </div>
-    );
+    if (!(animationObject?.hasEventListener('click'))) {
+        /*canvas = document.getElementById("mainCanvas");
+        canvas.width = document.body.clientWidth; //document.width is obsolete
+        canvas.height = document.body.clientHeight; //document.height is obsolete
+        canvasW = canvas.width;
+        canvasH = canvas.height;
+
+        if( canvas.getContext )
+        {
+            setup();
+            setInterval( run , 33 );
+        }*/
+        console.log("Adding event listener.");
+        animationObject?.addEventListener('click', handleClick);
+    }
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if(isMobile === false) {
+        return (
+            <div style={{minHeight: '55vh', maxWidth: '55vw', margin: 'auto'}}>
+                <AnimateCC
+                    getAnimationObject={getAnimationObject}
+                    animationName="glias"
+                />
+                <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                    <ProgressDimmer active={!userIsMember}>
+                        <Message content='To track your progress, register or login to your account.'/>
+                    </ProgressDimmer>
+                    <Message content={progressMessage}/>
+                    <Progress percent={percentComplete} inverted color='green' progress/>
+                </Message>
+            </div>
+        );
+    }
+    else if(orientationIs !== 90) {
+        return (
+            <FullScreen>
+                <MobileAnimation
+                    getAnimationObject={getAnimationObject}
+                    animationName="glias"
+                />
+                <MobileAnimationMessage content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                    <ProgressDimmer active={!userIsMember}>
+                        <Message content='To track your progress, register or login to your account.'/>
+                    </ProgressDimmer>
+                    <Message content={progressMessage}/>
+                    <Progress percent={percentComplete} inverted color='green' progress/>
+                </MobileAnimationMessage>
+            </FullScreen>
+        );
+    }
+    else if(orientationIs === 90) {
+        return (
+            <FullScreen>
+                <MobileAnimation
+                    getAnimationObject={getAnimationObject}
+                    animationName="glias"
+                    style = {{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR}}
+                />
+                <MobileAnimationMessage content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                    <ProgressDimmer active={!userIsMember}>
+                        <Message content='To track your progress, register or login to your account.'/>
+                    </ProgressDimmer>
+                    <Message content={progressMessage}/>
+                    <Progress percent={percentComplete} inverted color='green' progress/>
+                </MobileAnimationMessage>
+            </FullScreen>
+        );
+    }
 };
 
 export default Astrocyte;
