@@ -16,7 +16,6 @@ const VisualSystem = () => {
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
     const [userIsMember, setUserIsMember] = useState<boolean>(false);
-    const [orientationIs, setOrientationIs] = useState<number>(0);
     let aspectRatio = 750/400; //varies by animation
     let height = window.screen.height;
     let width = (aspectRatio * window.screen.height);
@@ -40,7 +39,8 @@ const VisualSystem = () => {
     }, []);
     //only need the second to last button of certain animations to ensure completition
     //need to handle hover and click on: gang, inplexi, innuc, outplex, out, photo, chiasm, nerve, tract, leftHover, rightHover,
-    let animationComplete: string [] = ["next1b", "next2a", "next3g", "next4g", "next5a", "next8a", "next9b", "next10a", "next10b", "gang", "inplexi", "innuc", "outplex", "out", "photo", "chiasm", "nerve", "tract", "leftHover", "rightHover", "amacrine", "ganglion", "bipolar", "horizontal", "photoreceptors"];
+    //btn2 = 1c , btn3 = 2a , btn4 = 3h , btn5 = 4h, btn6 = 5d , btn7 = 6a , btn8 = 7b, btn9 = 8b, btn10 = 9c
+    let animationComplete: string [] = ["next1a","next1b","next1c", "next2a", "next3a","next3b","next3c","next3d","next3e","next3f","next3g","next3h", "next4a","next4b","next4c","next4d","next4e","next4f","next4g","next4h", "next5a","next5b", "next5d", "next6a", "next7a","next8a","next8b", "next9a", "next9b","next9c", "next10a", "next10b", "gang", "inplexi", "innuc", "outplex", "out", "photo", "chiasm", "nerve", "tract", "leftHover", "rightHover", "amacrine", "ganglion", "bipolar", "horizontal", "photoreceptors"];
     let needToCountHover: string [] = ["amacrine", "ganglion", "bipolar", "horizontal", "photoreceptors",  "gang", "inplexi", "innuc", "outplex", "out", "photo", "chiasm", "nerve", "tract", "leftHover", "rightHover"];
     let id = sessionStorage.getItem("id");
     let port = process.env.PORT || 'http://localhost:8080/api/members/'+id+'/animations/completed';
@@ -110,6 +110,7 @@ const VisualSystem = () => {
         //response.data is the {complete: false, completedActions: []} object used to determine if an action has been completed in an animation
         console.log(response);
         console.log(response.data);
+        getMemberArray();
     }
 
     const handlePostError = (error: AxiosError) => {
@@ -139,8 +140,44 @@ const VisualSystem = () => {
         if (memberArray.includes(obj[1].name)) {
             console.log("Button already in the array.");
         }
-        if (obj[1].name !== null) {
-            getMemberArray();
+        if (obj[1].name === "btn2") {
+            axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "visual", action: "1c", animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
+                .then(handleMemberPostResponse)
+                .catch(handlePostError);
+        }else if (obj[1].name === "btn3") {
+            axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "visual", action: "2a", animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
+                .then(handleMemberPostResponse)
+                .catch(handlePostError);
+        }else if (obj[1].name === "btn4") {
+            axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "visual", action: "3h", animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
+                .then(handleMemberPostResponse)
+                .catch(handlePostError);
+        }else if (obj[1].name === "btn5") {
+            axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "visual", action: "4h", animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
+                .then(handleMemberPostResponse)
+                .catch(handlePostError);
+        }else if (obj[1].name === "btn6") {
+            axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "visual", action: "5d", animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
+                .then(handleMemberPostResponse)
+                .catch(handlePostError);
+        }else if (obj[1].name === "btn7") {
+            axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "visual", action: "6a", animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
+                .then(handleMemberPostResponse)
+                .catch(handlePostError);
+        }else if (obj[1].name === "btn8") {
+            axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "visual", action: "7a", animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
+                .then(handleMemberPostResponse)
+                .catch(handlePostError);
+        }else if (obj[1].name === "btn9") {
+            axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "visual", action: "8b", animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
+                .then(handleMemberPostResponse)
+                .catch(handlePostError);
+        }else if (obj[1].name === "btn10") {
+            axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "visual", action: "9c", animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
+                .then(handleMemberPostResponse)
+                .catch(handlePostError);
+        }
+        else if (obj[1].name !== null) {
             axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "visual", action: obj[1].name, animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
                 .then(handleMemberPostResponse)
                 .catch(handlePostError);
@@ -165,7 +202,6 @@ const VisualSystem = () => {
                 console.log("Button already in the array.");
             }
             if (obj[1].name !== null) {
-                getMemberArray();
                 axios.post<Member>(port, {
                     _id: id,
                     animationCategory: "sensory",

@@ -106,7 +106,7 @@ export const CustomNavigationMenu= styled(Menu)`
     display: flex !important;
     justify-content: space-between !important;
     border-radius: 0 !important;
-    margin: 0 !important;
+    margin-right: 2.14em !important;
     background: rgba(0,0,0,0.9) !important;
     &&& > .visible.transition {
         height: 100% !important;

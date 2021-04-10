@@ -1,6 +1,5 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
 import {Message, Progress} from "semantic-ui-react";
 import axios, {AxiosError, AxiosResponse} from "axios";
@@ -17,7 +16,6 @@ const AuditorySystem = () => {
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
     const [userIsMember, setUserIsMember] = useState<boolean>(false);
-    const [orientationIs, setOrientationIs] = useState<number>(0);
     let aspectRatio = 800/500; //varies by animation
     let height = window.screen.height;
     let width = (aspectRatio * window.screen.height);
@@ -111,6 +109,7 @@ const AuditorySystem = () => {
         //response.data is the {complete: false, completedActions: []} object used to determine if an action has been completed in an animation
         console.log(response);
         console.log(response.data);
+        getMemberArray();
     }
 
     const handlePostError = (error: AxiosError) => {
@@ -141,7 +140,6 @@ const AuditorySystem = () => {
             console.log("Button already in the array.");
         }
         if (obj[1].name !== null) {
-            getMemberArray();
             axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "auditory", action: obj[1].name, animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
                 .then(handleMemberPostResponse)
                 .catch(handlePostError);
@@ -164,7 +162,6 @@ const AuditorySystem = () => {
                 console.log("Button already in the array.");
             }
             if (obj[1].name !== null) {
-                getMemberArray();
                 axios.post<Member>(port, {
                     _id: id,
                     animationCategory: "sensory",

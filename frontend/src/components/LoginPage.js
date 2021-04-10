@@ -118,9 +118,6 @@ function LoginPage(props) {
 
     function handleChangePassword(e, {name, value}){
         //track the value in the password form field as a user types.
-        if(password.length !== 0) {
-            setErrorStatePassword("");
-        }
         setErrorStatePassword("");
         setPassword(value);
     }

@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {Message, Progress} from "semantic-ui-react";
-import {ProgressDimmer} from "../../../styledComponents";
+import {FullScreen, MobileAnimation, MobileAnimationMessage, ProgressDimmer} from "../../../styledComponents";
 
 const AutonomicNervousSystem = () => {
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
@@ -14,6 +14,10 @@ const AutonomicNervousSystem = () => {
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
     const [userIsMember, setUserIsMember] = useState<boolean>(false);
+    let aspectRatio = 550/400; //varies by animation
+    let height = window.screen.height;
+    let width = (aspectRatio * window.screen.height);
+    let marginLR = ((window.screen.width - width) / 2);
 
     if(process.env.NODE_ENV === 'production'){
         console.log("In production mode. Disable log statements -> hide log statements from console.");
@@ -104,6 +108,7 @@ const AutonomicNervousSystem = () => {
         //response.data is the {complete: false, completedActions: []} object used to determine if an action has been completed in an animation
         console.log(response);
         console.log(response.data);
+        getMemberArray();
     }
 
     const handlePostError = (error: AxiosError) => {
@@ -134,7 +139,6 @@ const AutonomicNervousSystem = () => {
             console.log("Button already in the array.");
         }
         if (obj[1].name !== null && obj[1].name !== "backGround") {
-            getMemberArray();
             axios.post<Member>(port, {
                 _id: id,
                 animationCategory: "nervous",
@@ -146,7 +150,6 @@ const AutonomicNervousSystem = () => {
                 .catch(handlePostError);
         }
     }
-
     if (sessionStorage.getItem("id")) {
         //only set event listener if the page viewer is a member
         if (!(animationObject?.hasEventListener('click'))) {
@@ -154,21 +157,44 @@ const AutonomicNervousSystem = () => {
             animationObject?.addEventListener('click', handleClick);
         }
     }
-    return (
-        <div style={{minHeight: '60vh', maxWidth: '47.5vw', margin:'auto'}}>
-            <AnimateCC
-                getAnimationObject={getAnimationObject}
-                animationName="autonomicnervoussystemnewjs"
-            />
-            <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
-                <ProgressDimmer active={!userIsMember}>
-                    <Message content='To track your progress, register or login to your account.'/>
-                </ProgressDimmer>
-                <Message content ={progressMessage}/>
-                <Progress percent={percentComplete} inverted color='green' progress/>
-            </Message>
-        </div>
-    );
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if(!isMobile) {
+        return (
+            <div style={{minHeight: '60vh', maxWidth: '47.5vw', margin: 'auto'}}>
+                <AnimateCC
+                    getAnimationObject={getAnimationObject}
+                    animationName="autonomicnervoussystemnewjs"
+                />
+                <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                    <ProgressDimmer active={!userIsMember}>
+                        <Message content='To track your progress, register or login to your account.'/>
+                    </ProgressDimmer>
+                    <Message content={progressMessage}/>
+                    <Progress percent={percentComplete} inverted color='green' progress/>
+                </Message>
+            </div>
+        );
+    }
+    else {
+        return (
+            <FullScreen>
+                <MobileAnimation
+                    getAnimationObject={getAnimationObject}
+                    animationName="autonomicnervoussystemnewjs"
+                    style = {{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR}}
+                />
+                <MobileAnimationMessage content='<b>Congratulations! You completed this animation.'
+                                        color={progressColor}>
+                    <ProgressDimmer active={!userIsMember}>
+                        <Message content='To track your progress, register or login to your account.'/>
+                    </ProgressDimmer>
+                    <Message content={progressMessage}/>
+                    <Progress percent={percentComplete} inverted color='green' progress/>
+                </MobileAnimationMessage>
+            </FullScreen>
+
+        );
+    }
 };
 
 export default AutonomicNervousSystem;

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, Redirect} from "react-router-dom";
 import {Image, Grid, Header, Button, Icon} from 'semantic-ui-react';
 import hometitle2 from '../images/hometitle2.jpg';
-import {ImageGridColumnMob, MobileContainerHeader, MobileHeader, MobileHeaderButton} from "../styledComponents";
+import { MobileContainerHeader, MobileHeader, MobileHeaderButton} from "../styledComponents";
 import {IconContext} from "react-icons";
 import {BiBrain} from "react-icons/bi"
 import '../header.css';
@@ -18,7 +18,6 @@ function PageHeader(props) {
             newTabOpened.opener = null;
         }
     }
-
 
     /*DETERMINE IF MOBILE VIEW -> In the future, rewrite in React-Native, then use react-native-web to convert.
    Due to mobile optimization being out of the scope of the project until much later in the development cycle,
@@ -71,16 +70,16 @@ function PageHeader(props) {
                     <Grid.Column className='modGrid' floated='right' textAlign='right'>
                         {id === "" &&
                         <Grid columns={3} rows={1} className='modGrid'>
-                            <Grid.Column>
+                            <Grid.Column className='buttonColumn' width={5}>
                                 <MobileHeaderButton fluid color='blue'
                                         onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}><Icon name='github'/>Repository</MobileHeaderButton>
                             </Grid.Column>
-                            <Grid.Column className='buttonColumn'>
+                            <Grid.Column className='buttonColumn' width={5}>
                                 <Button fluid color='orange' className='headerButton'>
                                     <Link to={{pathname: "/register"}} className='headerButton'>Sign Up</Link>
                                 </Button>
                             </Grid.Column>
-                            <Grid.Column className='buttonColumn'>
+                            <Grid.Column className='buttonColumn'width={5}>
                                 <Button fluid color='orange' className='headerButton'>
                                     <Link to={{pathname: "/login"}} className='headerButton'>Login</Link>
                                 </Button>
@@ -89,15 +88,15 @@ function PageHeader(props) {
                         }
                         {id !== "" &&
                         <Grid columns={3} rows={1} className='modGrid'>
-                            <Grid.Column>
+                            <Grid.Column width={5}>
                                 <MobileHeaderButton fluid color='blue' onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}><Icon name='github'/>Repository</MobileHeaderButton>
                             </Grid.Column>
-                            <Grid.Column>
+                            <Grid.Column width={5}>
                                 <MobileHeaderButton fluid color='orange'>
                                     <Link to={{pathname: "/settings"}}><Icon name='user'/>My Account </Link>
                                 </MobileHeaderButton>
                             </Grid.Column>
-                            <Grid.Column>
+                            <Grid.Column width={5}>
                                 <Button fluid color='orange' className='headerButton'
                                         onClick={handleLogOut}>Logout</Button>
                                 {redirectingToHome &&

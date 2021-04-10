@@ -105,6 +105,7 @@ const Oligodendroglia = () => {
         //response.data is the {complete: false, completedActions: []} object used to determine if an action has been completed in an animation
         console.log(response);
         console.log(response.data);
+        getMemberArray();
     }
 
     const handlePostError = (error: AxiosError) => {
@@ -135,7 +136,6 @@ const Oligodendroglia = () => {
             console.log("Button already in the array.");
         }
         if (obj[1].name !== null) {
-            getMemberArray();
             axios.post<Member>(port, {_id: id, animationCategory: "glias", animationName: "oligodendroglia", action: obj[1].name, animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
                 .then(handleMemberPostResponse)
                 .catch(handlePostError);

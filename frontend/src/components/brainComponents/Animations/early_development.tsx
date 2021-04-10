@@ -38,7 +38,7 @@ const EarlyBrain = () => {
         }
     }, []);
 
-    let animationComplete: string [] = ["futureSpinalCord1", "futureForebrain1", "optic1st", "forebrain1st", "midbrain1st", "midbrain1st", "hindbrain1st", "midbrain2nd", "hindbrain2nd","spinalcord2nd", "forebrainLast", "cerebellumLast", "medullaLast", "spinalcordLast"];
+    let animationComplete: string [] = ["playPre","futureSpinalCord1", "futureForebrain1", "optic1st", "forebrain1st", "midbrain1st", "midbrain1st", "hindbrain1st", "midbrain2nd", "hindbrain2nd","spinalcord2nd", "forebrainLast", "cerebellumLast", "medullaLast", "spinalcordLast"];
     let id = sessionStorage.getItem("id");
     let port = process.env.PORT || 'http://localhost:8080/api/members/'+id+'/animations/completed';
 
@@ -107,6 +107,8 @@ const EarlyBrain = () => {
         //response.data is the {complete: false, completedActions: []} object used to determine if an action has been completed in an animation
         console.log(response);
         console.log(response.data);
+        getMemberArray();
+
     }
 
     const handlePostError = (error: AxiosError) => {
@@ -135,8 +137,12 @@ const EarlyBrain = () => {
         if (memberArray.includes(obj[1].name)) {
             console.log("Button already in the array.");
         }
-        if (obj[1].name !== null) {
-            getMemberArray();
+        if (obj[1].name === "stepPre") {
+            axios.post<Member>(port, {_id: id, animationCategory: "brain", animationName: "neural", action: "playPre", animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
+                .then(handleMemberPostResponse)
+                .catch(handlePostError);
+        }
+        else if (obj[1].name !== null) {
             axios.post<Member>(port, {_id: id, animationCategory: "brain", animationName: "early", action: obj[1].name, animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
                 .then(handleMemberPostResponse)
                 .catch(handlePostError);

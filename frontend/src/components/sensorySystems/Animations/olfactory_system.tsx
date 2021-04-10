@@ -41,7 +41,8 @@ const OlfactorySystem = () => {
     //voltage access: ff3 || voltages || back4
     //pathways is a 'static' page with only one frame with to the two ways to access it. So, store both requests as the same value to simplify.
     //pathways: pathways || ff4
-    let animationComplete: string [] = ["nerve", "cribri", "basal", "receptorCell", "supportingCell", "cilia", "mucus", "bulbBtn", "second", "tract", "glom", "crib", "cells", "transduction", "pathways"];
+    //ff1 = epithelium,
+    let animationComplete: string [] = ["nerve", "cribri", "basal", "receptorCell", "supportingCell", "cilia", "mucus", "bulbBtn", "second", "tract", "glom", "crib", "cells", "transduction", "bulbMenu", "pathways"];
     let id = sessionStorage.getItem("id");
     let port = process.env.PORT || 'http://localhost:8080/api/members/'+id+'/animations/completed';
 
@@ -110,6 +111,7 @@ const OlfactorySystem = () => {
         //response.data is the {complete: false, completedActions: []} object used to determine if an action has been completed in an animation
         console.log(response);
         console.log(response.data);
+        getMemberArray();
     }
 
     const handlePostError = (error: AxiosError) => {
@@ -129,11 +131,15 @@ const OlfactorySystem = () => {
         console.log(obj[1].name);
         console.log(userClicked);
         let btnClicked = obj[1].name;
-        if(btnClicked === "ff2" || btnClicked === "backvoltage" || btnClicked === "transduction"){
+        if(btnClicked === "ff1" || btnClicked === "epithelium"){
+            btnClicked = "epithelium";
+        }else if(btnClicked === "ff2" || btnClicked === "backvoltage" || btnClicked === "transduction"){
             btnClicked = "transduction";
         }
         else if (btnClicked === "ff3" || btnClicked === "voltages" || btnClicked === "back4"){
             btnClicked = "voltages";
+        }else if (btnClicked === "ffVoltage" || btnClicked === "bulbMenu" || btnClicked === "back5"){
+            btnClicked = "bulbMenu";
         }
         else if (btnClicked === "pathways" || btnClicked === "ff4"){
             btnClicked = "pathways";
@@ -151,7 +157,6 @@ const OlfactorySystem = () => {
             console.log("Button already in the array.");
         }
         if (obj[1].name !== null) {
-            getMemberArray();
             axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "olfactory", action: btnClicked, animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
                 .then(handleMemberPostResponse)
                 .catch(handlePostError);

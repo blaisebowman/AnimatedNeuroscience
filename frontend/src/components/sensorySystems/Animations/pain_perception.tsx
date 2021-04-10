@@ -118,6 +118,7 @@ const PainPerception = () => {
         //response.data is the {complete: false, completedActions: []} object used to determine if an action has been completed in an animation
         console.log(response);
         console.log(response.data);
+        getMemberArray();
     }
 
     const handlePostError = (error: AxiosError) => {
@@ -180,7 +181,6 @@ const PainPerception = () => {
             console.log("Button already in the array.");
         }
         if (btnClicked !== null && btnClicked !== "home") {
-            getMemberArray();
             axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "pain", action: btnClicked, animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
                 .then(handleMemberPostResponse)
                 .catch(handlePostError);
@@ -206,7 +206,6 @@ const PainPerception = () => {
                 }
                 console.log(obj[1].name);
                 if (obj[1].name !== null) {
-                    getMemberArray();
                     axios.post<Member>(port, {
                         _id: id,
                         animationCategory: "sensory",

@@ -36,14 +36,9 @@ const BrainDevelopment= () => {
             setUserIsMember(false);
         }
     }, []);
-/*NOTE: this animation has many ways to navigate (play, step-through, step back, etc.) To be considered 'complete'. the user will only have to
-interact with the buttons on the penultimate 'frame' in the animation, for the reason that the user could not have reached that point if
-the user had not interacted with all the prior content. Moreover, with regards to the last frame,
-due to the inability to 'hover' on buttons to display text on mobile browsers, changing the listeners to clicks would cause the
-logic to mis-align between the desktop and mobile version. Therefore, we will assume only the "viewStructure1" button is all that is required.
+/*NOTE: this animation has many ways to navigate (play, step-through, step back, etc.) "Step Buttons" are stored as "Play"
 */
-
-    let animationComplete: string [] = ["viewStructure1"];
+    let animationComplete: string [] = ["play1","circle","proBtn","rhoBtn","mesBtn","vclip","telencephalonBtn","diencephalonBtn","st2_1","st2_2","viewStructure1","telencephalonBtnFin","lateralBtn","cerebralBtn","thirdVentricleBtn", "diencephalonBtnFin", "basalBtn","hypoBtn","thalamusBtn","internalBtn","corpusBtn", "corticalBtn"];
     let id = sessionStorage.getItem("id");
     let port = process.env.PORT || 'http://localhost:8080/api/members/'+id+'/animations/completed';
 
@@ -112,6 +107,7 @@ logic to mis-align between the desktop and mobile version. Therefore, we will as
         //response.data is the {complete: false, completedActions: []} object used to determine if an action has been completed in an animation
         console.log(response);
         console.log(response.data);
+        getMemberArray();
     }
 
     const handlePostError = (error: AxiosError) => {
@@ -141,8 +137,12 @@ logic to mis-align between the desktop and mobile version. Therefore, we will as
         if (memberArray.includes(obj[1].name)) {
             console.log("Button already in the array.");
         }
-        if (obj[1].name !== null) {
-            getMemberArray();
+        if (obj[1].name === "step1") {
+            axios.post<Member>(port, {_id: id, animationCategory: "brain", animationName: "neural", action: "play1", animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
+                .then(handleMemberPostResponse)
+                .catch(handlePostError);
+        }
+        else if (obj[1].name !== null) {
             axios.post<Member>(port, {_id: id, animationCategory: "brain", animationName: "neural", action: obj[1].name, animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
                 .then(handleMemberPostResponse)
                 .catch(handlePostError);
