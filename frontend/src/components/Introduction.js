@@ -188,7 +188,7 @@ function Introduction(props) {
                                     Florida. The
                                     current list of contributors (which is expected to grow as more
                                     senior
-                                    projects contribute to this site) are:
+                                    projects contribute to this site) are listed below.
                                 </Card.Content>
                             </Card>
                         </Grid.Column>
