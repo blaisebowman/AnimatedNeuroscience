@@ -1,8 +1,14 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import Oligodendroglia from "./Animations/oligodendroglia";
-import {Grid, GridColumn, Segment, Dropdown, Card,} from "semantic-ui-react";
-import {CustomAnimationDropdown, CustomContainerSegment, CustomGrid} from "../../styledComponents";
+import {Grid, Segment, Dropdown, Card, Message,} from "semantic-ui-react";
+import {
+    AdobeContainer,
+    CustomAnimationDropdown,
+    CustomContainerSegment,
+    CustomGrid,
+    MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, PortraitMessage
+} from "../../styledComponents";
 
 
 import '../../glias.css';
@@ -10,7 +16,6 @@ import '../../glias.css';
 
 function OligodendrogliaPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const history = useHistory();
     const [height, setHeight] = useState(null);
     const [width, setWidth] = useState(null);
     const adobeContainer = useCallback(x => {
@@ -19,7 +24,7 @@ function OligodendrogliaPage(props) {
             setWidth(x.getBoundingClientRect.width);
         }
     }, []);
-
+    const [orientationIs, setOrientationIs] = useState(0);
     function handleSelector() {
         if(selectorIsVisible === true){
             setSelectorIsVisible(false);
@@ -30,6 +35,17 @@ function OligodendrogliaPage(props) {
         console.log(selectorIsVisible);
     }
 
+    window.addEventListener("orientationchange", function(event) {
+        console.log("the orientation of the device is now " + event.target.screen.orientation.angle);
+        setOrientationIs(event.target.screen.orientation.angle);
+        sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
+    });
+    useEffect(()=>{
+        console.log("the orientation of the device is now " + orientationIs);
+    }, []);
+
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if(isMobile === false) {
     return (
         <div className="App">
             <CustomContainerSegment>
@@ -40,7 +56,7 @@ function OligodendrogliaPage(props) {
                                 <Grid columns={3}>
                                     <CustomGrid width={12}>
                                         <Segment className="adobeSeg" style={{width: width, height: height}}>
-                                           <Oligodendroglia/>
+                                            <Oligodendroglia/>
                                         </Segment>
                                     </CustomGrid>
                                     <Grid.Column width={4} className="gridParent">
@@ -49,14 +65,24 @@ function OligodendrogliaPage(props) {
                                                  onMouseLeave={handleSelector}>
                                                 <Grid textAlign='center' rows={4} className="dropdownContainer"
                                                       verticalAlign='center'>
-                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid open={selectorIsVisible}>
+                                                    <CustomAnimationDropdown placeholder='Select A Lesson' fluid
+                                                                             open={selectorIsVisible}>
                                                         <Dropdown.Menu className="menu" fluid>
                                                             <Dropdown.Item>
-                                                                <Link to={{pathname: "/gliasandsynapses-astrocyte", state: {selectorIsVisible: false}}} className='navText'>Astrocyte</Link>
+                                                                <Link to={{
+                                                                    pathname: "/gliasandsynapses-astrocyte",
+                                                                    state: {selectorIsVisible: false}
+                                                                }} className='navText'>Astrocyte</Link>
                                                             </Dropdown.Item><Dropdown.Item>
-                                                            <Link to={{pathname: "/gliasandsynapses-oligodendroglia", state: {selectorIsVisible: false}}} className='navText'>Oligodendroglia</Link>
+                                                            <Link to={{
+                                                                pathname: "/gliasandsynapses-oligodendroglia",
+                                                                state: {selectorIsVisible: false}
+                                                            }} className='navText'>Oligodendroglia</Link>
                                                         </Dropdown.Item><Dropdown.Item>
-                                                            <Link to={{pathname: "/gliasandsynapses-chemical", state: {selectorIsVisible: false}}} className='navText'>Chemical Synpases</Link>
+                                                            <Link to={{
+                                                                pathname: "/gliasandsynapses-chemical",
+                                                                state: {selectorIsVisible: false}
+                                                            }} className='navText'>Chemical Synpases</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
                                                     </CustomAnimationDropdown>
@@ -72,6 +98,60 @@ function OligodendrogliaPage(props) {
             </CustomContainerSegment>
         </div>
     );
+}
+    else if (orientationIs === 0) {
+        return (
+            <div className="AppMobile">
+                <MobileAnimationSegment>
+                    <MobileGrid>
+                        <MobileGridSecondaryRow>
+                            <AdobeContainer>
+                                <Card fluid>
+                                    <div onMouseEnter={handleSelector}
+                                         onMouseLeave={handleSelector}>
+                                        <MobileSettingsDropdown fluid placeholder="Select A Lesson" >
+                                            <Dropdown.Menu>
+                                                <Dropdown.Item>
+                                                    <Link to={{
+                                                        pathname: "/gliasandsynapses-astrocyte",
+                                                        state: {selectorIsVisible: false}
+                                                    }} className='navText'>Astrocyte</Link>
+                                                </Dropdown.Item><Dropdown.Item>
+                                                <Link to={{
+                                                    pathname: "/gliasandsynapses-oligodendroglia",
+                                                    state: {selectorIsVisible: false}
+                                                }} className='navText'>Oligodendroglia</Link>
+                                            </Dropdown.Item><Dropdown.Item>
+                                                <Link to={{
+                                                    pathname: "/gliasandsynapses-chemical",
+                                                    state: {selectorIsVisible: false}
+                                                }} className='navText'>Chemical Synpases</Link>
+                                            </Dropdown.Item>
+                                            </Dropdown.Menu>
+                                        </MobileSettingsDropdown>
+                                    </div>
+                                </Card>
+                                <Card fluid>
+                                    <PortraitMessage warning>
+                                        <Message.Header>Tip of the Day</Message.Header>
+                                        <b>For a better experience, please rotate your device into landscape orientation.</b>
+                                    </PortraitMessage>
+                                </Card>
+                                <Oligodendroglia/>
+                            </AdobeContainer>
+                        </MobileGridSecondaryRow>
+                    </MobileGrid>
+                </MobileAnimationSegment>
+            </div>
+        );
+    }
+    else {
+        return (
+            <AdobeContainer>
+                <Oligodendroglia/>
+            </AdobeContainer>
+        );
+    }
 }
 
 export default OligodendrogliaPage;

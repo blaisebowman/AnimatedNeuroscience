@@ -112,10 +112,20 @@ function AstrocytePage(props) {
                                             <Dropdown.Menu>
                                                 <Dropdown.Item>
                                                     <Link to={{
-                                                        pathname: "/neurons-exploring",
+                                                        pathname: "/gliasandsynapses-astrocyte",
                                                         state: {selectorIsVisible: false}
-                                                    }} className='navText'>Exploring the Neuron</Link>
-                                                </Dropdown.Item>
+                                                    }} className='navText'>Astrocyte</Link>
+                                                </Dropdown.Item><Dropdown.Item>
+                                                <Link to={{
+                                                    pathname: "/gliasandsynapses-oligodendroglia",
+                                                    state: {selectorIsVisible: false}
+                                                }} className='navText'>Oligodendroglia</Link>
+                                            </Dropdown.Item><Dropdown.Item>
+                                                <Link to={{
+                                                    pathname: "/gliasandsynapses-chemical",
+                                                    state: {selectorIsVisible: false}
+                                                }} className='navText'>Chemical Synpases</Link>
+                                            </Dropdown.Item>
                                             </Dropdown.Menu>
                                         </MobileSettingsDropdown>
                                     </div>
@@ -123,7 +133,7 @@ function AstrocytePage(props) {
                                 <Card fluid>
                                     <PortraitMessage warning>
                                         <Message.Header>Tip of the Day</Message.Header>
-                                        <p>For a better experience, please rotate your device into landscape orientation.</p>
+                                        <b>For a better experience, please rotate your device into landscape orientation.</b>
                                     </PortraitMessage>
                                 </Card>
                                 <Astrocyte/>
