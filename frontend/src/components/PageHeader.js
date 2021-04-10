@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, Redirect} from "react-router-dom";
 import {Image, Grid, Header, Button, Icon} from 'semantic-ui-react';
 import hometitle2 from '../images/hometitle2.jpg';
-import {ImageGridColumnMob, MobileHeader, MobileHeaderButton} from "../styledComponents";
+import {ImageGridColumnMob, MobileContainerHeader, MobileHeader, MobileHeaderButton} from "../styledComponents";
 import {IconContext} from "react-icons";
 import {BiBrain} from "react-icons/bi"
 import '../header.css';
@@ -113,7 +113,7 @@ function PageHeader(props) {
     }
     else {
         return(
-        <Header as='h2'>
+        <MobileContainerHeader as='h2'>
             <Grid columns={3} rows={2} className='modGrid' stretched>
                 <Grid.Row>
                 <Grid.Column width={2} textAlign='left' verticalAlign='middle'>
@@ -171,7 +171,7 @@ function PageHeader(props) {
                     }
                 </Grid.Row>
             </Grid>
-        </Header>
+        </MobileContainerHeader>
         );
     }
 }

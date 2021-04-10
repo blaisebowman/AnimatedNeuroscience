@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {Button, Dropdown, Form, Menu, Message, Dimmer, Card, Header, Segment, Grid, Table} from 'semantic-ui-react';
+import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
 
 //tentative styled components, eventually replacing the usage of !important in .css and .scss files.
 
@@ -201,17 +202,12 @@ export const CustomContainerSegment= styled(Segment)`
     padding: 0 0 0 0 !important;
 `
 //MOBILE COMPONENTS BELOW
-export const MobileNavigationSegment= styled(Segment)`
-    color: black !imporant;
-    border: 0 !important;
-    box-shadow: none !important;
-    min-width: 67.5% !important;
-    max-width: 100% !important;
-    min-height: 70.5vh !important;
-    background-color: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
-    padding: 0 0 0 0 !important;
-`
 /*TODO -> Z-INDEX FOR DROPDOWN*/
+export const MobileContainerHeader= styled(Header)`
+    @media screen and (orientation:landscape) {
+        display: none !important;
+    }
+`
 export const MobileDropdown= styled(Dropdown)`
     padding-right: 2rem  !important;
     padding-left: 2rem  !important;
@@ -228,6 +224,9 @@ export const MobileDropdown= styled(Dropdown)`
     }
     &&& > .icon {
       margin: 1.25vh 0 0 0 !important;
+    }
+    @media screen and (orientation:landscape) {
+        display: none !important;
     }
 `
 export const MobileSettingsDropdown= styled(Dropdown)`
@@ -281,6 +280,14 @@ export const MobileGrid= styled(Grid)`
     background: none !important;
     padding: 0 0 0 0 !important;
     margin: 0 0 0 0 !important;
+`
+export const MobileGridPrimaryRow= styled(Grid.Row)`
+    padding-top: 0 !important;
+    @media screen and (orientation:landscape) {
+/*
+        display: none !important;
+*/
+    }
 `
 export const MobileGridSecondaryRow= styled(Grid.Row)`
     padding-top: 0 !important;
@@ -341,4 +348,61 @@ export const CustomMobileProgressHeader = styled(Header)`
 `
 export const MobileCard= styled(Card)`
     margin-top: 0 !important;
+`
+export const MobileAnimation= styled(AnimateCC)`
+    div {
+        display: none !important;
+    }
+     @media screen and (orientation:landscape) {
+        canvas {
+            height: 100vh !important;
+            width: 100vw !important;
+            object-fit: contain !important;   
+        }
+    }
+`
+export const MobileAnimationSegment= styled(Segment)`
+    border: 0 !important;
+    background: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
+    padding: 0 0 0 0 !important;
+    min-height: 78vh !important;
+`
+export const MobileAnimationMessage= styled(Message)`
+    @media screen and (orientation:landscape) {
+            background: black !important;
+            margin: 0 0 0 0 !important;
+            /*display: none !important;*/
+    }
+`
+export const AdobeContainer= styled(Segment)`
+    @media screen and (orientation:landscape) {
+        margin: 0 0 0 0 !important;
+        padding: 0 0 0 0 !important;
+        border: none !important;
+    }
+`
+export const FullScreen= styled(Segment)`
+    @media screen and (orientation:landscape) {
+        padding: 0 0 0 0 !important;
+        border: none !important;
+    }
+    
+`
+export const MobileAnimationDropdown = styled(Dropdown)`
+    &&& > .dropdownContainer {
+        background-color: rgba(27,77,228,1.0) !important;
+        margin: 0 !important;
+        padding-right: 0 !important;
+    }
+    &&& > .ui.dropdown {
+        text-align: center !important;
+    }
+    &&&&&& .text{
+        color: #ffffff !important;
+    }
+    &&& > .ui.dropdown>.dropdown.icon {
+        color: #ffffff !important;
+        margin-top: 0.25rem !important;
+        margin-left: 0 !important;
+    }
 `

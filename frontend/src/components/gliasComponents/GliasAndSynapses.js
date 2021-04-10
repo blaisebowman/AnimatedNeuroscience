@@ -100,15 +100,6 @@ function GliasAndSynapses(props) {
                                                     </div>
                                                     <Icon name="clock outline"/>5 min.
                                                 </Card.Content>
-                                                <Card.Content>
-                                                    <div style={{overflowX: 'hidden'}}>
-                                                        <Link to={{pathname: "/gliasandsynapses-cns"}}
-                                                              className='navText'>
-                                                            <Button color='blue'>CNS Synapses</Button>
-                                                        </Link>
-                                                    </div>
-                                                    <Icon name="clock outline"/>5 min.
-                                                </Card.Content>
                                             </Card>
                                         </Grid.Column>
                                     </Grid>
@@ -169,15 +160,6 @@ function GliasAndSynapses(props) {
                                             <Link to={{pathname: "/gliasandsynapses-chemical"}}
                                                   className='navText'>
                                                 <Button color='blue'>Chemical Synapses</Button>
-                                            </Link>
-                                        </div>
-                                        <Icon name="clock outline"/>5 min.
-                                    </Card.Content>
-                                    <Card.Content>
-                                        <div style={{overflowX: 'hidden'}}>
-                                            <Link to={{pathname: "/gliasandsynapses-cns"}}
-                                                  className='navText'>
-                                                <Button color='blue'>CNS Synapses</Button>
                                             </Link>
                                         </div>
                                         <Icon name="clock outline"/>5 min.

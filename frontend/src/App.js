@@ -4,8 +4,6 @@ import {BrowserRouter as Router, Switch, Route, withRouter, Redirect} from "reac
 import Introduction from "./components/Introduction";
 import Neurons from "./components/neuronComponents/Neurons";
 import ExploringPage from "./components/neuronComponents/Exploring";
-import ProteinPage from "./components/neuronComponents/Protein";
-import CellularPage from "./components/neuronComponents/Cellular";
 import Cerebellum from "./components/cerebellumComponents/Cerebellum";
 import MicrocircuitryPage from "./components/cerebellumComponents/MicroCircuitry";
 import PathwaysPage from "./components/cerebellumComponents/Pathways";
@@ -13,7 +11,6 @@ import GliasAndSynapses from "./components/gliasComponents/GliasAndSynapses";
 import AstrocytePage from "./components/gliasComponents/Astrocyte";
 import OligodendrogliaPage from "./components/gliasComponents/Oligodendroglia";
 import ChemicalSynapsesPage from "./components/gliasComponents/ChemicalSynapses";
-import CNSSynapsesPage from "./components/gliasComponents/CNSSynapses";
 import NervousSystem from "./components/nervousComponents/NervousSystem";
 import ActionPotentialsPage from "./components/nervousComponents/ActionPotentials";
 import AutonomicNervousSystemPage from "./components/nervousComponents/AutonomicNervousSystem";
@@ -51,13 +48,10 @@ class App extends Component {
                 <Route exact path='/introduction' component={withRouter(Introduction)}/>
                 <Route exact path='/neurons' component={withRouter(Neurons)}/>
                 <Route exact path='/neurons-exploring' component={withRouter(ExploringPage)}/>
-                <Route exact path='/neurons-protein' component={withRouter(ProteinPage)}/>
-                <Route exact path='/neurons-cellular' component={withRouter(CellularPage)}/>
                 <Route exact path='/gliasandsynapses' component={withRouter(GliasAndSynapses)}/>
                 <Route exact path='/gliasandsynapses-astrocyte' component={withRouter(AstrocytePage)}/>
                 <Route exact path='/gliasandsynapses-oligodendroglia' component={withRouter(OligodendrogliaPage)}/>
                 <Route exact path='/gliasandsynapses-chemical' component={withRouter(ChemicalSynapsesPage)}/>
-                <Route exact path='/gliasandsynapses-cns' component={withRouter(CNSSynapsesPage)}/>
                 <Route exact path='/thebrain' component={withRouter(TheBrain)}/>
                 <Route exact path='/thebrain-neuraltube' component={withRouter(NeuralTubePage)}/>
                 <Route exact path='/thebrain-earlydevelopment' component={withRouter(EarlyBrainDevelopmentPage)}/>

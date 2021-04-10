@@ -32,13 +32,11 @@ function NavigationBar (props) {
     Due to mobile optimization being out of the scope of the project until much later in the development cycle,
     this is a workaround.*/
     //TODO -> BEFORE ANY PUSH TO REPO -> ENSURE THE FOLLOWING 3 LINES ARE COMMENTED (FOR NOW)
-        /*navigator.__defineGetter__('userAgent', function () {
+       /*navigator.__defineGetter__('userAgent', function () {
             //ANDROID
             return "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.105 Mobile Safari/537.36"
             //iPhone
-            /!*
-            return "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.163 Mobile/15E148 Safari/604.1"
-            *!/
+            //return "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.163 Mobile/15E148 Safari/604.1"
         });*/
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     console.log(navigator.userAgent);
@@ -72,14 +70,6 @@ function NavigationBar (props) {
                                     <Link to={{pathname: "/neurons-exploring"}}>Exploring the Neuron</Link>
                                     <Icon name='angle right' className='navBarIcon'/>
                                 </DDItem>
-                                <DDItem>
-                                    <Link to={{pathname: "/neurons-protein"}}>Protein Synthesis</Link>
-                                    <Icon name='angle right' className='navBarIcon'/>
-                                </DDItem>
-                                <DDItem>
-                                    <Link to={{pathname: "/neurons-cellular"}}>Cellular Respiration</Link>
-                                    <Icon name='angle right' className='navBarIcon'/>
-                                </DDItem>
                             </Dropdown.Menu>
                         </Dropdown>
                     </CustomNavigationMenuItem>
@@ -103,10 +93,6 @@ function NavigationBar (props) {
                                     <Icon name='angle right' className='navBarIcon'/></DDItem>
                                 <DDItem>
                                     <Link to={{pathname: "/gliasandsynapses-chemical"}}>Chemical Synapses</Link>
-                                    <Icon name='angle right' className='navBarIcon'/>
-                                </DDItem>
-                                <DDItem>
-                                    <Link to={{pathname: "/gliasandsynapses-cns"}}>CNS Synapses</Link>
                                     <Icon name='angle right' className='navBarIcon'/>
                                 </DDItem>
                             </Dropdown.Menu>

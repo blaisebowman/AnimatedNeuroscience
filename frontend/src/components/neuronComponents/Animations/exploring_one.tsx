@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {Message, Progress} from "semantic-ui-react";
 import axios, {AxiosResponse, AxiosError} from "axios";
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
-import {ProgressDimmer} from "../../../styledComponents";
+import {MobileAnimation, ProgressDimmer, FullScreen, MobileAnimationMessage} from "../../../styledComponents";
 
 const App2 = () => {
     if(process.env.NODE_ENV === 'production'){
@@ -144,22 +144,41 @@ if(sessionStorage.getItem("id")) {
         animationObject?.addEventListener('click', handleClick);
     }
 }
-
-    return (
-        <div style={{minHeight: '55vh', maxWidth: '55vw', margin:'auto'}}>
-            <AnimateCC
-                getAnimationObject={getAnimationObject}
-                animationName="exploring"
-            />
-            <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
-                <ProgressDimmer active={!userIsMember}>
-                    <Message content='To track your progress, register or login to your account.'/>
-                </ProgressDimmer>
-                <Message content ={progressMessage}/>
-                <Progress percent={percentComplete} inverted color='green' progress/>
-            </Message>
-        </div>
-    );
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if(isMobile === false) {
+        return (
+            <div style={{minHeight: '55vh', maxWidth: '55vw', margin: 'auto'}}>
+                <AnimateCC
+                    getAnimationObject={getAnimationObject}
+                    animationName="exploring"
+                />
+                <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                    <ProgressDimmer active={!userIsMember}>
+                        <Message content='To track your progress, register or login to your account.'/>
+                    </ProgressDimmer>
+                    <Message content={progressMessage}/>
+                    <Progress percent={percentComplete} inverted color='green' progress/>
+                </Message>
+            </div>
+        );
+    }
+    else {
+        return (
+            <FullScreen>
+                <MobileAnimation
+                    getAnimationObject={getAnimationObject}
+                    animationName="exploring"
+                />
+                <MobileAnimationMessage content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                    <ProgressDimmer active={!userIsMember}>
+                        <Message content='To track your progress, register or login to your account.'/>
+                    </ProgressDimmer>
+                    <Message content={progressMessage}/>
+                    <Progress percent={percentComplete} inverted color='green' progress/>
+                </MobileAnimationMessage>
+            </FullScreen>
+        );
+    }
 };
 
 export default App2;

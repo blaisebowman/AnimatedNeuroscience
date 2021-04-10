@@ -57,8 +57,6 @@ function OligodendrogliaPage(props) {
                                                             <Link to={{pathname: "/gliasandsynapses-oligodendroglia", state: {selectorIsVisible: false}}} className='navText'>Oligodendroglia</Link>
                                                         </Dropdown.Item><Dropdown.Item>
                                                             <Link to={{pathname: "/gliasandsynapses-chemical", state: {selectorIsVisible: false}}} className='navText'>Chemical Synpases</Link>
-                                                        </Dropdown.Item><Dropdown.Item>
-                                                            <Link to={{pathname: "/gliasandsynapses-cns", state: {selectorIsVisible: false}}} className='navText'>CNS Synapses</Link>
                                                         </Dropdown.Item>
                                                         </Dropdown.Menu>
                                                     </CustomAnimationDropdown>
