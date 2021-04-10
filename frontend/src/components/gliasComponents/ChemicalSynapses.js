@@ -1,47 +1,33 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 import ChemicalSynapse from "./Animations/chemicalSynapse";
-import {Grid, Image, Segment, Button, Dropdown, Card, Icon, Divider, Message} from "semantic-ui-react";
+import {Grid, Segment, Dropdown, Card, Message} from "semantic-ui-react";
 
 import '../../glias.css';
-import {
-    AdobeContainer,
-    CustomAnimationDropdown,
-    CustomContainerSegment,
-    CustomGrid,
-    MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, PortraitMessage
-} from "../../styledComponents";
-import Oligodendroglia from "./Animations/oligodendroglia";
-
+import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, PortraitMessage} from "../../styledComponents";
 
 function ChemicalSynpasesPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const [height, setHeight] = useState(null);
-    const [width, setWidth] = useState(null);
-    const adobeContainer = useCallback(x => {
-        if (x !== null){
-            setHeight(x.getBoundingClientRect.height);
-            setWidth(x.getBoundingClientRect.width);
-        }
-    }, []);
     const [orientationIs, setOrientationIs] = useState(0);
     function handleSelector() {
-        if(selectorIsVisible === true){
+        if (selectorIsVisible === true) {
             setSelectorIsVisible(false);
-        }
-        else {
-            setSelectorIsVisible(true );
+        } else {
+            setSelectorIsVisible(true);
         }
         console.log(selectorIsVisible);
     }
-
-    window.addEventListener("orientationchange", function(event) {
-        console.log("the orientation of the device is now " + event.target.screen.orientation.angle);
+    function handleOrientationChange(event) {
         setOrientationIs(event.target.screen.orientation.angle);
         sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
-    });
-    useEffect(()=>{
-        console.log("the orientation of the device is now " + orientationIs);
+        console.log(parseInt(sessionStorage.getItem('orientation')));
+    }
+
+    useEffect(() => {
+        window.addEventListener('orientationchange', handleOrientationChange);
+        return () => {
+            window.removeEventListener('orientationchange', handleOrientationChange);
+        }
     }, []);
 
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -55,7 +41,7 @@ function ChemicalSynpasesPage(props) {
                                 <Segment className="imgSeg">
                                     <Grid columns={3}>
                                         <CustomGrid width={12}>
-                                            <Segment className="adobeSeg" style={{width: width, height: height}}>
+                                            <Segment className="adobeSeg">
                                                 <ChemicalSynapse/>
                                             </Segment>
                                         </CustomGrid>

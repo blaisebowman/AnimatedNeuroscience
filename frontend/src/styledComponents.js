@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {Button, Dropdown, Form, Menu, Message, Dimmer, Card, Header, Segment, Grid, Table} from 'semantic-ui-react';
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
+import OlfactorySystem from "./components/sensorySystems/Animations/olfactory_system";
 
 //tentative styled components, eventually replacing the usage of !important in .css and .scss files.
 
@@ -353,6 +354,15 @@ export const MobileAnimation= styled(AnimateCC)`
     div {
         display: none !important;
     }
+    @media screen and (orientation:landscape) {
+    
+    }
+    @media screen and (orientation:portrait) {
+           margin-left: 0 !important;
+           margin-right: 0 !important;
+    }
+                       
+
 `
 export const MobileAnimationSegment= styled(Segment)`
     border: 0 !important;
@@ -372,7 +382,11 @@ export const AdobeContainer= styled(Segment)`
         margin: 0 0 0 0 !important;
         padding: 0 0 0 0 !important;
         border: none !important;
-        object-fit: fill !important;
+        object-fit: contain !important;
+        
+        &&& > canvas {
+        color: blue !important;
+        }
     }
 `
 export const FullScreen= styled(Segment)`

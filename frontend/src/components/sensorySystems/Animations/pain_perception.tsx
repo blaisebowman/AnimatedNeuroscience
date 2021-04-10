@@ -1,14 +1,12 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {Message, Progress} from "semantic-ui-react";
-import {ProgressDimmer} from "../../../styledComponents";
+import {FullScreen, MobileAnimation, MobileAnimationMessage, ProgressDimmer} from "../../../styledComponents";
 
 const PainPerception = () => {
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
-    console.log(animationObject);
     animationObject?.stage?.enableMouseOver(1000);
     const [userClicked, setUserClicked] = useState<string>("");
     const [userHover, setUserHover] = useState<string>("");
@@ -18,6 +16,10 @@ const PainPerception = () => {
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
     const [userIsMember, setUserIsMember] = useState<boolean>(false);
+    let aspectRatio = 800 / 500; //varies by animation
+    let height = window.screen.height;
+    let width = (aspectRatio * window.screen.height);
+    let marginLR = ((window.screen.width - width) / 2);
 
     if(process.env.NODE_ENV === 'production'){
         console.log("In production mode. Disable log statements -> hide log statements from console.");
@@ -230,21 +232,44 @@ const PainPerception = () => {
             animationObject?.addEventListener('mouseover', handleHover);
         }
     }
-    return (
-        <div style={{minHeight: '65vh', maxWidth: '55vw', margin:'auto'}}>
-            <AnimateCC
-                getAnimationObject={getAnimationObject}
-                animationName="painRedone"
-            />
-            <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
-                <ProgressDimmer active={!userIsMember}>
-                    <Message content='To track your progress, register or login to your account.'/>
-                </ProgressDimmer>
-                <Message content ={progressMessage}/>
-                <Progress percent={percentComplete} inverted color='green' progress/>
-            </Message>
-        </div>
-    );
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if(!isMobile) {
+        return (
+            <div style={{minHeight: '65vh', maxWidth: '55vw', margin: 'auto'}}>
+                <AnimateCC
+                    getAnimationObject={getAnimationObject}
+                    animationName="painRedone"
+                />
+                <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                    <ProgressDimmer active={!userIsMember}>
+                        <Message content='To track your progress, register or login to your account.'/>
+                    </ProgressDimmer>
+                    <Message content={progressMessage}/>
+                    <Progress percent={percentComplete} inverted color='green' progress/>
+                </Message>
+            </div>
+        );
+    }
+    else {
+        return (
+            <FullScreen>
+                <MobileAnimation
+                    getAnimationObject={getAnimationObject}
+                    animationName="painRedone"
+                    style = {{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR}}
+                />
+                <MobileAnimationMessage content='<b>Congratulations! You completed this animation.'
+                                        color={progressColor}>
+                    <ProgressDimmer active={!userIsMember}>
+                        <Message content='To track your progress, register or login to your account.'/>
+                    </ProgressDimmer>
+                    <Message content={progressMessage}/>
+                    <Progress percent={percentComplete} inverted color='green' progress/>
+                </MobileAnimationMessage>
+            </FullScreen>
+
+        );
+    }
 };
 
 export default PainPerception;

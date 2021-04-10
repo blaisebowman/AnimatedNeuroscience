@@ -7,7 +7,6 @@ import {FullScreen, MobileAnimation, MobileAnimationMessage, ProgressDimmer} fro
 
 const BrainLobes= () => {
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
-    console.log(animationObject);
     const [userClicked, setUserClicked] = useState<string>("");
     const [percentComplete, setPercentComplete] = useState<number>(0);
     const [progressMessage, setProgressMessage] = useState<string>("");
@@ -15,18 +14,11 @@ const BrainLobes= () => {
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
     const [userIsMember, setUserIsMember] = useState<boolean>(false);
-    const [orientationIs, setOrientationIs] = useState<number>(0);
 
     let aspectRatio = 800/500; //varies by animation
     let height = window.screen.height;
     let width = (aspectRatio * window.screen.height);
     let marginLR = ((window.screen.width - width) / 2);
-
-    useEffect(()=>{
-        console.log("the orientation of the device is now " + orientationIs);
-        setOrientationIs(parseInt(sessionStorage.getItem('orientation') as string) || 0);
-        console.log(parseInt(sessionStorage.getItem('orientation') as string));
-    }, []);
 
     if(process.env.NODE_ENV === 'production'){
         console.log("In production mode. Disable log statements -> hide log statements from console.");
@@ -48,7 +40,6 @@ const BrainLobes= () => {
     let animationComplete: string [] = ["front", "parietal", "occipital", "cerebellum", "temporal"];
     let id = sessionStorage.getItem("id");
     let port = process.env.PORT || 'http://localhost:8080/api/members/'+id+'/animations/completed';
-    console.log(animationObject);
 
     interface Member {
         //parameters to be passed in GET request.
@@ -175,25 +166,7 @@ const BrainLobes= () => {
                 </Message>
             </div>
         );
-    }
-    else if(orientationIs !== 90) {
-        return (
-            <FullScreen>
-                <MobileAnimation
-                    getAnimationObject={getAnimationObject}
-                    animationName="lobes_js"
-                />
-                <MobileAnimationMessage content='<b>Congratulations! You completed this animation.' color={progressColor}>
-                    <ProgressDimmer active={!userIsMember}>
-                        <Message content='To track your progress, register or login to your account.'/>
-                    </ProgressDimmer>
-                    <Message content={progressMessage}/>
-                    <Progress percent={percentComplete} inverted color='green' progress/>
-                </MobileAnimationMessage>
-            </FullScreen>
-        );
-    }
-    else if(orientationIs === 90) {
+    }else {
         return (
             <FullScreen>
                 <MobileAnimation
@@ -201,7 +174,8 @@ const BrainLobes= () => {
                     animationName="lobes_js"
                     style = {{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR}}
                 />
-                <MobileAnimationMessage content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                <MobileAnimationMessage content='<b>Congratulations! You completed this animation.'
+                                        color={progressColor}>
                     <ProgressDimmer active={!userIsMember}>
                         <Message content='To track your progress, register or login to your account.'/>
                     </ProgressDimmer>
@@ -209,6 +183,7 @@ const BrainLobes= () => {
                     <Progress percent={percentComplete} inverted color='green' progress/>
                 </MobileAnimationMessage>
             </FullScreen>
+
         );
     }
 };

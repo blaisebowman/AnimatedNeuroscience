@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
 import {Message, Progress} from "semantic-ui-react";
 import axios, {AxiosError, AxiosResponse} from "axios";
-import {ProgressDimmer} from "../../../styledComponents";
+import {FullScreen, MobileAnimation, MobileAnimationMessage, ProgressDimmer} from "../../../styledComponents";
 
 const AuditorySystem = () => {
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
@@ -17,6 +17,11 @@ const AuditorySystem = () => {
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
     const [userIsMember, setUserIsMember] = useState<boolean>(false);
+    const [orientationIs, setOrientationIs] = useState<number>(0);
+    let aspectRatio = 800/500; //varies by animation
+    let height = window.screen.height;
+    let width = (aspectRatio * window.screen.height);
+    let marginLR = ((window.screen.width - width) / 2);
 
     if(process.env.NODE_ENV === 'production'){
         console.log("In production mode. Disable log statements -> hide log statements from console.");
@@ -40,7 +45,6 @@ const AuditorySystem = () => {
 
     let id = sessionStorage.getItem("id");
     let port = process.env.PORT || 'http://localhost:8080/api/members/'+id+'/animations/completed';
-    console.log(animationObject);
 
     interface Member {
         //parameters to be passed in GET request.
@@ -185,21 +189,45 @@ const AuditorySystem = () => {
             animationObject?.addEventListener('mouseover', handleHover);
         }
     }
-    return (
-        <div style={{minHeight: '65vh', maxWidth: '55vw', margin:'auto'}}>
-            <AnimateCC
-                getAnimationObject={getAnimationObject}
-                animationName="auditory_as_js"
-            />
-            <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
-                <ProgressDimmer active={!userIsMember}>
-                    <Message content='To track your progress, register or login to your account.'/>
-                </ProgressDimmer>
-                <Message content ={progressMessage}/>
-                <Progress percent={percentComplete} inverted color='green' progress/>
-            </Message>
-        </div>
-    );
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if(!isMobile) {
+        return (
+            <div style={{minHeight: '65vh', maxWidth: '55vw', margin: 'auto'}}>
+                <AnimateCC
+                    getAnimationObject={getAnimationObject}
+                    animationName="auditory_as_js"
+                />
+                <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                    <ProgressDimmer active={!userIsMember}>
+                        <Message content='To track your progress, register or login to your account.'/>
+                    </ProgressDimmer>
+                    <Message content={progressMessage}/>
+                    <Progress percent={percentComplete} inverted color='green' progress/>
+                </Message>
+            </div>
+        );
+    }
+    else {
+        return (
+            <FullScreen>
+                <MobileAnimation
+                    getAnimationObject={getAnimationObject}
+                    animationName="auditory_as_js"
+                    style = {{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR}}
+                />
+                <MobileAnimationMessage content='<b>Congratulations! You completed this animation.'
+                                        color={progressColor}>
+                    <ProgressDimmer active={!userIsMember}>
+                        <Message content='To track your progress, register or login to your account.'/>
+                    </ProgressDimmer>
+                    <Message content={progressMessage}/>
+                    <Progress percent={percentComplete} inverted color='green' progress/>
+                </MobileAnimationMessage>
+            </FullScreen>
+
+        );
+    }
+
 };
 
 export default AuditorySystem;

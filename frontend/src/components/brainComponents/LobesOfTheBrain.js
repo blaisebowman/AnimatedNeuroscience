@@ -3,22 +3,13 @@ import {Link} from "react-router-dom";
 import BrainLobes from "./Animations/brain_lobes";
 
 import {Grid, Segment, Dropdown, Card, Message,} from "semantic-ui-react";
-import {
-    CustomAdobeSegmentBrain,
-    CustomContainerSegment,
-    CustomGrid,
-    CustomAnimationDropdown,
-    MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, AdobeContainer, MobileSettingsDropdown, PortraitMessage
-} from "../../styledComponents";
+import {CustomAdobeSegmentBrain, CustomContainerSegment, CustomGrid, CustomAnimationDropdown, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, AdobeContainer, MobileSettingsDropdown, PortraitMessage} from "../../styledComponents";
 
 import '../../glias.css';
-import BrainDevelopment from "./Animations/brainDevelopment";
-
 
 function LobesOfTheBrainPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
     const [orientationIs, setOrientationIs] = useState(0);
-
     function handleSelector() {
         if (selectorIsVisible === true) {
             setSelectorIsVisible(false);
@@ -27,15 +18,19 @@ function LobesOfTheBrainPage(props) {
         }
         console.log(selectorIsVisible);
     }
-
-    window.addEventListener("orientationchange", function (event) {
-        console.log("the orientation of the device is now " + event.target.screen.orientation.angle);
+    function handleOrientationChange(event) {
         setOrientationIs(event.target.screen.orientation.angle);
         sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
-    });
+        console.log(parseInt(sessionStorage.getItem('orientation')));
+    }
+
     useEffect(() => {
-        console.log("the orientation of the device is now " + orientationIs);
+        window.addEventListener('orientationchange', handleOrientationChange);
+        return () => {
+            window.removeEventListener('orientationchange', handleOrientationChange);
+        }
     }, []);
+
 
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (isMobile === false) {

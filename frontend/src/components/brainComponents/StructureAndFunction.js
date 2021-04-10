@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import {Link} from "react-router-dom";
 import BrainStructure from "./Animations/brain_structure";
 import {Grid, Segment, Dropdown, Card, Message,} from "semantic-ui-react";
 import {
@@ -12,7 +12,6 @@ import {
 import {CustomAnimationDropdown} from "../../styledComponents";
 
 import '../../glias.css';
-import BrainDevelopment from "./Animations/brainDevelopment";
 
 
 function StructureAndFunctionPage(props) {
@@ -27,15 +26,27 @@ function StructureAndFunctionPage(props) {
         }
         console.log(selectorIsVisible);
     }
-
-    window.addEventListener("orientationchange", function (event) {
-        console.log("the orientation of the device is now " + event.target.screen.orientation.angle);
+    function handleSelector() {
+        if (selectorIsVisible === true) {
+            setSelectorIsVisible(false);
+        } else {
+            setSelectorIsVisible(true);
+        }
+        console.log(selectorIsVisible);
+    }
+    function handleOrientationChange(event) {
         setOrientationIs(event.target.screen.orientation.angle);
         sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
-    });
+        console.log(parseInt(sessionStorage.getItem('orientation')));
+    }
+
     useEffect(() => {
-        console.log("the orientation of the device is now " + orientationIs);
+        window.addEventListener('orientationchange', handleOrientationChange);
+        return () => {
+            window.removeEventListener('orientationchange', handleOrientationChange);
+        }
     }, []);
+
 
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (isMobile === false) {

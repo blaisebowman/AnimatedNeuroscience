@@ -1,53 +1,37 @@
-import React, {useCallback, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 import App2 from "./Animations/exploring_one.tsx";
 
-import {Grid, Segment, Dropdown, Card, Icon, Message} from "semantic-ui-react";
-import {
-    AdobeContainer,
-    CustomAnimationDropdown,
-    CustomCardDescription,
-    CustomContainerSegment,
-    CustomContainerSegmentA,
-    CustomGrid,
-    DDItem, MobileAnimation,
-    MobileAnimationDropdown, MobileAnimationSegment,
-    MobileContainerSegment,
-    MobileGrid, MobileGridPrimaryRow,
-    MobileGridSecondaryRow,
-    MobileSettingsDropdown, PortraitMessage
-} from "../../styledComponents";
+import {Grid, Segment, Dropdown, Card, Message} from "semantic-ui-react";
+import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, PortraitMessage} from "../../styledComponents";
 
 import '../../glias.css';
 
 
 function ExploringPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const [height, setHeight] = useState(null);
-    const [width, setWidth] = useState(null);
-    const adobeContainer = useCallback(x => {
-        if (x !== null){
-        setHeight(x.getBoundingClientRect.height);
-        setWidth(x.getBoundingClientRect.width);
-    }
-    }, []);
     const [orientationIs, setOrientationIs] = useState(0);
     function handleSelector() {
-        if(selectorIsVisible === true){
+        if (selectorIsVisible === true) {
             setSelectorIsVisible(false);
-        }
-        else {
-            setSelectorIsVisible(true );
+        } else {
+            setSelectorIsVisible(true);
         }
         console.log(selectorIsVisible);
     }
-    window.addEventListener("orientationchange", function(event) {
-        console.log("the orientation of the device is now " + event.target.screen.orientation.angle);
+    function handleOrientationChange(event) {
         setOrientationIs(event.target.screen.orientation.angle);
-    });
-    useEffect(()=>{
-            console.log("the orientation of the device is now " + orientationIs);
+        sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
+        console.log(parseInt(sessionStorage.getItem('orientation')));
+    }
+
+    useEffect(() => {
+        window.addEventListener('orientationchange', handleOrientationChange);
+        return () => {
+            window.removeEventListener('orientationchange', handleOrientationChange);
+        }
     }, []);
+
 
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if(isMobile === false) {
@@ -60,7 +44,7 @@ function ExploringPage(props) {
                                 <Segment className="imgSeg">
                                     <Grid columns={2}>
                                         <CustomGrid width={12}>
-                                            <Segment className="adobeSeg" style={{width: width, height: height}}>
+                                            <Segment className="adobeSeg">
                                                 <App2/>
                                             </Segment>
                                         </CustomGrid>
