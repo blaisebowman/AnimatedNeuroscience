@@ -24,11 +24,10 @@ function ExploringPage(props) {
         sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
         console.log(parseInt(sessionStorage.getItem('orientation')));
         if(event.target.screen.orientation.angle === 90){
-            //document.documentElement.requestFullscreen({ navigationUI: 'show' });
-
+            document.documentElement.requestFullscreen({ navigationUI: 'hide' });
         }
         else if (event.target.screen.orientation.angle === 0){
-            //document.documentElement.requestFullscreen({ navigationUI: 'hide' });
+            document.documentElement.requestFullscreen({ navigationUI: 'show' });
         }
     }
 
