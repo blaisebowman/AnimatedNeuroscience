@@ -10,7 +10,7 @@ import '../../glias.css';
 
 function ExploringPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const [orientationIs, setOrientationIs] = useState(0);
+    const [orientationIs, setOrientationIs] = useState(parseInt(sessionStorage.getItem('orientation')) || 0);
     function handleSelector() {
         if (selectorIsVisible === true) {
             setSelectorIsVisible(false);
@@ -24,12 +24,11 @@ function ExploringPage(props) {
         sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
         console.log(parseInt(sessionStorage.getItem('orientation')));
         if(event.target.screen.orientation.angle === 90){
-            console.log("I am in landscape");
-            document.documentElement.requestFullscreen({ navigationUI: 'hide' });
+            //document.documentElement.requestFullscreen({ navigationUI: 'show' });
+
         }
         else if (event.target.screen.orientation.angle === 0){
-            console.log("I am in portrait");
-            document.documentElement.requestFullscreen({ navigationUI: 'show' });
+            //document.documentElement.requestFullscreen({ navigationUI: 'hide' });
         }
     }
 

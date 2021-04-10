@@ -9,7 +9,7 @@ import '../../glias.css';
 
 function LobesOfTheBrainPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const [orientationIs, setOrientationIs] = useState(0);
+    const [orientationIs, setOrientationIs] = useState(parseInt(sessionStorage.getItem('orientation')) || 0);
     function handleSelector() {
         if (selectorIsVisible === true) {
             setSelectorIsVisible(false);
