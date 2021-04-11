@@ -24,21 +24,20 @@ function ExploringPage(props) {
         sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
         console.log(parseInt(sessionStorage.getItem('orientation')));
         if(event.target.screen.orientation.angle === 90){
-
+            if(!document.fullscreenElement){
+                document.documentElement.requestFullscreen({ navigationUI: 'hide' });
+            }
 /*
            document.documentElement.requestFullscreen({ navigationUI: 'hide' });
 */
-           document.documentElement.requestFullscreen({ navigationUI: 'hide' })
-               .then(() => console.log("ENTERING FULLSCREEN"))
-               .catch((err) => console.error(err));
-
-
         }
         else if (event.target.screen.orientation.angle === 0){
             //document.documentElement.requestFullscreen({ navigationUI: 'show' });
-            document.exitFullscreen()
-                .then(() => console.log("EXITING FULLSCREEN"))
-                .catch((err) => console.error(err));
+            if(document.fullscreenElement) {
+                document.exitFullscreen()
+                    .then(() => console.log("EXITING FULLSCREEN"))
+                    .catch((err) => console.error(err));
+            }
         }
     }
 
