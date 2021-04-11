@@ -19,19 +19,53 @@ function ExploringPage(props) {
         }
         console.log(selectorIsVisible);
     }
-    function handleOrientationChange(event) {
-        if(event.target.screen.orientation.angle === 90 || event.target.screen.orientation.angle === 270){
-            if(!document.fullscreenElement){
-                document.documentElement.requestFullscreen({ navigationUI: 'hide' })
+    async function toggleFullscreen (){
+        var status = (document.fullscreenElement && true) || (document.webkitFullscreenElement && true) || (document.mozFullScreenElement && true) || (document.msFullscreenElement && true);
+        var elem = document.documentElement;
+        if(!status){
+            switch(elem){
+                case elem.requestFullscreen:
+                    elem.requestFullscreen();
+                    break;
+                case elem.mozRequestFullscreen:
+                    elem.mozRequestFullscreen();
+                    break;
+               case elem.webkitRequestFullscreen:
+                    elem.webkitRequestFullscreen();
+                    break;
+               case elem.msRequestFullscreen:
+                    elem.msRequestFullscreen();
+                    break;
+                default:
+                    break;
             }
+        } else {
+            switch(elem){
+                case elem.exitFullscreen:
+                    elem.exitFullscreen();
+                    break;
+                case elem.mozCancelFullscreen:
+                    elem.mozCancelFullscreen();
+                    break;
+                case elem.webkitExitFullscreen:
+                    elem.webkitExitFullscreen();
+                    break;
+                case elem.msExitFullscreen:
+                    elem.msExitFullscreen();
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    }
+    async function handleOrientationChange(event) {
+        if(event.target.screen.orientation.angle === 90 || event.target.screen.orientation.angle === 270){
+           await toggleFullscreen();
         }
         else if (event.target.screen.orientation.angle === 0){
             //document.documentElement.requestFullscreen({ navigationUI: 'show' });
-            if(document.fullscreenElement) {
-                document.exitFullscreen()
-                    .then(() => console.log("EXITING FULLSCREEN"))
-                    .catch((err) => console.error(err));
-            }
+           await toggleFullscreen();
         }
         setOrientationIs(event.target.screen.orientation.angle);
         sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
