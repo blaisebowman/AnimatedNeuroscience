@@ -23,13 +23,12 @@ function ExploringPage(props) {
         setOrientationIs(event.target.screen.orientation.angle);
         sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
         console.log(parseInt(sessionStorage.getItem('orientation')));
-        if(event.target.screen.orientation.angle === 90){
+    }
+    function handleFullscreen(event) {
+        if(event.target.screen.orientation.angle === 90 || event.target.screen.orientation.angle === 270){
             if(!document.fullscreenElement){
-                document.documentElement.requestFullscreen({ navigationUI: 'hide' });
+                document.documentElement.requestFullscreen({ navigationUI: 'hide' })
             }
-/*
-           document.documentElement.requestFullscreen({ navigationUI: 'hide' });
-*/
         }
         else if (event.target.screen.orientation.angle === 0){
             //document.documentElement.requestFullscreen({ navigationUI: 'show' });
@@ -43,8 +42,11 @@ function ExploringPage(props) {
 
     useEffect(() => {
         window.addEventListener('orientationchange', handleOrientationChange);
+        document.addEventListener('fullscreenchange', handleFullscreen);
         return () => {
             window.removeEventListener('orientationchange', handleOrientationChange);
+            document.removeEventListener('fullscreenchange', handleFullscreen);
+
         }
     }, []);
 
