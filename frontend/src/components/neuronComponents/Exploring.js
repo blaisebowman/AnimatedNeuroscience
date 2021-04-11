@@ -19,21 +19,19 @@ function ExploringPage(props) {
         }
         console.log(selectorIsVisible);
     }
-    function handleOrientationChange(event) {
+    async function handleOrientationChange(event) {
         setOrientationIs(event.target.screen.orientation.angle);
         sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
         console.log(parseInt(sessionStorage.getItem('orientation')));
-    }
-    function handleFullscreen(event) {
         if(event.target.screen.orientation.angle === 90 || event.target.screen.orientation.angle === 270){
             if(!document.fullscreenElement){
-                document.documentElement.requestFullscreen({ navigationUI: 'hide' })
+                await document.documentElement.requestFullscreen({ navigationUI: 'hide' })
             }
         }
         else if (event.target.screen.orientation.angle === 0){
             //document.documentElement.requestFullscreen({ navigationUI: 'show' });
             if(document.fullscreenElement) {
-                document.exitFullscreen()
+                await document.exitFullscreen()
                     .then(() => console.log("EXITING FULLSCREEN"))
                     .catch((err) => console.error(err));
             }
@@ -42,11 +40,8 @@ function ExploringPage(props) {
 
     useEffect(() => {
         window.addEventListener('orientationchange', handleOrientationChange);
-        document.addEventListener('fullscreenchange', handleFullscreen);
         return () => {
             window.removeEventListener('orientationchange', handleOrientationChange);
-            document.removeEventListener('fullscreenchange', handleFullscreen);
-
         }
     }, []);
 
