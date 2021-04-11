@@ -25,13 +25,18 @@ function ExploringPage(props) {
         console.log(parseInt(sessionStorage.getItem('orientation')));
         if(event.target.screen.orientation.angle === 90){
 
+/*
            document.documentElement.requestFullscreen({ navigationUI: 'hide' });
+*/
+           document.documentElement.requestFullscreen({ navigationUI: 'hide' })
+               .then(() => console.log("ENTERING FULLSCREEN"))
+               .catch((err) => console.error(err));
 
 
         }
         else if (event.target.screen.orientation.angle === 0){
             //document.documentElement.requestFullscreen({ navigationUI: 'show' });
-            document.documentElement.exitFullscreen()
+            document.exitFullscreen()
                 .then(() => console.log("EXITING FULLSCREEN"))
                 .catch((err) => console.error(err));
         }
@@ -39,7 +44,6 @@ function ExploringPage(props) {
 
     useEffect(() => {
         window.addEventListener('orientationchange', handleOrientationChange);
-        console.log('x');
         return () => {
             window.removeEventListener('orientationchange', handleOrientationChange);
         }
