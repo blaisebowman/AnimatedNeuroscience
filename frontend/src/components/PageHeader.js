@@ -112,7 +112,7 @@ function PageHeader(props) {
     }
     else {
         return(
-        <MobileContainerHeader as='h2'>
+        <MobileContainerHeader as='h2' id='mobileHeader'>
             <Grid columns={3} rows={2} className='modGrid' stretched>
                 <Grid.Row>
                 <Grid.Column width={2} textAlign='left' verticalAlign='middle'>

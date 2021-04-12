@@ -210,7 +210,7 @@ function NavigationBar (props) {
     }
     else {
         return (
-                <MobileDropdown fluid placeholder="Select a Category">
+                <MobileDropdown fluid placeholder="Select a Category" id='mobileNav'>
                     <Dropdown.Menu>
                         <DDItem>
                             <Icon name='star'/>

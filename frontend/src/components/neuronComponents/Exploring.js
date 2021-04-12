@@ -4,10 +4,11 @@ import App2 from "./Animations/exploring_one.tsx";
 import {Grid, Button, Segment, Dropdown, Card, Message} from "semantic-ui-react";
 import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, PortraitMessage} from "../../styledComponents";
 import '../../glias.css';
+import $ from "jquery";
 
 function ExploringPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const [orientationIs, setOrientationIs] = useState( parseInt(sessionStorage.getItem('orientation')) ||0);
+    const [orientationIs, setOrientationIs] = useState( 0);
     function handleSelector() {
         if (selectorIsVisible === true) {
             setSelectorIsVisible(false);
@@ -23,11 +24,27 @@ function ExploringPage(props) {
         console.log("entered fullscreen at angle (orientationIs): " + orientationIs);
         console.log("lock type: " + window.screen.orientation.type);
         console.log(document.fullscreenElement);
-        if(document.fullscreenElement){
+        if(document.fullscreenElement && orientationIs === 0){
             setOrientationIs(90);
+            $("#mobileHeader").css({
+                display: "none",
+                visibility: "hidden"
+            });
+            $("#mobileNav").css({
+                display: "none",
+                visibility: "hidden"
+            });
             console.log("ENTERED fullscreen");
         } else {
             setOrientationIs(0);
+            $("#mobileHeader").css({
+                display: "block",
+                visibility: "visible"
+            });
+            $("#mobileNav").css({
+                display: "block",
+                visibility: "visible"
+            });
             console.log('EXITED fullscreen.');
         }
         }, 500);
@@ -43,6 +60,7 @@ function ExploringPage(props) {
             console.log('Leaving fullscreen...');
             document.exitFullscreen();
             window.screen.orientation.lock('portrait');
+            //setOrientationIs(0);
         }
     }
 
@@ -100,8 +118,7 @@ function ExploringPage(props) {
             </div>
         );
     }
-
-    else if (orientationIs === 0) {
+    else if (orientationIs === 0){
         return (
             <div className="AppMobile">
                 <MobileAnimationSegment>
@@ -130,7 +147,7 @@ function ExploringPage(props) {
                                         <Button onClick={toggleFullscreen} id ='trig'>Go Fullscreen</Button>
                                     </PortraitMessage>
                                 </Card>
-                            <App2/>
+                                <App2/>
                             </AdobeContainer>
                         </MobileGridSecondaryRow>
                     </MobileGrid>
@@ -138,7 +155,7 @@ function ExploringPage(props) {
             </div>
         );
     }
-    else {
+    else if(window.screen.orientation.type.startsWith('landscape')){
         return (
             <AdobeContainer>
                 <App2/>
@@ -148,5 +165,3 @@ function ExploringPage(props) {
 }
 
 export default ExploringPage;
-
-

@@ -206,7 +206,9 @@ export const CustomContainerSegment= styled(Segment)`
 /*TODO -> Z-INDEX FOR DROPDOWN*/
 export const MobileContainerHeader= styled(Header)`
     @media screen and (orientation:landscape) {
+/*
         display: none !important;
+*/
     }
 `
 export const MobileDropdown= styled(Dropdown)`
@@ -227,7 +229,7 @@ export const MobileDropdown= styled(Dropdown)`
       margin: 1.25vh 0 0 0 !important;
     }
     @media screen and (orientation:landscape) {
-        display: none !important;
+        /*display: none !important;*/
     }
 `
 export const MobileSettingsDropdown= styled(Dropdown)`
@@ -281,6 +283,11 @@ export const MobileGrid= styled(Grid)`
     background: none !important;
     padding: 0 0 0 0 !important;
     margin: 0 0 0 0 !important;
+     @media screen and (orientation:landscape) {
+    width: 100vw !important;
+    background: color !important;
+    }
+    
 `
 export const MobileGridPrimaryRow= styled(Grid.Row)`
     padding-top: 0 !important;
