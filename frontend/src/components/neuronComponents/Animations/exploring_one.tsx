@@ -18,12 +18,12 @@ const App2 = () => {
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
     const [userIsMember, setUserIsMember] = useState<boolean>(false);
-
     let aspectRatio = 640/400; //varies by animation (animation's width / height)
     let height = window.screen.height;
     let width = (aspectRatio * window.screen.height);
     let marginLR = ((window.screen.width - width) / 2);
-
+    console.log(window.screen.orientation.type);
+    console.log("Max: height = " + window.screen.height + "width = " + window.screen.width);
 
     useEffect(() => {
         //call getMemberArray on page load, which is used to determine if the user has completed the animation.

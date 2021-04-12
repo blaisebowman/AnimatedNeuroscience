@@ -1,16 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 import App2 from "./Animations/exploring_one.tsx";
-
-import {Grid, Segment, Dropdown, Card, Message} from "semantic-ui-react";
+import {Grid, Button, Segment, Dropdown, Card, Message} from "semantic-ui-react";
 import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, PortraitMessage} from "../../styledComponents";
-
 import '../../glias.css';
-
 
 function ExploringPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const [orientationIs, setOrientationIs] = useState(parseInt(sessionStorage.getItem('orientation')) || 0);
+    const [orientationIs, setOrientationIs] = useState( parseInt(sessionStorage.getItem('orientation')) ||0);
     function handleSelector() {
         if (selectorIsVisible === true) {
             setSelectorIsVisible(false);
@@ -19,67 +16,44 @@ function ExploringPage(props) {
         }
         console.log(selectorIsVisible);
     }
-    async function toggleFullscreen (){
-        var status = (document.fullscreenElement && true) || (document.webkitFullscreenElement && true) || (document.mozFullScreenElement && true) || (document.msFullscreenElement && true);
-        var elem = document.documentElement;
-        if(!status){
-            switch(elem){
-                case elem.requestFullscreen:
-                    elem.requestFullscreen();
-                    break;
-                case elem.mozRequestFullscreen:
-                    elem.mozRequestFullscreen();
-                    break;
-               case elem.webkitRequestFullscreen:
-                    elem.webkitRequestFullscreen();
-                    break;
-               case elem.msRequestFullscreen:
-                    elem.msRequestFullscreen();
-                    break;
-                default:
-                    break;
-            }
+
+    function handleOrientation (event) {
+        setTimeout(function () {
+        console.log("entered fullscreen at angle (window.screen.orientation.angle): " + window.screen.orientation.angle);
+        console.log("entered fullscreen at angle (orientationIs): " + orientationIs);
+        console.log("lock type: " + window.screen.orientation.type);
+        console.log(document.fullscreenElement);
+        if(document.fullscreenElement){
+            setOrientationIs(90);
+            console.log("ENTERED fullscreen");
         } else {
-            switch(elem){
-                case elem.exitFullscreen:
-                    elem.exitFullscreen();
-                    break;
-                case elem.mozCancelFullscreen:
-                    elem.mozCancelFullscreen();
-                    break;
-                case elem.webkitExitFullscreen:
-                    elem.webkitExitFullscreen();
-                    break;
-                case elem.msExitFullscreen:
-                    elem.msExitFullscreen();
-                    break;
-                default:
-                    break;
-            }
-
+            setOrientationIs(0);
+            console.log('EXITED fullscreen.');
         }
+        }, 500);
     }
-    async function handleOrientationChange(event) {
-        if(event.target.screen.orientation.angle === 90 || event.target.screen.orientation.angle === 270){
-           await toggleFullscreen();
-        }
-        else if (event.target.screen.orientation.angle === 0){
-            //document.documentElement.requestFullscreen({ navigationUI: 'show' });
-           await toggleFullscreen();
-        }
-        setOrientationIs(event.target.screen.orientation.angle);
-        sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
-        console.log(parseInt(sessionStorage.getItem('orientation')));
 
+    function toggleFullscreen (event){
+        console.log('Toggling Fullscreen...');
+        if (document.fullscreenElement === null) {
+            console.log("Entering fullscreen...");
+            document.documentElement.requestFullscreen({navigationUI: 'hide'}).catch(err => {console.log(err.msg);});
+            window.screen.orientation.lock('landscape');
+        } else if(document.fullscreenElement !== null){
+            console.log('Leaving fullscreen...');
+            document.exitFullscreen();
+            window.screen.orientation.lock('portrait');
+        }
     }
 
     useEffect(() => {
-        window.addEventListener('orientationchange', handleOrientationChange);
+        console.log("[------HOOK------]");
+        console.log("Max: height = " + window.screen.availHeight + "width = " + window.screen.availWidth);
+        window.addEventListener('fullscreenchange', handleOrientation);
         return () => {
-            window.removeEventListener('orientationchange', handleOrientationChange);
+            window.removeEventListener('fullscreenchange', handleOrientation);
         }
     }, []);
-
 
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if(isMobile === false) {
@@ -152,7 +126,8 @@ function ExploringPage(props) {
                                 <Card fluid>
                                     <PortraitMessage warning>
                                         <Message.Header>Tip of the Day</Message.Header>
-                                        <p>For a better experience, please rotate your device into landscape orientation.</p>
+                                        <p>For a better experience, please press the button below to view in landscape orientation.</p>
+                                        <Button onClick={toggleFullscreen} id ='trig'>Go Fullscreen</Button>
                                     </PortraitMessage>
                                 </Card>
                             <App2/>
