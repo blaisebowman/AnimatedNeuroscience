@@ -17,8 +17,8 @@ const VisualSystem = () => {
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
     const [userIsMember, setUserIsMember] = useState<boolean>(false);
     let aspectRatio = 750/400; //varies by animation
-    let height = window.screen.availHeight;
-    let width = (aspectRatio * window.screen.availHeight);
+    let height = window.screen.height;
+    let width = (aspectRatio * window.screen.height);
     let marginLR = ((window.screen.availWidth - width) / 2);
     console.log(window.screen.orientation.type);
     console.log("Max: height = " + window.screen.availHeight + "width = " + window.screen.availWidth);
@@ -237,7 +237,7 @@ const VisualSystem = () => {
                     getAnimationObject={getAnimationObject}
                     animationName="menu_js"
                 />
-                <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                <Message content='Congratulations! You completed this animation.' color={progressColor}>
                     <ProgressDimmer active={!userIsMember}>
                         <Message content='To track your progress, register or login to your account.'/>
                     </ProgressDimmer>
@@ -255,7 +255,7 @@ const VisualSystem = () => {
                     animationName="menu_js"
                     style = {{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR}}
                 />
-                <MobileAnimationMessage content='<b>Congratulations! You completed this animation.'
+                <MobileAnimationMessage content='Congratulations! You completed this animation.'
                                         color={progressColor}>
                     <ProgressDimmer active={!userIsMember}>
                         <Message content='To track your progress, register or login to your account.'/>

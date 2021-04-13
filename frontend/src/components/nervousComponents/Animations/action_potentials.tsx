@@ -17,7 +17,11 @@ const ActionPotentials = () => {
     let aspectRatio = 800/500; //varies by animation
     let height = window.screen.height;
     let width = (aspectRatio * window.screen.height);
-    let marginLR = ((window.screen.width - width) / 2);
+    let marginLR = ((window.screen.availWidth - width) / 2);
+    console.log(window.screen.orientation.type);
+    console.log("Max: height = " + window.screen.availHeight + "width = " + window.screen.availWidth);
+    console.log("Max: height = " + window.screen.height + "width = " + window.screen.width);
+
     if(process.env.NODE_ENV === 'production'){
         console.log("In production mode. Disable log statements -> hide log statements from console.");
         console.log = function (){};
@@ -165,7 +169,7 @@ const ActionPotentials = () => {
                     getAnimationObject={getAnimationObject}
                     animationName="actionpotential"
                 />
-                <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                <Message content='Congratulations! You completed this animation.' color={progressColor}>
                     <ProgressDimmer active={!userIsMember}>
                         <Message content='To track your progress, register or login to your account.'/>
                     </ProgressDimmer>
@@ -183,7 +187,7 @@ const ActionPotentials = () => {
                     animationName="actionpotential"
                     style = {{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR}}
                 />
-                <MobileAnimationMessage content='<b>Congratulations! You completed this animation.'
+                <MobileAnimationMessage content='Congratulations! You completed this animation.'
                                         color={progressColor}>
                     <ProgressDimmer active={!userIsMember}>
                         <Message content='To track your progress, register or login to your account.'/>

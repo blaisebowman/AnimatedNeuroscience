@@ -19,7 +19,7 @@ const App2 = () => {
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
     const [userIsMember, setUserIsMember] = useState<boolean>(false);
     let aspectRatio = 640/400; //varies by animation (animation's width / height)
-    let height = window.screen.availHeight;
+    let height = window.screen.height;
     let width = (aspectRatio * window.screen.availHeight);
     let marginLR = ((window.screen.availWidth - width) / 2);
     console.log(window.screen.orientation.type);
@@ -163,7 +163,7 @@ const App2 = () => {
                     getAnimationObject={getAnimationObject}
                     animationName="exploring"
                 />
-                <Message content='<b>Congratulations! You completed this animation.' color={progressColor}>
+                <Message content='Congratulations! You completed this animation.' color={progressColor}>
                     <ProgressDimmer active={!userIsMember}>
                         <Message content='To track your progress, register or login to your account.'/>
                     </ProgressDimmer>
@@ -182,7 +182,7 @@ const App2 = () => {
                     style = {{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR
                     }}
                 />
-                <MobileAnimationMessage content='<b>Congratulations! You completed this animation.'
+                <MobileAnimationMessage content='Congratulations! You completed this animation.'
                                         color={progressColor}>
                     <ProgressDimmer active={!userIsMember}>
                         <Message content='To track your progress, register or login to your account.'/>

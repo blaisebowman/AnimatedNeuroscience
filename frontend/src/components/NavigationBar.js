@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Link, withRouter} from "react-router-dom";
-import {Dropdown, Menu, Button, Icon} from 'semantic-ui-react';
+import {Dropdown, Icon} from 'semantic-ui-react';
 import PropTypes from "prop-types";
 import {MobileNavBarButton, MobileNavBarFirstButton, CustomNavigationMenu, CustomNavigationMenuItem, CustomSegment, CustomNavigationMenuItemLink, DDItem, CustomDivider, CustomHeader,MobileDropdown} from "../styledComponents";
 import '../navbar.css';

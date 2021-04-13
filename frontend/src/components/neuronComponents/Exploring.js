@@ -175,7 +175,7 @@ function ExploringPage(props) {
                                         <ErrorAnimation warning fluid>
                                             <Message.Header>Tip of the Day</Message.Header>
                                             <p>For a better experience, please press the button below to view in fullscreen.</p>
-                                            <Button onClick={toggleFullscreen} id ='trig'>Go Fullscreen</Button>
+                                            <Button color='violet' onClick={toggleFullscreen} id ='trig'>Go Fullscreen</Button>
                                         </ErrorAnimation>
                                     </Card.Content>
                                 </Card>
