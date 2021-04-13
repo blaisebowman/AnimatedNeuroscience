@@ -226,12 +226,12 @@ export const MobileDropdown= styled(Dropdown)`
     }
 `
 export const MobileSettingsDropdown= styled(Dropdown)`
+    border-radius: .28571429rem;
     padding-right: 2rem  !important;
     padding-left: 2rem  !important;
     background: black !important;
     background-color:  black !important;
     min-height: 4vh !important;
-    min-width: 100% !important;
     .text {
       color: white !important;
       margin: 0;
@@ -245,7 +245,9 @@ export const MobileSettingsDropdown= styled(Dropdown)`
       top: 0%;
       transform: translateY(30%); 
     }
-    border-radius: .28571429rem;
+    &&& > .menu {
+        min-width: 100% !important;
+    }
 `
 export const MobileSettingsGrid= styled(Grid)`
     border: 0 !important;

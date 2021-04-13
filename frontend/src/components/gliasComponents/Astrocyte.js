@@ -14,7 +14,6 @@ import {
     MobileGridSecondaryRow,
     MobileNavBarFirstButton,
     MobileSettingsDropdown,
-    PortraitMessage,
     MobileNavBarButton
 } from "../../styledComponents";
 import $ from "jquery";
@@ -181,8 +180,6 @@ function AstrocytePage(props) {
                         <MobileGridSecondaryRow>
                             <AdobeContainer>
                                 <Card fluid>
-                                    <div onMouseEnter={handleSelector}
-                                         onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
                                                 <MobileNavBarFirstButton fluid as={Link} to='/gliasandsynapses-astrocyte'>
@@ -196,7 +193,6 @@ function AstrocytePage(props) {
                                                 </MobileNavBarButton>
                                             </Dropdown.Menu>
                                         </MobileSettingsDropdown>
-                                    </div>
                                     <Card.Content>
                                         <ErrorAnimation warning fluid>
                                             <Message.Header>Tip of the Day</Message.Header>
