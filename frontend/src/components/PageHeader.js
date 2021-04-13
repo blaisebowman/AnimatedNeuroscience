@@ -19,31 +19,9 @@ function PageHeader(props) {
         }
     }
 
-
-    /*DETERMINE IF MOBILE VIEW -> In the future, rewrite in React-Native, then use react-native-web to convert.
-   Due to mobile optimization being out of the scope of the project until much later in the development cycle,
-   this is a workaround.*/
-    //TODO -> BEFORE ANY PUSH TO REPO -> ENSURE THE FOLLOWING 3 LINES ARE COMMENTED (FOR NOW)
-    /*navigator.__defineGetter__('userAgent', function () {
-        //ANDROID
-        return "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.105 Mobile Safari/537.36"
-        //iPhone
-        /!*
-        return "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.163 Mobile/15E148 Safari/604.1"
-        *!/
-    });*/
-    let isMobile =  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-
-    // let id = ""; //get id from backend -> upon a valid login or registration, user is directed to this page.
-    /*if(sessionStorage.getItem("memberLoggedIn")){
-        setId(sessionStorage.getItem("id"));
-    }*/
-
     function handleLogOut() {
         setRedirectingToHome(true);
     }
-
 
     useEffect(() => {
         console.log(redirectingToHome);
@@ -58,8 +36,10 @@ function PageHeader(props) {
             setRedirectingToHome(false);
         }
         console.log(sessionStorage);
-
     }, [redirectingToHome]);
+
+    let isMobile =  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
     if (isMobile === false) {
         return (
             <Header as='h2' className='modGrid' style={{maxHeight: '100vh'}}>

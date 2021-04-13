@@ -205,31 +205,25 @@ export const CustomContainerSegment= styled(Segment)`
 //MOBILE COMPONENTS BELOW
 /*TODO -> Z-INDEX FOR DROPDOWN*/
 export const MobileContainerHeader= styled(Header)`
-    @media screen and (orientation:landscape) {
 /*
-        display: none !important;
+    margin-bottom: 0 !important;
 */
-    }
 `
 export const MobileDropdown= styled(Dropdown)`
     padding-right: 2rem  !important;
     padding-left: 2rem  !important;
     background: linear-gradient(40deg, #05ebe4 0%, #8000f1 100%) !important;
     background-color:  black !important;
-    min-height: 4vh !important;
+    border: 0.1rem solid black !important;
+   
     .text {
       color: white !important;
       margin: 0;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
     }
     &&& > .icon {
-      margin: 1.25vh 0 0 0 !important;
-    }
-    @media screen and (orientation:landscape) {
-        /*display: none !important;*/
+      margin: 0 0 0 0 !important;
+      top: 0%;
+      transform: translateY(30%); 
     }
 `
 export const MobileSettingsDropdown= styled(Dropdown)`
@@ -305,7 +299,8 @@ export const MobileGridSecondaryProgressRow= styled(Grid.Row)`
 `
 export const MobileInnerSegment= styled(Segment)`
     margin: 0 0 0 0 !important;
-    padding-top: 1em 1em !important;
+    padding-top: 1em !important;
+    width: 100vw !important;
     background: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
     min-height: 78vh !important;
     border-bottom-left-radius: 0 !important;
@@ -320,14 +315,14 @@ export const MobileHeaderButton= styled(Button)`
     white-space: nowrap;
     overflow: hidden !important;
     text-align: center !important;
+    margin-bottom: 0.2em !important;
     padding: .78571429em 0.55em .78571429em 0.55em !important;
     &&& > a {
      color: white !important;
     }
     .icon {
         margin-right: 0.25rem !important;
-    }
-   
+    }   
 `
 export const CustomMobileProgressMenu = styled(Menu)`
     color: white !important;
@@ -474,7 +469,6 @@ export const MobileNavBarFirstButton = styled (Button)`
     padding: .78571429rem 1.14285714rem!important; !important;
     text-transform: none;
     text-shadow: none;
-    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
     font-weight: 700;
     line-height: 1em;
     font-style: normal;

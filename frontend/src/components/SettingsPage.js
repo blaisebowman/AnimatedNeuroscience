@@ -1,34 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import {Link, Redirect} from "react-router-dom";
-import {Grid, Segment, Button, Card, Icon, Menu, Message, Modal, Form, Input, Dropdown, Table, Image, List, Divider} from "semantic-ui-react"
-import {
-    CustomMenuItem,
-    CustomMobileProgressMenu,
-    MobileSettingsGrid,
-    CustomProgressHeader,
-    CustomProgressMenu,
-    CustomProgressDropdown,
-    MobileContainerSegment,
-    MobileGrid,
-    CustomCardDescription,
-    DDItem,
-    MobileDropdown,
-    MobileGridSecondaryRow,
-    MobileSettingsDropdown,
-    CustomMobileMenuItem,
-    MobileProgressMenuMessage,
-    CustomMobileProgressDropdown,
-    MobileGridSecondaryProgressRow,
-    CustomMobileTable, MobileCard
-} from "../styledComponents";
+import {Redirect} from "react-router-dom";
+import {Grid, Segment, Button, Card, Icon, Menu, Message, Modal, Form, Input, Dropdown, Table} from "semantic-ui-react"
+import {CustomMenuItem, CustomMobileProgressMenu, MobileSettingsGrid, CustomProgressHeader, CustomProgressMenu, CustomProgressDropdown, MobileContainerSegment, DDItem, MobileSettingsDropdown, CustomMobileMenuItem, MobileProgressMenuMessage, MobileGridSecondaryProgressRow, MobileCard} from "../styledComponents";
 import '../neurons.css';
 import '../glias.css';
 import '../modal.css';
 import axios from "axios";
-import Responsive from "semantic-ui-react/dist/commonjs/addons/Responsive";
 
 function SettingsPage(props) {
-    const emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    const emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");

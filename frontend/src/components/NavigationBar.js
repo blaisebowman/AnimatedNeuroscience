@@ -27,17 +27,6 @@ function NavigationBar (props) {
         //is on a category page
         activeTab = window.location.href.substring(window.location.href.lastIndexOf('/'));
     }
-
-    /*DETERMINE IF MOBILE VIEW -> In the future, rewrite in React-Native, then use react-native-web to convert.
-    Due to mobile optimization being out of the scope of the project until much later in the development cycle,
-    this is a workaround.*/
-    //TODO -> BEFORE ANY PUSH TO REPO -> ENSURE THE FOLLOWING 3 LINES ARE COMMENTED (FOR NOW)
-    /*navigator.__defineGetter__('userAgent', function () {
-        //ANDROID
-        return "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.105 Mobile Safari/537.36"
-        //iPhone
-        //return "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.163 Mobile/15E148 Safari/604.1"
-    });*/
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     console.log(navigator.userAgent);
     if (isMobile) {
@@ -49,7 +38,9 @@ function NavigationBar (props) {
     }
 
     if (isMobile === false) {
-        // TODO -> remove all overridden styles (!important) and create them as custom components
+        /* TODO -> remove all overridden styles (!important) and create them as custom components,
+        Fix the clickable are area on desktop navigation abr, similar to how handled mobile, full area
+         */
         return (
             <CustomSegment>
                 <CustomNavigationMenu>
@@ -213,34 +204,34 @@ function NavigationBar (props) {
     else {
         // TODO -> remove all overridden styles (!important) and create them as custom components
         return (
-                <MobileDropdown fluid placeholder="Select a Category" id='mobileNav'>
+                <MobileDropdown fluid placeholder="Select a Category" id='mobileNav' icon='dropdown'>
                     <Dropdown.Menu fluid>
                         <MobileNavBarFirstButton fluid as={Link} to='/introduction'>
                             <Icon name='star'/>
                             Introduction
                         </MobileNavBarFirstButton>
                         <MobileNavBarButton fluid as={Link} to='/neurons'>
-                            <Icon name='star'/>
+                            <Icon name='circle'/>
                             Neurons
                         </MobileNavBarButton>
                         <MobileNavBarButton fluid as={Link} to='/gliasandsynapses'>
-                            <Icon name='star'/>
+                            <Icon name='circle'/>
                             Glias and Synapses
                         </MobileNavBarButton>
                         <MobileNavBarButton fluid as={Link} to='/thebrain'>
-                            <Icon name='star'/>
+                            <Icon name='circle'/>
                             The Brain
                         </MobileNavBarButton>
                         <MobileNavBarButton fluid as={Link} to='/sensorysystems'>
-                            <Icon name='star'/>
+                            <Icon name='circle'/>
                             Sensory Systems
                         </MobileNavBarButton>
                         <MobileNavBarButton fluid as={Link} to='/cerebellum'>
-                            <Icon name='star'/>
+                            <Icon name='circle'/>
                             Cerebellum
                         </MobileNavBarButton>
                         <MobileNavBarButton fluid as={Link} to='/nervoussystem'>
-                            <Icon name='star'/>
+                            <Icon name='circle'/>
                             Nervous System
                         </MobileNavBarButton>
                     </Dropdown.Menu>

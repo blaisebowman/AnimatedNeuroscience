@@ -6,12 +6,12 @@ const mongoose = require ('mongoose'),
     validateLogin = require('../validation/login'),
     validateUpdate = require('../validation/update');
 
-if(process.env.NODE_ENV === 'production'){
-    console.log("In production mode. Disable log statements -> hide log statements from console.");
-    console.log = function (){};
-} else {
-    require('mongoose').set('debug', true);
-}
+    if(process.env.NODE_ENV === 'production'){
+        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        console.log = function (){};
+    } else {
+        require('mongoose').set('debug', true);
+    }
 
 //List information of all members in the database (GET)
 exports.list = (req, res) => {
@@ -21,8 +21,7 @@ exports.list = (req, res) => {
         }
         if(member.length === 0){
             console.log("No members in the database");
-        }
-        else {
+        } else {
             console.log(member);
             res.status(200);
             return res.json(member);
@@ -32,8 +31,8 @@ exports.list = (req, res) => {
 
 //List (and sort) members by the number of animations they have completed (descending order)
 exports.filterMembers = (req, res) => {
-res.json(200);
-res.json("Testing Filter Members");
+    res.json(200);
+    res.json("Testing Filter Members");
 };
 
 //List a member's information (GET)
@@ -87,8 +86,7 @@ exports.update = (req, res) => {
     if(!updateValid){
         //ensure all formats are proper before checking for changes
         return res.status(400).json({updateErrors:updateErrors});
-    }
-    else {
+    } else {
         //member_first, member_last, member_email can all stay the same, if needed ....(for now).
         console.log(req.body);
         const _id = req.body._id;
@@ -99,8 +97,7 @@ exports.update = (req, res) => {
             if(error){
                 console.log(error);
                 return res.status(400).json({updateMemberInformationError: error}); // no member found in the database
-            }
-            else {
+            } else {
                 console.log(member._id);
                     console.log("Validating member password.");
                     if(type === "password") {
@@ -147,16 +144,14 @@ exports.update = (req, res) => {
                         console.log(member);
                         if(member_email === member.member_email){
                             res.status(400).json({updateMemberInformationError: "Error: your new email address must be different from your current email address."})
-                        }
-                        else if (member_email !== member.member_email){
+                        } else if (member_email !== member.member_email){
                             member.member_email = member_email;
                             member.account_change.email_change.push(new Date().toISOString());
                             member.save((error => {
                                 if(error){
                                     console.log(error);
                                     res.status(400).send(error);
-                                }
-                                else {
+                                } else {
                                     console.log("Email address successfully updated.");
                                     res.status(200);
                                     return res.status(200).json(member_email);
@@ -177,13 +172,11 @@ exports.delete = (req, res) => {
         if(error){
             console.log("Error, user not found in the database.");
             return res.status(400).json({deleteError: "User not found in the database."});
-        }
-        else {
+        } else {
             if (member === null) {
                 console.log("Error, user not found in the database.");
                     return res.status(400).json({deleteError: "User not found in the database"});
-            }
-            else {
+            } else {
             console.log("Member with id " + id + " deleted.");
             return res.status(200).json({deleteSuccess: "User successfully deleted."});
             }
@@ -205,13 +198,11 @@ exports.forgotPassword = (req, res) =>{
         if(error){
             console.log(error);
             return res.status(400).json({forgotPasswordError: "There is not an account associated with that email address. Please double-check your password."});
-        }
-        else {
+        } else {
             if(!member){
                 console.log(error);
                 return res.status(400).json({forgotPasswordError: "There is not an account associated with that email address. Please double-check your password."})
-            }
-            else {
+            } else {
                 if (member.member_email === sendTo) {
                     const forgotPassword = {
                         from: "animatedneuroscience@gmail.com",
@@ -230,17 +221,15 @@ exports.forgotPassword = (req, res) =>{
         }});
 }
 
-
-
 //List a member's animation data (GET)
 exports.getAnimationProgress = (req, res) => {
     //to test in Postman: GET HTTP://localhost:8080/api/members/<memberId>/animations
     console.log("GETTING ANIMATIONS");
-
     console.log(req.member.animation_data);
     res.status(200);
     res.json(req.member.animation_data);
 };
+
 //List a member's animation completion progress (GET)
 exports.getAnimationCompletion = (req, res) => {
     //to test in Postman: GET HTTP://localhost:8080/api/members/<memberId>/animations/completed
@@ -340,6 +329,7 @@ exports.getAnimationSuggested = (req, res) => {
 };
 
 exports.getAnimationSorted = async(req, res) => {
+    //TODO  -> Outline testing
     /* To test in Postman:
     GET: HTTP://localhost:8080/api/members/<*member's id as a string without quotation marks*>/sorted
     Parameter 1: key: id, value: <*member's id as a string without quotation marks*>
@@ -552,6 +542,7 @@ exports.getAnimationSorted = async(req, res) => {
 
 //Update a member's completed animations
 exports.updateAnimationProgress = (req, res) => {
+    //TODO  -> Outline testing
     console.log(req.body);
     let _id = req.body._id;
     let animationCategory = req.body.animationCategory;
@@ -874,6 +865,7 @@ exports.updateAnimationProgress = (req, res) => {
 
 
 exports.register = (req, res) => {
+    //TODO  -> Outline testing
     /*
     To test in Postman: http://localhost:8080/api/members/register
     {
@@ -936,6 +928,7 @@ exports.register = (req, res) => {
 }
 
 exports.login = (req, res) => {
+    //TODO  -> Outline testing
     /* To test in Postman:
     1. [POST] HTTP://localhost:8080/api/login
     2. Body -> raw -> JSON
@@ -949,22 +942,19 @@ exports.login = (req, res) => {
     if (!loginValid){
         console.log(loginError);
         return res.status(400).json(loginError);
-    }
-    else {
+    } else {
         const memberEmail = req.body.member_email;
         const memberPassword = req.body.member_password;
         Member.findOne({member_email: memberEmail},(error, member) => {
             if(error){
                 return res.status(400).send(error);
-            }
-            else {
-                if(member === null){
-                //
-                }
-                else {
+            } else {
+                if(!member){
+                    return res.status(400).json({loginEmailError: "There is not an account associated with that email address. Please double-check your password."});
+                } else {
                     //memberPassword -> plain text password
                     //member.member_password -> hashed password associated with member in database
-                    console.log("Validating member password.");
+                    console.log("Validating member password...");
                     bcrypt.compare(memberPassword, member.member_password).then(passwordValidate => {
                       if(passwordValidate){
                           console.log("Member Login Dates: " + member.login_dates);
@@ -973,17 +963,15 @@ exports.login = (req, res) => {
                               if(error){
                                   console.log(error);
                                   res.status(400).send(error);
-                              }
-                              else {
+                              } else {
                                   const id = member.id;
                                   //email.send(id, memberEmail);
                                   return res.json(id);
                               }
                           }));
-                      }
-                      else {
+                      } else {
                           res.status(400);
-                          return res.json({loginPasswordError: "Your password is incorrect. Please double-check your password."});
+                          return res.status(400).json({loginPasswordError: "Your password is incorrect. Please double-check your password."});
                         }
                     });
                 }

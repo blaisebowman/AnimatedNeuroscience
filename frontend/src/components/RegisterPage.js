@@ -413,7 +413,7 @@ function RegisterPage(props) {
     }
     else {
         return (
-            <div className="App">
+            <div className="AppMobile">
                 <MobileContainerSegment>
                     <div className="modGrid">
                         <Grid className="introduction">
@@ -502,7 +502,7 @@ function RegisterPage(props) {
                                                         <Form.Field
                                                             control={Input}
                                                             label='Email'
-                                                            placeholder='allygator@fakeemail.com'
+                                                            placeholder=''
                                                             name='email'
                                                             value={email}
                                                             error={errorStateEmail !== "" ? errorStateEmail : false}

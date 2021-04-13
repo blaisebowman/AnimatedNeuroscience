@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Card, Divider, Form, Grid, Header, Icon, Image, Input, Message, Modal, Segment} from "semantic-ui-react"
+import {Button, Card, Divider, Form, Grid, Icon, Input, Message, Modal, Segment} from "semantic-ui-react"
 import {MessageLogin, MobileContainerSegment, MobileInnerSegment, SubmitButton} from "../styledComponents";
 import {Link, Redirect} from "react-router-dom";
 import axios from "axios";
@@ -20,8 +20,9 @@ function LoginPage(props) {
     const [forgotPasswordError, setForgotPasswordError] = useState("");
     const [forgotPasswordSuccess, setForgotPasswordSuccess] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
-    const emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    const emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
+
     if(process.env.NODE_ENV === 'production'){
         console.log("In production mode. Disable log statements -> hide log statements from console.");
         console.log = function (){};
@@ -30,62 +31,54 @@ function LoginPage(props) {
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     function checkCapsLock(e){
+        //TODO -> MOBILE KEY CODE FOR ENTER AND CAPS LOCK
         const deviceIsMac = /Mac/.test(navigator.platform);
         console.log(e.target.name);
         console.log(e._reactName);
         console.log(e.keyCode);
+        var active = e.getModifierState("CAPSLOCK");
+        console.log(active);
         if((e._reactName === "onKeyUp" || e._reactName === "onKeyDown") && e.keyCode === 13){
             //user presses enter
                 const form = e.target.form; //the current form
                 const index = Array.prototype.indexOf.call(form, e.target); //the index of the form
                 if (index === 0){
                     e.target.form.elements[index + 1].focus(); //move to next input field in the form
-                }
-                else if (index === 1 || (email.length !== 0 && password.length !== 0)){
+                } else if (index === 1 || (email.length !== 0 && password.length !== 0)){
                     handleSubmit(); //submit the form, the user will encounter the pertinent login errors
                     e.preventDefault();
-                }
-                else {
+                } else {
                     e.target.form.elements[index + 2].focus(); //move to next input field in the form
                 }
-            }
-        else if((e._reactName === "onClick") && (currentInputForm !== e.target.name)){
+            } else if((e._reactName === "onClick") && (currentInputForm !== e.target.name)){
             if(e.target.name === "email" && capsLockPassword === true){
                 setCapsLockEmail(true)
                 setCapsLockPassword(false);
-            }
-            else if (e.target.name === "password" && capsLockEmail === true){
+            } else if (e.target.name === "password" && capsLockEmail === true){
                 setCapsLockEmail(false);
                 setCapsLockPassword(true);
             }
             setCurrentInputForm(e.target.name);
-        }
-        else if (((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === false){
+        } else if (((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === false){
             if(e.target.name === "email"){
                 if(capsLockEmail === true){
                     return;
-                }
-                else if (capsLockPassword === true){
+                } else if (capsLockPassword === true){
                     setCapsLockPassword(false);
-                }
-                else {
+                } else {
                     setCapsLockEmail(true);
                 }
-            }
-            else if (e.target.name === "password"){
+            } else if (e.target.name === "password"){
                 if(capsLockPassword === true){
                     return;
-                }
-                else if (capsLockEmail === true){
+                } else if (capsLockEmail === true){
                     setCapsLockEmail(false);
-                }
-                else {
+                } else {
                     setCapsLockPassword(true);
                 }
             }
             setIsCaps(true);
-        }
-        else if(((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === true){
+        } else if(((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === true){
             setCapsLockEmail(false);
             setCapsLockPassword(false);
             setIsCaps(false);
@@ -98,9 +91,11 @@ function LoginPage(props) {
             if (!(emailRegex.test(email))) {
                 setForgotPasswordError("Please enter a valid email address.");
             }
-        }
-        else if(type === "login") {
+        } else if(type === "login") {
+            console.log(type);
+            console.log('regex res ' + (!emailRegex.test(email)));
             if (!(emailRegex.test(email))) {
+                console.log(emailRegex.test(email));
                 setErrorStateEmail("Please enter a valid email address.");
             }
             if (!(passwordRegex.test(password))) {
@@ -169,14 +164,12 @@ function LoginPage(props) {
                     console.log(error.response);
                     if (error.response.data.forgotPasswordError !== undefined){
                         setForgotPasswordError(error.response.data.forgotPasswordError);
-                    }
-                    else {
+                    } else {
                         //setForgotPasswordError("");
                     }
                     console.log("Error validating user email in the backend.");
                 });
-        }
-        else {
+        } else {
             console.log("Unsuccessful submission of forgot password.");
         }
     }
@@ -188,7 +181,6 @@ function LoginPage(props) {
         if((errorStateEmail.length === 0 && errorStatePassword.length === 0) && (email.length >=3 && password.length >=8)){
             setEmail(email);
             setPassword(password);
-            setEmail(email);
             //axios get request to retrieve a user's login credentials and return a user's _id.
             let port = process.env.PORT || 'http://localhost:8080/api/members/login'
             await axios.post(port, {
@@ -200,10 +192,8 @@ function LoginPage(props) {
                     setRedirect(true);
                     sessionStorage.setItem('id', response.data);
                     sessionStorage.setItem('memberLoggedIn', "true");
-                    sessionStorage.setItem('memberLoggedIn', "true");
                     sessionStorage.setItem('reload', "true");
                     sessionStorage.setItem("sortedArray", JSON.stringify({"sortedData":[{"name":"","complete":0,"remaining":0,"timeRemaining":0},{"name":"Glias and Synapses","complete":0,"remaining":0,"timeRemaining":0},{"name":"The Brain","complete":0,"remaining":0,"timeRemaining":0},{"name":"Sensory Systems","complete":0,"remaining":0,"timeRemaining":0},{"name":"Cerebellum","complete":0,"remaining":0,"timeRemaining":0},{"name":"Nervous System","complete":0,"remaining":0,"timeRemaining":0}]}));///store in session storage, in case of page refresh
-
                     /*setPassword('');
                     setEmail('');*/
                 }).catch(function(error) {
@@ -212,14 +202,12 @@ function LoginPage(props) {
                     console.log(error.response.status);
                     if (error.response.data.loginEmailError !== undefined){
                         setErrorStateEmail(error.response.data.loginEmailError);
-                    }
-                    else {
+                    } else {
                         setErrorStateEmail("");
                     }
                     if (error.response.data.loginPasswordError !== undefined){
                         setErrorStatePassword(error.response.data.loginPasswordError);
-                    }
-                    else {
+                    } else {
                         setErrorStatePassword("");
                     }
                     console.log("Error validating user credentials in the backend.");
@@ -234,11 +222,11 @@ function LoginPage(props) {
         e.preventDefault(); //prevent page from re-rendering
         if(isMasked === "password"){
             setIsMasked("text");
-        }
-        else {
+        } else {
             setIsMasked("password");
         }
     }
+
     if(isMobile === false) {
         return (
             <div className="App">
@@ -366,7 +354,8 @@ function LoginPage(props) {
             </div>
         );
     }
-    //MOBILE VIEW
+    //-----MOBILE VIEW-----
+        //TODO -> Remove overridden CSS styling from files and convert to styled components
     else {
         return (
             <div className="AppMobile">
@@ -471,8 +460,9 @@ function LoginPage(props) {
                                                     <Grid>
                                                         <Grid.Row>
                                                             <Grid.Column width={16}>
-                                                                <Button onClick={handleClickForgotPassword}>Forget your
-                                                                    password?</Button>
+                                                                <Button onClick={handleClickForgotPassword}>
+                                                                    Forget your password?
+                                                                </Button>
                                                             </Grid.Column>
                                                         </Grid.Row>
                                                     </Grid>
