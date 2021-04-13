@@ -2,13 +2,14 @@ import React, {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 import App2 from "./Animations/exploring_one.tsx";
 import {Grid, Button, Segment, Dropdown, Card, Message} from "semantic-ui-react";
-import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, PortraitMessage} from "../../styledComponents";
+import {AdobeContainer, ErrorAnimation, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, PortraitMessage} from "../../styledComponents";
 import '../../glias.css';
 import $ from "jquery";
 
 function ExploringPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
     const [orientationIs, setOrientationIs] = useState( 0);
+    const [isFull, setIsFull] = useState(false);
     function handleSelector() {
         if (selectorIsVisible === true) {
             setSelectorIsVisible(false);
@@ -20,12 +21,14 @@ function ExploringPage(props) {
 
     function handleOrientation (event) {
         setTimeout(function () {
-        console.log("entered fullscreen at angle (window.screen.orientation.angle): " + window.screen.orientation.angle);
-        console.log("entered fullscreen at angle (orientationIs): " + orientationIs);
-        console.log("lock type: " + window.screen.orientation.type);
-        console.log(document.fullscreenElement);
-        if(document.fullscreenElement && orientationIs === 0){
+        console.log("Enter/exit fullscreen at angle (window.screen.orientation.angle): " + window.screen.orientation.angle);
+        console.log("Enter/exit fullscreen at angle (orientationIs): " + orientationIs);
+        console.log("Type: " + window.screen.orientation.type);
+        console.log("Fullscreen?: " + ((document.fullscreenElement) !== null));
+        if((document.fullscreenElement !== null)){
             setOrientationIs(90);
+            setIsFull(true);
+            handleToggle();
             $("#mobileHeader").css({
                 display: "none",
                 visibility: "hidden"
@@ -34,9 +37,10 @@ function ExploringPage(props) {
                 display: "none",
                 visibility: "hidden"
             });
-            console.log("ENTERED fullscreen");
+        console.log("ENTERED fullscreen.");
         } else {
-            setOrientationIs(0);
+            handleToggle();
+            setIsFull(false);
             $("#mobileHeader").css({
                 display: "block",
                 visibility: "visible"
@@ -47,7 +51,7 @@ function ExploringPage(props) {
             });
             console.log('EXITED fullscreen.');
         }
-        }, 500);
+        }, 100);
     }
 
     function toggleFullscreen (event){
@@ -60,16 +64,38 @@ function ExploringPage(props) {
             console.log('Leaving fullscreen...');
             document.exitFullscreen();
             window.screen.orientation.lock('portrait');
-            //setOrientationIs(0);
         }
+    }
+    function handleToggle(){
+        setTimeout(function () {
+        console.log("Angle: " + window.screen.orientation.angle + "\t Type: " + window.screen.orientation.type + "\t orientationIs: " + orientationIs );
+        console.log("Fullscreen?: " + ((document.fullscreenElement) !== null))
+        if(window.screen.orientation.angle !== orientationIs){
+            setOrientationIs(90);
+        }
+        else if(window.screen.orientation.angle === orientationIs){
+            if(orientationIs === 0 || window.screen.orientation.type.startsWith('portrait')){
+                setOrientationIs(90);
+            } else {
+                setOrientationIs(0);
+            }
+        }
+        }, 100);
     }
 
     useEffect(() => {
-        console.log("[------HOOK------]");
+        let mounted = true;
+        console.log("[------HOOK------]\n I FIRE ONCE");
         console.log("Max: height = " + window.screen.availHeight + "width = " + window.screen.availWidth);
-        window.addEventListener('fullscreenchange', handleOrientation);
+        if(mounted) {
+            console.log("I am mounted");
+            window.addEventListener('fullscreenchange', handleOrientation);
+            window.addEventListener('orientationchange', handleToggle);
+        }
         return () => {
             window.removeEventListener('fullscreenchange', handleOrientation);
+            window.removeEventListener('orientationchange', handleToggle);
+            mounted  = false;
         }
     }, []);
 
@@ -118,9 +144,15 @@ function ExploringPage(props) {
             </div>
         );
     }
-    else if (orientationIs === 0){
+    else {
         return (
             <div className="AppMobile">
+                {(isFull === true && (document.fullscreenElement !== null))&&
+                    <AdobeContainer>
+                        <App2/>
+                    </AdobeContainer>
+                }
+                {!(document.fullscreenElement) &&
                 <MobileAnimationSegment>
                     <MobileGrid>
                         <MobileGridSecondaryRow>
@@ -128,7 +160,7 @@ function ExploringPage(props) {
                                 <Card fluid>
                                     <div onMouseEnter={handleSelector}
                                          onMouseLeave={handleSelector}>
-                                        <MobileSettingsDropdown fluid placeholder="Select A Lesson" >
+                                        <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
                                                 <Dropdown.Item>
                                                     <Link to={{
@@ -139,28 +171,23 @@ function ExploringPage(props) {
                                             </Dropdown.Menu>
                                         </MobileSettingsDropdown>
                                     </div>
-                                </Card>
-                                <Card fluid>
-                                    <PortraitMessage warning>
-                                        <Message.Header>Tip of the Day</Message.Header>
-                                        <p>For a better experience, please press the button below to view in landscape orientation.</p>
-                                        <Button onClick={toggleFullscreen} id ='trig'>Go Fullscreen</Button>
-                                    </PortraitMessage>
+                                    <Card.Content>
+                                        <ErrorAnimation warning fluid>
+                                            <Message.Header>Tip of the Day</Message.Header>
+                                            <p>For a better experience, please press the button below to view in fullscreen.</p>
+                                            <Button onClick={toggleFullscreen} id ='trig'>Go Fullscreen</Button>
+                                        </ErrorAnimation>
+                                    </Card.Content>
                                 </Card>
                                 <App2/>
                             </AdobeContainer>
                         </MobileGridSecondaryRow>
                     </MobileGrid>
                 </MobileAnimationSegment>
+                }
             </div>
         );
-    }
-    else if(window.screen.orientation.type.startsWith('landscape')){
-        return (
-            <AdobeContainer>
-                <App2/>
-            </AdobeContainer>
-        );
+
     }
 }
 

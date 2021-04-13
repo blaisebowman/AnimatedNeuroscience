@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Link, withRouter} from "react-router-dom";
-import {Dropdown, Icon} from 'semantic-ui-react';
+import {Dropdown, Menu, Button, Icon} from 'semantic-ui-react';
 import PropTypes from "prop-types";
-import {CustomNavigationMenu, CustomNavigationMenuItem, CustomSegment, CustomNavigationMenuItemLink, DDItem, CustomDivider, CustomHeader,MobileDropdown} from "../styledComponents";
+import {MobileNavBarButton, MobileNavBarFirstButton, CustomNavigationMenu, CustomNavigationMenuItem, CustomSegment, CustomNavigationMenuItemLink, DDItem, CustomDivider, CustomHeader,MobileDropdown} from "../styledComponents";
 import '../navbar.css';
 
 function NavigationBar (props) {
@@ -49,6 +49,7 @@ function NavigationBar (props) {
     }
 
     if (isMobile === false) {
+        // TODO -> remove all overridden styles (!important) and create them as custom components
         return (
             <CustomSegment>
                 <CustomNavigationMenu>
@@ -181,7 +182,7 @@ function NavigationBar (props) {
                     <CustomNavigationMenuItem active={activeTab === "/nervoussystem"}>
                         <Dropdown as={Link} to="/nervoussystem" placeholder="Nervous System" fluid simple
                                   open={nervousMenuShown}>
-                            <Dropdown.Menu>
+                            <Dropdown.Menu fluid>
                                 <DDItem>
                                     <Icon name='star'/>
                                     <Link to={{pathname: "/nervoussystem"}}>Overview</Link>
@@ -208,34 +209,40 @@ function NavigationBar (props) {
             </CustomSegment>
         );
     }
+    //----------MOBILE Navigation Bar------------
     else {
+        // TODO -> remove all overridden styles (!important) and create them as custom components
         return (
                 <MobileDropdown fluid placeholder="Select a Category" id='mobileNav'>
-                    <Dropdown.Menu>
-                        <DDItem>
+                    <Dropdown.Menu fluid>
+                        <MobileNavBarFirstButton fluid as={Link} to='/introduction'>
                             <Icon name='star'/>
-                            <Link to={{pathname: "/introduction"}}>Introduction</Link>
-                        </DDItem>
-                        <DDItem>
+                            Introduction
+                        </MobileNavBarFirstButton>
+                        <MobileNavBarButton fluid as={Link} to='/neurons'>
                             <Icon name='star'/>
-                            <Link to={{pathname: "/neurons"}}>Neurons</Link>
-                        </DDItem>
-                        <DDItem>
+                            Neurons
+                        </MobileNavBarButton>
+                        <MobileNavBarButton fluid as={Link} to='/gliasandsynapses'>
                             <Icon name='star'/>
-                            <Link to={{pathname: "/gliasandsynapses"}}>Glias and Synapses</Link>
-                        </DDItem><DDItem>
+                            Glias and Synapses
+                        </MobileNavBarButton>
+                        <MobileNavBarButton fluid as={Link} to='/thebrain'>
                             <Icon name='star'/>
-                            <Link to={{pathname: "/thebrain"}}>The Brain</Link>
-                        </DDItem><DDItem>
+                            The Brain
+                        </MobileNavBarButton>
+                        <MobileNavBarButton fluid as={Link} to='/sensorysystems'>
                             <Icon name='star'/>
-                            <Link to={{pathname: "/sensorysystems"}}>Sensory Systems</Link>
-                        </DDItem><DDItem>
+                            Sensory Systems
+                        </MobileNavBarButton>
+                        <MobileNavBarButton fluid as={Link} to='/cerebellum'>
                             <Icon name='star'/>
-                            <Link to={{pathname: "/cerebellum"}}>Cerebellum</Link>
-                        </DDItem><DDItem>
+                            Cerebellum
+                        </MobileNavBarButton>
+                        <MobileNavBarButton fluid as={Link} to='/nervoussystem'>
                             <Icon name='star'/>
-                            <Link to={{pathname: "/nervoussystem"}}>Nervous System</Link>
-                        </DDItem>
+                            Nervous System
+                        </MobileNavBarButton>
                     </Dropdown.Menu>
                 </MobileDropdown>
         );
@@ -243,6 +250,7 @@ function NavigationBar (props) {
 }
 
 const { string, object } = PropTypes
+//TODO -> remove unused constant string
     NavigationBar.propTypes = {
     history: object
 }

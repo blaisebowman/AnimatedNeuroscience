@@ -2,14 +2,29 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import BrainLobes from "./Animations/brain_lobes";
 
-import {Grid, Segment, Dropdown, Card, Message,} from "semantic-ui-react";
-import {CustomAdobeSegmentBrain, CustomContainerSegment, CustomGrid, CustomAnimationDropdown, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, AdobeContainer, MobileSettingsDropdown, PortraitMessage} from "../../styledComponents";
+import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
+import {
+    CustomAdobeSegmentBrain,
+    CustomContainerSegment,
+    CustomGrid,
+    CustomAnimationDropdown,
+    MobileAnimationSegment,
+    MobileGrid,
+    MobileGridSecondaryRow,
+    AdobeContainer,
+    MobileSettingsDropdown,
+    PortraitMessage,
+    ErrorAnimation
+} from "../../styledComponents";
 
 import '../../glias.css';
+import $ from "jquery";
+import Astrocyte from "../gliasComponents/Animations/astrocyte";
 
 function LobesOfTheBrainPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const [orientationIs, setOrientationIs] = useState(parseInt(sessionStorage.getItem('orientation')) || 0);
+    const [orientationIs, setOrientationIs] = useState( 0);
+    const [isFull, setIsFull] = useState(false);
     function handleSelector() {
         if (selectorIsVisible === true) {
             setSelectorIsVisible(false);
@@ -18,19 +33,85 @@ function LobesOfTheBrainPage(props) {
         }
         console.log(selectorIsVisible);
     }
-    function handleOrientationChange(event) {
-        setOrientationIs(event.target.screen.orientation.angle);
-        sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
-        console.log(parseInt(sessionStorage.getItem('orientation')));
+
+    function handleOrientation (event) {
+        setTimeout(function () {
+            console.log("Enter/exit fullscreen at angle (window.screen.orientation.angle): " + window.screen.orientation.angle);
+            console.log("Enter/exit fullscreen at angle (orientationIs): " + orientationIs);
+            console.log("Type: " + window.screen.orientation.type);
+            console.log("Fullscreen?: " + ((document.fullscreenElement) !== null));
+            if((document.fullscreenElement !== null)){
+                setOrientationIs(90);
+                setIsFull(true);
+                handleToggle();
+                $("#mobileHeader").css({
+                    display: "none",
+                    visibility: "hidden"
+                });
+                $("#mobileNav").css({
+                    display: "none",
+                    visibility: "hidden"
+                });
+                console.log("ENTERED fullscreen.");
+            } else {
+                handleToggle();
+                setIsFull(false);
+                $("#mobileHeader").css({
+                    display: "block",
+                    visibility: "visible"
+                });
+                $("#mobileNav").css({
+                    display: "block",
+                    visibility: "visible"
+                });
+                console.log('EXITED fullscreen.');
+            }
+        }, 100);
+    }
+
+    function toggleFullscreen (event){
+        console.log('Toggling Fullscreen...');
+        if (document.fullscreenElement === null) {
+            console.log("Entering fullscreen...");
+            document.documentElement.requestFullscreen({navigationUI: 'hide'}).catch(err => {console.log(err.msg);});
+            window.screen.orientation.lock('landscape');
+        } else if(document.fullscreenElement !== null){
+            console.log('Leaving fullscreen...');
+            document.exitFullscreen();
+            window.screen.orientation.lock('portrait');
+        }
+    }
+    function handleToggle(){
+        setTimeout(function () {
+            console.log("Angle: " + window.screen.orientation.angle + "\t Type: " + window.screen.orientation.type + "\t orientationIs: " + orientationIs );
+            console.log("Fullscreen?: " + ((document.fullscreenElement) !== null))
+            if(window.screen.orientation.angle !== orientationIs){
+                setOrientationIs(90);
+            } else if(window.screen.orientation.angle === orientationIs){
+                if(orientationIs === 0 || window.screen.orientation.type.startsWith('portrait')){
+                    setOrientationIs(90);
+                } else {
+                    setOrientationIs(0);
+                }
+            }
+        }, 100);
     }
 
     useEffect(() => {
-        window.addEventListener('orientationchange', handleOrientationChange);
+        let mounted = true;
+        console.log("[------HOOK------]\n I FIRE ONCE");
+        console.log("Max: height = " + window.screen.availHeight + "width = " + window.screen.availWidth);
+        if(mounted) {
+            console.log("I am mounted");
+            window.addEventListener('fullscreenchange', handleOrientation);
+            window.addEventListener('orientationchange', handleToggle);
+        }
         return () => {
-            window.removeEventListener('orientationchange', handleOrientationChange);
+            window.removeEventListener('fullscreenchange', handleOrientation);
+            window.removeEventListener('orientationchange', handleToggle);
+            mounted  = false;
         }
     }, []);
-
 
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (isMobile === false) {
@@ -92,9 +173,15 @@ function LobesOfTheBrainPage(props) {
             </div>
         );
     }
-    else if (orientationIs === 0) {
+    else {
         return (
             <div className="AppMobile">
+                {(isFull === true && (document.fullscreenElement !== null))&&
+                <AdobeContainer>
+                    <BrainLobes/>
+                </AdobeContainer>
+                }
+                {!(document.fullscreenElement) &&
                 <MobileAnimationSegment>
                     <MobileGrid>
                         <MobileGridSecondaryRow>
@@ -102,7 +189,7 @@ function LobesOfTheBrainPage(props) {
                                 <Card fluid>
                                     <div onMouseEnter={handleSelector}
                                          onMouseLeave={handleSelector}>
-                                        <MobileSettingsDropdown fluid placeholder="Select A Lesson" >
+                                        <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
                                                 <Dropdown.Item>
                                                     <Link to={{
@@ -128,26 +215,22 @@ function LobesOfTheBrainPage(props) {
                                             </Dropdown.Menu>
                                         </MobileSettingsDropdown>
                                     </div>
-                                </Card>
-                                <Card fluid>
-                                    <PortraitMessage warning>
-                                        <Message.Header>Tip of the Day</Message.Header>
-                                        <b>For a better experience, please rotate your device into landscape orientation.</b>
-                                    </PortraitMessage>
+                                    <Card.Content>
+                                        <ErrorAnimation warning fluid>
+                                            <Message.Header>Tip of the Day</Message.Header>
+                                            <p>For a better experience, please press the button below to view in
+                                                fullscreen.</p>
+                                            <Button onClick={toggleFullscreen} id='trig'>Go Fullscreen</Button>
+                                        </ErrorAnimation>
+                                    </Card.Content>
                                 </Card>
                                 <BrainLobes/>
                             </AdobeContainer>
                         </MobileGridSecondaryRow>
                     </MobileGrid>
                 </MobileAnimationSegment>
+                }
             </div>
-        );
-    }
-    else {
-        return (
-            <AdobeContainer>
-                <BrainLobes/>
-            </AdobeContainer>
         );
     }
 }

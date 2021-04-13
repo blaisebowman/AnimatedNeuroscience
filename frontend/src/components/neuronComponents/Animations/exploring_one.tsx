@@ -24,8 +24,12 @@ const App2 = () => {
     let marginLR = ((window.screen.availWidth - width) / 2);
     console.log(window.screen.orientation.type);
     console.log("Max: height = " + window.screen.availHeight + "width = " + window.screen.availWidth);
+    console.log("Max: height = " + window.screen.height + "width = " + window.screen.width);
+
 
     useEffect(() => {
+        console.log(animationObject);
+        console.log('in that hook');
         //call getMemberArray on page load, which is used to determine if the user has completed the animation.
         if (sessionStorage.getItem("id")) {
             getMemberArray();
@@ -35,7 +39,7 @@ const App2 = () => {
         else {
             setUserIsMember(false);
         }
-    }, []);
+    }, [animationObject]);
 
     let animationComplete: string [] = ["button_1", "button_2","button_3", "button_4", "button_5", "button_6", "button_7", "button_8", "button_9", "button_10", "button_11"]
     let id = sessionStorage.getItem("id");
@@ -143,13 +147,14 @@ const App2 = () => {
         }
     }
 
-if(sessionStorage.getItem("id")) {
-    //only set event listener if the page viewer is a member
-    if (!(animationObject?.hasEventListener('click'))) {
-        console.log("Adding event listener.");
-        animationObject?.addEventListener('click', handleClick);
+    if(sessionStorage.getItem("id")) {
+        //only set event listener if the page viewer is a member
+        if (!(animationObject?.hasEventListener('click'))) {
+            console.log("Adding event listener.");
+            animationObject?.addEventListener('click', handleClick);
+        }
     }
-}
+
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if(!isMobile) {
         return (
@@ -174,7 +179,8 @@ if(sessionStorage.getItem("id")) {
                 <MobileAnimation
                     getAnimationObject={getAnimationObject}
                     animationName="exploring"
-                    style = {{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR}}
+                    style = {{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR
+                    }}
                 />
                 <MobileAnimationMessage content='<b>Congratulations! You completed this animation.'
                                         color={progressColor}>

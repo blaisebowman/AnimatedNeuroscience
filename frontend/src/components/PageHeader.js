@@ -19,6 +19,7 @@ function PageHeader(props) {
         }
     }
 
+
     /*DETERMINE IF MOBILE VIEW -> In the future, rewrite in React-Native, then use react-native-web to convert.
    Due to mobile optimization being out of the scope of the project until much later in the development cycle,
    this is a workaround.*/

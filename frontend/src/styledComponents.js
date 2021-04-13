@@ -287,7 +287,6 @@ export const MobileGrid= styled(Grid)`
     width: 100vw !important;
     background: color !important;
     }
-    
 `
 export const MobileGridPrimaryRow= styled(Grid.Row)`
     padding-top: 0 !important;
@@ -362,14 +361,14 @@ export const MobileAnimation= styled(AnimateCC)`
         display: none !important;
     }
     @media screen and (orientation:landscape) {
-    
+        margin: 0 auto !important;
+        width: 100% !important;
     }
     @media screen and (orientation:portrait) {
            margin-left: 0 !important;
            margin-right: 0 !important;
     }
                        
-
 `
 export const MobileAnimationSegment= styled(Segment)`
     border: 0 !important;
@@ -390,7 +389,7 @@ export const AdobeContainer= styled(Segment)`
         padding: 0 0 0 0 !important;
         border: none !important;
         object-fit: contain !important;
-        
+        margin: 0 auto !important;
         &&& > canvas {
         color: blue !important;
         }
@@ -401,6 +400,11 @@ export const FullScreen= styled(Segment)`
         padding: 0 0 0 0 !important;
         border: none !important;
         background-color: black !important;
+        position: relative !important;
+        justify-content: center !important;
+        margin: auto !important;
+          margin: 0 auto !important;
+
     }
 `
 export const PortraitMessage= styled(Message)`
@@ -425,4 +429,63 @@ export const MobileAnimationDropdown = styled(Dropdown)`
         margin-top: 0.25rem !important;
         margin-left: 0 !important;
     }
+`
+
+export const MobileNavBarButton = styled (Button)`
+    width: 100% !important;
+    min-height: 1em !important;
+    cursor: pointer;
+    display: inline-block;
+    min-height: 1em;
+    outline: 0;
+    vertical-align: baseline;
+    background: #ffffff none;
+    color: rgba(0,0,0,1);
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    margin: 0 .25em 0 0;
+    padding: .78571429rem 1.14285714rem!important; !important;
+    text-transform: none;
+    text-shadow: none;
+    border-top: 1px solid rgba(0,0,0,0.1) !important;
+    font-weight: 700;
+    line-height: 1em;
+    font-style: normal;
+    text-align: left;
+    text-decoration: none;
+    border-radius: .28571429rem;
+    box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgb(34 36 38 / 15%) inset;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s 
+`
+export const MobileNavBarFirstButton = styled (Button)`
+    width: 100% !important;
+    min-height: 1em !important;
+    cursor: pointer;
+    display: inline-block;
+    min-height: 1em;
+    outline: 0;
+    border: none;
+    vertical-align: baseline;
+    background: #ffffff none;
+    color: rgba(0,0,0,1);
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    margin: 0 .25em 0 0;
+    padding: .78571429rem 1.14285714rem!important; !important;
+    text-transform: none;
+    text-shadow: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+    font-weight: 700;
+    line-height: 1em;
+    font-style: normal;
+    text-align: left;
+    text-decoration: none;
+    border-radius: .28571429rem;
+    box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgb(34 36 38 / 15%) inset;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s 
+`
+export const ErrorAnimation = styled(Message)`
+    text-align: center;
 `
