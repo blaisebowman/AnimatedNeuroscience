@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
-import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileNavBarButton, MobileSettingsDropdown} from "../../styledComponents";
+import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileNavBarButton, MobileNavBarFirstButton, MobileSettingsDropdown} from "../../styledComponents";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-
 import '../../glias.css';
 import CerebellumCircuit from "./Animations/cerebellum_circuit";
 import $ from "jquery";
@@ -165,9 +164,9 @@ function MicrocircuitryPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/cerebellum-microcircuitry'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/cerebellum-microcircuitry'>
                                                     Microcircuitry
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/cerebellum-pathways'>
                                                     Pathways
                                                 </MobileNavBarButton>

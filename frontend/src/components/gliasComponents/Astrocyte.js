@@ -185,9 +185,9 @@ function AstrocytePage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/gliasandsynapses-astrocyte'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/gliasandsynapses-astrocyte'>
                                                     Astrocyte
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/gliasandsynapses-oligodendroglia'>
                                                     Oligodendroglia
                                                 </MobileNavBarButton>
@@ -200,8 +200,7 @@ function AstrocytePage(props) {
                                     <Card.Content>
                                         <ErrorAnimation warning fluid>
                                             <Message.Header>Tip of the Day</Message.Header>
-                                            <p>For a better experience, please press the button below to view in
-                                                fullscreen.</p>
+                                            <p>For a better experience, please press the button below to view in fullscreen.</p>
                                             <Button color='violet' onClick={toggleFullscreen} id='trig'>Go Fullscreen</Button>
                                         </ErrorAnimation>
                                     </Card.Content>

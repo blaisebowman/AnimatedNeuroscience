@@ -2,19 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import BrainStructure from "./Animations/brain_structure";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-import {
-    AdobeContainer,
-    CustomAdobeSegmentBrain,
-    CustomContainerSegment,
-    CustomGrid,
-    ErrorAnimation,
-    MobileAnimationSegment,
-    MobileGrid,
-    MobileGridSecondaryRow,
-    MobileNavBarButton,
-    MobileSettingsDropdown,
-    PortraitMessage
-} from "../../styledComponents";import {CustomAnimationDropdown} from "../../styledComponents";
+import {AdobeContainer, CustomAdobeSegmentBrain, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileNavBarButton, MobileNavBarFirstButton, MobileSettingsDropdown, CustomAnimationDropdown} from "../../styledComponents";
 import '../../glias.css';
 import $ from "jquery";
 
@@ -188,9 +176,9 @@ function StructureAndFunctionPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/thebrain-neuraltube'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/thebrain-neuraltube'>
                                                     Neural Tube
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/thebrain-earlydevelopment'>
                                                     Early Development
                                                 </MobileNavBarButton>
@@ -224,5 +212,3 @@ function StructureAndFunctionPage(props) {
 }
 
 export default StructureAndFunctionPage;
-
-

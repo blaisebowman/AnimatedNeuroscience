@@ -1,18 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import ActionPotentials from "./Animations/action_potentials";
-import {
-    AdobeContainer,
-    CustomAnimationDropdown,
-    CustomContainerSegment,
-    CustomGrid,
-    ErrorAnimation,
-    MobileAnimationSegment,
-    MobileGrid,
-    MobileGridSecondaryRow,
-    MobileNavBarButton,
-    MobileSettingsDropdown
-} from "../../styledComponents";
+import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileNavBarButton, MobileNavBarFirstButton, MobileSettingsDropdown} from "../../styledComponents";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
 import '../../glias.css';
 import $ from "jquery";
@@ -182,9 +171,9 @@ function ActionPotentialsPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/nervoussystem-autonomic'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/nervoussystem-autonomic'>
                                                     ANS
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/nervoussystem-actionpotentials'>
                                                     Action Potentials
                                                 </MobileNavBarButton>

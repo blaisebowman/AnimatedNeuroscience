@@ -214,8 +214,7 @@ export const MobileDropdown= styled(Dropdown)`
     padding-left: 2rem  !important;
     background: linear-gradient(40deg, #05ebe4 0%, #8000f1 100%) !important;
     background-color:  black !important;
-    border: 0.1rem solid black !important;
-   
+    /*border: 0.1rem solid black !important;*/
     .text {
       color: white !important;
       margin: 0;
@@ -232,6 +231,7 @@ export const MobileSettingsDropdown= styled(Dropdown)`
     background: black !important;
     background-color:  black !important;
     min-height: 4vh !important;
+    min-width: 100% !important;
     .text {
       color: white !important;
       margin: 0;
@@ -241,7 +241,9 @@ export const MobileSettingsDropdown= styled(Dropdown)`
       transform: translate(-50%, -50%);
     }
     &&& > .icon {
-      margin: 1.25vh 0 0 0 !important;
+      margin: 0 0 0 0 !important;
+      top: 0%;
+      transform: translateY(30%); 
     }
     border-radius: .28571429rem;
 `

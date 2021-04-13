@@ -2,23 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import Hypothalamus from "./Animations/hypothalamus";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-import {
-    AdobeContainer,
-    CustomAdobeSegmentNervous,
-    CustomContainerSegment,
-    CustomGrid,
-    MobileAnimationSegment,
-    MobileGrid,
-    MobileGridSecondaryRow,
-    MobileSettingsDropdown,
-    PortraitMessage,
-    CustomAnimationDropdown,
-    ErrorAnimation, MobileNavBarButton
-} from "../../styledComponents";
-
+import {AdobeContainer, CustomAdobeSegmentNervous, CustomContainerSegment, CustomGrid, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, CustomAnimationDropdown, ErrorAnimation, MobileNavBarButton, MobileNavBarFirstButton} from "../../styledComponents";
 import '../../glias.css';
 import $ from "jquery";
-import Astrocyte from "../gliasComponents/Animations/astrocyte";
 
 function HypothalamusPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
@@ -186,9 +172,9 @@ function HypothalamusPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/nervoussystem-autonomic'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/nervoussystem-autonomic'>
                                                     ANS
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/nervoussystem-actionpotentials'>
                                                     Action Potentials
                                                 </MobileNavBarButton>

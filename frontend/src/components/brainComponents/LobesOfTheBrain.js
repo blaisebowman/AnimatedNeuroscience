@@ -3,23 +3,10 @@ import {Link} from "react-router-dom";
 import BrainLobes from "./Animations/brain_lobes";
 
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-import {
-    CustomAdobeSegmentBrain,
-    CustomContainerSegment,
-    CustomGrid,
-    CustomAnimationDropdown,
-    MobileAnimationSegment,
-    MobileGrid,
-    MobileGridSecondaryRow,
-    AdobeContainer,
-    MobileSettingsDropdown,
-    PortraitMessage,
-    ErrorAnimation, MobileNavBarButton
-} from "../../styledComponents";
+import {CustomAdobeSegmentBrain, CustomContainerSegment, CustomGrid, CustomAnimationDropdown, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, AdobeContainer, MobileSettingsDropdown, ErrorAnimation, MobileNavBarButton, MobileNavBarFirstButton} from "../../styledComponents";
 
 import '../../glias.css';
 import $ from "jquery";
-import Astrocyte from "../gliasComponents/Animations/astrocyte";
 
 function LobesOfTheBrainPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
@@ -191,9 +178,9 @@ function LobesOfTheBrainPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/thebrain-neuraltube'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/thebrain-neuraltube'>
                                                     Neural Tube
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/thebrain-earlydevelopment'>
                                                     Early Development
                                                 </MobileNavBarButton>

@@ -1,19 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-import {
-    AdobeContainer,
-    CustomAdobeSegmentSensory,
-    CustomAnimationDropdown,
-    CustomContainerSegment,
-    CustomGrid,
-    ErrorAnimation,
-    MobileAnimationSegment,
-    MobileGrid,
-    MobileGridSecondaryRow,
-    MobileNavBarButton,
-    MobileSettingsDropdown,
-} from "../../styledComponents";
+import {AdobeContainer, CustomAdobeSegmentSensory, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileNavBarButton, MobileNavBarFirstButton, MobileSettingsDropdown,} from "../../styledComponents";
 import PainPerception from "./Animations/pain_perception";
 import '../../glias.css';
 import $ from "jquery";
@@ -188,9 +176,9 @@ function PainPerceptionPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/sensorysystems-visual'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/sensorysystems-visual'>
                                                     Visual System
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/sensorysystems-auditory'>
                                                     Auditory System
                                                 </MobileNavBarButton>

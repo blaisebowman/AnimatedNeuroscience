@@ -1,23 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-import {
-    AdobeContainer,
-    CustomAdobeSegmentSensory,
-    CustomContainerSegment,
-    CustomGrid,
-    MobileAnimationSegment,
-    MobileGrid,
-    MobileGridSecondaryRow,
-    MobileSettingsDropdown,
-    PortraitMessage,
-    CustomAnimationDropdown,
-    ErrorAnimation, MobileNavBarButton
-} from "../../styledComponents";
+import {AdobeContainer, CustomAdobeSegmentSensory, CustomContainerSegment, CustomGrid, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, CustomAnimationDropdown, ErrorAnimation, MobileNavBarButton, MobileNavBarFirstButton} from "../../styledComponents";
 import AuditorySystem from "./Animations/auditory_system";
 import '../../glias.css';
 import $ from "jquery";
-import Astrocyte from "../gliasComponents/Animations/astrocyte";
 
 function TheAuditorySystemPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
@@ -189,9 +176,9 @@ function TheAuditorySystemPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/sensorysystems-visual'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/sensorysystems-visual'>
                                                     Visual System
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/sensorysystems-auditory'>
                                                     Auditory System
                                                 </MobileNavBarButton>

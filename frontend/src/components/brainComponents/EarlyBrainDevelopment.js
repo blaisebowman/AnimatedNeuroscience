@@ -2,22 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import EarlyBrain from "./Animations/early_development";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-import {
-    AdobeContainer,
-    CustomAnimationDropdown,
-    CustomContainerSegment,
-    CustomGrid,
-    ErrorAnimation,
-    MobileAnimationSegment,
-    MobileGrid,
-    MobileGridSecondaryRow, MobileNavBarButton,
-    MobileSettingsDropdown,
-    PortraitMessage
-} from "../../styledComponents";
+import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileNavBarButton, MobileNavBarFirstButton, MobileSettingsDropdown} from "../../styledComponents";
 import '../../glias.css';
 import $ from "jquery";
-import Astrocyte from "../gliasComponents/Animations/astrocyte";
-
 
 function EarlyBrainDevelopmentPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
@@ -189,9 +176,9 @@ function EarlyBrainDevelopmentPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/thebrain-neuraltube'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/thebrain-neuraltube'>
                                                     Neural Tube
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/thebrain-earlydevelopment'>
                                                     Early Development
                                                 </MobileNavBarButton>

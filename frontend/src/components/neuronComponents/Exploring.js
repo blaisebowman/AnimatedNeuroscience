@@ -1,20 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 import App2 from "./Animations/exploring_one.tsx";
-import {Grid, Button, Segment, Dropdown, Card, Message, Icon} from "semantic-ui-react";
-import {
-    AdobeContainer,
-    ErrorAnimation,
-    CustomAnimationDropdown,
-    CustomContainerSegment,
-    CustomGrid,
-    MobileAnimationSegment,
-    MobileGrid,
-    MobileGridSecondaryRow,
-    MobileSettingsDropdown,
-    PortraitMessage,
-    MobileNavBarFirstButton
-} from "../../styledComponents";
+import {Grid, Button, Segment, Dropdown, Card, Message} from "semantic-ui-react";
+import {AdobeContainer, ErrorAnimation, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, MobileNavBarFirstButton} from "../../styledComponents";
 import '../../glias.css';
 import $ from "jquery";
 
@@ -172,7 +160,7 @@ function ExploringPage(props) {
                                 <Card fluid>
                                     <div onMouseEnter={handleSelector}
                                          onMouseLeave={handleSelector}>
-                                        <MobileSettingsDropdown fluid placeholder="Select A Lesson">
+                                        <MobileSettingsDropdown fluid placeholder="Select A Lesson" icon='dropdown'>
                                             <Dropdown.Menu>
                                                 <MobileNavBarFirstButton fluid as={Link} to='/neurons-exploring'>
                                                     Exploring the Neuron

@@ -2,19 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import AutonomicNervousSystem from "./Animations/autonomic_nervous_system";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-import {
-    CustomAdobeSegmentNervous,
-    CustomContainerSegment,
-    CustomGrid,
-    CustomAnimationDropdown,
-    MobileAnimationSegment,
-    MobileGrid,
-    MobileGridSecondaryRow,
-    AdobeContainer,
-    MobileSettingsDropdown,
-    ErrorAnimation,
-    MobileNavBarButton
-} from "../../styledComponents";
+import {CustomAdobeSegmentNervous, CustomContainerSegment, CustomGrid, CustomAnimationDropdown, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, AdobeContainer, MobileSettingsDropdown, ErrorAnimation, MobileNavBarButton, MobileNavBarFirstButton} from "../../styledComponents";
 import '../../glias.css';
 import $ from "jquery";
 
@@ -182,9 +170,9 @@ function AutonomicNervousSystemPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/nervoussystem-autonomic'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/nervoussystem-autonomic'>
                                                     ANS
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/nervoussystem-actionpotentials'>
                                                     Action Potentials
                                                 </MobileNavBarButton>

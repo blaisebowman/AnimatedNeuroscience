@@ -1,23 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import OlfactorySystem from "./Animations/olfactory_system";
-import {
-    AdobeContainer,
-    CustomAdobeSegmentSensory,
-    CustomContainerSegment,
-    CustomGrid,
-    MobileAnimationSegment,
-    MobileGrid,
-    MobileGridSecondaryRow,
-    MobileSettingsDropdown,
-    CustomAnimationDropdown,
-    ErrorAnimation,
-    MobileNavBarButton,
-} from "../../styledComponents";
+import {AdobeContainer, CustomAdobeSegmentSensory, CustomContainerSegment, CustomGrid, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, CustomAnimationDropdown, ErrorAnimation, MobileNavBarButton, MobileNavBarFirstButton,} from "../../styledComponents";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
 import '../../glias.css';
 import $ from "jquery";
-
 
 function TheOlfactorySystemPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
@@ -189,9 +176,9 @@ function TheOlfactorySystemPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/sensorysystems-visual'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/sensorysystems-visual'>
                                                     Visual System
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/sensorysystems-auditory'>
                                                     Auditory System
                                                 </MobileNavBarButton>

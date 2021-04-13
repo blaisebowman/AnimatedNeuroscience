@@ -12,7 +12,7 @@ import {
     MobileAnimationSegment,
     MobileGrid,
     MobileGridSecondaryRow,
-    MobileNavBarButton,
+    MobileNavBarButton, MobileNavBarFirstButton,
     MobileSettingsDropdown,
     PortraitMessage
 } from "../../styledComponents";
@@ -184,9 +184,9 @@ function ChemicalSynpasesPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/gliasandsynapses-astrocyte'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/gliasandsynapses-astrocyte'>
                                                     Astrocyte
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/gliasandsynapses-oligodendroglia'>
                                                     Oligodendroglia
                                                 </MobileNavBarButton>

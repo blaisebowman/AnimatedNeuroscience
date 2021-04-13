@@ -2,18 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import BrainDevelopment from "./Animations/brainDevelopment";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-import {
-    CustomAnimationDropdown,
-    CustomGrid,
-    CustomContainerSegment,
-    MobileAnimationSegment,
-    MobileGrid,
-    MobileGridSecondaryRow,
-    AdobeContainer,
-    MobileSettingsDropdown,
-    PortraitMessage,
-    ErrorAnimation, MobileNavBarButton
-} from "../../styledComponents";
+import {CustomAnimationDropdown, CustomGrid, CustomContainerSegment, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, AdobeContainer, MobileSettingsDropdown, ErrorAnimation, MobileNavBarButton, MobileNavBarFirstButton} from "../../styledComponents";
 
 import '../../glias.css';
 import $ from "jquery";
@@ -187,9 +176,9 @@ function NeuralTubePage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/thebrain-neuraltube'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/thebrain-neuraltube'>
                                                     Neural Tube
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/thebrain-earlydevelopment'>
                                                     Early Development
                                                 </MobileNavBarButton>

@@ -1,24 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-import {
-    AdobeContainer,
-    CustomAnimationDropdown,
-    CustomContainerSegment,
-    CustomGrid,
-    ErrorAnimation,
-    MobileAnimationSegment,
-    MobileGrid,
-    MobileGridSecondaryRow,
-    MobileNavBarButton,
-    MobileSettingsDropdown,
-    PortraitMessage
-} from "../../styledComponents";
+import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileNavBarButton, MobileNavBarFirstButton, MobileSettingsDropdown,} from "../../styledComponents";
 import VisualSystem from "./Animations/visual_system";
 import '../../glias.css';
 import $ from "jquery";
-import Astrocyte from "../gliasComponents/Animations/astrocyte";
-
 
 function TheVisualSystemPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
@@ -188,9 +174,9 @@ function TheVisualSystemPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/sensorysystems-visual'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/sensorysystems-visual'>
                                                     Visual System
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/sensorysystems-auditory'>
                                                     Auditory System
                                                 </MobileNavBarButton>

@@ -2,21 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import Oligodendroglia from "./Animations/oligodendroglia";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-import {
-    AdobeContainer,
-    CustomAnimationDropdown,
-    CustomContainerSegment,
-    CustomGrid,
-    ErrorAnimation,
-    MobileAnimationSegment,
-    MobileGrid,
-    MobileGridSecondaryRow,
-    MobileNavBarButton,
-    MobileSettingsDropdown
-} from "../../styledComponents";
+import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileNavBarButton, MobileNavBarFirstButton, MobileSettingsDropdown} from "../../styledComponents";
 import '../../glias.css';
 import $ from "jquery";
-
 
 function OligodendrogliaPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
@@ -183,9 +171,9 @@ function OligodendrogliaPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <MobileNavBarButton fluid as={Link} to='/gliasandsynapses-astrocyte'>
+                                                <MobileNavBarFirstButton fluid as={Link} to='/gliasandsynapses-astrocyte'>
                                                     Astrocyte
-                                                </MobileNavBarButton>
+                                                </MobileNavBarFirstButton>
                                                 <MobileNavBarButton fluid as={Link} to='/gliasandsynapses-oligodendroglia'>
                                                     Oligodendroglia
                                                 </MobileNavBarButton>
