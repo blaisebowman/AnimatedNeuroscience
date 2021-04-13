@@ -13,7 +13,7 @@ import {
     MobileSettingsDropdown,
     PortraitMessage,
     CustomAnimationDropdown,
-    ErrorAnimation
+    ErrorAnimation, MobileNavBarButton
 } from "../../styledComponents";
 
 import '../../glias.css';
@@ -186,22 +186,15 @@ function HypothalamusPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <Dropdown.Item>
-                                                    <Link to={{
-                                                        pathname: "/nervoussystem-autonomic",
-                                                        state: {selectorIsVisible: false}
-                                                    }} className='navText'>ANS</Link>
-                                                </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/nervoussystem-actionpotentials",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Action Potentials</Link>
-                                            </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/nervoussystem-hypothalamus",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Hypothalamus</Link>
-                                            </Dropdown.Item>
+                                                <MobileNavBarButton fluid as={Link} to='/nervoussystem-autonomic'>
+                                                    ANS
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/nervoussystem-actionpotentials'>
+                                                    Action Potentials
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/nervoussystem-hypothalamus'>
+                                                    Hypothalamus
+                                                </MobileNavBarButton>
                                             </Dropdown.Menu>
                                         </MobileSettingsDropdown>
                                     </div>

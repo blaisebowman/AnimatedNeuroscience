@@ -12,7 +12,7 @@ import {
     AdobeContainer,
     MobileSettingsDropdown,
     PortraitMessage,
-    ErrorAnimation
+    ErrorAnimation, MobileNavBarButton
 } from "../../styledComponents";
 
 import '../../glias.css';
@@ -187,27 +187,18 @@ function NeuralTubePage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <Dropdown.Item>
-                                                    <Link to={{
-                                                        pathname: "/thebrain-neuraltube",
-                                                        state: {selectorIsVisible: false}
-                                                    }} className='navText'>Neural Tube</Link>
-                                                </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/thebrain-earlydevelopment",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Early Development</Link>
-                                            </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/thebrain-lobes",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Lobes</Link>
-                                            </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/thebrain-structure",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Structure and Function</Link>
-                                            </Dropdown.Item>
+                                                <MobileNavBarButton fluid as={Link} to='/thebrain-neuraltube'>
+                                                    Neural Tube
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/thebrain-earlydevelopment'>
+                                                    Early Development
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/thebrain-lobes'>
+                                                    Lobes
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/thebrain-structure'>
+                                                    Structure and Function
+                                                </MobileNavBarButton>
                                             </Dropdown.Menu>
                                         </MobileSettingsDropdown>
                                     </div>

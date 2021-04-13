@@ -2,7 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import Oligodendroglia from "./Animations/oligodendroglia";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown} from "../../styledComponents";
+import {
+    AdobeContainer,
+    CustomAnimationDropdown,
+    CustomContainerSegment,
+    CustomGrid,
+    ErrorAnimation,
+    MobileAnimationSegment,
+    MobileGrid,
+    MobileGridSecondaryRow,
+    MobileNavBarButton,
+    MobileSettingsDropdown
+} from "../../styledComponents";
 import '../../glias.css';
 import $ from "jquery";
 
@@ -172,22 +183,15 @@ function OligodendrogliaPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <Dropdown.Item>
-                                                    <Link to={{
-                                                        pathname: "/gliasandsynapses-astrocyte",
-                                                        state: {selectorIsVisible: false}
-                                                    }} className='navText'>Astrocyte</Link>
-                                                </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/gliasandsynapses-oligodendroglia",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Oligodendroglia</Link>
-                                            </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/gliasandsynapses-chemical",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Chemical Synapses</Link>
-                                            </Dropdown.Item>
+                                                <MobileNavBarButton fluid as={Link} to='/gliasandsynapses-astrocyte'>
+                                                    Astrocyte
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/gliasandsynapses-oligodendroglia'>
+                                                    Oligodendroglia
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/gliasandsynapses-chemical'>
+                                                    Chemical Synapses
+                                                </MobileNavBarButton>
                                             </Dropdown.Menu>
                                         </MobileSettingsDropdown>
                                     </div>

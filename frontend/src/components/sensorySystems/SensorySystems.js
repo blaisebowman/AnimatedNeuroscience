@@ -170,7 +170,7 @@ function SensorySystems(props) {
                         <MobileGridSecondaryRow>
                             <Grid.Column width={16}>
                                 <Card fluid>
-                                    <Card.Description>The Brain Lessons</Card.Description>
+                                    <Card.Description>Sensory Systems Lessons</Card.Description>
                                     <Card.Content>
                                         <div style={{overflowX: 'hidden'}}>
                                             <Link to={{pathname: "/sensorysystems-visual"}}

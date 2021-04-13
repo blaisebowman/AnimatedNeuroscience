@@ -1,7 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import ActionPotentials from "./Animations/action_potentials";
-import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown} from "../../styledComponents";
+import {
+    AdobeContainer,
+    CustomAnimationDropdown,
+    CustomContainerSegment,
+    CustomGrid,
+    ErrorAnimation,
+    MobileAnimationSegment,
+    MobileGrid,
+    MobileGridSecondaryRow,
+    MobileNavBarButton,
+    MobileSettingsDropdown
+} from "../../styledComponents";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
 import '../../glias.css';
 import $ from "jquery";
@@ -171,22 +182,15 @@ function ActionPotentialsPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <Dropdown.Item>
-                                                    <Link to={{
-                                                        pathname: "/nervoussystem-autonomic",
-                                                        state: {selectorIsVisible: false}
-                                                    }} className='navText'>ANS</Link>
-                                                </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/nervoussystem-actionpotentials",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Action Potentials</Link>
-                                            </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/nervoussystem-hypothalamus",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Hypothalamus</Link>
-                                            </Dropdown.Item>
+                                                <MobileNavBarButton fluid as={Link} to='/nervoussystem-autonomic'>
+                                                    ANS
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/nervoussystem-actionpotentials'>
+                                                    Action Potentials
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/nervoussystem-hypothalamus'>
+                                                    Hypothalamus
+                                                </MobileNavBarButton>
                                             </Dropdown.Menu>
                                         </MobileSettingsDropdown>
                                     </div>

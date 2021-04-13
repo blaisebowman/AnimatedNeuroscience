@@ -12,7 +12,7 @@ import {
     MobileSettingsDropdown,
     PortraitMessage,
     CustomAnimationDropdown,
-    ErrorAnimation
+    ErrorAnimation, MobileNavBarButton
 } from "../../styledComponents";
 import AuditorySystem from "./Animations/auditory_system";
 import '../../glias.css';
@@ -189,27 +189,18 @@ function TheAuditorySystemPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <Dropdown.Item>
-                                                    <Link to={{
-                                                        pathname: "/sensorysystems-visual",
-                                                        state: {selectorIsVisible: false}
-                                                    }} className='navText'>Visual System</Link>
-                                                </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/sensorysystems-auditory",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Auditory System</Link>
-                                            </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/sensorysystems-olfactory",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Olfactory System</Link>
-                                            </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/sensorysystems-pain",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Pain Perception</Link>
-                                            </Dropdown.Item>
+                                                <MobileNavBarButton fluid as={Link} to='/sensorysystems-visual'>
+                                                    Visual System
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/sensorysystems-auditory'>
+                                                    Auditory System
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/sensorysystems-olfactory'>
+                                                    Olfactory System
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/sensorysystems-pain'>
+                                                    Pain Perception
+                                                </MobileNavBarButton>
                                             </Dropdown.Menu>
                                         </MobileSettingsDropdown>
                                     </div>

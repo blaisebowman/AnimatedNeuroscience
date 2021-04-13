@@ -3,7 +3,19 @@ import {Link} from "react-router-dom";
 import ChemicalSynapse from "./Animations/chemicalSynapse";
 import {Grid, Segment, Dropdown, Card, Message, Button} from "semantic-ui-react";
 import '../../glias.css';
-import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, PortraitMessage} from "../../styledComponents";
+import {
+    AdobeContainer,
+    CustomAnimationDropdown,
+    CustomContainerSegment,
+    CustomGrid,
+    ErrorAnimation,
+    MobileAnimationSegment,
+    MobileGrid,
+    MobileGridSecondaryRow,
+    MobileNavBarButton,
+    MobileSettingsDropdown,
+    PortraitMessage
+} from "../../styledComponents";
 import $ from "jquery";
 
 function ChemicalSynpasesPage(props) {
@@ -172,22 +184,15 @@ function ChemicalSynpasesPage(props) {
                                          onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <Dropdown.Item>
-                                                    <Link to={{
-                                                        pathname: "/gliasandsynapses-astrocyte",
-                                                        state: {selectorIsVisible: false}
-                                                    }} className='navText'>Astrocyte</Link>
-                                                </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/gliasandsynapses-oligodendroglia",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Oligodendroglia</Link>
-                                            </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/gliasandsynapses-chemical",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Chemical Synpases</Link>
-                                            </Dropdown.Item>
+                                                <MobileNavBarButton fluid as={Link} to='/gliasandsynapses-astrocyte'>
+                                                    Astrocyte
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/gliasandsynapses-oligodendroglia'>
+                                                    Oligodendroglia
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/gliasandsynapses-chemical'>
+                                                    Chemical Synapses
+                                                </MobileNavBarButton>
                                             </Dropdown.Menu>
                                         </MobileSettingsDropdown>
                                     </div>

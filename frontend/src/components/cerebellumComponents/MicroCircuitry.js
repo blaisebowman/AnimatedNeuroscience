@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
-import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, PortraitMessage} from "../../styledComponents";
-import {Grid, Segment, Dropdown, Card, Message,} from "semantic-ui-react";
+import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileNavBarButton, MobileSettingsDropdown} from "../../styledComponents";
+import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
 
 import '../../glias.css';
 import CerebellumCircuit from "./Animations/cerebellum_circuit";
+import $ from "jquery";
 
 function MicrocircuitryPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const [orientationIs, setOrientationIs] = useState(parseInt(sessionStorage.getItem('orientation')) || 0);
+    const [orientationIs, setOrientationIs] = useState( 0);
+    const [isFull, setIsFull] = useState(false);
     function handleSelector() {
         if (selectorIsVisible === true) {
             setSelectorIsVisible(false);
@@ -17,16 +19,83 @@ function MicrocircuitryPage(props) {
         }
         console.log(selectorIsVisible);
     }
-    function handleOrientationChange(event) {
-        setOrientationIs(event.target.screen.orientation.angle);
-        sessionStorage.setItem('orientation', event.target.screen.orientation.angle);
-        console.log(parseInt(sessionStorage.getItem('orientation')));
+
+    function handleOrientation (event) {
+        setTimeout(function () {
+            console.log("Enter/exit fullscreen at angle (window.screen.orientation.angle): " + window.screen.orientation.angle);
+            console.log("Enter/exit fullscreen at angle (orientationIs): " + orientationIs);
+            console.log("Type: " + window.screen.orientation.type);
+            console.log("Fullscreen?: " + ((document.fullscreenElement) !== null));
+            if((document.fullscreenElement !== null)){
+                setOrientationIs(90);
+                setIsFull(true);
+                handleToggle();
+                $("#mobileHeader").css({
+                    display: "none",
+                    visibility: "hidden"
+                });
+                $("#mobileNav").css({
+                    display: "none",
+                    visibility: "hidden"
+                });
+                console.log("ENTERED fullscreen.");
+            } else {
+                handleToggle();
+                setIsFull(false);
+                $("#mobileHeader").css({
+                    display: "block",
+                    visibility: "visible"
+                });
+                $("#mobileNav").css({
+                    display: "block",
+                    visibility: "visible"
+                });
+                console.log('EXITED fullscreen.');
+            }
+        }, 100);
+    }
+
+    function toggleFullscreen (event){
+        console.log('Toggling Fullscreen...');
+        if (document.fullscreenElement === null) {
+            console.log("Entering fullscreen...");
+            document.documentElement.requestFullscreen({navigationUI: 'hide'}).catch(err => {console.log(err.msg);});
+            window.screen.orientation.lock('landscape');
+        } else if(document.fullscreenElement !== null){
+            console.log('Leaving fullscreen...');
+            document.exitFullscreen();
+            window.screen.orientation.lock('portrait');
+        }
+    }
+    function handleToggle(){
+        setTimeout(function () {
+            console.log("Angle: " + window.screen.orientation.angle + "\t Type: " + window.screen.orientation.type + "\t orientationIs: " + orientationIs );
+            console.log("Fullscreen?: " + ((document.fullscreenElement) !== null))
+            if(window.screen.orientation.angle !== orientationIs){
+                setOrientationIs(90);
+            } else if(window.screen.orientation.angle === orientationIs){
+                if(orientationIs === 0 || window.screen.orientation.type.startsWith('portrait')){
+                    setOrientationIs(90);
+                } else {
+                    setOrientationIs(0);
+                }
+            }
+        }, 100);
     }
 
     useEffect(() => {
-        window.addEventListener('orientationchange', handleOrientationChange);
+        let mounted = true;
+        console.log("[------HOOK------]\n I FIRE ONCE");
+        console.log("Max: height = " + window.screen.availHeight + "width = " + window.screen.availWidth);
+        if(mounted) {
+            console.log("I am mounted");
+            window.addEventListener('fullscreenchange', handleOrientation);
+            window.addEventListener('orientationchange', handleToggle);
+        }
         return () => {
-            window.removeEventListener('orientationchange', handleOrientationChange);
+            window.removeEventListener('fullscreenchange', handleOrientation);
+            window.removeEventListener('orientationchange', handleToggle);
+            mounted  = false;
         }
     }, []);
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -78,10 +147,15 @@ function MicrocircuitryPage(props) {
                 </CustomContainerSegment>
             </div>
         );
-    }
-    else if (orientationIs === 0) {
+    }else {
         return (
             <div className="AppMobile">
+                {(isFull === true && (document.fullscreenElement !== null))&&
+                <AdobeContainer>
+                    {/*<CerebellumCircuit/>*/}
+                </AdobeContainer>
+                }
+                {!(document.fullscreenElement) &&
                 <MobileAnimationSegment>
                     <MobileGrid>
                         <MobileGridSecondaryRow>
@@ -89,46 +163,33 @@ function MicrocircuitryPage(props) {
                                 <Card fluid>
                                     <div onMouseEnter={handleSelector}
                                          onMouseLeave={handleSelector}>
-                                        <MobileSettingsDropdown fluid placeholder="Select A Lesson" >
+                                        <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
-                                                <Dropdown.Item>
-                                                    <Link to={{
-                                                        pathname: "/cerebellum-microcircuitry",
-                                                        state: {selectorIsVisible: false}
-                                                    }} className='navText'>Microcircuitry</Link>
-                                                </Dropdown.Item><Dropdown.Item>
-                                                <Link to={{
-                                                    pathname: "/cerebellum-pathways",
-                                                    state: {selectorIsVisible: false}
-                                                }} className='navText'>Pathways</Link>
-                                            </Dropdown.Item>
+                                                <MobileNavBarButton fluid as={Link} to='/cerebellum-microcircuitry'>
+                                                    Microcircuitry
+                                                </MobileNavBarButton>
+                                                <MobileNavBarButton fluid as={Link} to='/cerebellum-pathways'>
+                                                    Pathways
+                                                </MobileNavBarButton>
                                             </Dropdown.Menu>
                                         </MobileSettingsDropdown>
                                     </div>
+                                    <Card.Content>
+                                        <ErrorAnimation warning fluid>
+                                            <Message.Header>Tip of the Day</Message.Header>
+                                            <p>For a better experience, please press the button below to view in
+                                                fullscreen.</p>
+                                            <Button color='violet' onClick={toggleFullscreen} id='trig'>Go Fullscreen</Button>
+                                        </ErrorAnimation>
+                                    </Card.Content>
                                 </Card>
-                                <Card fluid>
-                                    <PortraitMessage warning>
-                                        <Message.Header>Tip of the Day</Message.Header>
-                                        <b>For a better experience, please rotate your device into landscape orientation.</b>
-                                    </PortraitMessage>
-                                </Card>
-{/*
-                                <CerebellumCircuit/>
-*/}
+                                {/*<CerebellumCircuit/>*/}
                             </AdobeContainer>
                         </MobileGridSecondaryRow>
                     </MobileGrid>
                 </MobileAnimationSegment>
+                }
             </div>
-        );
-    }
-    else {
-        return (
-            <AdobeContainer>
-{/*
-                <CerebellumCircuit/>
-*/}
-            </AdobeContainer>
         );
     }
 
