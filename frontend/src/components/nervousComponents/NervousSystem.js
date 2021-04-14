@@ -7,8 +7,6 @@ import '../../glias.css';
 import {IconContext} from "react-icons";
 import {GiMuscleUp} from "react-icons/all";
 import {MobileContainerSegment, MobileGrid, MobileGridSecondaryRow} from "../../styledComponents";
-import neuron from "../../images/neuron.jpg";
-
 
 function NervousSystem(props) {
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);

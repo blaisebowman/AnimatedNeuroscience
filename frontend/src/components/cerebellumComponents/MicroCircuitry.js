@@ -1,10 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
-import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileNavBarButton, MobileNavBarFirstButton, MobileSettingsDropdown} from "../../styledComponents";
+import {
+    AdobeContainer,
+    CustomAnimationDropdown,
+    CustomContainerSegment,
+    CustomGrid,
+    ErrorAnimation,
+    MobileAnimationSegment,
+    MobileGrid,
+    MobileGridSecondaryRow,
+    MobileNavBarButton,
+    MobileNavBarFirstButton,
+    MobileSettingsDropdown
+} from "../../styledComponents";
 import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
 import '../../glias.css';
-import CerebellumCircuit from "./Animations/cerebellum_circuit";
 import $ from "jquery";
+import CerebellumMicro from "./Animations/cerebellumMicro";
 
 function MicrocircuitryPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
@@ -109,7 +121,7 @@ function MicrocircuitryPage(props) {
                                     <Grid columns={3}>
                                         <CustomGrid width={12}>
                                             <Segment className="adobeSeg">
-                                                MICRO PLACEHOLDER
+                                                <CerebellumMicro/>
                                             </Segment>
                                         </CustomGrid>
                                         <Grid.Column width={4} className="gridParent">
@@ -151,7 +163,7 @@ function MicrocircuitryPage(props) {
             <div className="AppMobile">
                 {(isFull === true && (document.fullscreenElement !== null))&&
                 <AdobeContainer>
-                    {/*<CerebellumCircuit/>*/}
+                    <CerebellumMicro/>
                 </AdobeContainer>
                 }
                 {!(document.fullscreenElement) &&
@@ -182,7 +194,7 @@ function MicrocircuitryPage(props) {
                                         </ErrorAnimation>
                                     </Card.Content>
                                 </Card>
-                                {/*<CerebellumCircuit/>*/}
+                                <CerebellumMicro/>
                             </AdobeContainer>
                         </MobileGridSecondaryRow>
                     </MobileGrid>
@@ -195,5 +207,3 @@ function MicrocircuitryPage(props) {
 }
 
 export default MicrocircuitryPage;
-
-

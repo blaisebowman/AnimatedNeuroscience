@@ -164,7 +164,8 @@ function ExploringPage(props) {
                                                     Exploring the Neuron
                                                 </MobileNavBarFirstButton>
                                             </Dropdown.Menu>
-                                        </MobileSettingsDropdown>                                    <Card.Content>
+                                        </MobileSettingsDropdown>
+                                    <Card.Content>
                                         <ErrorAnimation warning fluid>
                                             <Message.Header>Tip of the Day</Message.Header>
                                             <p>For a better experience, please press the button below to view in fullscreen.</p>

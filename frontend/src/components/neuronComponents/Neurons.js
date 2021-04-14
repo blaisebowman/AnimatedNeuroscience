@@ -2,10 +2,9 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import {Grid, Image, Segment, Button,  Card, Icon, Divider, List} from "semantic-ui-react"
 import neuron from "../../images/neuron.jpg"
-
 import '../../neurons.css';
 import '../../glias.css';
-import {CustomContainerSegment, MobileContainerSegment, MobileGrid, MobileGridSecondaryRow, MobileInnerContainerSegment} from "../../styledComponents";
+import {CustomContainerSegment, MobileContainerSegment, MobileGrid, MobileGridSecondaryRow} from "../../styledComponents";
 
 function Neurons(props) {
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -49,7 +48,6 @@ function Neurons(props) {
                                                     <Divider/>
                                                 </Card.Content>
                                             </Card>
-
                                         </Grid.Column>
                                         <Grid.Column width={6} className="definitionSegment">
                                             <Card fluid>

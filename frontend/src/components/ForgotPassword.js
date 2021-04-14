@@ -16,7 +16,7 @@ function ForgotPasswordPage(props) {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
 
     if(process.env.NODE_ENV === 'production'){
-        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        /*console.log("In production mode. Disable log statements -> hide log statements from console.");*/
         console.log = function (){};
     }
 
@@ -119,6 +119,7 @@ function ForgotPasswordPage(props) {
             setIsMasked("password");
         }
     }
+
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if(isMobile === false) {
         return (
