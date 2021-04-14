@@ -39,9 +39,6 @@ class App extends Component {
             <PageHeader/>
             <NavigationBar/>
             <Switch>
-                {/*<Route exact path='/' component={withRouter(EntryPage)}/>*/}
-                {/*<Route exact path='/introduction' component={withRouter(Introduction)}/*/}
-                {/*Uncomment the two lines above, and comment out two immediate routes below if using the introduction page*/}
                 <Route exact path='/' component ={withRouter(Introduction)}>
                     <Redirect to="/introduction" component={withRouter(Introduction)}/>
                 </Route>

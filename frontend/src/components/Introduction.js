@@ -7,12 +7,11 @@ import cise from '../images/cise.jpg';
 function Introduction(props) {
 
     if(process.env.NODE_ENV === 'production'){
-        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        //console.log("In production mode. Disable log statements -> hide log statements from console.");
         console.log = function (){};
     }
 
     useEffect(()=>{
-        console.log("done")
         if(sessionStorage.getItem("reload") === "true"){
             console.log("redirecting (reloading) from either register or login");
             sessionStorage.setItem('reload', "false");
@@ -27,7 +26,6 @@ function Introduction(props) {
     }
 
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
     if(isMobile === false) {
         return (
             <div className="App">

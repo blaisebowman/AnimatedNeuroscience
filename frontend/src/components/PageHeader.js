@@ -11,6 +11,11 @@ function PageHeader(props) {
     const [redirectingToHome, setRedirectingToHome] = useState(false);
     const [id, setId] = useState("");
     const [loggedIn, setLoggedIn] = useState(false);
+    //NOTE: -> The button that links to the GitHub repo is for the sake of convenience during development.
+    //This if for the reference of a future group, if they would like to view work flow, or how the process developed.
+    //Given the target audience, I'm the button in for reference for Computer Science/Engineering students who want to see the source code.
+    //If you would like to remove it simply delete the four occurrences of      <MobileHeaderButton fluid color='blue' onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}><Icon name='github'/>Repository</MobileHeaderButton>
+    //But, leave the encompassing <Grid.Row></Grid.Row> tags (mobile) or the <Grid.Column></Grid.Column> (desktop) in place, for layout purposes.
     const openRepository = (url) => {
         const newTabOpened = window.open(url, '_blank', 'noopner, norefferer');
         //open in new window to avoid security issues with _blank
@@ -39,7 +44,6 @@ function PageHeader(props) {
     }, [redirectingToHome]);
 
     let isMobile =  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
     if (isMobile === false) {
         return (
             <Header as='h2' className='modGrid' style={{maxHeight: '100vh'}}>
@@ -53,14 +57,15 @@ function PageHeader(props) {
                         <Grid columns={3} rows={1} className='modGrid'>
                             <Grid.Column className='buttonColumn' width={5}>
                                 <MobileHeaderButton fluid color='blue'
-                                        onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}><Icon name='github'/>Repository</MobileHeaderButton>
+                                        onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
+                                    <Icon name='github'/>Repository</MobileHeaderButton>
                             </Grid.Column>
                             <Grid.Column className='buttonColumn' width={5}>
                                 <Button fluid color='orange' className='headerButton'>
                                     <Link to={{pathname: "/register"}} className='headerButton'>Sign Up</Link>
                                 </Button>
                             </Grid.Column>
-                            <Grid.Column className='buttonColumn'width={5}>
+                            <Grid.Column className='buttonColumn' width={5}>
                                 <Button fluid color='orange' className='headerButton'>
                                     <Link to={{pathname: "/login"}} className='headerButton'>Login</Link>
                                 </Button>
@@ -70,7 +75,9 @@ function PageHeader(props) {
                         {id !== "" &&
                         <Grid columns={3} rows={1} className='modGrid'>
                             <Grid.Column width={5}>
-                                <MobileHeaderButton fluid color='blue' onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}><Icon name='github'/>Repository</MobileHeaderButton>
+                                <MobileHeaderButton fluid color='blue'
+                                        onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
+                                    <Icon name='github'/>Repository</MobileHeaderButton>
                             </Grid.Column>
                             <Grid.Column width={5}>
                                 <MobileHeaderButton fluid color='orange'>
@@ -121,7 +128,8 @@ function PageHeader(props) {
                             </MobileHeaderButton>
                         </Grid.Row>
                         <Grid.Row>
-                            <MobileHeaderButton fluid color='blue' onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
+                            <MobileHeaderButton fluid color='blue'
+                                                onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
                                 <Icon name='github'/>
                                 Repository
                             </MobileHeaderButton>
@@ -142,9 +150,9 @@ function PageHeader(props) {
                            }
                        </Grid.Row>
                        <Grid.Row>
-                           <MobileHeaderButton fluid color='blue' onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
-                               <Icon name='github'/>
-                               Repository
+                           <MobileHeaderButton fluid color='blue'
+                                               onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
+                               <Icon name='github'/>Repository
                            </MobileHeaderButton>
                        </Grid.Row>
                    </Grid.Column>
