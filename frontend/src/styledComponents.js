@@ -2,16 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import {Button, Dropdown, Form, Menu, Message, Dimmer, Card, Header, Segment, Grid, Table} from 'semantic-ui-react';
 import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
-import OlfactorySystem from "./components/sensorySystems/Animations/olfactory_system";
 
 //tentative styled components, eventually replacing the usage of !important in .css and .scss files.
 
 export const MessageLogin = styled(Message)`
-    background: #f2f2f2 !important;
-    border-radius: 1.5rem !important;
-    color: rgba(0, 0, 0, 0.87) !important;
-`
-export const MessageSubtitle = styled(Message)`
     background: #f2f2f2 !important;
     border-radius: 1.5rem !important;
     color: rgba(0, 0, 0, 0.87) !important;
@@ -210,28 +204,28 @@ export const MobileContainerHeader= styled(Header)`
 */
 `
 export const MobileDropdown= styled(Dropdown)`
-    padding-right: 2rem  !important;
-    padding-left: 2rem  !important;
+    padding: 0 2rem 0 2rem !important;
     background: linear-gradient(40deg, #05ebe4 0%, #8000f1 100%) !important;
-    background-color:  black !important;
     /*border: 0.1rem solid black !important;*/
+    height: 1.5em !important;
     .text {
       color: white !important;
       margin: 0;
     }
     &&& > .icon {
-      margin: 0 0 0 0 !important;
-      top: 0%;
-      transform: translateY(30%); 
+        margin: 0.375em 0 0.375em 0 !important;
+        width: 1em !important;
+        height: 1em !important;
     }
 `
 export const MobileSettingsDropdown= styled(Dropdown)`
     border-radius: .28571429rem;
-    padding-right: 2rem  !important;
-    padding-left: 2rem  !important;
-    background: black !important;
+    padding: 0 2rem 0 2rem !important;
     background-color:  black !important;
-    min-height: 4vh !important;
+    height: 1.5em !important;
+    a {
+        text-align: center !important;
+    }
     .text {
       color: white !important;
       margin: 0;
@@ -241,14 +235,16 @@ export const MobileSettingsDropdown= styled(Dropdown)`
       transform: translate(-50%, -50%);
     }
     &&& > .icon {
-      margin: 0 0 0 0 !important;
-      top: 0%;
-      transform: translateY(30%); 
+      margin: 0.375em 0 0.375em 0 !important;
+      width: 1em !important;
+      height: 1em !important;
     }
     &&& > .menu {
         min-width: 100% !important;
     }
 `
+
+
 export const MobileSettingsGrid= styled(Grid)`
     border: 0 !important;
     background: none !important;
@@ -267,8 +263,17 @@ export const MobileHeader= styled(Header)`
 `
 export const MobileContainerSegment= styled(Segment)`
     border: 0 !important;
-    background: rgba(210,210,210,0.75) linear-gradient(rgba(255, 255, 255, 0.85), transparent) !important;
+    background: none !important;
     padding: 0 0 0 0 !important;
+`
+export const MobileContainerSegmentSettings= styled(Segment)`
+    border: none !important;
+    padding-bottom: 0 !important;
+    background: none !important;
+    padding: 0 0 0 0 !important;
+    margin-top: 0 !important;
+    text-align: center;
+  width: 100vw !important;
 `
 export const MobileInnerContainerSegment= styled(Segment)`
     border: 0 !important;
@@ -283,7 +288,6 @@ export const MobileGrid= styled(Grid)`
     margin: 0 0 0 0 !important;
      @media screen and (orientation:landscape) {
     width: 100vw !important;
-    background: color !important;
     }
 `
 export const MobileGridPrimaryRow= styled(Grid.Row)`
@@ -326,7 +330,10 @@ export const MobileHeaderButton= styled(Button)`
     }
     .icon {
         margin-right: 0.25rem !important;
-    }   
+    }
+    &&& > text {
+        color: white !important;
+    }
 `
 export const CustomMobileProgressMenu = styled(Menu)`
     color: white !important;
@@ -334,14 +341,86 @@ export const CustomMobileProgressMenu = styled(Menu)`
         text-align: center !important;
     }
     margin-top: 0 !important;
+    border: none !important;
     background: none !important;
+    padding-bottom: 1em !important;
+    &&& > :after {
+    display: none !important;
+    visibility: hidden;
+    
+    }
 `
 export const CustomMobileMenuItem = styled(Menu.Item)`
     text-align: center !important;
-    color: white !important;
-    background-color: #000000 !important;
-    margin-top: 1rem !important;
+    background: rgba(20, 255, 60, 0.75) !important;
+    background-clip: padding-box !important;
+    margin-top: 0rem !important;
     border-radius: 0.25rem !important;
+    font-weight: 800 !important;
+    border: 0.125rem solid rgba(2, 53, 11, 0.4) !important;
+    border-radius: 0.25rem !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+`
+export const CustomMobileMenuItemB = styled(Menu.Item)`
+    text-align: center !important;
+    background: rgb(255, 237, 147) !important;
+    background-clip: padding-box !important;
+    margin-top: 0rem !important;
+    border-radius: 0.25rem !important;
+    font-weight: 800 !important;
+    border: 0.125rem solid black !important;
+    border-radius: 0.25rem !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+`
+export const CustomMobileMenuItemD= styled(Menu.Item)`
+    text-align: center !important;
+    background: #e0e1e2 !important;
+    background-clip: padding-box !important;
+    margin-top: 0rem !important;
+    border-radius: 0.25rem !important;
+    font-weight: 800 !important;
+    border: 0.125rem solid #000000 !important;
+    border-radius: 0.25rem !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+`
+export const CustomMobileMenuItemBody = styled(Menu.Item)`
+    text-align: center !important;
+    background-color: rgba(25, 255, 63, 0.17) !important;
+    background-clip: padding-box !important;
+    margin-top: 0rem !important;
+    font-weight: 800 !important;
+    border: 0.125rem solid rgba(2, 53, 11, 0.4) !important;
+    border-top: 0 !important;
+    border-radius: 0.25rem !important;
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+`
+export const CustomMobileMenuItemBodyB = styled(Menu.Item)`
+    text-align: center !important;
+    background-color: #ffffff !important;
+    background-clip: padding-box !important;
+    margin-top: 0rem !important;
+    font-weight: 800 !important;
+    border: 0.125rem solid black !important;
+    border-top: 0 !important;
+    border-radius: 0.25rem !important;
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+`
+export const CustomMobileMenuItemBodyD = styled(Menu.Item)`
+    text-align: center !important;
+    background-color: #ffffff !important;
+    background-clip: padding-box !important;
+    margin-top: 0rem !important;
+    font-weight: 800 !important;
+    border: 0.125rem solid #000000 !important;
+    border-top: 0 !important;
+    border-radius: 0.25rem !important;
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
 `
 export const MobileProgressMenuMessage = styled(Message)`
     padding-top: 0 !important;

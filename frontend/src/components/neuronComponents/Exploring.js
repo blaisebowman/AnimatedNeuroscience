@@ -158,17 +158,13 @@ function ExploringPage(props) {
                         <MobileGridSecondaryRow>
                             <AdobeContainer>
                                 <Card fluid>
-                                    <div onMouseEnter={handleSelector}
-                                         onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson" icon='dropdown'>
                                             <Dropdown.Menu>
                                                 <MobileNavBarFirstButton fluid as={Link} to='/neurons-exploring'>
                                                     Exploring the Neuron
                                                 </MobileNavBarFirstButton>
                                             </Dropdown.Menu>
-                                        </MobileSettingsDropdown>
-                                    </div>
-                                    <Card.Content>
+                                        </MobileSettingsDropdown>                                    <Card.Content>
                                         <ErrorAnimation warning fluid>
                                             <Message.Header>Tip of the Day</Message.Header>
                                             <p>For a better experience, please press the button below to view in fullscreen.</p>

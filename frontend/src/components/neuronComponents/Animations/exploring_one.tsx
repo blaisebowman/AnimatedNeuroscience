@@ -26,7 +26,6 @@ const App2 = () => {
     console.log("Max: height = " + window.screen.availHeight + "width = " + window.screen.availWidth);
     console.log("Max: height = " + window.screen.height + "width = " + window.screen.width);
 
-
     useEffect(() => {
         console.log(animationObject);
         console.log('in that hook');

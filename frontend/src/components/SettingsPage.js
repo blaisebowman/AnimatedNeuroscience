@@ -1,7 +1,25 @@
 import React, {useState, useEffect} from 'react';
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {Grid, Segment, Button, Card, Icon, Menu, Message, Modal, Form, Input, Dropdown, Table} from "semantic-ui-react"
-import {CustomMenuItem, CustomMobileProgressMenu, MobileSettingsGrid, CustomProgressHeader, CustomProgressMenu, CustomProgressDropdown, MobileContainerSegment, DDItem, MobileSettingsDropdown, CustomMobileMenuItem, MobileProgressMenuMessage, MobileGridSecondaryProgressRow, MobileCard} from "../styledComponents";
+import {
+    CustomMenuItem,
+    CustomMobileProgressMenu,
+    MobileSettingsGrid,
+    CustomProgressHeader,
+    CustomProgressMenu,
+    CustomProgressDropdown,
+    MobileContainerSegment,
+    MobileSettingsDropdown,
+    CustomMobileMenuItem,
+    MobileProgressMenuMessage,
+    MobileGridSecondaryProgressRow,
+    MobileCard,
+    CustomMobileMenuItemBody,
+    MobileNavBarFirstButton,
+    MobileNavBarButton,
+    CustomMobileMenuItemBodyB,
+    CustomMobileMenuItemB, MobileContainerSegmentSettings, CustomMobileMenuItemBodyD, CustomMobileMenuItemD
+} from "../styledComponents";
 import '../neurons.css';
 import '../glias.css';
 import '../modal.css';
@@ -711,31 +729,32 @@ function SettingsPage(props) {
     }
     else {
         return (
-            <div className="AppMobile">
-                <MobileContainerSegment>
+                <MobileContainerSegmentSettings basic>
                     <MobileSettingsGrid columns={2}>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                    <MobileSettingsDropdown fluid placeholder="Account Settings">
+                                <Card fluid>
+                                    <MobileSettingsDropdown fluid  placeholder="Account Settings">
                                         <Dropdown.Menu>
-                                            <DDItem name='progress' onClick={handleProgress}>
-                                                <Icon name='trophy'/>
-                                                View My Progress
-                                            </DDItem>
-                                            <DDItem name='update' onClick={handleEmail}>
-                                                <Icon name='mail'/>
-                                                Update My Email
-                                            </DDItem>
-                                            <DDItem name='update' onClick={handlePassword}>
-                                                <Icon name='lock'/>
-                                                Update My Password
-                                            </DDItem>
-                                            <DDItem name='delete' onClick={handleDelete}>
-                                                <Icon name='user delete'/>
-                                                Delete My Account
-                                            </DDItem>
+                                            <MobileNavBarFirstButton fluid as={Link} onClick ={handleProgress}>
+                                            <Icon name='trophy'/>
+                                            View My Progress
+                                        </MobileNavBarFirstButton>
+                                        <MobileNavBarButton fluid as={Link} onClick ={handleEmail}>
+                                            <Icon name='mail'/>
+                                            Update My Email
+                                        </MobileNavBarButton>
+                                        <MobileNavBarButton fluid as={Link} onClick ={handlePassword}>
+                                            <Icon name='lock'/>
+                                            Update My Password
+                                        </MobileNavBarButton>
+                                        <MobileNavBarButton fluid as={Link} onClick ={handleDelete}>
+                                            <Icon name='user delete'/>
+                                            Delete My Account
+                                        </MobileNavBarButton>
                                         </Dropdown.Menu>
                                     </MobileSettingsDropdown>
+                                </Card>
                             </Grid.Column>
                         </Grid.Row>
                             {currentTab === "progress" &&
@@ -743,7 +762,7 @@ function SettingsPage(props) {
                                 <CustomMobileMenuItem>
                                     Your Progress
                                 </CustomMobileMenuItem>
-                                <Menu.Item>
+                                <CustomMobileMenuItemBody>
                                     <MobileProgressMenuMessage>
                                         <Grid columns={2}>
                                             <Grid.Column width={16} textAlign='middle' verticalAlign='top'>
@@ -763,11 +782,10 @@ function SettingsPage(props) {
                                                     value={dropdownOption}
                                                 />
                                             </MobileGridSecondaryProgressRow>
-
                                         </Grid>
                                     </MobileProgressMenuMessage>
                                     <Message>
-                                        <Table celled unstackable columns={3} collapsing>
+                                        <Table celled unstackable columns={3}>
                                             <Table.Header>
                                                 <Table.Row>
                                                     <Table.HeaderCell>Animation Category</Table.HeaderCell>
@@ -809,16 +827,15 @@ function SettingsPage(props) {
                                             </Table.Body>
                                         </Table>
                                     </Message>
-                                </Menu.Item>
+                                </CustomMobileMenuItemBody>
                             </CustomMobileProgressMenu>
-
                             }
                         {currentTab === "email" &&
-                        <MobileCard fluid>
-                            <Card.Header content=''>
-                                <b>Update my Email</b>
-                            </Card.Header>
-                            <Card.Content>
+                        <CustomMobileProgressMenu vertical fluid>
+                            <CustomMobileMenuItemB>
+                                Update My Email
+                            </CustomMobileMenuItemB>
+                            <CustomMobileMenuItemBodyB>
                                 <Form onSubmit={handleEmailSubmit}>
                                     <Message content={currentEmail}/>
                                     <Form.Group widths='equal'>
@@ -852,13 +869,15 @@ function SettingsPage(props) {
                                     }
                                     <Form.Button content='Submit' color='blue'/>
                                 </Form>
-                            </Card.Content>
-                        </MobileCard>
+                            </CustomMobileMenuItemBodyB>
+                            </CustomMobileProgressMenu>
                         }
                         {currentTab === "password" &&
-                        <MobileCard fluid>
-                            <Card.Content>
+                        <CustomMobileProgressMenu vertical fluid>
+                            <CustomMobileMenuItemB>
                                 Update my Password
+                            </CustomMobileMenuItemB>
+                            <CustomMobileMenuItemBodyB>
                                 <Form onSubmit={handlePasswordSubmit}>
                                     <Message content='Password must be between
                                                             8-20 characters and contain at least one number, one
@@ -916,50 +935,52 @@ function SettingsPage(props) {
                                     }
                                     <Form.Button content='Submit' color='blue'/>
                                 </Form>
-                            </Card.Content>
-                        </MobileCard>
+                            </CustomMobileMenuItemBodyB>
+                        </CustomMobileProgressMenu>
                         }
                         {currentTab === "delete" &&
-                        <MobileCard fluid>
-                            <Card.Content>
-                                <Message
-                                    content='Are you sure you want to delete your account? You will lose all of your progress.'/>
-                                <Modal
-                                    onClose={() => setModalVisible(false)}
-                                    onOpen={() => setModalVisible(true)}
-                                    open={modalVisible}
-                                    trigger={<Button>Delete My Account</Button>}
-                                >
-                                    <Modal.Header styles={{textAlign: "middle"}}
-                                                  className='myModalHeader'>
-                                        Are you sure you want to delete your account?
-                                    </Modal.Header>
-                                    <Modal.Actions className='myModalActions'>
-                                        <Button
-                                            content='No, I want to keep my account.'
-                                            labelPosition='right'
-                                            icon='cancel'
-                                            onClick={cancelDeletion}
-                                            negative
-                                        />
-                                        <Button
-                                            content='Yes, delete my account.'
-                                            labelPosition='right'
-                                            icon='checkmark'
-                                            onClick={processDeletion}
-                                            positive
-                                        />
-                                    </Modal.Actions>
-                                </Modal>
-                            </Card.Content>
-                        </MobileCard>
+                        <CustomMobileProgressMenu vertical fluid>
+                            <CustomMobileMenuItemD>
+                                Delete My Account
+                            </CustomMobileMenuItemD>
+                            <CustomMobileMenuItemBodyD>
+                                    <Message color='red'
+                                        content='Are you sure you want to delete your account? You will lose all of your progress.'/>
+                                    <Modal
+                                        onClose={() => setModalVisible(false)}
+                                        onOpen={() => setModalVisible(true)}
+                                        open={modalVisible}
+                                        trigger={<Button color='red'>Delete My Account</Button>}
+                                    >
+                                        <Modal.Header styles={{textAlign: "middle"}}
+                                                      className='myModalHeader'>
+                                            Are you sure you want to delete your account?
+                                        </Modal.Header>
+                                        <Modal.Actions className='myModalActions'>
+                                            <Button
+                                                content='No, I want to keep my account.'
+                                                labelPosition='right'
+                                                icon='cancel'
+                                                onClick={cancelDeletion}
+                                                negative
+                                            />
+                                            <Button
+                                                content='Yes, delete my account.'
+                                                labelPosition='right'
+                                                icon='checkmark'
+                                                onClick={processDeletion}
+                                                positive
+                                            />
+                                        </Modal.Actions>
+                                    </Modal>
+                            </CustomMobileMenuItemBodyD>
+                        </CustomMobileProgressMenu>
                         }
                         {redirectingToHome &&
                         <Redirect to={'/introduction'}/>
                         }
                     </MobileSettingsGrid>
-                </MobileContainerSegment>
-            </div>
+                </MobileContainerSegmentSettings>
         );
     }
 }
