@@ -142,8 +142,7 @@ export const DDItem= styled(Dropdown.Item)`
     }
 `
 export const CustomDivider= styled(Dropdown.Divider)`
-    margin-top: 0.5em !important;
-    margin-bottom: 0.5em !important;
+    margin: 0 0 0 0 !important;
 `
 export const CustomHeader= styled(Dropdown.Header)`
     margin: 1rem 0.75rem !important;
@@ -197,7 +196,6 @@ export const CustomContainerSegment= styled(Segment)`
     padding: 0 0 0 0 !important;
 `
 //MOBILE COMPONENTS BELOW
-/*TODO -> Z-INDEX FOR DROPDOWN*/
 export const MobileContainerHeader= styled(Header)`
 /*
     margin-bottom: 0 !important;
@@ -206,7 +204,6 @@ export const MobileContainerHeader= styled(Header)`
 export const MobileDropdown= styled(Dropdown)`
     padding: 0 2rem 0 2rem !important;
     background: linear-gradient(40deg, #05ebe4 0%, #8000f1 100%) !important;
-    /*border: 0.1rem solid black !important;*/
     height: 1.5em !important;
     .text {
       color: white !important;
@@ -216,6 +213,9 @@ export const MobileDropdown= styled(Dropdown)`
         margin: 0.375em 0 0.375em 0 !important;
         width: 1em !important;
         height: 1em !important;
+    }
+    &&& > .menu {
+        min-width: min-content !important;
     }
 `
 export const MobileSettingsDropdown= styled(Dropdown)`
@@ -562,6 +562,83 @@ export const MobileNavBarFirstButton = styled (Button)`
     -webkit-user-select: none;
     user-select: none;
     transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s 
+`
+export const NavBarButton = styled (Button)`
+    min-height: 1em !important;
+    width: 100% !important;
+    cursor: pointer;
+    display: flex;
+    outline: 0;
+    vertical-align: baseline;
+    background: #ffffff none;
+    color: rgba(0,0,0,1);
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    margin: 0 .25em 0 0;
+    padding: .78571429rem 1.14285714rem!important; !important;
+    text-transform: none;
+    text-shadow: none;
+    font-weight: 700;
+    line-height: 1em;
+    font-style: normal;
+    text-align: left;
+    text-decoration: none;
+    box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgb(34 36 38 / 15%) inset;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s 
+`
+export const NavBarFirstButton = styled (Button)`
+    min-height: 1em !important;
+    width: 100% !important;
+    cursor: pointer;
+    display: flex;
+    outline: 0;
+    border: none;
+    vertical-align: baseline;
+    background: #ffffff none;
+    color: rgba(0,0,0,1);
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    margin: 0 .25em 0 0;
+    padding: .78571429rem 1.14285714rem!important; !important;
+    text-transform: none;
+    text-shadow: none;
+    font-weight: 700;
+    line-height: 1em;
+    font-style: normal;
+    text-align: left;
+    text-decoration: none;
+    border-radius: 0;
+    box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgb(34 36 38 / 15%) inset;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s 
+`
+export const CustomDropdownMenu= styled(Dropdown.Menu)`
+    min-width: min-content !important;
+    .text {
+      color: white !important;
+      margin: 0;
+    }
+    &&& > .icon {
+        margin: 0.375em 0 0.375em 0 !important;
+        width: 1em !important;
+        height: 1em !important;
+    }
+    .text {
+      color: white !important;
+      margin: 0;
+    }
+`
+
+export const NavTable= styled(Table)`
+    margin: 0 0 0 0 !important;
+    height: 100% !important;
+    border: none !important;
+    td {
+        padding: 0 0 !important;
+        height: 0.8em !important;
+    }
+ 
 `
 export const ErrorAnimation = styled(Message)`
     text-align: center;

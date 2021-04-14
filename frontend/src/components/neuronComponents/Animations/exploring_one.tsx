@@ -7,7 +7,7 @@ import {MobileAnimation, ProgressDimmer, FullScreen, MobileAnimationMessage} fro
 
 const App2 = () => {
     if(process.env.NODE_ENV === 'production'){
-        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        //console.log("In production mode. Disable log statements -> hide log statements from console.");
         console.log = function (){};
     }
     const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
@@ -33,7 +33,6 @@ const App2 = () => {
         if (sessionStorage.getItem("id")) {
             getMemberArray();
             setUserIsMember(true);
-            console.log("Page Initial Load.");
         }
         else {
             setUserIsMember(false);

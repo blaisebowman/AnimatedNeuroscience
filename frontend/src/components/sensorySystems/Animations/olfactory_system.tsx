@@ -32,7 +32,6 @@ const OlfactorySystem = () => {
         if (sessionStorage.getItem("id")) {
             getMemberArray();
             setUserIsMember(true);
-            console.log("Page Initial Load.");
         }
         else {
             setUserIsMember(false);

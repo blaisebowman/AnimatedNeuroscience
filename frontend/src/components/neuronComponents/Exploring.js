@@ -10,6 +10,12 @@ function ExploringPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
     const [orientationIs, setOrientationIs] = useState( 0);
     const [isFull, setIsFull] = useState(false);
+
+    if(process.env.NODE_ENV === 'production'){
+        //In production mode. Disable log statements -> hide log statements from console
+        console.log = function (){};
+    }
+
     function handleSelector() {
         if (selectorIsVisible === true) {
             setSelectorIsVisible(false);
@@ -88,7 +94,6 @@ function ExploringPage(props) {
         console.log("[------HOOK------]\n I FIRE ONCE");
         console.log("Max: height = " + window.screen.availHeight + "width = " + window.screen.availWidth);
         if(mounted) {
-            console.log("I am mounted");
             window.addEventListener('fullscreenchange', handleOrientation);
             window.addEventListener('orientationchange', handleToggle);
         }

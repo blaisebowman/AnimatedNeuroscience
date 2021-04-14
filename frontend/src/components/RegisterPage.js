@@ -31,7 +31,7 @@ function RegisterPage(props) {
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if(process.env.NODE_ENV === 'production'){
-        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        //console.log("In production mode. Disable log statements -> hide log statements from console.");
         console.log = function (){};
     }
 
@@ -162,7 +162,6 @@ function RegisterPage(props) {
         }
     }
 
-
     function checkBadCharacters (first, last, password, passwordConfirmation, email){
         if(!(nameRegex.test(first))){
             setErrorStateFirst("Please enter a valid first name.");
@@ -263,18 +262,15 @@ function RegisterPage(props) {
                     setPasswordConfirm('');
                     setEmail('');*/
                 }).catch(function(error) {
-                    console.log(error.response);
-                    console.log(error.response.headers);
                     console.log(error.response.status);
+                    console.log(error.response.data.registerError);
                     if (error.response.data.registerError !== undefined){
                         setEmailExists(true);
                     }
                 });
-        }
-        else {
+        } else {
             console.log("Unsuccessful submission");
         }
-        //if first is invalid, or empty, display relevant error
     }
     if(isMobile === false) {
         return (

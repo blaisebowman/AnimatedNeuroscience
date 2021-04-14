@@ -1,16 +1,14 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {Grid, Image, Segment, Button, Card, Icon, Divider, List} from "semantic-ui-react"
+import {Grid, Image, Segment, Button, Card, Icon, Divider} from "semantic-ui-react"
 import cerebellum from "../../images/cerebellum.jpg";
 import '../../neurons.css';
 import '../../glias.css';
 import {MobileContainerSegment, MobileGrid, MobileGridSecondaryRow} from "../../styledComponents";
-import neuron from "../../images/neuron.jpg";
 
 function Cerebellum(props) {
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if(isMobile === false) {
-
         return (
             <div className="App">
                 <Segment className="body">
@@ -151,7 +149,6 @@ function Cerebellum(props) {
                                         </div>
                                         <Icon name="clock outline"/>3 min.
                                     </Card.Content>
-
                                 </Card>
                             </Grid.Column>
                         </MobileGridSecondaryRow>

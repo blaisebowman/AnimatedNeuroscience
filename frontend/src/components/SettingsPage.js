@@ -8,12 +8,10 @@ import {
     CustomProgressHeader,
     CustomProgressMenu,
     CustomProgressDropdown,
-    MobileContainerSegment,
     MobileSettingsDropdown,
     CustomMobileMenuItem,
     MobileProgressMenuMessage,
     MobileGridSecondaryProgressRow,
-    MobileCard,
     CustomMobileMenuItemBody,
     MobileNavBarFirstButton,
     MobileNavBarButton,
@@ -88,15 +86,13 @@ function SettingsPage(props) {
     }
 
     useEffect(()=> {
-        //TODO -> Mobile Caps Lock Detection (iOS, Android)
         const handleCapsLock = (e) => {
             const deviceIsMac = /Mac/.test(navigator.platform);
             if (deviceIsMac && e.keyCode === 57) {
                 if(isCaps === false){
                     console.log("Mac user enabled caps lock");
                     setIsCaps(true);
-                }
-                else {
+                } else {
                     console.log("Mac user disabled caps lock");
                     setIsCaps(false);
                     setCapsLockPassword(false);
@@ -106,8 +102,7 @@ function SettingsPage(props) {
                 if(isCaps === false){
                     console.log("Windows user enabled caps lock");
                     setIsCaps(true);
-                }
-                else {
+                } else {
                     console.log("Windows user disabled caps lock");
                     setIsCaps(false);
                     setCapsLockPassword(false);
@@ -133,7 +128,7 @@ function SettingsPage(props) {
                         e.target.form.elements[index + 1].focus(); //move to next input field in the form
                     }
                     else {
-                        handlePasswordSubmit();
+                        handleEmailSubmit();
                     }
                     break;
                 case "password":
@@ -155,12 +150,10 @@ function SettingsPage(props) {
             if(e.target.name === "password" && isCaps){
                 setCapsLockPassword(true);
                 setCapsLockPasswordConfirm(true);
-            }
-            else if(e.target.name === "passwordConfirm" && capsLockPassword === true){
+            } else if(e.target.name === "passwordConfirm" && capsLockPassword === true){
                 setCapsLockPasswordConfirm(true)
                 setCapsLockPassword(false);
-            }
-            else if (e.target.name === "password" && capsLockPasswordConfirm === true){
+            } else if (e.target.name === "password" && capsLockPasswordConfirm === true){
                 setCapsLockPasswordConfirm(false);
                 setCapsLockPassword(true);
             }
@@ -170,22 +163,18 @@ function SettingsPage(props) {
             if(e.target.name === "passwordConfirm"){
                 if(capsLockPasswordConfirm === true){
                     return;
-                }
-                else if (capsLockPassword === true){
+                } else if (capsLockPassword === true){
                     setCapsLockPassword(false);
-                }
-                else {
+                } else {
                     setCapsLockPasswordConfirm(true);
                 }
             }
             else if (e.target.name === "password"){
                 if(capsLockPassword === true){
                     return;
-                }
-                else if (capsLockPasswordConfirm === true){
+                } else if (capsLockPasswordConfirm === true){
                     setCapsLockPasswordConfirm(false);
-                }
-                else {
+                } else {
                     setCapsLockPassword(true);
                 }
             }
@@ -201,14 +190,16 @@ function SettingsPage(props) {
     function checkBadCharacters(value1, value2, type) {
         //ensure emails and passwords match regex
         if (type === "email") {
-            if (!(emailRegex.test(value1))) {
-                setEmailError("Please enter a valid email address.");
-            }
-            if (!(emailRegex.test(value2))) {
-                setEmailConfirmError("Please enter a valid email address.");
-            } else if (value1 !== value2) {
+            console.log('checking.');
+            if (value1 !== value2) {
+                console.log(value1);
+                console.log(value2);
                 setEmailError("Emails do not match.");
                 setEmailConfirmError("Emails do not match.");
+            } else if (!(emailRegex.test(value1))) {
+                setEmailError("Please enter a valid email address.");
+            } else if (!(emailRegex.test(value2))) {
+                setEmailConfirmError("Please enter a valid email address.");
             }
         } else {
             if (!(passwordRegex.test(value1))) {
@@ -239,7 +230,6 @@ function SettingsPage(props) {
             }
         }
     }
-
 
     function handlePassword() {
         //allows member to update password
@@ -309,12 +299,10 @@ function SettingsPage(props) {
             .then(function (response) {
                 console.log(response.data);
                 sessionStorage.setItem('reload', "true");
-                //setEmail('');
+                /*setEmail('');
+                setEmailConfirm('');*/
                 storedEmail = response.data;
             }).catch(function (error) {
-                console.log(error);
-                console.log(error.response);
-                console.log(error.response.headers);
                 console.log(error.response.status);
             });
         setCurrentEmail("Your current email is: " + storedEmail);
@@ -340,10 +328,17 @@ function SettingsPage(props) {
 
     async function handleEmailSubmit() {
         //called on submit in email update menu option
-        checkBadCharacters(email, emailConfirm, "email");
-        console.log(emailError);
-        console.log(emailConfirmError);
-        if (emailError.length === 0 && emailConfirmError.length === 0) {
+        if (!(emailRegex.test(email))) {
+            setEmailError("Please enter a valid email address.");
+        }
+        if (!(emailRegex.test(emailConfirm))) {
+            setEmailConfirmError("Please enter a valid email address.");
+        }
+        else if (email !== emailConfirm) {
+            setEmailError("Emails do not match.");
+            setEmailConfirmError("Emails do not match.");
+        }
+        if (email === emailConfirm && emailRegex.test(email) && emailRegex.test(emailConfirm)) {
             console.log("Email Updated");
             let id = sessionStorage.getItem("id");
             let port = process.env.PORT || 'http://localhost:8080/api/members/'+id
@@ -359,8 +354,10 @@ function SettingsPage(props) {
                     console.log(error.response);
                     console.log("Email NOT updated.");
                     setEmailUpdateError(error.response.data.updateMemberInformationError);
+                    setEmailUpdateSuccess("false");
                 });
         } else {
+            setEmailUpdateSuccess("false")
             console.log("Email NOT updated.");
         }
     }
@@ -570,7 +567,6 @@ function SettingsPage(props) {
                                                         </Dropdown>
                                                     </Menu.Item>
                                                 </CustomProgressMenu>
-
                                                 }
                                                 {currentTab === "email" &&
                                                 <Card fluid>
@@ -605,7 +601,7 @@ function SettingsPage(props) {
                                                             {emailUpdateError &&
                                                             <Message content={emailUpdateError} color={'red'}/>
                                                             }
-                                                            {emailUpdateSuccess === " true" &&
+                                                            {emailUpdateSuccess === "true" &&
                                                             <Message content="Email Successfully Updated."
                                                                      color={'blue'}/>
                                                             }
@@ -863,11 +859,12 @@ function SettingsPage(props) {
                                     {emailUpdateError &&
                                     <Message content={emailUpdateError} color={'red'}/>
                                     }
-                                    {emailUpdateSuccess === " true" &&
+                                    {emailUpdateSuccess === "true" &&
                                     <Message content="Email Successfully Updated."
                                              color={'blue'}/>
                                     }
                                     <Form.Button content='Submit' color='blue'/>
+
                                 </Form>
                             </CustomMobileMenuItemBodyB>
                             </CustomMobileProgressMenu>

@@ -852,15 +852,14 @@ exports.register = (req, res) => {
     if(!registrationValid){
         console.log(registrationError);
         return res.status(400).json({formattingError: registrationError});
-    }
-    else {
+    } else {
         const memberEmail = req.body.member_email;
         Member.findOne({member_email: memberEmail}, (error, member) => {
             if(error){
                 return res.status(400).send(error);
             }
             else {
-                if (member.member_email === memberEmail){
+                if (member){
                     return res.status(400).json({registerError: "There is already an account associated with that email address."});
                 }
                 // No member is the database is associated with the registration email (new user)

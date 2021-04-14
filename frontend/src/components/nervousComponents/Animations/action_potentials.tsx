@@ -23,7 +23,7 @@ const ActionPotentials = () => {
     console.log("Max: height = " + window.screen.height + "width = " + window.screen.width);
 
     if(process.env.NODE_ENV === 'production'){
-        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        //console.log("In production mode. Disable log statements -> hide log statements from console.");
         console.log = function (){};
     }
 
@@ -32,7 +32,6 @@ const ActionPotentials = () => {
         if (sessionStorage.getItem("id")) {
             getMemberArray();
             setUserIsMember(true);
-            console.log("Page Initial Load.");
         }
         else {
             setUserIsMember(false);
