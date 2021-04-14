@@ -30,11 +30,9 @@ function ForgotPasswordPage(props) {
             if(e.target.name === "password" || e.target.name === "passwordConfirm"){
                 if(capsLockPassword === true){
                     return;
-                }
-                else if (capsLockPassword === true){
+                } else if (capsLockPassword === true){
                     setCapsLockPassword(false);
-                }
-                else {
+                } else {
                     setCapsLockPassword(true);
                 }
             }

@@ -13,12 +13,6 @@ router.route('/register')
 router.route('/login')
     .post(members.login);
 
-router.route('/initialRegistration')
-    .post(members.initialRegistration);
-
-router.route('/updateEmail')
-    .post(members.updateEmail);
-
 router.route('/forgotPassword')
     .post(members.forgotPassword);
 
