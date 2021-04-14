@@ -15,50 +15,33 @@ module.exports = function validateUpdate(arguments){
     //*Which field to update (email or password)
     arguments.type
 
-    /*if(isEmpty(arguments.member_first)){
-        updateErrors.first = "Error: please enter your first name";
-    }
-    else if (!(nameRegex.test(arguments.member_first))){
-        updateErrors.first = "Error: please enter a valid first name";
-    }
-
-    if(isEmpty(arguments.member_last)){
-        updateErrors.last = "Error: please enter your last name";
-    }
-
-    else if (!(nameRegex.test(arguments.member_last))){
-        updateErrors.first = "Error: please enter a valid last name";
-    }*/
-
     if (arguments.type === "email") {
         if (isEmpty(arguments.member_email)) {
             updateErrors.email = "Error: email address field is empty.";
-        }
-        else if (arguments.member_email.length < 3) {
+        } else if (arguments.member_email.length < 3) {
             updateErrors.email = "Error: the email you entered is not a valid email address.";
-        }
-        else if (!(emailRegex.test(arguments.member_email))) {
+        } else if (!(emailRegex.test(arguments.member_email))) {
             updateErrors.email = "Error: the email you entered is not a valid email address.";
         }
     }
     else if (arguments.type === "password") {
         if (arguments.member_password !== arguments.member_password_confirm){
             updateErrors.password = "Error: the passwords you entered do not match."
-        }
-        else if(isEmpty(arguments.member_password)){
+        } else if(isEmpty(arguments.member_password)){
             updateErrors.password = "Error: password field is empty.";
-        }
-        else if(isEmpty(arguments.member_password_confirm)){
+        } else if(isEmpty(arguments.member_password_confirm)){
             updateErrors.password = "Error: password confirmation field is empty.";
-        }
-        else if (!((passwordRegex.test(arguments.member_password)))) {
+        } else if (!((passwordRegex.test(arguments.member_password)))) {
             //^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,20}$
             updateErrors.password = "Error: passwords must match the given format.";
-        }
-        else if (!((passwordRegex.test(arguments.member_password_confirm)))) {
+        } else if (!((passwordRegex.test(arguments.member_password_confirm)))) {
             //^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,20}$
             updateErrors.password_confirm = "Error: passwords must match the given format.";
         }
+    }
+    if(process.env.NODE_ENV === 'production'){
+        //console.log("In production mode. Disable log statements -> hide log statements from console.");
+        console.log = function (){};
     }
     console.log(updateErrors);
     console.log(isEmpty(updateErrors));

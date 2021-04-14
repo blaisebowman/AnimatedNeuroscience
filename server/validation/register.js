@@ -19,34 +19,32 @@ module.exports = function validateRegister(arguments){
 
     if(isEmpty(arguments.member_first)){
         registerErrors.first = "Error: please enter your first name";
-    }
-    else if (!(nameRegex.test(arguments.member_first))){
+    } else if (!(nameRegex.test(arguments.member_first))){
         registerErrors.first = "Error: please enter a valid first name";
     }
 
     if(isEmpty(arguments.member_last)){
         registerErrors.last = "Error: please enter your last name";
-    }
-
-    else if (!(nameRegex.test(arguments.member_last))){
+    } else if (!(nameRegex.test(arguments.member_last))){
         registerErrors.first = "Error: please enter a valid last name";
     }
 
     if(isEmpty(arguments.member_email)){
         registerErrors.email = "Error: email address field is empty.";
-    }
-    else if (!(emailRegex.test(arguments.member_email))){
+    } else if (!(emailRegex.test(arguments.member_email))){
         registerErrors.email = "Error: email address is in an invalid format.";
     }
+
     if(isEmpty(arguments.member_password)){
         registerErrors.password = "Error: password field is empty.";
-    }
-    else if(isEmpty(arguments.member_password_confirm)){
+    } else if(isEmpty(arguments.member_password_confirm)){
         registerErrors.password = "Error: password confirmation field is empty.";
-    }
-    else if(!((passwordRegex.test(arguments.member_password_confirm)))){
+    } else if(!((passwordRegex.test(arguments.member_password_confirm)))){
     //^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$
         registerErrors.password = "Error: password must match the given format.";
+    }
+    if(process.env.NODE_ENV === 'production'){
+        console.log = function (){};
     }
     console.log(registerErrors);
     return {

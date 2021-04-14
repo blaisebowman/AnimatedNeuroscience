@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Button, Card, Divider, Grid, Icon, Segment, Form, Input, Message} from "semantic-ui-react"
-import {MessageLogin, MobileContainerSegment, MobileInnerSegment, SubmitButton} from "../styledComponents";
+import {MessageLogin, MobileContainerSegment, MobileInnerSegment} from "../styledComponents";
 import {Link, Redirect} from "react-router-dom";
 import axios from 'axios';
 
 function RegisterPage(props) {
     const [redirect, setRedirect] = useState(false);
-    const [height, setHeight] = useState(null);
-    const [width, setWidth] = useState(null);
     const [errorStateFirst, setErrorStateFirst] = useState("");
     const [errorStateLast, setErrorStateLast] = useState("");
     const [errorStateEmail, setErrorStateEmail] = useState("");

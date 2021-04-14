@@ -3,7 +3,6 @@ const nodemailer = require('nodemailer');
 const ck = require('ckey');
 
 class Mail {
-    //TODO -> change so it takes in a parameter of which email to send (initial email, change password email, 'change email' email)
     static async send(message){
         let user = process.env.LOGIN_EMAIL || ck.LOGIN_EMAIL;
         let password = process.env.PASSWORD_EMAIL || ck.PASSWORD_EMAIL;
@@ -14,6 +13,11 @@ class Mail {
                 pass: password
             }
         });
+
+        if(process.env.NODE_ENV === 'production'){
+            //console.log("In production mode. Disable log statements -> hide log statements from console.");
+            console.log = function (){};
+        }
 
        transport.verify((error, success) => {
             if(error){
@@ -30,7 +34,6 @@ class Mail {
                 sendTheEmail = true;
             }
             if(process.env.NODE_ENV === "debug" || process.env.NODE_ENV === "development"){
-                //SET BACK TO FALSE AFTER MANUAL TESTING
                 sendTheEmail = true;
             }
             const email = new Email({
@@ -73,4 +76,3 @@ class Mail {
     }
 }
 module.exports = Mail;
-

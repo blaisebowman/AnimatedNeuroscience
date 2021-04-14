@@ -7,6 +7,9 @@ import '../../glias.css';
 import $ from "jquery";
 
 function HypothalamusPage(props) {
+    if(process.env.NODE_ENV === 'production'){
+        console.log = function (){};
+    }
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
     const [orientationIs, setOrientationIs] = useState( 0);
     const [isFull, setIsFull] = useState(false);
@@ -153,7 +156,6 @@ function HypothalamusPage(props) {
             </div>
         );
     }
-
     else {
         return (
             <div className="AppMobile">
@@ -168,8 +170,6 @@ function HypothalamusPage(props) {
                         <MobileGridSecondaryRow>
                             <AdobeContainer>
                                 <Card fluid>
-                                    <div onMouseEnter={handleSelector}
-                                         onMouseLeave={handleSelector}>
                                         <MobileSettingsDropdown fluid placeholder="Select A Lesson">
                                             <Dropdown.Menu>
                                                 <MobileNavBarFirstButton fluid as={Link} to='/nervoussystem-autonomic'>
@@ -183,7 +183,6 @@ function HypothalamusPage(props) {
                                                 </MobileNavBarButton>
                                             </Dropdown.Menu>
                                         </MobileSettingsDropdown>
-                                    </div>
                                     <Card.Content>
                                         <ErrorAnimation warning fluid>
                                             <Message.Header>Tip of the Day</Message.Header>

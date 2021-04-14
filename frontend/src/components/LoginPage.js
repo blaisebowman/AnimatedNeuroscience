@@ -28,10 +28,7 @@ function LoginPage(props) {
         console.log = function (){};
     }
 
-    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
     function checkCapsLock(e){
-        //TODO -> MOBILE KEY CODE FOR ENTER AND CAPS LOCK
         const deviceIsMac = /Mac/.test(navigator.platform);
         console.log(e.target.name);
         console.log(e._reactName);
@@ -227,6 +224,7 @@ function LoginPage(props) {
         }
     }
 
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if(isMobile === false) {
         return (
             <div className="App">

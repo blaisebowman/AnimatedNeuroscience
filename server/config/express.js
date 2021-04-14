@@ -5,19 +5,15 @@ const express = require('express'),
     morgan = require('morgan'),
     passport = require('passport'),
     memberRoutes = require('../routes/member.routes');
-module.exports.init = function() {
+    module.exports.init = function() {
     mongoose.set('useCreateIndex', true);
     mongoose.Promise = global.Promise;
     mongoose.connect(process.env.MONGODB_URI || require('./config.js').db.uri, {
         useNewUrlParser: true,
         useUnifiedTopology: true
-    }).then(
-        ()=>{
-            //all-set and ready to go
-            console.log("Connected to MongoDB database");
+    }).then(()=>{console.log("Connected to MongoDB database");
         },
         error => {
-            //handle initial connection error
             console.log("Initial connection error: " + error + '\n\t' + process.env.MONGODB_URI);
             console.log(process.env.MONGODB_URI);
         }
@@ -25,9 +21,6 @@ module.exports.init = function() {
     mongoose.connection.on('error', error => {
         console.log(error);
     });
-
-    //console.log(mongoose.connection.collections);
-
 
     const app = express();
 
@@ -42,15 +35,12 @@ module.exports.init = function() {
 
     const cors = require('cors');
     app.use(cors());
-    //Enable request logging for development debugging
     app.use(morgan('dev'));
-    //Body parsing middleware
     app.use(bodyParser.json());
     app.use(passport.initialize());
     require('./passport')(passport);
     app.use('/api/members', memberRoutes);
 
-    // If web app is in production, serves build folder
     if(process.env.NODE_ENV === 'production'){
         app.use(express.static(path.join(__dirname, '../../frontend/build')));
         //Route other requests to frontend
@@ -58,6 +48,5 @@ module.exports.init = function() {
             res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
         });
     }
-
     return app;
 }

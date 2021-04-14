@@ -735,7 +735,7 @@ function SettingsPage(props) {
                             <Grid.Column width={16}>
                                 <Card fluid>
                                     <MobileSettingsDropdown fluid  placeholder="Account Settings">
-                                        <Dropdown.Menu>
+                                        <Dropdown.Menu upward='false'>
                                             <MobileNavBarFirstButton fluid as={Link} onClick ={handleProgress}>
                                             <Icon name='trophy'/>
                                             View My Progress

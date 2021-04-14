@@ -1,12 +1,11 @@
 import React, {useState} from "react";
-import {Button, Card, Divider, Form, Input, Icon, Grid, Message, Segment} from "semantic-ui-react"
-import {Link, Redirect} from "react-router-dom";
+import {Button, Card, Divider, Form, Input, Grid, Message, Segment} from "semantic-ui-react"
+import {Redirect} from "react-router-dom";
 import axios from "axios";
+import {MessageLogin, MobileAnimationSegment, MobileGrid, MobileInnerSegment} from "../styledComponents";
 
 function ForgotPasswordPage(props) {
     const [redirect, setRedirect] = useState(false);
-    const [height, setHeight] = useState(null);
-    const [width, setWidth] = useState(null);
     const [errorStatePassword, setErrorStatePassword] = useState("");
     const [password, setPassword] = useState("");
     const [errorStatePasswordConfirm, setErrorStatePasswordConfirm] = useState("");
@@ -20,6 +19,7 @@ function ForgotPasswordPage(props) {
         console.log("In production mode. Disable log statements -> hide log statements from console.");
         console.log = function (){};
     }
+
     function checkCapsLock(e){
         //*For the forgot password page, there is only one CAPS lock error message, unlike the register page.
         const deviceIsMac = /Mac/.test(navigator.platform);
@@ -39,8 +39,7 @@ function ForgotPasswordPage(props) {
                 }
             }
             setIsCaps(true);
-        }
-        else if(((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === true){
+        } else if(((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === true){
             setCapsLockPassword(false);
             setIsCaps(false);
         }
@@ -102,15 +101,13 @@ function ForgotPasswordPage(props) {
                     if (error.response.data.updateInformationError !== undefined){
                         setErrorStatePassword(error.response.data.updateInformationError);
                         setErrorStatePasswordConfirm(error.response.data.updateInformationError)
-                    }
-                    else {
+                    } else {
                         setErrorStatePassword("");
                         setErrorStatePasswordConfirm("");
                     }
                     console.log("Error validating user credentials in the backend.");
                 });
-        }
-        else {
+        } else {
             console.log("Unsuccessful submission.");
         }
     }
@@ -124,78 +121,154 @@ function ForgotPasswordPage(props) {
             setIsMasked("password");
         }
     }
-
-    return (
-        <div className="App">
-            <Segment className="body">
-                <div className="modGrid">
-                    <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
-                        <Grid.Column width={16} className='noPadding'>
-                            <Segment className="imgSeg">
-                                <Grid columns={3}>
-                                    <Grid.Column width={4}/>
-                                    <Grid.Column width={8} className={'firstCol'}>
-                                        <Card fluid>
-                                            <Card.Description>
-                                                <Message content='Did You Forget Your Password?' color='yellow'/>
-                                            </Card.Description>
-                                            <Card.Content>
-                                                <Card.Description>Reset Your Password:</Card.Description>
-                                            </Card.Content>
-                                            <Card.Description>
-                                                <Message size='mini' attached='bottom'>Reminder: passwords must be between
-                                                    8-20 characters and contain at least one number, one
-                                                    upper-case letter, and one lower-case letter. </Message>
-                                            </Card.Description>
-                                            <Card.Content extra>
-                                                <Form onSubmit={handleSubmit}>
-                                                    <Form.Group widths='equal'>
-                                                    <Form.Field
-                                                        type = {isMasked}
-                                                        control={Input}
-                                                        label='New Password'
-                                                        placeholder=''
-                                                        name='password'
-                                                        value={password}
-                                                        error = {errorStatePassword !== "" ? errorStatePassword : false}
-                                                        onChange={handleChangePassword}
-                                                        onClick={checkCapsLock}
-                                                        onKeyUp={checkCapsLock}
-                                                    />
-                                                        <Form.Field
-                                                        type= {isMasked}
-                                                        control={Input}
-                                                        label='Confirm New Password'
-                                                        placeholder=''
-                                                        name='passwordConfirm'
-                                                        value={passwordConfirm}
-                                                        error={errorStatePasswordConfirm !== "" ? errorStatePasswordConfirm : false}
-                                                        onChange={handleChangePasswordConfirm}
-                                                        onClick={checkCapsLock}
-                                                        onKeyDown={checkCapsLock}
-                                                    />
-                                                    </Form.Group>
-                                                    <Form.Field as={Button} icon='eye' onClick={toggleMask}/>
-                                                    {capsLockPassword &&
-                                                    <Message content='Warning: Caps Lock is enabled.' color='yellow'/>
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if(isMobile === false) {
+        return (
+            <div className="App">
+                <Segment className="body">
+                    <div className="modGrid">
+                        <Grid className="introduction" columns={2} style={{maxWidth: '100vw', maxHeight: '100vh'}}>
+                            <Grid.Column width={16} className='noPadding'>
+                                <Segment className="imgSeg">
+                                    <Grid columns={3}>
+                                        <Grid.Column width={4}/>
+                                        <Grid.Column width={8} className={'firstCol'}>
+                                            <Card fluid>
+                                                <Card.Description>
+                                                    <Message content='Did You Forget Your Password?' color='yellow'/>
+                                                </Card.Description>
+                                                <Card.Content>
+                                                    <Card.Description>Reset Your Password:</Card.Description>
+                                                </Card.Content>
+                                                <Card.Description>
+                                                    <Message size='mini' attached='bottom'>Reminder: passwords must be
+                                                        between
+                                                        8-20 characters and contain at least one number, one
+                                                        upper-case letter, and one lower-case letter. </Message>
+                                                </Card.Description>
+                                                <Card.Content extra>
+                                                    <Form onSubmit={handleSubmit}>
+                                                        <Form.Group widths='equal'>
+                                                            <Form.Field
+                                                                type={isMasked}
+                                                                control={Input}
+                                                                label='New Password'
+                                                                placeholder=''
+                                                                name='password'
+                                                                value={password}
+                                                                error={errorStatePassword !== "" ? errorStatePassword : false}
+                                                                onChange={handleChangePassword}
+                                                                onClick={checkCapsLock}
+                                                                onKeyUp={checkCapsLock}
+                                                            />
+                                                            <Form.Field
+                                                                type={isMasked}
+                                                                control={Input}
+                                                                label='Confirm New Password'
+                                                                placeholder=''
+                                                                name='passwordConfirm'
+                                                                value={passwordConfirm}
+                                                                error={errorStatePasswordConfirm !== "" ? errorStatePasswordConfirm : false}
+                                                                onChange={handleChangePasswordConfirm}
+                                                                onClick={checkCapsLock}
+                                                                onKeyDown={checkCapsLock}
+                                                            />
+                                                        </Form.Group>
+                                                        <Form.Field as={Button} icon='eye' onClick={toggleMask}/>
+                                                        {capsLockPassword &&
+                                                        <Message content='Warning: Caps Lock is enabled.'
+                                                                 color='yellow'/>
+                                                        }
+                                                        <Divider/>
+                                                        <Form.Button content='Submit' color='blue'/>
+                                                    </Form>
+                                                    {redirect &&
+                                                    <Redirect to={{pathname: '/introduction'}}/>
                                                     }
-                                                    <Divider/>
-                                                    <Form.Button content='Submit' color='blue' />
-                                                </Form>
-                                                {redirect &&
-                                                <Redirect to={{pathname: '/introduction'}}/>
-                                                }
-                                            </Card.Content>
-                                        </Card>
-                                    </Grid.Column>
-                                </Grid>
-                            </Segment>
-                        </Grid.Column>
-                    </Grid>
-                </div>
-            </Segment>
-        </div>
-    );
-}
+                                                </Card.Content>
+                                            </Card>
+                                        </Grid.Column>
+                                    </Grid>
+                                </Segment>
+                            </Grid.Column>
+                        </Grid>
+                    </div>
+                </Segment>
+            </div>
+        );
+    }
+    else {
+        return (
+            <div className="AppMobile">
+                <MobileAnimationSegment>
+                        <MobileGrid>
+                                <MobileInnerSegment>
+                                    <Grid columns={3}>
+                                        <Grid.Column width={16}>
+                                            <Card fluid>
+                                                <Card.Content>
+                                                    <MessageLogin color='yellow'>
+                                                        <Message.Header content='Did You Forget Your Password?'/>
+                                                    </MessageLogin>
+                                                </Card.Content>
+                                                <Card.Content>
+                                                    <Card.Description content ='Reset Your Password:'/>
+                                                </Card.Content>
+                                                <Card.Description>
+                                                    <Message size='mini' attached='bottom'>Reminder: passwords must be
+                                                        between
+                                                        8-20 characters and contain at least one number, one
+                                                        upper-case letter, and one lower-case letter. </Message>
+                                                </Card.Description>
+                                                <Card.Content extra>
+                                                    <Form onSubmit={handleSubmit}>
+                                                        <Form.Group widths='equal'>
+                                                            <Form.Field
+                                                                type={isMasked}
+                                                                control={Input}
+                                                                label='New Password'
+                                                                placeholder=''
+                                                                name='password'
+                                                                value={password}
+                                                                error={errorStatePassword !== "" ? errorStatePassword : false}
+                                                                onChange={handleChangePassword}
+                                                                onClick={checkCapsLock}
+                                                                onKeyUp={checkCapsLock}
+                                                            />
+                                                            <Form.Field
+                                                                type={isMasked}
+                                                                control={Input}
+                                                                label='Confirm New Password'
+                                                                placeholder=''
+                                                                name='passwordConfirm'
+                                                                value={passwordConfirm}
+                                                                error={errorStatePasswordConfirm !== "" ? errorStatePasswordConfirm : false}
+                                                                onChange={handleChangePasswordConfirm}
+                                                                onClick={checkCapsLock}
+                                                                onKeyDown={checkCapsLock}
+                                                            />
+                                                        </Form.Group>
+                                                        <Form.Field as={Button} icon='eye' onClick={toggleMask}/>
+                                                        {capsLockPassword &&
+                                                        <Message content='Warning: Caps Lock is enabled.'
+                                                                 color='yellow'/>
+                                                        }
+                                                        <Divider/>
+                                                        <Form.Button content='Submit' color='blue'/>
+                                                    </Form>
+                                                    {redirect &&
+                                                    <Redirect to={{pathname: '/introduction'}}/>
+                                                    }
+                                                </Card.Content>
+                                            </Card>
+                                        </Grid.Column>
+                                    </Grid>
+                                </MobileInnerSegment>
+                        </MobileGrid>
+                    </MobileAnimationSegment>
+            </div>
+        );
+        }
+    }
 
 export default ForgotPasswordPage;

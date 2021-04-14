@@ -7,7 +7,7 @@ const mongoose = require ('mongoose'),
     validateUpdate = require('../validation/update');
 
     if(process.env.NODE_ENV === 'production'){
-        console.log("In production mode. Disable log statements -> hide log statements from console.");
+        //console.log("In production mode. Disable log statements -> hide log statements from console.");
         console.log = function (){};
     } else {
         require('mongoose').set('debug', true);
@@ -27,12 +27,6 @@ exports.list = (req, res) => {
             return res.json(member);
         }
     }).lean();
-};
-
-//List (and sort) members by the number of animations they have completed (descending order)
-exports.filterMembers = (req, res) => {
-    res.json(200);
-    res.json("Testing Filter Members");
 };
 
 //List a member's information (GET)
@@ -139,8 +133,7 @@ exports.update = (req, res) => {
                                 }
                             }
                         });
-                    }
-                    else if(type === "email"){
+                    } else if(type === "email"){
                         console.log(member);
                         if(member_email === member.member_email){
                             res.status(400).json({updateMemberInformationError: "Error: your new email address must be different from your current email address."})
@@ -159,7 +152,6 @@ exports.update = (req, res) => {
                             }));
                         }
                     }
-
             }
         });
     }
@@ -182,13 +174,6 @@ exports.delete = (req, res) => {
             }
         }
     });
-}
-
-exports.updateEmail =(req, res) => {
-//TODO -> Set up email sent to user upon changing their email address.
-}
-exports.initialRegistration =(req, res) => {
-//TODO -> Handle initial registration email.
 }
 
 exports.forgotPassword = (req, res) =>{
@@ -321,12 +306,6 @@ exports.getAnimationCompletion = (req, res) => {
             }
         }});
 };
-//List a member's suggested animations (GET)
-exports.getAnimationSuggested = (req, res) => {
-    //to test in Postman: GET HTTP://localhost:8080/api/members/<memberId>/animations/suggested
-    res.status(200);
-    res.json(req.member.animation_data.suggested_animations);
-};
 
 exports.getAnimationSorted = async(req, res) => {
     //TODO  -> Outline testing
@@ -407,7 +386,6 @@ exports.getAnimationSorted = async(req, res) => {
     let sortBy = req.query.sortBy;
 
     await Member.findOne({_id: searchFor}, (error, member) => {
-
         if (error) {
             console.log(error);
             return res.status(400).json({progressError: "There was an error returning the member's progress."});
@@ -432,7 +410,6 @@ exports.getAnimationSorted = async(req, res) => {
                                     remaining += 1;
                                     time += member.animation_data[prop][property].timeRemaining;
                                 }
-
                             }
                         }
                         let name = "";
@@ -556,7 +533,6 @@ exports.updateAnimationProgress = (req, res) => {
             let isComplete;
             let actionsCompleted;
             let checkCompletion = (array, target) => target.every(v => array.includes(v));
-
             //has member completed animation? = member.animation_data.<animationCategory>.<animationName>.complete = true || false
             //actions has a member completed in an animation = member.animation_data.<animationCategory>.<animationName>.completedActions = []
             if (animationCategory !== "" && animationName !== "" && action !== "") {
@@ -583,7 +559,6 @@ exports.updateAnimationProgress = (req, res) => {
                                     member.animation_data.neurons.protein.completedActions.push(action);
                                     console.log("Pushed action to array");
                                     actionsCompleted = member.animation_data.neurons.protein.completedActions;
-
                                 }
                                 if(checkCompletion(member.animation_data.neurons.protein.completedActions, animationComplete)){
                                     member.animation_data.neurons.protein.complete = true;
@@ -596,7 +571,6 @@ exports.updateAnimationProgress = (req, res) => {
                                     member.animation_data.neurons.cellular.completedActions.push(action);
                                     console.log("Pushed action to array");
                                     actionsCompleted = member.animation_data.neurons.cellular.completedActions;
-
                                 }
                                 if(checkCompletion(member.animation_data.neurons.cellular.completedActions, animationComplete)){
                                     member.animation_data.neurons.cellular.complete = true;
@@ -877,7 +851,6 @@ exports.register = (req, res) => {
     const {registrationError, registrationValid} = validateRegister(req.body);
     if(!registrationValid){
         console.log(registrationError);
-        //return res.status(400).json(registrationError);
         return res.status(400).json({formattingError: registrationError});
     }
     else {
@@ -919,7 +892,7 @@ exports.register = (req, res) => {
                                        return res.status(400).send(error);
                                     });
                             }
-                        });f
+                        });
                     });
                 }
             }
@@ -979,6 +952,7 @@ exports.login = (req, res) => {
         });
     }
 }
+
 exports.findMemberById = (req, res, next, id) => {
     Member.findById(id).exec((error, member) => {
         if (error) {
@@ -991,9 +965,3 @@ exports.findMemberById = (req, res, next, id) => {
         }
     });
 }
-
-
-
-
-
-

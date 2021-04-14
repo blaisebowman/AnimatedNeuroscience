@@ -37,9 +37,6 @@ router.route('/:memberId/animations/completed')
     .get(members.getAnimationCompletion)
     .post(members.updateAnimationProgress);
 
-router.route('/:memberId/animations/suggested')
-    .get(members.getAnimationSuggested);
-
 router.route('/:memberId/sorted')
     .get(members.getAnimationSorted);
 
