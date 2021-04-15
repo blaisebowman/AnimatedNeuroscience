@@ -482,6 +482,7 @@ function LoginPage(props) {
                                                                 />
                                                             </Modal.Actions>
                                                         </Modal>
+                                                        <Button content ='Submit' color='blue'/>
                                                         <SubmitButton content='Submit' color='blue'/>
                                                     </Form>
                                                     <Divider/>

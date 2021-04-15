@@ -3,6 +3,7 @@ frontend/yarn-error.log
 server/node_modules
 server/config/config.js
 server/yarn-error.log
+server/server.iml
 node_modules
 .DS_store
 /*.env
