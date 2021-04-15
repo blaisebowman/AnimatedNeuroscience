@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {Grid, Image, Segment, Button, Card, Icon, Divider} from "semantic-ui-react"
+import {Button, Card, Divider, Grid, Icon, Image, Segment} from "semantic-ui-react"
 import cerebellum from "../../images/cerebellum.jpg";
 import '../../neurons.css';
 import '../../glias.css';
@@ -8,7 +8,7 @@ import {MobileContainerSegment, MobileGrid, MobileGridSecondaryRow} from "../../
 
 function Cerebellum(props) {
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if(isMobile === false) {
+    if (isMobile === false) {
         return (
             <div className="App">
                 <Segment className="body">
@@ -104,8 +104,7 @@ function Cerebellum(props) {
                 </Segment>
             </div>
         );
-    }
-    else {
+    } else {
         return (
             <div className="App">
                 <MobileContainerSegment>

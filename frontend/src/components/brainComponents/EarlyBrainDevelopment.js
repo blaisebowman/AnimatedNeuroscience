@@ -1,15 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import EarlyBrain from "./Animations/early_development";
-import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-import {AdobeContainer, CustomAnimationDropdown, CustomContainerSegment, CustomGrid, ErrorAnimation, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileNavBarButton, MobileNavBarFirstButton, MobileSettingsDropdown} from "../../styledComponents";
+import {Button, Card, Dropdown, Grid, Message, Segment,} from "semantic-ui-react";
+import {
+    AdobeContainer,
+    CustomAnimationDropdown,
+    CustomContainerSegment,
+    CustomGrid,
+    ErrorAnimation,
+    MobileAnimationSegment,
+    MobileGrid,
+    MobileGridSecondaryRow,
+    MobileNavBarButton,
+    MobileNavBarFirstButton,
+    MobileSettingsDropdown
+} from "../../styledComponents";
 import '../../glias.css';
 import $ from "jquery";
 
 function EarlyBrainDevelopmentPage(props) {
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const [orientationIs, setOrientationIs] = useState( 0);
+    const [orientationIs, setOrientationIs] = useState(0);
     const [isFull, setIsFull] = useState(false);
+
     function handleSelector() {
         if (selectorIsVisible === true) {
             setSelectorIsVisible(false);
@@ -19,13 +32,13 @@ function EarlyBrainDevelopmentPage(props) {
         console.log(selectorIsVisible);
     }
 
-    function handleOrientation (event) {
+    function handleOrientation(event) {
         setTimeout(function () {
             console.log("Enter/exit fullscreen at angle (window.screen.orientation.angle): " + window.screen.orientation.angle);
             console.log("Enter/exit fullscreen at angle (orientationIs): " + orientationIs);
             console.log("Type: " + window.screen.orientation.type);
             console.log("Fullscreen?: " + ((document.fullscreenElement) !== null));
-            if((document.fullscreenElement !== null)){
+            if ((document.fullscreenElement !== null)) {
                 setOrientationIs(90);
                 setIsFull(true);
                 handleToggle();
@@ -54,26 +67,29 @@ function EarlyBrainDevelopmentPage(props) {
         }, 100);
     }
 
-    function toggleFullscreen (event){
+    function toggleFullscreen(event) {
         console.log('Toggling Fullscreen...');
         if (document.fullscreenElement === null) {
             console.log("Entering fullscreen...");
-            document.documentElement.requestFullscreen({navigationUI: 'hide'}).catch(err => {console.log(err.msg);});
+            document.documentElement.requestFullscreen({navigationUI: 'hide'}).catch(err => {
+                console.log(err.msg);
+            });
             window.screen.orientation.lock('landscape');
-        } else if(document.fullscreenElement !== null){
+        } else if (document.fullscreenElement !== null) {
             console.log('Leaving fullscreen...');
             document.exitFullscreen();
             window.screen.orientation.lock('portrait');
         }
     }
-    function handleToggle(){
+
+    function handleToggle() {
         setTimeout(function () {
-            console.log("Angle: " + window.screen.orientation.angle + "\t Type: " + window.screen.orientation.type + "\t orientationIs: " + orientationIs );
+            console.log("Angle: " + window.screen.orientation.angle + "\t Type: " + window.screen.orientation.type + "\t orientationIs: " + orientationIs);
             console.log("Fullscreen?: " + ((document.fullscreenElement) !== null))
-            if(window.screen.orientation.angle !== orientationIs){
+            if (window.screen.orientation.angle !== orientationIs) {
                 setOrientationIs(90);
-            } else if(window.screen.orientation.angle === orientationIs){
-                if(orientationIs === 0 || window.screen.orientation.type.startsWith('portrait')){
+            } else if (window.screen.orientation.angle === orientationIs) {
+                if (orientationIs === 0 || window.screen.orientation.type.startsWith('portrait')) {
                     setOrientationIs(90);
                 } else {
                     setOrientationIs(0);
@@ -86,7 +102,7 @@ function EarlyBrainDevelopmentPage(props) {
         let mounted = true;
         console.log("[------HOOK------]\n I FIRE ONCE");
         console.log("Max: height = " + window.screen.availHeight + "width = " + window.screen.availWidth);
-        if(mounted) {
+        if (mounted) {
             console.log("I am mounted");
             window.addEventListener('fullscreenchange', handleOrientation);
             window.addEventListener('orientationchange', handleToggle);
@@ -94,7 +110,7 @@ function EarlyBrainDevelopmentPage(props) {
         return () => {
             window.removeEventListener('fullscreenchange', handleOrientation);
             window.removeEventListener('orientationchange', handleToggle);
-            mounted  = false;
+            mounted = false;
         }
     }, []);
 
@@ -157,11 +173,10 @@ function EarlyBrainDevelopmentPage(props) {
                 </CustomContainerSegment>
             </div>
         );
-    }
-    else {
+    } else {
         return (
             <div className="AppMobile">
-                {(isFull === true && (document.fullscreenElement !== null))&&
+                {(isFull === true && (document.fullscreenElement !== null)) &&
                 <AdobeContainer>
                     <EarlyBrain/>
                 </AdobeContainer>
@@ -196,7 +211,8 @@ function EarlyBrainDevelopmentPage(props) {
                                             <Message.Header>Tip of the Day</Message.Header>
                                             <p>For a better experience, please press the button below to view in
                                                 fullscreen.</p>
-                                            <Button color='violet' onClick={toggleFullscreen} id='trig'>Go Fullscreen</Button>
+                                            <Button color='violet' onClick={toggleFullscreen} id='trig'>Go
+                                                Fullscreen</Button>
                                         </ErrorAnimation>
                                     </Card.Content>
                                 </Card>

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Link, Redirect} from "react-router-dom";
-import {Image, Grid, Header, Button, Icon} from 'semantic-ui-react';
+import {Button, Grid, Header, Icon, Image} from 'semantic-ui-react';
 import hometitle2 from '../images/hometitle2.jpg';
-import { MobileContainerHeader, MobileHeader, MobileHeaderButton} from "../styledComponents";
+import {MobileContainerHeader, MobileHeader, MobileHeaderButton} from "../styledComponents";
 import {IconContext} from "react-icons";
 import {BiBrain} from "react-icons/bi"
 import '../header.css';
@@ -42,7 +42,7 @@ function PageHeader(props) {
         console.log(sessionStorage);
     }, [redirectingToHome]);
 
-    let isMobile =  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (isMobile === false) {
         return (
             <Header as='h2' className='modGrid' style={{maxHeight: '100vh'}}>
@@ -56,7 +56,7 @@ function PageHeader(props) {
                         <Grid columns={3} rows={1} className='modGrid'>
                             <Grid.Column className='buttonColumn' width={5}>
                                 <MobileHeaderButton fluid color='blue'
-                                        onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
+                                                    onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
                                     <Icon name='github'/>Repository</MobileHeaderButton>
                             </Grid.Column>
                             <Grid.Column className='buttonColumn' width={5}>
@@ -75,7 +75,7 @@ function PageHeader(props) {
                         <Grid columns={3} rows={1} className='modGrid'>
                             <Grid.Column width={5}>
                                 <MobileHeaderButton fluid color='blue'
-                                        onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
+                                                    onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
                                     <Icon name='github'/>Repository</MobileHeaderButton>
                             </Grid.Column>
                             <Grid.Column width={5}>
@@ -96,69 +96,69 @@ function PageHeader(props) {
                 </Grid>
             </Header>
         );
-    }
-    else {
-        return(
-        <MobileContainerHeader as='h2' id='mobileHeader'>
-            <Grid columns={3} rows={2} className='modGrid' stretched>
-                <Grid.Row>
-                <Grid.Column width={2} textAlign='left' verticalAlign='middle'>
-                    <MobileHeader>
-                        <IconContext.Provider value={{color: 'white', size: '1em'}}>
-                                <BiBrain/>
-                        </IconContext.Provider>
-                    </MobileHeader>
-                </Grid.Column>
-                <Grid.Column fluid textAlign='left' width={8} verticalAlign='middle'>
-                    <MobileHeader as='h4' verticalAlign='middle'>
-                        <i>An Animated Discovery of Neuroscience</i>
-                    </MobileHeader>
-                </Grid.Column>
-                    {id === "" &&
-                    <Grid.Column width={6}>
-                        <Grid.Row>
-                            <MobileHeaderButton fluid color='orange'>
-                                <Link to={{pathname: "/register"}}>Sign Up</Link>
-                            </MobileHeaderButton>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <MobileHeaderButton fluid color='orange'>
-                                <Link to={{pathname: "/login"}}>Login</Link>
-                            </MobileHeaderButton>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <MobileHeaderButton fluid color='blue'
-                                                onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
-                                <Icon name='github'/>
-                                Repository
-                            </MobileHeaderButton>
-                        </Grid.Row>
-                    </Grid.Column>
-                    }
-                    {id !== "" &&
-                   <Grid.Column width={6}>
-                       <Grid.Row>
-                           <MobileHeaderButton fluid color='orange'>
-                               <Link to={{pathname: "/settings"}}><Icon name='user'/>My Account </Link>
-                           </MobileHeaderButton>
-                       </Grid.Row>
-                       <Grid.Row>
-                           <MobileHeaderButton fluid color='orange' onClick={handleLogOut}>Logout</MobileHeaderButton>
-                           {redirectingToHome &&
-                           <Redirect to={'/introduction'}/>
-                           }
-                       </Grid.Row>
-                       <Grid.Row>
-                           <MobileHeaderButton fluid color='blue'
-                                               onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
-                               <Icon name='github'/>Repository
-                           </MobileHeaderButton>
-                       </Grid.Row>
-                   </Grid.Column>
-                    }
-                </Grid.Row>
-            </Grid>
-        </MobileContainerHeader>
+    } else {
+        return (
+            <MobileContainerHeader as='h2' id='mobileHeader'>
+                <Grid columns={3} rows={2} className='modGrid' stretched>
+                    <Grid.Row>
+                        <Grid.Column width={2} textAlign='left' verticalAlign='middle'>
+                            <MobileHeader>
+                                <IconContext.Provider value={{color: 'white', size: '1em'}}>
+                                    <BiBrain/>
+                                </IconContext.Provider>
+                            </MobileHeader>
+                        </Grid.Column>
+                        <Grid.Column fluid textAlign='left' width={8} verticalAlign='middle'>
+                            <MobileHeader as='h4' verticalAlign='middle'>
+                                <i>An Animated Discovery of Neuroscience</i>
+                            </MobileHeader>
+                        </Grid.Column>
+                        {id === "" &&
+                        <Grid.Column width={6}>
+                            <Grid.Row>
+                                <MobileHeaderButton fluid color='orange'>
+                                    <Link to={{pathname: "/register"}}>Sign Up</Link>
+                                </MobileHeaderButton>
+                            </Grid.Row>
+                            <Grid.Row>
+                                <MobileHeaderButton fluid color='orange'>
+                                    <Link to={{pathname: "/login"}}>Login</Link>
+                                </MobileHeaderButton>
+                            </Grid.Row>
+                            <Grid.Row>
+                                <MobileHeaderButton fluid color='blue'
+                                                    onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
+                                    <Icon name='github'/>
+                                    Repository
+                                </MobileHeaderButton>
+                            </Grid.Row>
+                        </Grid.Column>
+                        }
+                        {id !== "" &&
+                        <Grid.Column width={6}>
+                            <Grid.Row>
+                                <MobileHeaderButton fluid color='orange'>
+                                    <Link to={{pathname: "/settings"}}><Icon name='user'/>My Account </Link>
+                                </MobileHeaderButton>
+                            </Grid.Row>
+                            <Grid.Row>
+                                <MobileHeaderButton fluid color='orange'
+                                                    onClick={handleLogOut}>Logout</MobileHeaderButton>
+                                {redirectingToHome &&
+                                <Redirect to={'/introduction'}/>
+                                }
+                            </Grid.Row>
+                            <Grid.Row>
+                                <MobileHeaderButton fluid color='blue'
+                                                    onClick={() => openRepository('https://github.com/blaisebowman/AnimatedNeuroscience')}>
+                                    <Icon name='github'/>Repository
+                                </MobileHeaderButton>
+                            </Grid.Row>
+                        </Grid.Column>
+                        }
+                    </Grid.Row>
+                </Grid>
+            </MobileContainerHeader>
         );
     }
 }

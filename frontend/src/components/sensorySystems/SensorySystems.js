@@ -1,16 +1,15 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {Grid, Image, Segment, Button,  Card, Icon, Divider, List} from "semantic-ui-react"
+import {Button, Card, Divider, Grid, Icon, Image, List, Segment} from "semantic-ui-react"
 import visual from "../../images/visual.jpg";
 import '../../neurons.css';
 import '../../glias.css';
 import {MobileContainerSegment, MobileGrid, MobileGridSecondaryRow} from "../../styledComponents";
-import neuron from "../../images/neuron.jpg";
 
 
 function SensorySystems(props) {
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if(isMobile === false) {
+    if (isMobile === false) {
 
         return (
             <div className="App">
@@ -144,8 +143,7 @@ function SensorySystems(props) {
                 </Segment>
             </div>
         );
-    }
-    else {
+    } else {
         return (
             <div className="App">
                 <MobileContainerSegment>

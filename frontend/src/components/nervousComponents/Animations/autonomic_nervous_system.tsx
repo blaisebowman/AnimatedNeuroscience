@@ -1,12 +1,12 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
+import AnimateCC, {GetAnimationObjectParameter} from "react-adobe-animate/build";
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {Message, Progress} from "semantic-ui-react";
 import {FullScreen, MobileAnimation, MobileAnimationMessage, ProgressDimmer} from "../../../styledComponents";
 
 const AutonomicNervousSystem = () => {
-    const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
+    const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter | null>(null);
     const [userClicked, setUserClicked] = useState<string>("");
     const [percentComplete, setPercentComplete] = useState<number>(0);
     const [progressMessage, setProgressMessage] = useState<string>("");
@@ -14,7 +14,7 @@ const AutonomicNervousSystem = () => {
     const [userIsDone, setUserIsDone] = useState(false);
     const [memberArray, setMemberArray] = useState<Array<string>>([]);
     const [userIsMember, setUserIsMember] = useState<boolean>(false);
-    let aspectRatio = 550/400; //varies by animation
+    let aspectRatio = 550 / 400; //varies by animation
     let height = window.screen.height;
     let width = (aspectRatio * window.screen.height);
     let marginLR = ((window.screen.availWidth - width) / 2);
@@ -22,9 +22,10 @@ const AutonomicNervousSystem = () => {
     console.log("Max: height = " + window.screen.availHeight + "width = " + window.screen.availWidth);
     console.log("Max: height = " + window.screen.height + "width = " + window.screen.width);
 
-    if(process.env.NODE_ENV === 'production'){
+    if (process.env.NODE_ENV === 'production') {
         //console.log("In production mode. Disable log statements -> hide log statements from console.");
-        console.log = function (){};
+        console.log = function () {
+        };
     }
 
     useEffect(() => {
@@ -32,8 +33,7 @@ const AutonomicNervousSystem = () => {
         if (sessionStorage.getItem("id")) {
             getMemberArray();
             setUserIsMember(true);
-        }
-        else {
+        } else {
             setUserIsMember(false);
         }
     }, []);
@@ -67,23 +67,22 @@ const AutonomicNervousSystem = () => {
                 console.log("The user finished the animation.");
                 setUserIsDone(true);
             }
-        }
-        else {
-            console.log(memberArray.filter(e=> !animationComplete.includes(e)));
+        } else {
+            console.log(memberArray.filter(e => !animationComplete.includes(e)));
             //Determine percentage of animation left remaining.
             let memberActions: string[] = response.data.completedActions;
-            let percent = (Math.round(100-(((animationComplete.length - ((animationComplete.filter(e=>memberActions.includes(e)))).length)/animationComplete.length)*100)))
-            console.log(animationComplete.filter(e=> !memberArray.includes(e)));
+            let percent = (Math.round(100 - (((animationComplete.length - ((animationComplete.filter(e => memberActions.includes(e)))).length) / animationComplete.length) * 100)))
+            console.log(animationComplete.filter(e => !memberArray.includes(e)));
             setPercentComplete(percent);
-            if(percent < 1){
+            if (percent < 1) {
                 setProgressMessage("Let's get started! Interact with the animation and monitor your progress.");
-            } else if (percent >=1 && percent < 20){
+            } else if (percent >= 1 && percent < 20) {
                 setProgressMessage("That's a good start, keep it up!");
-            }else if (percent >=20 && percent < 80){
+            } else if (percent >= 20 && percent < 80) {
                 setProgressMessage("You're making some serious progress!");
-            }else if (percent >=80 && percent < 100){
+            } else if (percent >= 80 && percent < 100) {
                 setProgressMessage("You're almost done!");
-            }else if (percent === 100){
+            } else if (percent === 100) {
                 setProgressMessage("Congratulations, you completed this animation!");
             }
             console.log(percent);
@@ -152,6 +151,7 @@ const AutonomicNervousSystem = () => {
                 .catch(handlePostError);
         }
     }
+
     if (sessionStorage.getItem("id")) {
         //only set event listener if the page viewer is a member
         if (!(animationObject?.hasEventListener('click'))) {
@@ -160,7 +160,7 @@ const AutonomicNervousSystem = () => {
         }
     }
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if(!isMobile) {
+    if (!isMobile) {
         return (
             <div style={{minHeight: '60vh', maxWidth: '47.5vw', margin: 'auto'}}>
                 <AnimateCC
@@ -176,14 +176,13 @@ const AutonomicNervousSystem = () => {
                 </Message>
             </div>
         );
-    }
-    else {
+    } else {
         return (
             <FullScreen>
                 <MobileAnimation
                     getAnimationObject={getAnimationObject}
                     animationName="autonomicnervoussystemnewjs"
-                    style = {{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR}}
+                    style={{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR}}
                 />
                 <MobileAnimationMessage content='Congratulations! You completed this animation.'
                                         color={progressColor}>

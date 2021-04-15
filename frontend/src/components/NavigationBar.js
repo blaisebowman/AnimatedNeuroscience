@@ -3,20 +3,23 @@ import {Link, withRouter} from "react-router-dom";
 import {Dropdown, Icon, Table} from 'semantic-ui-react';
 import PropTypes from "prop-types";
 import {
-    MobileNavBarButton,
-    MobileNavBarFirstButton,
+    CustomDivider,
+    CustomDropdownMenu,
+    CustomHeader,
     CustomNavigationMenu,
     CustomNavigationMenuItem,
-    CustomSegment,
     CustomNavigationMenuItemLink,
-    CustomDivider,
-    CustomHeader,
+    CustomSegment,
     MobileDropdown,
-    CustomDropdownMenu, NavTable, NavBarFirstButton, NavBarButton
+    MobileNavBarButton,
+    MobileNavBarFirstButton,
+    NavBarButton,
+    NavBarFirstButton,
+    NavTable
 } from "../styledComponents";
 import '../navbar.css';
 
-function NavigationBar (props) {
+function NavigationBar(props) {
     const [neuronMenuShown, setNeuronMenuShown] = useState(false);
     const [gliasMenuShown, setGliasMenuShown] = useState(false);
     const [brainMenuShown, setBrainMenuShown] = useState(false);
@@ -24,9 +27,10 @@ function NavigationBar (props) {
     const [cerebellumMenuShown, setCerebellumMenuShown] = useState(false);
     const [nervousMenuShown, setNervousMenuShown] = useState(false);
 
-    if(process.env.NODE_ENV === 'production'){
+    if (process.env.NODE_ENV === 'production') {
         //console.log("In production mode. Disable log statements -> hide log statements from console.");
-        console.log = function (){};
+        console.log = function () {
+        };
     }
 
     let activeTab = "";
@@ -58,7 +62,7 @@ function NavigationBar (props) {
                     <CustomNavigationMenuItem active={activeTab === "/neurons"}>
                         <Dropdown as={Link} to="/neurons" placeholder="Neurons" fluid simple open={neuronMenuShown}>
                             <CustomDropdownMenu>
-                                <NavBarFirstButton fluid as={Link} to='/neurons' >
+                                <NavBarFirstButton fluid as={Link} to='/neurons'>
                                     <NavTable>
                                         <Table.Body>
                                             <Table.Cell width={15} textAlign='left'>
@@ -89,9 +93,10 @@ function NavigationBar (props) {
                         </Dropdown>
                     </CustomNavigationMenuItem>
                     <CustomNavigationMenuItem active={activeTab === "/gliasandsynapses"}>
-                        <Dropdown as={Link} to="/gliasandsynapses" placeholder="Glias and Synapses" fluid simple open={gliasMenuShown}>
+                        <Dropdown as={Link} to="/gliasandsynapses" placeholder="Glias and Synapses" fluid simple
+                                  open={gliasMenuShown}>
                             <CustomDropdownMenu>
-                                <NavBarFirstButton fluid as={Link} to='/gliasandsynapses' >
+                                <NavBarFirstButton fluid as={Link} to='/gliasandsynapses'>
                                     <NavTable>
                                         <Table.Body>
                                             <Table.Cell width={15} textAlign='left'>
@@ -150,7 +155,7 @@ function NavigationBar (props) {
                     <CustomNavigationMenuItem active={activeTab === "/thebrain"}>
                         <Dropdown as={Link} to="/thebrain" placeholder="The Brain" fluid simple open={brainMenuShown}>
                             <CustomDropdownMenu>
-                                <NavBarFirstButton fluid as={Link} to='/thebrain' >
+                                <NavBarFirstButton fluid as={Link} to='/thebrain'>
                                     <NavTable>
                                         <Table.Body>
                                             <Table.Cell width={15} textAlign='left'>
@@ -247,7 +252,7 @@ function NavigationBar (props) {
                                 </DDItem>
                             </Dropdown.Menu>*/}
                             <CustomDropdownMenu>
-                                <NavBarFirstButton fluid as={Link} to='/sensorysystems' >
+                                <NavBarFirstButton fluid as={Link} to='/sensorysystems'>
                                     <NavTable>
                                         <Table.Body>
                                             <Table.Cell width={15} textAlign='left'>
@@ -266,7 +271,7 @@ function NavigationBar (props) {
                                     <NavTable>
                                         <Table.Body>
                                             <Table.Cell width={15}>
-                                               The Visual System
+                                                The Visual System
                                             </Table.Cell>
                                             <Table.Cell width={1} textAlign='right'>
                                                 <Icon name='angle right' className='navBarIcon'/>
@@ -316,7 +321,8 @@ function NavigationBar (props) {
                         </Dropdown>
                     </CustomNavigationMenuItem>
                     <CustomNavigationMenuItem active={activeTab === "/cerebellum"}>
-                        <Dropdown as={Link} to="/cerebellum" placeholder="Cerebellum" fluid simple open={cerebellumMenuShown}>
+                        <Dropdown as={Link} to="/cerebellum" placeholder="Cerebellum" fluid simple
+                                  open={cerebellumMenuShown}>
                             {/*<Dropdown.Menu>
                                 <DDItem>
                                     <Icon name='star'/>
@@ -335,7 +341,7 @@ function NavigationBar (props) {
                                 </DDItem>
                             </Dropdown.Menu>*/}
                             <CustomDropdownMenu>
-                                <NavBarFirstButton fluid as={Link} to='/cerebellum' >
+                                <NavBarFirstButton fluid as={Link} to='/cerebellum'>
                                     <NavTable>
                                         <Table.Body>
                                             <Table.Cell width={15} textAlign='left'>
@@ -380,62 +386,63 @@ function NavigationBar (props) {
                         </Dropdown>
                     </CustomNavigationMenuItem>
                     <CustomNavigationMenuItem active={activeTab === "/nervoussystem"}>
-                        <Dropdown as={Link} to="/nervoussystem" placeholder="Nervous System" fluid simple open={nervousMenuShown}>
-                                <CustomDropdownMenu>
-                                    <NavBarFirstButton fluid as={Link} to='/nervoussystem' >
-                                        <NavTable>
-                                            <Table.Body>
-                                                <Table.Cell width={15} textAlign='left'>
-                                                    Overview
-                                                </Table.Cell>
-                                                <Table.Cell width={1}>
-                                                    <Icon name='star'/>
-                                                </Table.Cell>
-                                            </Table.Body>
-                                        </NavTable>
-                                    </NavBarFirstButton>
-                                    <CustomDivider/>
-                                    <CustomHeader>Animated Lessons</CustomHeader>
-                                    <CustomDivider/>
-                                    <NavBarFirstButton fluid as={Link} to='/nervoussystem-autonomic'>
-                                        <NavTable>
-                                            <Table.Body>
-                                                <Table.Cell width={15}>
-                                                    ANS
-                                                </Table.Cell>
-                                                <Table.Cell width={1} textAlign='right'>
-                                                    <Icon name='angle right' className='navBarIcon'/>
-                                                </Table.Cell>
-                                            </Table.Body>
-                                        </NavTable>
-                                    </NavBarFirstButton>
-                                    <CustomDivider/>
-                                    <NavBarButton fluid as={Link} to='/nervoussystem-actionpotentials'>
-                                        <NavTable>
-                                            <Table.Body>
-                                                <Table.Cell width={15}>
-                                                    Action Potentials
-                                                </Table.Cell>
-                                                <Table.Cell width={1} textAlign='right'>
-                                                    <Icon name='angle right' className='navBarIcon'/>
-                                                </Table.Cell>
-                                            </Table.Body>
-                                        </NavTable>
-                                    </NavBarButton>
-                                    <CustomDivider/>
-                                    <NavBarButton fluid as={Link} to='/nervoussystem-hypothalamus'>
-                                        <NavTable>
-                                            <Table.Body>
-                                                <Table.Cell width={15}>
-                                                    Hypothalamus
-                                                </Table.Cell>
-                                                <Table.Cell width={1} textAlign='right'>
-                                                    <Icon name='angle right' className='navBarIcon'/>
-                                                </Table.Cell>
-                                            </Table.Body>
-                                        </NavTable>
-                                    </NavBarButton>
-                                </CustomDropdownMenu>
+                        <Dropdown as={Link} to="/nervoussystem" placeholder="Nervous System" fluid simple
+                                  open={nervousMenuShown}>
+                            <CustomDropdownMenu>
+                                <NavBarFirstButton fluid as={Link} to='/nervoussystem'>
+                                    <NavTable>
+                                        <Table.Body>
+                                            <Table.Cell width={15} textAlign='left'>
+                                                Overview
+                                            </Table.Cell>
+                                            <Table.Cell width={1}>
+                                                <Icon name='star'/>
+                                            </Table.Cell>
+                                        </Table.Body>
+                                    </NavTable>
+                                </NavBarFirstButton>
+                                <CustomDivider/>
+                                <CustomHeader>Animated Lessons</CustomHeader>
+                                <CustomDivider/>
+                                <NavBarFirstButton fluid as={Link} to='/nervoussystem-autonomic'>
+                                    <NavTable>
+                                        <Table.Body>
+                                            <Table.Cell width={15}>
+                                                ANS
+                                            </Table.Cell>
+                                            <Table.Cell width={1} textAlign='right'>
+                                                <Icon name='angle right' className='navBarIcon'/>
+                                            </Table.Cell>
+                                        </Table.Body>
+                                    </NavTable>
+                                </NavBarFirstButton>
+                                <CustomDivider/>
+                                <NavBarButton fluid as={Link} to='/nervoussystem-actionpotentials'>
+                                    <NavTable>
+                                        <Table.Body>
+                                            <Table.Cell width={15}>
+                                                Action Potentials
+                                            </Table.Cell>
+                                            <Table.Cell width={1} textAlign='right'>
+                                                <Icon name='angle right' className='navBarIcon'/>
+                                            </Table.Cell>
+                                        </Table.Body>
+                                    </NavTable>
+                                </NavBarButton>
+                                <CustomDivider/>
+                                <NavBarButton fluid as={Link} to='/nervoussystem-hypothalamus'>
+                                    <NavTable>
+                                        <Table.Body>
+                                            <Table.Cell width={15}>
+                                                Hypothalamus
+                                            </Table.Cell>
+                                            <Table.Cell width={1} textAlign='right'>
+                                                <Icon name='angle right' className='navBarIcon'/>
+                                            </Table.Cell>
+                                        </Table.Body>
+                                    </NavTable>
+                                </NavBarButton>
+                            </CustomDropdownMenu>
                         </Dropdown>
                     </CustomNavigationMenuItem>
                 </CustomNavigationMenu>
@@ -446,44 +453,44 @@ function NavigationBar (props) {
     else {
         // TODO -> remove all overridden styles (!important) and create them as custom components
         return (
-                <MobileDropdown fluid placeholder="Select a Category" id='mobileNav' icon='dropdown'>
-                    <Dropdown.Menu fluid>
-                        <MobileNavBarFirstButton fluid as={Link} to='/introduction'>
-                            <Icon name='star'/>
-                            Introduction
-                        </MobileNavBarFirstButton>
-                        <MobileNavBarButton fluid as={Link} to='/neurons'>
-                            <Icon name='circle'/>
-                            Neurons
-                        </MobileNavBarButton>
-                        <MobileNavBarButton fluid as={Link} to='/gliasandsynapses'>
-                            <Icon name='circle'/>
-                            Glias and Synapses
-                        </MobileNavBarButton>
-                        <MobileNavBarButton fluid as={Link} to='/thebrain'>
-                            <Icon name='circle'/>
-                            The Brain
-                        </MobileNavBarButton>
-                        <MobileNavBarButton fluid as={Link} to='/sensorysystems'>
-                            <Icon name='circle'/>
-                            Sensory Systems
-                        </MobileNavBarButton>
-                        <MobileNavBarButton fluid as={Link} to='/cerebellum'>
-                            <Icon name='circle'/>
-                            Cerebellum
-                        </MobileNavBarButton>
-                        <MobileNavBarButton fluid as={Link} to='/nervoussystem'>
-                            <Icon name='circle'/>
-                            Nervous System
-                        </MobileNavBarButton>
-                    </Dropdown.Menu>
-                </MobileDropdown>
+            <MobileDropdown fluid placeholder="Select a Category" id='mobileNav' icon='dropdown'>
+                <Dropdown.Menu fluid>
+                    <MobileNavBarFirstButton fluid as={Link} to='/introduction'>
+                        <Icon name='star'/>
+                        Introduction
+                    </MobileNavBarFirstButton>
+                    <MobileNavBarButton fluid as={Link} to='/neurons'>
+                        <Icon name='circle'/>
+                        Neurons
+                    </MobileNavBarButton>
+                    <MobileNavBarButton fluid as={Link} to='/gliasandsynapses'>
+                        <Icon name='circle'/>
+                        Glias and Synapses
+                    </MobileNavBarButton>
+                    <MobileNavBarButton fluid as={Link} to='/thebrain'>
+                        <Icon name='circle'/>
+                        The Brain
+                    </MobileNavBarButton>
+                    <MobileNavBarButton fluid as={Link} to='/sensorysystems'>
+                        <Icon name='circle'/>
+                        Sensory Systems
+                    </MobileNavBarButton>
+                    <MobileNavBarButton fluid as={Link} to='/cerebellum'>
+                        <Icon name='circle'/>
+                        Cerebellum
+                    </MobileNavBarButton>
+                    <MobileNavBarButton fluid as={Link} to='/nervoussystem'>
+                        <Icon name='circle'/>
+                        Nervous System
+                    </MobileNavBarButton>
+                </Dropdown.Menu>
+            </MobileDropdown>
         );
     }
 }
 
-const {object } = PropTypes
-    NavigationBar.propTypes = {
+const {object} = PropTypes
+NavigationBar.propTypes = {
     history: object
 }
 

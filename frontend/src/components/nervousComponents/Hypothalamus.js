@@ -1,18 +1,33 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import Hypothalamus from "./Animations/hypothalamus";
-import {Grid, Segment, Dropdown, Card, Message, Button,} from "semantic-ui-react";
-import {AdobeContainer, CustomAdobeSegmentNervous, CustomContainerSegment, CustomGrid, MobileAnimationSegment, MobileGrid, MobileGridSecondaryRow, MobileSettingsDropdown, CustomAnimationDropdown, ErrorAnimation, MobileNavBarButton, MobileNavBarFirstButton} from "../../styledComponents";
+import {Button, Card, Dropdown, Grid, Message, Segment,} from "semantic-ui-react";
+import {
+    AdobeContainer,
+    CustomAdobeSegmentNervous,
+    CustomAnimationDropdown,
+    CustomContainerSegment,
+    CustomGrid,
+    ErrorAnimation,
+    MobileAnimationSegment,
+    MobileGrid,
+    MobileGridSecondaryRow,
+    MobileNavBarButton,
+    MobileNavBarFirstButton,
+    MobileSettingsDropdown
+} from "../../styledComponents";
 import '../../glias.css';
 import $ from "jquery";
 
 function HypothalamusPage(props) {
-    if(process.env.NODE_ENV === 'production'){
-        console.log = function (){};
+    if (process.env.NODE_ENV === 'production') {
+        console.log = function () {
+        };
     }
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
-    const [orientationIs, setOrientationIs] = useState( 0);
+    const [orientationIs, setOrientationIs] = useState(0);
     const [isFull, setIsFull] = useState(false);
+
     function handleSelector() {
         if (selectorIsVisible === true) {
             setSelectorIsVisible(false);
@@ -22,13 +37,13 @@ function HypothalamusPage(props) {
         console.log(selectorIsVisible);
     }
 
-    function handleOrientation (event) {
+    function handleOrientation(event) {
         setTimeout(function () {
             console.log("Enter/exit fullscreen at angle (window.screen.orientation.angle): " + window.screen.orientation.angle);
             console.log("Enter/exit fullscreen at angle (orientationIs): " + orientationIs);
             console.log("Type: " + window.screen.orientation.type);
             console.log("Fullscreen?: " + ((document.fullscreenElement) !== null));
-            if((document.fullscreenElement !== null)){
+            if ((document.fullscreenElement !== null)) {
                 setOrientationIs(90);
                 setIsFull(true);
                 handleToggle();
@@ -57,26 +72,29 @@ function HypothalamusPage(props) {
         }, 100);
     }
 
-    function toggleFullscreen (event){
+    function toggleFullscreen(event) {
         console.log('Toggling Fullscreen...');
         if (document.fullscreenElement === null) {
             console.log("Entering fullscreen...");
-            document.documentElement.requestFullscreen({navigationUI: 'hide'}).catch(err => {console.log(err.msg);});
+            document.documentElement.requestFullscreen({navigationUI: 'hide'}).catch(err => {
+                console.log(err.msg);
+            });
             window.screen.orientation.lock('landscape');
-        } else if(document.fullscreenElement !== null){
+        } else if (document.fullscreenElement !== null) {
             console.log('Leaving fullscreen...');
             document.exitFullscreen();
             window.screen.orientation.lock('portrait');
         }
     }
-    function handleToggle(){
+
+    function handleToggle() {
         setTimeout(function () {
-            console.log("Angle: " + window.screen.orientation.angle + "\t Type: " + window.screen.orientation.type + "\t orientationIs: " + orientationIs );
+            console.log("Angle: " + window.screen.orientation.angle + "\t Type: " + window.screen.orientation.type + "\t orientationIs: " + orientationIs);
             console.log("Fullscreen?: " + ((document.fullscreenElement) !== null))
-            if(window.screen.orientation.angle !== orientationIs){
+            if (window.screen.orientation.angle !== orientationIs) {
                 setOrientationIs(90);
-            } else if(window.screen.orientation.angle === orientationIs){
-                if(orientationIs === 0 || window.screen.orientation.type.startsWith('portrait')){
+            } else if (window.screen.orientation.angle === orientationIs) {
+                if (orientationIs === 0 || window.screen.orientation.type.startsWith('portrait')) {
                     setOrientationIs(90);
                 } else {
                     setOrientationIs(0);
@@ -89,7 +107,7 @@ function HypothalamusPage(props) {
         let mounted = true;
         console.log("[------HOOK------]\n I FIRE ONCE");
         console.log("Max: height = " + window.screen.availHeight + "width = " + window.screen.availWidth);
-        if(mounted) {
+        if (mounted) {
             console.log("I am mounted");
             window.addEventListener('fullscreenchange', handleOrientation);
             window.addEventListener('orientationchange', handleToggle);
@@ -97,7 +115,7 @@ function HypothalamusPage(props) {
         return () => {
             window.removeEventListener('fullscreenchange', handleOrientation);
             window.removeEventListener('orientationchange', handleToggle);
-            mounted  = false;
+            mounted = false;
         }
     }, []);
 
@@ -155,11 +173,10 @@ function HypothalamusPage(props) {
                 </CustomContainerSegment>
             </div>
         );
-    }
-    else {
+    } else {
         return (
             <div className="AppMobile">
-                {(isFull === true && (document.fullscreenElement !== null))&&
+                {(isFull === true && (document.fullscreenElement !== null)) &&
                 <AdobeContainer>
                     <Hypothalamus/>
                 </AdobeContainer>
@@ -170,25 +187,26 @@ function HypothalamusPage(props) {
                         <MobileGridSecondaryRow>
                             <AdobeContainer>
                                 <Card fluid>
-                                        <MobileSettingsDropdown fluid placeholder="Select A Lesson">
-                                            <Dropdown.Menu>
-                                                <MobileNavBarFirstButton fluid as={Link} to='/nervoussystem-autonomic'>
-                                                    ANS
-                                                </MobileNavBarFirstButton>
-                                                <MobileNavBarButton fluid as={Link} to='/nervoussystem-actionpotentials'>
-                                                    Action Potentials
-                                                </MobileNavBarButton>
-                                                <MobileNavBarButton fluid as={Link} to='/nervoussystem-hypothalamus'>
-                                                    Hypothalamus
-                                                </MobileNavBarButton>
-                                            </Dropdown.Menu>
-                                        </MobileSettingsDropdown>
+                                    <MobileSettingsDropdown fluid placeholder="Select A Lesson">
+                                        <Dropdown.Menu>
+                                            <MobileNavBarFirstButton fluid as={Link} to='/nervoussystem-autonomic'>
+                                                ANS
+                                            </MobileNavBarFirstButton>
+                                            <MobileNavBarButton fluid as={Link} to='/nervoussystem-actionpotentials'>
+                                                Action Potentials
+                                            </MobileNavBarButton>
+                                            <MobileNavBarButton fluid as={Link} to='/nervoussystem-hypothalamus'>
+                                                Hypothalamus
+                                            </MobileNavBarButton>
+                                        </Dropdown.Menu>
+                                    </MobileSettingsDropdown>
                                     <Card.Content>
                                         <ErrorAnimation warning fluid>
                                             <Message.Header>Tip of the Day</Message.Header>
                                             <p>For a better experience, please press the button below to view in
                                                 fullscreen.</p>
-                                            <Button color='violet' onClick={toggleFullscreen} id='trig'>Go Fullscreen</Button>
+                                            <Button color='violet' onClick={toggleFullscreen} id='trig'>Go
+                                                Fullscreen</Button>
                                         </ErrorAnimation>
                                     </Card.Content>
                                 </Card>

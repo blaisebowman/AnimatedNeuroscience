@@ -1,15 +1,14 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {Grid, Image, Segment, Button, Card, Icon, Divider, List} from "semantic-ui-react";
+import {Button, Card, Divider, Grid, Icon, Image, Segment} from "semantic-ui-react";
 import synapses from "../../images/synapses.jpg";
 import '../../glias.css';
 import {MobileContainerSegment, MobileGrid, MobileGridSecondaryRow} from "../../styledComponents";
-import neuron from "../../images/neuron.jpg";
 
 
 function GliasAndSynapses(props) {
     let isMobile = sessionStorage.getItem('isMobile');
-    if(isMobile === "false") {
+    if (isMobile === "false") {
         return (
             <div className="App">
                 <Segment className="body">
@@ -110,8 +109,7 @@ function GliasAndSynapses(props) {
                 </Segment>
             </div>
         );
-    }
-    else {
+    } else {
         return (
             <div className="App">
                 <MobileContainerSegment>

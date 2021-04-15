@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Divider, Grid, Icon, Segment, Form, Input, Message} from "semantic-ui-react"
+import {Button, Card, Divider, Form, Grid, Icon, Input, Message, Segment} from "semantic-ui-react"
 import {MessageLogin, MobileContainerSegment, MobileInnerSegment} from "../styledComponents";
 import {Link, Redirect} from "react-router-dom";
 import axios from 'axios';
@@ -30,31 +30,30 @@ function RegisterPage(props) {
 
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-    if(process.env.NODE_ENV === 'production'){
+    if (process.env.NODE_ENV === 'production') {
         //console.log("In production mode. Disable log statements -> hide log statements from console.");
-        console.log = function (){};
+        console.log = function () {
+        };
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         //TODO -> Mobile Caps Lock Detection (iOS, Android)
         const handleCapsLock = (e) => {
             const deviceIsMac = /Mac/.test(navigator.platform);
             if (deviceIsMac && e.keyCode === 57) {
-                if(isCaps === false){
+                if (isCaps === false) {
                     console.log("Mac user enabled caps lock");
                     setIsCaps(true);
-                }
-                else {
+                } else {
                     console.log("Mac user disabled caps lock");
                     setIsCaps(false);
                     setCapsLockPassword(false);
                 }
             } else if (!(deviceIsMac) && e.keyCode === 20) {
-                if(isCaps === false){
+                if (isCaps === false) {
                     console.log("Windows user enabled caps lock");
                     setIsCaps(true);
-                }
-                else {
+                } else {
                     console.log("Windows user disabled caps lock");
                     setIsCaps(false);
                     setCapsLockPassword(false);
@@ -67,94 +66,77 @@ function RegisterPage(props) {
         };
     }, [isCaps]);
 
-    function toggleMask(e, {name}){
+    function toggleMask(e, {name}) {
         e.preventDefault(); //prevent page from re-rendering
-        if (name === "password"){
-            if(isMaskedPassword === "password"){
+        if (name === "password") {
+            if (isMaskedPassword === "password") {
                 setIsMaskedPassword("text");
-            }
-            else {
+            } else {
                 setIsMaskedPassword("password");
             }
-        }
-        else if (name === "passwordConfirm"){
-            if(isMaskedPasswordConfirm === "password"){
+        } else if (name === "passwordConfirm") {
+            if (isMaskedPasswordConfirm === "password") {
                 setIsMaskedPasswordConfirm("text");
-            }
-            else {
+            } else {
                 setIsMaskedPasswordConfirm("password");
             }
         }
     }
 
-    function checkCapsLock(e){
+    function checkCapsLock(e) {
         const deviceIsMac = /Mac/.test(navigator.platform);
         const deviceIsAndroid = /Android/.test(navigator.platform);
         console.log(deviceIsAndroid);
-        if(e.getModifierState("CapsLock")){
-            console.log("I GOT CAPPED");
-        }
 
         console.log(e.target.name);
         console.log(e._reactName);
         console.log(e.keyCode);
         //ANDROID - 115, Apple - 57
-        if((e._reactName === "onKeyUp" || e._reactName === "onKeyDown") && e.keyCode === 13) {
+        if ((e._reactName === "onKeyUp" || e._reactName === "onKeyDown") && e.keyCode === 13) {
             const form = e.target.form; //the current form
             const index = Array.prototype.indexOf.call(form, e.target); //the index of the form
             if (index === 6) {
                 handleSubmit(); //submit the form, the user will encounter the pertinent login errors
             } else {
-                if(index === 2 || index === 4){
+                if (index === 2 || index === 4) {
                     e.target.form.elements[index + 2].focus(); //move to next input field in the form
-                }
-                else {
+                } else {
                     e.target.form.elements[index + 1].focus(); //move to next input field in the form
                 }
                 e.preventDefault();
             }
             //don't consider the "I Agree to Terms and Conditions"; we want to ensure user HAS to click that checkbox manually.
-        }
-        else if((e._reactName === "onClick") && (currentInputForm !== e.target.name)){
-            if(e.target.name === "password" || e.target.name === "passwordConfirm"){
-                if(isCaps === true){
+        } else if ((e._reactName === "onClick") && (currentInputForm !== e.target.name)) {
+            if (e.target.name === "password" || e.target.name === "passwordConfirm") {
+                if (isCaps === true) {
                     setCapsLockPassword(true);
+                } else {
+                    setCapsLockPassword(false);
                 }
-                else {
-                    setCapsLockPassword(false );
-                }
-            }
-            else {
+            } else {
                 setCapsLockPassword(false);
             }
             setCurrentInputForm(e.target.name);
-        }
-        else if (((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === false){
-            if(e.target.name === "email"){
-                if(capsLockEmail === true){
+        } else if (((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === false) {
+            if (e.target.name === "email") {
+                if (capsLockEmail === true) {
                     return;
-                }
-                else if (capsLockPassword === true){
+                } else if (capsLockPassword === true) {
                     setCapsLockPassword(false);
-                }
-                else {
+                } else {
                     setCapsLockEmail(true);
                 }
-            }
-            else if (e.target.name === "password" || e.target.name === "passwordConfirm"){
-                if(capsLockPassword === true){
+            } else if (e.target.name === "password" || e.target.name === "passwordConfirm") {
+                if (capsLockPassword === true) {
                     return;
-                }
-                else if (capsLockEmail === true){
+                } else if (capsLockEmail === true) {
                     setCapsLockEmail(false);
-                }
-                else {
+                } else {
                     setCapsLockPassword(true);
                 }
             }
             setIsCaps(true);
-        }
-        else if(((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === true){
+        } else if (((deviceIsMac && e.keyCode === 57) || (!deviceIsMac && e.keyCode === 20)) && isCaps === true) {
             setCapsLockEmail(false);
             setCapsLockPassword(false);
             setIsCaps(false);
@@ -162,70 +144,68 @@ function RegisterPage(props) {
         }
     }
 
-    function checkBadCharacters (first, last, password, passwordConfirmation, email){
-        if(!(nameRegex.test(first))){
+    function checkBadCharacters(first, last, password, passwordConfirmation, email) {
+        if (!(nameRegex.test(first))) {
             setErrorStateFirst("Please enter a valid first name.");
         }
-        if(!(nameRegex.test(last))){
+        if (!(nameRegex.test(last))) {
             setErrorStateLast("Please enter a valid last name.");
         }
-        if(!(emailRegex.test(email))){
+        if (!(emailRegex.test(email))) {
             setErrorStateEmail("Please enter a valid email address.");
         }
-        if(!(passwordRegex.test(password))){
+        if (!(passwordRegex.test(password))) {
             setErrorStatePassword("Please enter a valid password.");
-        }
-        else if(password.length > 20){
+        } else if (password.length > 20) {
             setErrorStatePassword("Passwords must be between 8-20 characters.")
         }
-        if(!(passwordRegex.test(passwordConfirm)) ){
+        if (!(passwordRegex.test(passwordConfirm))) {
             setErrorStatePasswordConfirm("Please enter a valid password.");
         }
-        if(password !== passwordConfirm){
+        if (password !== passwordConfirm) {
             setErrorStatePassword("Passwords do not match.");
             setErrorStatePasswordConfirm("Passwords do not match.");
         }
-        if (errorStateCheck !== "checked"){
+        if (errorStateCheck !== "checked") {
             setErrorStateCheck("Please agree to the terms and conditions.");
         }
     }
 
-    function handleChangeFirst(e, {name, value}){
+    function handleChangeFirst(e, {name, value}) {
         setErrorStateFirst("");
         setFirst(value);
     }
 
-    function handleChangeLast(e, {name, value}){
+    function handleChangeLast(e, {name, value}) {
         setErrorStateLast("");
         setLast(value);
     }
 
-    function handleChangePassword(e, {name, value}){
+    function handleChangePassword(e, {name, value}) {
         setErrorStatePassword("");
         setPassword(value);
     }
 
-    function handleChangePasswordConfirm(e, {name, value}){
+    function handleChangePasswordConfirm(e, {name, value}) {
         setErrorStatePasswordConfirm("");
         setPasswordConfirm(value);
     }
 
-    function handleChangeEmail(e, {name, value}){
+    function handleChangeEmail(e, {name, value}) {
         setErrorStateEmail("");
         setEmail(value);
         setEmailExists(false);
     }
 
-    function handleChangeCheck(e, {name, value}){
-        if(errorStateCheck !== "checked"){
+    function handleChangeCheck(e, {name, value}) {
+        if (errorStateCheck !== "checked") {
             setErrorStateCheck("checked");
-        }
-        else {
+        } else {
             setErrorStateCheck("");
         }
     }
 
-   async function handleSubmit (){
+    async function handleSubmit() {
         console.log(errorStateCheck);
         console.log(errorStateFirst);
         console.log(errorStateLast);
@@ -233,7 +213,7 @@ function RegisterPage(props) {
         console.log(errorStatePasswordConfirm);
         console.log(errorStateEmail);
         checkBadCharacters(first, last, password, passwordConfirm, email);
-        if(errorStateFirst.length === 0 && errorStateLast.length === 0 && errorStateEmail.length === 0 && errorStatePassword.length === 0 && errorStatePasswordConfirm.length === 0 && errorStateCheck === "checked"){
+        if (errorStateFirst.length === 0 && errorStateLast.length === 0 && errorStateEmail.length === 0 && errorStatePassword.length === 0 && errorStatePasswordConfirm.length === 0 && errorStateCheck === "checked") {
             //CHECK IF EMAIL IS ALREADY WITHIN THE DATA-BASE, then prompt login page or forgot password.
             console.log("Successful submission");
             setFirst(first);
@@ -249,22 +229,49 @@ function RegisterPage(props) {
                 member_password: password,
                 member_password_confirm: passwordConfirm,
             }, {headers: {'Content-Type': 'application/json'}})
-                .then(function(response) {
+                .then(function (response) {
                     console.log(response.data);
                     setRedirect(true);
                     sessionStorage.setItem('id', response.data);
                     sessionStorage.setItem('memberLoggedIn', "true");
                     sessionStorage.setItem('reload', "true");
-                    sessionStorage.setItem("sortedArray", JSON.stringify({"sortedData":[{"name":"","complete":0,"remaining":0,"timeRemaining":0},{"name":"Glias and Synapses","complete":0,"remaining":0,"timeRemaining":0},{"name":"The Brain","complete":0,"remaining":0,"timeRemaining":0},{"name":"Sensory Systems","complete":0,"remaining":0,"timeRemaining":0},{"name":"Cerebellum","complete":0,"remaining":0,"timeRemaining":0},{"name":"Nervous System","complete":0,"remaining":0,"timeRemaining":0}]}));///store in session storage, in case of page refresh
+                    sessionStorage.setItem("sortedArray", JSON.stringify({
+                        "sortedData": [{
+                            "name": "",
+                            "complete": 0,
+                            "remaining": 0,
+                            "timeRemaining": 0
+                        }, {
+                            "name": "Glias and Synapses",
+                            "complete": 0,
+                            "remaining": 0,
+                            "timeRemaining": 0
+                        }, {
+                            "name": "The Brain",
+                            "complete": 0,
+                            "remaining": 0,
+                            "timeRemaining": 0
+                        }, {
+                            "name": "Sensory Systems",
+                            "complete": 0,
+                            "remaining": 0,
+                            "timeRemaining": 0
+                        }, {
+                            "name": "Cerebellum",
+                            "complete": 0,
+                            "remaining": 0,
+                            "timeRemaining": 0
+                        }, {"name": "Nervous System", "complete": 0, "remaining": 0, "timeRemaining": 0}]
+                    }));///store in session storage, in case of page refresh
                     /*setFirst('');
                     setLast('');
                     setPassword('');
                     setPasswordConfirm('');
                     setEmail('');*/
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console.log(error.response.status);
                     console.log(error.response.data.registerError);
-                    if (error.response.data.registerError !== undefined){
+                    if (error.response.data.registerError !== undefined) {
                         setEmailExists(true);
                     }
                 });
@@ -272,7 +279,8 @@ function RegisterPage(props) {
             console.log("Unsuccessful submission");
         }
     }
-    if(isMobile === false) {
+
+    if (isMobile === false) {
         return (
             <div className="App">
                 <Segment className="body">
@@ -404,8 +412,7 @@ function RegisterPage(props) {
                 </Segment>
             </div>
         );
-    }
-    else {
+    } else {
         return (
             <div className="AppMobile">
                 <MobileContainerSegment>

@@ -1,12 +1,12 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import AnimateCC, { GetAnimationObjectParameter } from "react-adobe-animate/build";
+import AnimateCC, {GetAnimationObjectParameter} from "react-adobe-animate/build";
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {Message, Progress} from "semantic-ui-react";
 import {FullScreen, MobileAnimation, MobileAnimationMessage, ProgressDimmer} from "../../../styledComponents";
 
 const PainPerception = () => {
-    const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter|null>(null);
+    const [animationObject, getAnimationObject] = useState<GetAnimationObjectParameter | null>(null);
     animationObject?.stage?.enableMouseOver(1000);
     const [userClicked, setUserClicked] = useState<string>("");
     const [userHover, setUserHover] = useState<string>("");
@@ -23,9 +23,10 @@ const PainPerception = () => {
     console.log(window.screen.orientation.type);
     console.log("Max: height = " + window.screen.availHeight + "width = " + window.screen.availWidth);
     console.log("Max: height = " + window.screen.height + "width = " + window.screen.width);
-    if(process.env.NODE_ENV === 'production'){
+    if (process.env.NODE_ENV === 'production') {
         //console.log("In production mode. Disable log statements -> hide log statements from console.");
-        console.log = function (){};
+        console.log = function () {
+        };
     }
 
     useEffect(() => {
@@ -33,8 +34,7 @@ const PainPerception = () => {
         if (sessionStorage.getItem("id")) {
             getMemberArray();
             setUserIsMember(true);
-        }
-        else {
+        } else {
             setUserIsMember(false);
         }
     }, []);
@@ -50,7 +50,7 @@ const PainPerception = () => {
     let conditionalPaths: string [] = ["back4", "back8", "back11", "back12", "back13", "back14", "back15", "back16", "back17", "back18", "back19", "back20", "back21", "ff21"];
 
     let id = sessionStorage.getItem("id");
-    let port = process.env.PORT || 'http://localhost:8080/api/members/'+id+'/animations/completed';
+    let port = process.env.PORT || 'http://localhost:8080/api/members/' + id + '/animations/completed';
 
     interface Member {
         //parameters to be passed in GET/POST request.
@@ -62,12 +62,12 @@ const PainPerception = () => {
         animationComplete: []
     }
 
-    const handleMemberGetResponse = (response: AxiosResponse<Member>)=>{
+    const handleMemberGetResponse = (response: AxiosResponse<Member>) => {
         //response.data is the {complete: false, completedActions: []} object used to determine if an action has been completed in an animation
         console.log(response.data);
         setUserIsDone(response.data['complete']);
         setMemberArray(response.data['completedActions']);
-        console.log(animationComplete.filter(e=>!memberArray.includes(e)));
+        console.log(animationComplete.filter(e => !memberArray.includes(e)));
         if (animationComplete.every(r => memberArray.includes(r))) {
             setPercentComplete(100);
             setProgressMessage("Congratulations, you completed this animation!");
@@ -75,23 +75,22 @@ const PainPerception = () => {
                 console.log("The user finished the animation.");
                 setUserIsDone(true);
             }
-        }
-        else {
-            console.log(memberArray.filter(e=> !animationComplete.includes(e)));
+        } else {
+            console.log(memberArray.filter(e => !animationComplete.includes(e)));
             //Determine percentage of animation left remaining.
             let memberActions: string[] = response.data.completedActions;
-            let percent = (Math.round(100-(((animationComplete.length - ((animationComplete.filter(e=>memberActions.includes(e)))).length)/animationComplete.length)*100)))
-            console.log(animationComplete.filter(e=> !memberArray.includes(e)));
+            let percent = (Math.round(100 - (((animationComplete.length - ((animationComplete.filter(e => memberActions.includes(e)))).length) / animationComplete.length) * 100)))
+            console.log(animationComplete.filter(e => !memberArray.includes(e)));
             setPercentComplete(percent);
-            if(percent < 1){
+            if (percent < 1) {
                 setProgressMessage("Let's get started! Interact with the animation and monitor your progress.");
-            } else if (percent >=1 && percent < 20){
+            } else if (percent >= 1 && percent < 20) {
                 setProgressMessage("That's a good start, keep it up!");
-            }else if (percent >=20 && percent < 80){
+            } else if (percent >= 20 && percent < 80) {
                 setProgressMessage("You're making some serious progress!");
-            }else if (percent >=80 && percent < 100){
+            } else if (percent >= 80 && percent < 100) {
                 setProgressMessage("You're almost done!");
-            }else if (percent === 100){
+            } else if (percent === 100) {
                 setProgressMessage("Congratulations, you completed this animation!");
             }
             console.log(percent);
@@ -108,14 +107,14 @@ const PainPerception = () => {
         }
     };
 
-    async function getMemberArray(){
+    async function getMemberArray() {
         //get a member's progress on the exploring animation
         await axios.get<Member>(port, {params: {_id: id, animationCategory: "sensory", animationName: "pain"}})
             .then(handleMemberGetResponse)
             .catch(handleGetError);
     }
 
-    const handleMemberPostResponse = (response: AxiosResponse<Member>)=>{
+    const handleMemberPostResponse = (response: AxiosResponse<Member>) => {
         //response.data is the {complete: false, completedActions: []} object used to determine if an action has been completed in an animation
         console.log(response);
         console.log(response.data);
@@ -139,38 +138,38 @@ const PainPerception = () => {
         console.log(obj[1].name);
         console.log(userClicked);
         let btnClicked = obj[1].name;
-        if(conditionalPaths.includes(obj[1].name)){
-            if (obj[1].name === "ff2" || obj[1].name === "somatosensory"){
+        if (conditionalPaths.includes(obj[1].name)) {
+            if (obj[1].name === "ff2" || obj[1].name === "somatosensory") {
                 btnClicked = "back4";
-            }else if (obj[1].name === "ff7" ){
+            } else if (obj[1].name === "ff7") {
                 btnClicked = "back8";
-            }else if (obj[1].name === "ff8" ){
+            } else if (obj[1].name === "ff8") {
                 btnClicked = "back11";
-            }else if (obj[1].name === "ff11" ){
+            } else if (obj[1].name === "ff11") {
                 btnClicked = "back12";
-            }else if (obj[1].name === "ff12" ){
+            } else if (obj[1].name === "ff12") {
                 btnClicked = "back13";
-            }else if (obj[1].name === "ff13" || obj[1].name === "thalamus" ){
+            } else if (obj[1].name === "ff13" || obj[1].name === "thalamus") {
                 btnClicked = "back14";
-            }else if (obj[1].name === "ff14" ){
+            } else if (obj[1].name === "ff14") {
                 btnClicked = "back15";
-            }else if (obj[1].name === "ff15" ){
+            } else if (obj[1].name === "ff15") {
                 btnClicked = "back16";
-            }else if (obj[1].name === "ff16" ){
+            } else if (obj[1].name === "ff16") {
                 btnClicked = "back17";
-            }else if (obj[1].name === "ff17" ){
+            } else if (obj[1].name === "ff17") {
                 btnClicked = "back18";
-            }else if (obj[1].name === "ff18" ){
+            } else if (obj[1].name === "ff18") {
                 btnClicked = "back19";
-            }else if (obj[1].name === "ff19" || obj[1].name === "gate"){
+            } else if (obj[1].name === "ff19" || obj[1].name === "gate") {
                 btnClicked = "back20";
-            }else if (obj[1].name === "ff20" ){
+            } else if (obj[1].name === "ff20") {
                 btnClicked = "back21";
-            }else if (obj[1].name === "back22" || obj[1].name === "senseReceptors"){
+            } else if (obj[1].name === "back22" || obj[1].name === "senseReceptors") {
                 btnClicked = "ff21";
             }
         }
-        if (userClicked === ""){
+        if (userClicked === "") {
             animationObject?.removeAllEventListeners();
         }
         if (userClicked !== btnClicked && userClicked !== "") {
@@ -182,7 +181,13 @@ const PainPerception = () => {
             console.log("Button already in the array.");
         }
         if (btnClicked !== null && btnClicked !== "home") {
-            axios.post<Member>(port, {_id: id, animationCategory: "sensory", animationName: "pain", action: btnClicked, animationComplete: animationComplete},{headers: {'Content-Type': 'application/json'}})
+            axios.post<Member>(port, {
+                _id: id,
+                animationCategory: "sensory",
+                animationName: "pain",
+                action: btnClicked,
+                animationComplete: animationComplete
+            }, {headers: {'Content-Type': 'application/json'}})
                 .then(handleMemberPostResponse)
                 .catch(handlePostError);
         }
@@ -191,7 +196,7 @@ const PainPerception = () => {
     function handleHover(event: Object) {
         const obj = Object.values(event);
         console.log(obj[1].name);
-        if(obj[1].name === "throb2" || obj[1].name === "throbbob" || obj[1].name === "throb1" || obj[1].name === "thrboblob" || obj[1].name ==="throbalice") {
+        if (obj[1].name === "throb2" || obj[1].name === "throbbob" || obj[1].name === "throb1" || obj[1].name === "thrboblob" || obj[1].name === "throbalice") {
             if (needToCountHover.includes(obj[1].name)) {
                 console.log(userHover);
                 if (userHover === "") {
@@ -221,19 +226,19 @@ const PainPerception = () => {
         }
     }
 
-    if(sessionStorage.getItem("id")) {
+    if (sessionStorage.getItem("id")) {
         //only set event listener if the page viewer is a member
         if (!(animationObject?.hasEventListener('click'))) {
             console.log("Adding event listener.");
             animationObject?.addEventListener('click', handleClick);
         }
-        if(!(animationObject?.hasEventListener('mouseover'))){
+        if (!(animationObject?.hasEventListener('mouseover'))) {
             console.log("Adding mouseover");
             animationObject?.addEventListener('mouseover', handleHover);
         }
     }
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if(!isMobile) {
+    if (!isMobile) {
         return (
             <div style={{minHeight: '65vh', maxWidth: '55vw', margin: 'auto'}}>
                 <AnimateCC
@@ -249,14 +254,13 @@ const PainPerception = () => {
                 </Message>
             </div>
         );
-    }
-    else {
+    } else {
         return (
             <FullScreen>
                 <MobileAnimation
                     getAnimationObject={getAnimationObject}
                     animationName="painRedone"
-                    style = {{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR}}
+                    style={{maxWidth: width, maxHeight: height, marginRight: marginLR, marginLeft: marginLR}}
                 />
                 <MobileAnimationMessage content='<b>Congratulations! You completed this animation.'
                                         color={progressColor}>
