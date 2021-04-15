@@ -859,7 +859,7 @@ exports.register = (req, res) => {
                 return res.status(400).send(error);
             }
             else {
-                if (member.member_email === memberEmail){
+                if (member){
                     return res.status(400).json({registerError: "There is already an account associated with that email address."});
                 }
                 // No member is the database is associated with the registration email (new user)
