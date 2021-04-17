@@ -24,7 +24,7 @@ function RegisterPage(props) {
     const [capsLockPassword, setCapsLockPassword] = useState(false);
     const [currentInputForm, setCurrentInputForm] = useState("");
     const [isCaps, setIsCaps] = useState(false);
-    const nameRegex = /^(?!-)(?!.*-$)[a-zA-Z-]/;
+    const nameRegex = /^(?!-)(?!.*-$)[a-zA-Z-]+$/;
     const emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}/;
 
@@ -68,17 +68,19 @@ function RegisterPage(props) {
 
     function toggleMask(e, {name}) {
         e.preventDefault(); //prevent page from re-rendering
-        if (name === "password") {
-            if (isMaskedPassword === "password") {
-                setIsMaskedPassword("text");
-            } else {
-                setIsMaskedPassword("password");
-            }
-        } else if (name === "passwordConfirm") {
-            if (isMaskedPasswordConfirm === "password") {
-                setIsMaskedPasswordConfirm("text");
-            } else {
-                setIsMaskedPasswordConfirm("password");
+        if(currentInputForm !== "email"){
+            if(name === "password"){
+                if (isMaskedPassword === "password") {
+                    setIsMaskedPassword("text");
+                } else {
+                    setIsMaskedPassword("password");
+                }
+            } else if(name === "passwordConfirm") {
+                if (isMaskedPasswordConfirm === "password") {
+                    setIsMaskedPasswordConfirm("text");
+                } else {
+                    setIsMaskedPasswordConfirm("password");
+                }
             }
         }
     }
@@ -87,7 +89,6 @@ function RegisterPage(props) {
         const deviceIsMac = /Mac/.test(navigator.platform);
         const deviceIsAndroid = /Android/.test(navigator.platform);
         console.log(deviceIsAndroid);
-
         console.log(e.target.name);
         console.log(e._reactName);
         console.log(e.keyCode);
@@ -95,16 +96,22 @@ function RegisterPage(props) {
         if ((e._reactName === "onKeyUp" || e._reactName === "onKeyDown") && e.keyCode === 13) {
             const form = e.target.form; //the current form
             const index = Array.prototype.indexOf.call(form, e.target); //the index of the form
+            let n = "";
+            console.log(index);
             if (index === 6) {
-                handleSubmit(); //submit the form, the user will encounter the pertinent login errors
+                handleSubmit(); //submit the form, the user will encounter the pertinent login errors (checkbox)
+                n = "email";
             } else {
                 if (index === 2 || index === 4) {
                     e.target.form.elements[index + 2].focus(); //move to next input field in the form
-                } else {
+                    n = e.target.form.elements[index + 2].name;
+                } else if(index === 0 || index === 1){
                     e.target.form.elements[index + 1].focus(); //move to next input field in the form
+                    n = e.target.form.elements[index + 1].name;
                 }
                 e.preventDefault();
             }
+            setCurrentInputForm(n);
             //don't consider the "I Agree to Terms and Conditions"; we want to ensure user HAS to click that checkbox manually.
         } else if ((e._reactName === "onClick") && (currentInputForm !== e.target.name)) {
             if (e.target.name === "password" || e.target.name === "passwordConfirm") {
@@ -215,7 +222,6 @@ function RegisterPage(props) {
         checkBadCharacters(first, last, password, passwordConfirm, email);
         if (errorStateFirst.length === 0 && errorStateLast.length === 0 && errorStateEmail.length === 0 && errorStatePassword.length === 0 && errorStatePasswordConfirm.length === 0 && errorStateCheck === "checked") {
             //CHECK IF EMAIL IS ALREADY WITHIN THE DATA-BASE, then prompt login page or forgot password.
-            console.log("Successful submission");
             setFirst(first);
             setLast(last);
             setPassword(password);
@@ -268,6 +274,7 @@ function RegisterPage(props) {
                     setPassword('');
                     setPasswordConfirm('');
                     setEmail('');*/
+                    console.log("Successful submission");
                 }).catch(function (error) {
                     console.log(error.response.status);
                     console.log(error.response.data.registerError);
