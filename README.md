@@ -1,3 +1,8 @@
+# Quick Stats
+
+- Lines of Code - 207,400 lines _(approx.)_ 
+- Languages used - React JS, TypeScript, jQuery, JavaScript, Pug, CSS, and HTML.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
