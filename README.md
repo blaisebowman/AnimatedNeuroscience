@@ -3,6 +3,7 @@
 - Lines of Code - 207,400 lines _(approx.)_ 
 - Languages used - React JS, TypeScript, jQuery, JavaScript, Pug, CSS, and HTML.
 
+An Animated Discovery of Neuroscience is a web application with the aim to provide computer science and math students with the interactive educational animations pertaining to biological sciences. Given the deprecation of Adobe Flash Player, and by extension, Adobe ActionScript, as of January 2021, the entire website was essentially unusable. The aims of this project were to create and recreate the educational content in HTML5 Canvas and JavaScript, along with creating a better UI/UX, and adding a backend. The web application utilizes the MERN stack, along with APIs and libraries, such as JQuery, Pug, and TypeScript, creating a pleasant user interface optimized for desktop and mobile devices. The web application’s backend utilizes MongoDB, and students can register for an account and monitor their progress for each animation in a visual format. 
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
