@@ -18,60 +18,57 @@ Prior to my intervention, website used CSS, JavaScript, HTML, Adobe ActionScript
 
 |Before | After|
 |--------|--------|
-![diagram](screenshots/Before.png)|![diagram](screenshots/After.png)
-
-
-
+![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Before.png?raw=true)|![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/After.png?raw=true)
 
 ## Features Implemented
 ### Introduction Page
 |Desktop | Mobile |
 |--------|--------|
-![diagram](screenshots/Desktop/Introduction.png)|![diagram](screenshots/Mobile/Introduction.png)
+![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Desktop/Introduction.png?raw=true)|![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Mobile/Introduction.png?raw=true)
 ### Animation Category Page
 |Desktop | Mobile |
 |--------|--------|
-![diagram](screenshots/Desktop/Category.png)|![diagram](screenshots/Mobile/Category.png)
+![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Desktop/Category.png?raw=true)|![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Mobile/Category.png?raw=true)
 
 ### Animation Page
 |Desktop | Mobile |
 |--------|--------|
-![diagram](screenshots/Desktop/Animation.png)|![diagram](screenshots/Mobile/Animation.png)
+![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Desktop/Animation.png?raw=true)|![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Mobile/Animation.png?raw=true)
 
 ### Sign Up Page 
 |Desktop | Mobile |
 |--------|--------|
-![diagram](screenshots/Desktop/SignUp.png)|![diagram](screenshots/Mobile/SignUp.png)
+![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Desktop/SignUp.png?raw=true)|![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Mobile/SignUp.png?raw=true)
 
 ### Login Page
 |Desktop | Mobile |
 |--------|--------|
-![diagram](screenshots/Desktop/Login.png)|![diagram](screenshots/Mobile/Login.png)
+![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Desktop/Login.png?raw=true)|![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Mobile/Login.png?raw=true)
 
 ### Member Settings Page
 |Desktop | Mobile|
 |--------|--------|
-![diagram](screenshots/Desktop/Settings.png)|![diagram](screenshots/Mobile/Settings.png)
+![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Desktop/Settings.png?raw=true)|![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Mobile/Settings.png?raw=true)
 
 ### Member Animation Progress Tracking 
 Within fullscreen on mobile, you scroll down to monitor your progress.
 
 |Desktop | Mobile |
 |--------|--------|
-![diagram](screenshots/Desktop/ProgressAni.png)|![diagram](screenshots/Mobile/Scrolled.png)
+![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Desktop/ProgressAni.png?raw=true)|![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Mobile/Scrolled.png?raw=true)
 
 ### Member Animation Category Progress Tracking
 |Desktop | Mobile |
 |--------|--------|
-![diagram](screenshots/Desktop/Progress.png)|![diagram](screenshots/Mobile/STPor.png)
+![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Desktop/Progress.png?raw=true)|![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Mobile/STPor.png?raw=true)
 
 ### Forgot Password Request
 |Desktop | Mobile |
 |--------|--------|
-![diagram](screenshots/Desktop/ForgotPass.png)|![diagram](screenshots/Mobile/FP1.png)
-![diagram](screenshots/Desktop/FP2.png)|![diagram](screenshots/Mobile/FP2.png)
-![diagram](screenshots/Desktop/FP3.png)|![diagram](screenshots/Mobile/FP3.jpg)
-![diagram](screenshots/Desktop/Forgot4.png)|![diagram](screenshots/Mobile/FP4.jpg)
+![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Desktop/ForgotPass.png?raw=true)|![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Mobile/FP1.png?raw=true)
+![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Desktop/FP2.png?raw=true)|![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Mobile/FP2.png?raw=true)
+![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Desktop/FP3.png?raw=true)|![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Mobile/FP3.jpg?raw=true)
+![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Desktop/Forgot4.png?raw=true)|![diagram](https://github.com/blaisebowman/AnimatedNeuroscience/blob/master/Screenshots/Mobile/FP4.jpg?raw=true)
 
 
 ### Running the Project
