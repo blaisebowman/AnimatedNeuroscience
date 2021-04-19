@@ -147,7 +147,8 @@ function LoginPage(props) {
             //setForgotPasswordEmail(forgotPasswordEmail);
             let port = process.env.PORT || 'http://localhost:8080/api/members/forgotPassword';
             //VVVVVVV********HANDLE FOR DEPLOYMENT*******VVVVVVV
-            let resetPassLink = 'http://localhost:3030/resetPassword'
+            //let resetPassLink = 'http://localhost:3030/resetPassword';
+            let resetPassLink = 'https://animated-neuroscience.herokuapp.com/forgotpassword';
             //^^^^^^^********HANDLE FOR DEPLOYMENT*******^^^^^
             await axios.post(port, {
                 member_email: forgotPasswordEmail,
@@ -354,7 +355,7 @@ function LoginPage(props) {
                                                                 />
                                                             </Modal.Actions>
                                                         </Modal>
-                                                        <SubmitButton content='Submit' color='blue'/>
+                                                        <Form.Button content='Submit' color='blue'/>
                                                     </Form>
                                                     <Divider/>
                                                     <Grid>
@@ -482,7 +483,6 @@ function LoginPage(props) {
                                                                 />
                                                             </Modal.Actions>
                                                         </Modal>
-                                                        <Button content ='Submit' color='blue'/>
                                                         <SubmitButton content='Submit' color='blue'/>
                                                     </Form>
                                                     <Divider/>
